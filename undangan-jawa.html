@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Wedding of Rahma &amp; Dika — 12.10.2026</title>
+<title>The Wedding of Ratri &amp; Galih — 19.06.2027</title>
 <!--
   ============================================
-  TEMA "SAGE BLOSSOM" (terang & romantis)
+  TEMA "JAWA HERITAGE" (adat Jawa, sogan batik & emas)
   Cara ubah isi:
-  1) Nama mempelai: cari "Rahma" dan "Dika"
+  1) Nama mempelai: cari "Ratri" dan "Galih"
   2) Tanggal: cari "weddingDate" di bagian <script>
-  3) Foto cover & penutup: ganti "foto-rahma-cover.jpg"
+  3) Foto cover & penutup: ganti "foto-jawa-cover.jpg"
   4) Lokasi & peta: cari "google.com/maps"
   5) Rekening: cari "1234 5678 90" dan "0857 1234 5678"
   6) Nomor WA konfirmasi transfer: cari "6281234567890"
@@ -36,25 +36,27 @@
 -->
 <style>
   :root{
-    --sage:#7c8b6a; --sage-dark:#4e5a3d; --sage-soft:#eef1e6;
-    --cream:#f7f4ec; --beige:#efe9da; --gold:#c0a062;
-    --ink:#3a3f31; --muted:#83876f; --white:#ffffff;
+    --sage:#8a6134; --sage-dark:#463019; --sage-soft:#f5ecd9;
+    --cream:#faf5ea; --beige:#f0e4cd; --gold:#b8892e;
+    --ink:#3d2c1c; --muted:#8a7454; --white:#ffffff;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:#ded9ca;color:var(--ink);line-height:1.7}
+    background:#e6d9c5;color:var(--ink);line-height:1.7}
   body.locked{overflow:hidden}
   .script{font-family:"Brush Script MT","Segoe Script","Lucida Handwriting",cursive}
   .frame{max-width:480px;margin:0 auto;background:var(--cream);min-height:100vh;
     position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.2)}
+  .batik-line{height:12px;background:
+    repeating-linear-gradient(-45deg,#463019 0 9px,#b8892e 9px 11px,#faf5ea 11px 19px,#8a6134 19px 21px,#faf5ea 21px 28px)}
 
   /* ---------- COVER ---------- */
   .cover{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;
     background:
-      linear-gradient(180deg,rgba(46,52,35,0) 0%,rgba(46,52,35,.12) 40%,rgba(56,63,42,.72) 74%,rgba(38,43,28,.92) 100%),
-      url('foto-rahma-cover.jpg') center/cover no-repeat,
-      linear-gradient(165deg,#7c8b6a,#4e5a3d);
+      linear-gradient(180deg,rgba(43,28,14,0) 0%,rgba(43,28,14,.12) 40%,rgba(74,52,30,.72) 74%,rgba(46,29,14,.93) 100%),
+      url('foto-jawa-cover.jpg') center/cover no-repeat,
+      linear-gradient(165deg,#8a6134,#463019);
     transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease}
   .cover.opened{transform:translateY(-101%);opacity:.5;pointer-events:none}
   .cover-inner{width:100%;max-width:480px;text-align:center;padding:0 26px 44px;color:#fff}
@@ -72,21 +74,21 @@
   .sec-title{font-family:Georgia,serif;font-weight:400;font-size:26px;color:var(--sage-dark)}
   .sec-sub{font-size:11.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:700}
   .divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 24px;max-width:200px}
-  .divider::before,.divider::after{content:"";height:1px;flex:1;background:#cfc7ad}
+  .divider::before,.divider::after{content:"";height:1px;flex:1;background:#dcc9a4}
   .divider svg{display:block}
   .fl{position:absolute;width:120px;pointer-events:none;opacity:.85}
   .fl.tl{top:0;left:0}
   .fl.br{bottom:0;right:0;transform:rotate(180deg)}
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
   .reveal.visible{opacity:1;transform:none}
-  .card{background:var(--white);border-radius:16px;box-shadow:0 8px 22px rgba(78,90,61,.1);
-    border:1px solid #eee8d8;padding:22px 18px}
+  .card{background:var(--white);border-radius:16px;box-shadow:0 8px 22px rgba(70,48,25,.1);
+    border:1px solid #ece0c6;padding:22px 18px}
   .btn-sage{display:inline-block;background:var(--sage);color:#fff;font-size:13px;font-weight:700;
     padding:11px 26px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:.2s}
   .btn-sage:hover{background:var(--sage-dark)}
 
   /* ---------- QUOTE & COUPLE ---------- */
-  .quote-txt{font-size:13.5px;font-style:italic;color:#6d7259;max-width:360px;margin:0 auto}
+  .quote-txt{font-size:13.5px;font-style:italic;color:#7a6540;max-width:360px;margin:0 auto}
   .mono-wrap{width:130px;height:130px;margin:6px auto 22px;position:relative;display:flex;align-items:center;justify-content:center}
   .mono-wrap svg{position:absolute;inset:0;width:100%;height:100%}
   .mono-wrap .mono{font-family:Georgia,serif;font-style:italic;font-size:30px;color:var(--sage-dark)}
@@ -96,7 +98,7 @@
 
   /* ---------- COUNTDOWN ---------- */
   .cd-grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-  .cd-box{background:var(--beige);border-radius:14px;width:80px;padding:16px 0 12px;box-shadow:0 6px 16px rgba(78,90,61,.08)}
+  .cd-box{background:var(--beige);border-radius:14px;width:80px;padding:16px 0 12px;box-shadow:0 6px 16px rgba(70,48,25,.08)}
   .cd-box b{display:block;font-family:Georgia,serif;font-size:30px;color:var(--ink)}
   .cd-box small{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
 
@@ -111,10 +113,10 @@
 
   /* ---------- LOVE STORY ---------- */
   .story{max-width:360px;margin:0 auto;text-align:left;position:relative;padding-left:64px}
-  .story::before{content:"";position:absolute;left:26px;top:14px;bottom:14px;width:2px;background:#dcd3b8}
+  .story::before{content:"";position:absolute;left:26px;top:14px;bottom:14px;width:2px;background:#e2d0ab}
   .st-item{position:relative;margin-bottom:24px}
   .st-photo{position:absolute;left:-64px;top:0;width:52px;height:52px;border-radius:50%;
-    border:3px solid #fff;box-shadow:0 4px 12px rgba(78,90,61,.18);background-size:cover;background-position:center}
+    border:3px solid #fff;box-shadow:0 4px 12px rgba(70,48,25,.18);background-size:cover;background-position:center}
   .st-item b{font-family:Georgia,serif;font-weight:400;color:var(--sage-dark);font-size:16px;display:block}
   .st-item .yr{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--gold)}
   .st-item p{font-size:12.5px;color:var(--muted);margin-top:2px}
@@ -122,9 +124,9 @@
   /* ---------- GALERI ---------- */
   .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto}
   .gal-item{aspect-ratio:1/1.15;border-radius:14px;background-size:cover;background-position:center;
-    box-shadow:0 6px 16px rgba(78,90,61,.15)}
+    box-shadow:0 6px 16px rgba(70,48,25,.15)}
   .gal-dots{display:flex;justify-content:center;gap:6px;align-items:center;margin-top:16px;color:var(--sage)}
-  .gal-dots i{width:7px;height:7px;border-radius:50%;background:#cfc7ad;display:block}
+  .gal-dots i{width:7px;height:7px;border-radius:50%;background:#dcc9a4;display:block}
   .gal-dots i.on{background:var(--sage)}
   .gal-dots span{font-size:16px;margin:0 8px;cursor:pointer;user-select:none}
   .gal-item{cursor:pointer;position:relative;transition:transform .25s ease}
@@ -156,7 +158,7 @@
     width:50px;height:64px;border:none;background:rgba(255,255,255,.95);
     border:1px solid #e4ddc9;border-radius:28px;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:2px;cursor:pointer;
-    box-shadow:0 8px 20px rgba(78,90,61,.25);color:var(--sage-dark)}
+    box-shadow:0 8px 20px rgba(70,48,25,.25);color:var(--sage-dark)}
   .music-ic{font-size:20px;line-height:1}
   .music-tx{font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
   .music-btn.playing .music-ic{animation:spinDisk 3.2s linear infinite}
@@ -184,11 +186,11 @@
   .fx-btn{position:fixed;left:calc(50% - 230px);bottom:204px;z-index:91;width:50px;height:58px;
     border:none;background:rgba(255,255,255,.95);border:1px solid #e4ddc9;border-radius:24px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-    cursor:pointer;box-shadow:0 8px 20px rgba(78,90,61,.25);color:var(--sage-dark);font-size:18px}
+    cursor:pointer;box-shadow:0 8px 20px rgba(70,48,25,.25);color:var(--sage-dark);font-size:18px}
   .fx-btn .fx-tx{font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
   .fx-panel{position:fixed;left:calc(50% - 238px);bottom:272px;z-index:110;display:none;
     width:295px;max-width:92vw;background:rgba(255,255,255,.97);border:1px solid #e4ddc9;
-    border-radius:16px;padding:10px;box-shadow:0 14px 34px rgba(78,90,61,.3)}
+    border-radius:16px;padding:10px;box-shadow:0 14px 34px rgba(70,48,25,.3)}
   .fx-panel.show{display:block;animation:fadeIn .2s ease}
   .fx-row{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:5px 2px}
   .fx-row button{border:1px solid #e4ddc9;background:#fff;color:var(--muted);font-size:12px;
@@ -218,7 +220,7 @@
   .rsvp-ok{display:none;background:var(--sage-soft);border:1px solid #cdd6bc;color:var(--sage-dark);
     border-radius:14px;padding:20px;font-size:13.5px;text-align:center}
   .wish-list{max-width:380px;margin:22px auto 0;text-align:left}
-  .wish{background:var(--white);border:1px solid #eee8d8;border-radius:12px;padding:12px 16px;margin-bottom:10px;box-shadow:0 4px 12px rgba(78,90,61,.06)}
+  .wish{background:var(--white);border:1px solid #ece0c6;border-radius:12px;padding:12px 16px;margin-bottom:10px;box-shadow:0 4px 12px rgba(70,48,25,.06)}
   .wish b{font-size:13px;color:var(--sage-dark)}
   .wish p{font-size:12.5px;color:#62674f;margin-top:2px}
 
@@ -239,17 +241,17 @@
   /* ---------- DRESS CODE ---------- */
   .dot-row{display:flex;justify-content:center;gap:26px;margin:16px 0 22px;flex-wrap:wrap}
   .dot-item{text-align:center}
-  .dot{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;border:2px solid #fff;box-shadow:0 4px 12px rgba(78,90,61,.18)}
+  .dot{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;border:2px solid #fff;box-shadow:0 4px 12px rgba(70,48,25,.18)}
   .dot-item small{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
   .dress-grid{display:flex;gap:14px;max-width:380px;margin:0 auto}
-  .dress-card{flex:1;background:var(--white);border:1px solid #eee8d8;border-radius:14px;padding:18px 12px;box-shadow:0 6px 16px rgba(78,90,61,.08)}
+  .dress-card{flex:1;background:var(--white);border:1px solid #ece0c6;border-radius:14px;padding:18px 12px;box-shadow:0 6px 16px rgba(70,48,25,.08)}
   .dress-card svg{display:block;margin:0 auto 10px}
   .dress-card b{font-size:13px;color:var(--sage-dark);display:block}
   .dress-card small{font-size:11.5px;color:var(--muted)}
 
   /* ---------- LOKASI ---------- */
   .map-box{max-width:380px;margin:0 auto;overflow:hidden;border-radius:16px;background:var(--white);
-    border:1px solid #eee8d8;box-shadow:0 8px 22px rgba(78,90,61,.1)}
+    border:1px solid #ece0c6;box-shadow:0 8px 22px rgba(70,48,25,.1)}
   .map-draw{display:block;width:100%;height:auto}
   .map-info{padding:16px 18px 20px;text-align:left}
   .map-info b{font-family:Georgia,serif;font-weight:400;font-size:16px;color:var(--sage-dark);display:block;margin-bottom:2px}
@@ -258,7 +260,7 @@
 
   /* ---------- PENUTUP ---------- */
   .closing{min-height:420px;display:flex;flex-direction:column;justify-content:center;align-items:center;
-    background:linear-gradient(180deg,rgba(56,63,42,.55),rgba(38,43,28,.85)),url('foto-rahma-cover.jpg') center/cover no-repeat;color:#fff}
+    background:linear-gradient(180deg,rgba(74,52,30,.55),rgba(46,29,14,.88)),url('foto-jawa-cover.jpg') center/cover no-repeat;color:#fff}
   .closing .big{font-size:40px;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.4);margin-bottom:10px}
   .closing p{font-size:13px;max-width:300px;margin:0 auto 14px;color:#f3efe0}
   .closing .cl-names{font-size:22px;color:#fff}
@@ -272,7 +274,7 @@
   /* ---------- MODE NAVIGASI (Gulir / Snap / Slide + Premium) ---------- */
   .mode-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:90;
     display:flex;gap:4px;background:rgba(255,255,255,.94);border:1px solid #e4ddc9;
-    border-radius:50px;padding:5px;box-shadow:0 8px 22px rgba(78,90,61,.25);
+    border-radius:50px;padding:5px;box-shadow:0 8px 22px rgba(70,48,25,.25);
     max-width:96vw;overflow-x:auto;scrollbar-width:none}
   .mode-bar::-webkit-scrollbar{display:none}
   .mode-bar button{border:none;background:transparent;color:var(--muted);font-size:12px;
@@ -283,14 +285,14 @@
   .slide-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:89;width:42px;height:42px;
     border-radius:50%;background:rgba(255,255,255,.94);border:1px solid #e4ddc9;color:var(--sage-dark);
     font-size:20px;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;
-    box-shadow:0 6px 16px rgba(78,90,61,.25)}
+    box-shadow:0 6px 16px rgba(70,48,25,.25)}
   body.pager .slide-arrow{display:flex}
   .arrow-left{left:calc(50% - 230px)}
   .arrow-right{right:calc(50% - 230px)}
   .dots{position:fixed;left:50%;transform:translateX(-50%);bottom:126px;z-index:89;
     display:none;gap:6px}
   body.pager .dots{display:flex}
-  .dots i{width:7px;height:7px;border-radius:50%;background:#cfc7ad;cursor:pointer;transition:.2s}
+  .dots i{width:7px;height:7px;border-radius:50%;background:#dcc9a4;cursor:pointer;transition:.2s}
   .dots i.on{background:var(--sage);transform:scale(1.3)}
   /* Mode satu-layar: satu bagian penuh layar, geser pakai panah/swipe */
   body.pager{overflow:hidden}
@@ -324,42 +326,41 @@
 </head>
 <body class="locked">
 
-<!-- Ornamen florat sage (dipakai ulang) -->
+<!-- Ornamen batik Kawung & sulur parang (dipakai ulang) -->
 <svg width="0" height="0" style="position:absolute">
   <defs>
     <g id="corner-sage">
-      <path d="M4,116 C8,78 24,48 58,26" fill="none" stroke="#7c8b6a" stroke-width="1.6"/>
-      <ellipse cx="24" cy="86" rx="12" ry="5.5" transform="rotate(-50 24 86)" fill="#a8b598"/>
-      <ellipse cx="36" cy="66" rx="12" ry="5.5" transform="rotate(-46 36 66)" fill="#93a583"/>
-      <ellipse cx="50" cy="48" rx="11" ry="5" transform="rotate(-40 50 48)" fill="#a8b598"/>
-      <g transform="translate(66,28)">
-        <ellipse cx="0" cy="-9" rx="5" ry="8" fill="#e8cabb"/>
-        <ellipse cx="8.5" cy="-2.8" rx="5" ry="8" transform="rotate(72 8.5 -2.8)" fill="#e4c0ae"/>
-        <ellipse cx="5.2" cy="7.3" rx="5" ry="8" transform="rotate(144 5.2 7.3)" fill="#e8cabb"/>
-        <ellipse cx="-5.2" cy="7.3" rx="5" ry="8" transform="rotate(216 -5.2 7.3)" fill="#e4c0ae"/>
-        <ellipse cx="-8.5" cy="-2.8" rx="5" ry="8" transform="rotate(288 -8.5 -2.8)" fill="#e8cabb"/>
-        <circle r="4" fill="#d8a48f"/>
+      <!-- sulur parang -->
+      <path d="M2,118 C8,86 16,62 36,48 C50,38 66,32 84,28" fill="none" stroke="#8a6134" stroke-width="2"/>
+      <path d="M14,118 C20,92 28,72 44,60 C56,52 70,47 86,44" fill="none" stroke="#b8892e" stroke-width="1" opacity=".7"/>
+      <!-- motif kawung: 4 kelopak runcing -->
+      <g transform="translate(88,44)">
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#b8892e"/>
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#c49a66" transform="rotate(90)"/>
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#b8892e" transform="rotate(180)"/>
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#c49a66" transform="rotate(270)"/>
+        <circle r="3.4" fill="#463019"/>
       </g>
-      <g transform="translate(96,58) scale(.62)">
-        <ellipse cx="0" cy="-9" rx="5" ry="8" fill="#f0ddc4"/>
-        <ellipse cx="8.5" cy="-2.8" rx="5" ry="8" transform="rotate(72 8.5 -2.8)" fill="#ead3b2"/>
-        <ellipse cx="5.2" cy="7.3" rx="5" ry="8" transform="rotate(144 5.2 7.3)" fill="#f0ddc4"/>
-        <ellipse cx="-5.2" cy="7.3" rx="5" ry="8" transform="rotate(216 -5.2 7.3)" fill="#ead3b2"/>
-        <ellipse cx="-8.5" cy="-2.8" rx="5" ry="8" transform="rotate(288 -8.5 -2.8)" fill="#f0ddc4"/>
-        <circle r="4" fill="#cfa983"/>
+      <g transform="translate(50,84) scale(.6)">
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#a97c4e"/>
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#c49a66" transform="rotate(90)"/>
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#a97c4e" transform="rotate(180)"/>
+        <path d="M0,-15 Q7,-7 0,0 Q-7,-7 0,-15 Z" fill="#c49a66" transform="rotate(270)"/>
+        <circle r="3.4" fill="#463019"/>
       </g>
-      <circle cx="82" cy="44" r="3" fill="#d8b4ad"/>
-      <circle cx="104" cy="80" r="2.4" fill="#a8b598"/>
-      <path d="M60,70 C76,74 92,88 100,108" fill="none" stroke="#7c8b6a" stroke-width="1.4"/>
-      <ellipse cx="84" cy="88" rx="10" ry="4.6" transform="rotate(38 84 88)" fill="#93a583"/>
+      <!-- ceplok titik -->
+      <circle cx="32" cy="30" r="2.6" fill="#b8892e"/>
+      <circle cx="24" cy="52" r="2.2" fill="#a97c4e"/>
+      <circle cx="108" cy="72" r="2.6" fill="#b8892e"/>
+      <circle cx="98" cy="92" r="2.1" fill="#a97c4e"/>
+      <path d="M60,70 C76,74 94,90 104,110" fill="none" stroke="#8a6134" stroke-width="1.4"/>
     </g>
     <g id="div-flower">
-      <ellipse cx="0" cy="-6" rx="3" ry="5" fill="#c0a062"/>
-      <ellipse cx="5.7" cy="1.8" rx="3" ry="5" transform="rotate(72 5.7 1.8)" fill="#c0a062"/>
-      <ellipse cx="3.5" cy="-4.8" rx="3" ry="5" transform="rotate(144 3.5 -4.8)" fill="#c0a062"/>
-      <ellipse cx="-3.5" cy="-4.8" rx="3" ry="5" transform="rotate(216 -3.5 -4.8)" fill="#c0a062"/>
-      <ellipse cx="-5.7" cy="1.8" rx="3" ry="5" transform="rotate(288 -5.7 1.8)" fill="#c0a062"/>
-      <circle r="2.4" fill="#8a6f3c"/>
+      <path d="M0,-8 Q3,-3 0,0 Q-3,-3 0,-8 Z" fill="#b8892e"/>
+      <path d="M0,-8 Q3,-3 0,0 Q-3,-3 0,-8 Z" fill="#c49a66" transform="rotate(90)"/>
+      <path d="M0,-8 Q3,-3 0,0 Q-3,-3 0,-8 Z" fill="#b8892e" transform="rotate(180)"/>
+      <path d="M0,-8 Q3,-3 0,0 Q-3,-3 0,-8 Z" fill="#c49a66" transform="rotate(270)"/>
+      <circle r="1.9" fill="#463019"/>
     </g>
   </defs>
 </svg>
@@ -368,8 +369,8 @@
 <div class="cover" id="cover">
   <div class="cover-inner">
     <div class="mini">The Wedding Of</div>
-    <h1 class="script">Rahma &amp; Dika</h1>
-    <div class="date">12 . 10 . 2026</div>
+    <h1 class="script">Ratri &amp; Galih</h1>
+    <div class="date">19 . 06 . 2027</div>
     <p class="to">Kepada Yth. Bapak/Ibu/Saudara/i</p>
     <p class="guest" id="guestName">Tamu Undangan</p>
     <button class="open-btn" id="openBtn">Buka Undangan&nbsp;&nbsp;›</button>
@@ -377,6 +378,7 @@
 </div>
 
 <div class="frame">
+  <div class="batik-line"></div>
 
   <!-- ============ QUOTE & MEMPELAI ============ -->
   <section>
@@ -386,25 +388,25 @@
       <h2 class="sec-title">The Wedding Of</h2>
       <div class="divider"><svg width="18" height="18" viewBox="-9 -9 18 18"><use href="#div-flower"/></svg></div>
 
-      <div class="script" style="font-size:34px;color:var(--sage-dark)">Rahma &amp; Dika</div>
-      <div style="font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:16px">12 . 10 . 2026</div>
+      <div class="script" style="font-size:34px;color:var(--sage-dark)">Ratri &amp; Galih</div>
+      <div style="font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:16px">19 . 06 . 2027</div>
       <p class="quote-txt">"Bersama dalam cinta, menuju ridha-Nya."</p>
 
       <div class="divider" style="margin-top:22px"><svg width="18" height="18" viewBox="-9 -9 18 18"><use href="#div-flower"/></svg></div>
 
       <div class="mono-wrap">
-        <svg viewBox="0 0 130 130"><circle cx="65" cy="65" r="58" fill="none" stroke="#c0a062" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="65" cy="65" r="50" fill="none" stroke="#7c8b6a" stroke-width="1"/></svg>
-        <span class="mono">R &amp; D</span>
+        <svg viewBox="0 0 130 130"><circle cx="65" cy="65" r="58" fill="none" stroke="#b8892e" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="65" cy="65" r="50" fill="none" stroke="#8a6134" stroke-width="1"/></svg>
+        <span class="mono">R &amp; G</span>
       </div>
 
       <p class="quote-txt" style="font-style:normal;margin-bottom:20px">Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:</p>
 
       <div class="couple">
-        <h3>Rahmawati, S.E.</h3>
-        <p>Putri dari Bapak Ahmad Santoso<br>&amp; Ibu Siti Nurhayati</p>
+        <h3>Ratri Widyastuti, S.E.</h3>
+        <p>Putri dari Bapak H. Soebianto Wijoyo<br>&amp; Ibu Raden Ayu Kusumaningrum</p>
         <div class="amp">— dan —</div>
-        <h3>Dika Pratama, S.T.</h3>
-        <p>Putra dari Bapak Budi Hartono<br>&amp; Ibu Maria Ulfa</p>
+        <h3>Galih Saputra, S.T.</h3>
+        <p>Putra dari Bapak H. Gunawan Prawira<br>&amp; Ibu Tutik Mardiyah</p>
       </div>
     </div>
     <svg class="fl br" viewBox="0 0 120 120"><use href="#corner-sage"/></svg>
@@ -436,25 +438,25 @@
 
       <div class="card ev-card">
         <div class="ev-head">
-          <div class="ev-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c8b6a" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M8 2.5v4M16 2.5v4M3 9.5h18"/></svg></div>
+          <div class="ev-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8a6134" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M8 2.5v4M16 2.5v4M3 9.5h18"/></svg></div>
           <b>Akad Nikah</b>
         </div>
         <div class="ev-body">
-          Minggu, 12 Oktober 2026<br>Pukul 08.00 WIB<br>
-          <span style="color:var(--muted)">Masjid Al-Ikhlas, Bandung</span><br>
-          <a class="btn-sage" href="https://www.google.com/maps/search/?api=1&amp;query=Masjid+Al-Ikhlas+Bandung" target="_blank" rel="noopener">📍 Lihat Lokasi</a>
+          Sabtu, 19 Juni 2027<br>Pukul 06.00 WIB (Midodareni &amp; Akad pagi)<br>
+          <span style="color:var(--muted)">Pendapa Agung Taman Sari, Yogyakarta</span><br>
+          <a class="btn-sage" href="https://www.google.com/maps/search/?api=1&amp;query=Pendapa+Agung+Taman+Sari+Yogyakarta" target="_blank" rel="noopener">📍 Lihat Lokasi</a>
         </div>
       </div>
 
       <div class="card ev-card">
         <div class="ev-head">
-          <div class="ev-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c8b6a" stroke-width="1.8"><circle cx="9" cy="14" r="5.5"/><circle cx="15" cy="14" r="5.5"/><path d="M12 6.5L13.5 9h-3L12 6.5z"/></svg></div>
+          <div class="ev-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8a6134" stroke-width="1.8"><circle cx="9" cy="14" r="5.5"/><circle cx="15" cy="14" r="5.5"/><path d="M12 6.5L13.5 9h-3L12 6.5z"/></svg></div>
           <b>Resepsi</b>
         </div>
         <div class="ev-body">
-          Minggu, 12 Oktober 2026<br>Pukul 11.00 – 15.00 WIB<br>
-          <span style="color:var(--muted)">Gedung Serbaguna Sariwangi<br>Jl. Terusan Jakarta No. 123, Bandung</span><br>
-          <a class="btn-sage" href="https://www.google.com/maps/search/?api=1&amp;query=Sariwangi+Bandung" target="_blank" rel="noopener">📍 Lihat Lokasi</a>
+          Sabtu, 19 Juni 2027<br>Pukul 11.00 – 15.00 WIB<br>
+          <span style="color:var(--muted)">Kedhaton Graha Saraswati<br>Jl. Jend. Sudirman No. 21, Yogyakarta</span><br>
+          <a class="btn-sage" href="https://www.google.com/maps/search/?api=1&amp;query=Graha+Saraswati+Yogyakarta" target="_blank" rel="noopener">📍 Lihat Lokasi</a>
         </div>
       </div>
 
@@ -471,7 +473,7 @@
       <div class="divider"><svg width="18" height="18" viewBox="-9 -9 18 18"><use href="#div-flower"/></svg></div>
       <div class="story">
         <div class="st-item">
-          <div class="st-photo" style="background-image:url('foto-rahma-cover.jpg');background-position:center 20%"></div>
+          <div class="st-photo" style="background-image:url('foto-jawa-cover.jpg');background-position:center 20%"></div>
           <span class="yr">2018</span><b>Bertemu</b>
           <p>Di sebuah acara kampus, awal dari cerita ini dimulai.</p>
         </div>
@@ -481,7 +483,7 @@
           <p>Dari teman biasa, menjadi teman hidup.</p>
         </div>
         <div class="st-item">
-          <div class="st-photo" style="background-image:url('foto-rahma-cover.jpg');background-position:center 60%"></div>
+          <div class="st-photo" style="background-image:url('foto-jawa-cover.jpg');background-position:center 60%"></div>
           <span class="yr">2023</span><b>Lamaran</b>
           <p>Dengan doa dan restu keluarga, kami melangkah lebih jauh.</p>
         </div>
@@ -502,10 +504,10 @@
       <h2 class="sec-title">Galeri Foto</h2>
       <div class="divider"><svg width="18" height="18" viewBox="-9 -9 18 18"><use href="#div-flower"/></svg></div>
       <div class="gal-grid">
-        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
         <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg');background-position:center 30%"><span class="gal-zoom">🔍 Perbesar</span></div>
         <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg');background-position:center bottom"><span class="gal-zoom">🔍 Perbesar</span></div>
-        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg');background-position:center 70%"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg');background-position:center 70%"><span class="gal-zoom">🔍 Perbesar</span></div>
       </div>
       <p class="gal-hint">👆 Ketuk foto untuk melihat ukuran penuh</p>
       <div class="gal-dots"><span>‹</span><i class="on"></i><i></i><i></i><i></i><span>›</span></div>
@@ -522,7 +524,7 @@
       <form class="card rsvp-card" id="rsvpForm">
         <p class="lead">Mohon konfirmasi kehadiran Bapak/Ibu/Saudara/i sebelum <b>30 September 2026</b></p>
         <div class="pill-row">
-          <button type="button" class="pill active" data-val="Hadir"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c8b6a" stroke-width="4"><path d="M4 12l6 6L20 6"/></svg></span>Hadir</button>
+          <button type="button" class="pill active" data-val="Hadir"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8a6134" stroke-width="4"><path d="M4 12l6 6L20 6"/></svg></span>Hadir</button>
           <button type="button" class="pill" data-val="Tidak Hadir"><span class="ic"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#83876f" stroke-width="4"><path d="M5 5l14 14M19 5L5 19"/></svg></span>Tidak Hadir</button>
         </div>
         <textarea id="rsvpMsg" placeholder="Tulis ucapan atau doa terbaik..."></textarea>
@@ -549,7 +551,7 @@
           <div class="bank-logo bca">bca</div>
           <div class="bank-info">
             <div class="num">1234 5678 90</div>
-            <div class="an">a.n. Rahmawati</div>
+            <div class="an">a.n. Ratriwati</div>
           </div>
           <button class="copy-mini" data-copy="1234567890">Salin</button>
         </div>
@@ -560,14 +562,14 @@
           <div class="bank-logo dana">DANA</div>
           <div class="bank-info">
             <div class="num">0857 1234 5678</div>
-            <div class="an">a.n. Dika Pratama</div>
+            <div class="an">a.n. Galih Pratama</div>
           </div>
           <button class="copy-mini" data-copy="085712345678">Salin</button>
         </div>
       </div>
 
       <p class="tf-note">Konfirmasi transfer melalui tombol di bawah ini:</p>
-      <a class="btn-sage" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20sudah%20transfer%20kado%20untuk%20Rahma%20%26%20Dika" target="_blank" rel="noopener">✉&nbsp;&nbsp;Konfirmasi Transfer</a>
+      <a class="btn-sage" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20sudah%20transfer%20kado%20untuk%20Ratri%20%26%20Galih" target="_blank" rel="noopener">✉&nbsp;&nbsp;Konfirmasi Transfer</a>
     </div>
   </section>
 
@@ -580,17 +582,17 @@
       <div class="divider"><svg width="18" height="18" viewBox="-9 -9 18 18"><use href="#div-flower"/></svg></div>
       <div class="dot-row">
         <div class="dot-item"><div class="dot" style="background:#f4efe2"></div><small>Putih / Krem</small></div>
-        <div class="dot-item"><div class="dot" style="background:#d8b4ad"></div><small>Dusty Pink</small></div>
+        <div class="dot-item"><div class="dot" style="background:#c5a162"></div><small>Dusty Pink</small></div>
         <div class="dot-item"><div class="dot" style="background:#9aa88c"></div><small>Sage Green</small></div>
         <div class="dot-item"><div class="dot" style="background:#c9a97e"></div><small>Coklat Muda</small></div>
       </div>
       <div class="dress-grid">
         <div class="dress-card">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c8b6a" stroke-width="1.6"><path d="M9 3L5 7l2 2.5V21h10V9.5L19 7l-4-4-1.5 2h-3L9 3z"/><path d="M12 8v13"/></svg>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8a6134" stroke-width="1.6"><path d="M9 3L5 7l2 2.5V21h10V9.5L19 7l-4-4-1.5 2h-3L9 3z"/><path d="M12 8v13"/></svg>
           <b>Pria</b><small>Kemeja / Jas<br>(warna bebas)</small>
         </div>
         <div class="dress-card">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c8b6a" stroke-width="1.6"><path d="M9 3l-2 5 2 2-3 11h12l-3-11 2-2-2-5"/><path d="M10 8h4"/></svg>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8a6134" stroke-width="1.6"><path d="M9 3l-2 5 2 2-3 11h12l-3-11 2-2-2-5"/><path d="M10 8h4"/></svg>
           <b>Wanita</b><small>Dress / Kebaya<br>(warna pastel)</small>
         </div>
       </div>
@@ -621,8 +623,8 @@
         </svg>
         <div class="map-info">
           <b>Gedung Serbaguna Sariwangi</b>
-          <p>Jl. Terusan Jakarta No. 123, Bandung</p>
-          <a class="btn-sage" href="https://www.google.com/maps/search/?api=1&amp;query=Sariwangi+Bandung" target="_blank" rel="noopener">🗺&nbsp;&nbsp;Buka di Google Maps</a>
+          <p>Jl. Taman Siswa No. 45, Yogyakarta</p>
+          <a class="btn-sage" href="https://www.google.com/maps/search/?api=1&amp;query=Graha+Saraswati+Yogyakarta" target="_blank" rel="noopener">🗺&nbsp;&nbsp;Buka di Google Maps</a>
         </div>
       </div>
       <p class="arah-info">📌 <b>Petunjuk Arah:</b> Klik tombol di atas untuk melihat rute perjalanan menuju lokasi.</p>
@@ -634,8 +636,8 @@
     <div class="reveal">
       <div class="script big">Terima Kasih</div>
       <p>Atas doa dan kehadiran Bapak/Ibu/Saudara/i</p>
-      <div class="script cl-names">Rahma &amp; Dika</div>
-      <div class="cl-date">12 . 10 . 2026</div>
+      <div class="script cl-names">Ratri &amp; Galih</div>
+      <div class="cl-date">19 . 06 . 2027</div>
     </div>
   </section>
 
@@ -685,7 +687,7 @@ document.getElementById('openBtn').addEventListener('click', function(){
 });
 
 /* ====== 3. COUNTDOWN — ubah tanggal acara di sini ====== */
-var weddingDate = new Date('2026-10-12T08:00:00+07:00');
+var weddingDate = new Date('2027-06-19T06:00:00+07:00');
 function pad(n){ return String(n).padStart(2,'0'); }
 function tick(){
   var diff = weddingDate - new Date();
