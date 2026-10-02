@@ -4,7 +4,7 @@
   "settings": {
     "brandName": "Kartu Digital",
     "domain": "kartudigital.my.id",
-    "adminWhatsapp": "6282128718485",
+    "adminWhatsapp": "6285196755675",
     "defaultCurrency": "IDR"
   },
   "invitations": [
@@ -48,7 +48,7 @@
       "amplop": {
         "enabled": true,
         "note": "Bagi yang ingin memberikan kado pernikahan, bisa melalui rekening atau e-wallet berikut:",
-        "whatsappConfirm": "6282128718485",
+        "whatsappConfirm": "6285196755675",
         "giftAddress": "Jl. Terusan Jakarta No. 123, Bandung",
         "accounts": [
           {
@@ -113,7 +113,7 @@
       "amplop": {
         "enabled": true,
         "note": "Bagi yang ingin memberikan tanda kasih pernikahan, dapat melalui rekening atau e-wallet berikut:",
-        "whatsappConfirm": "6282128718485",
+        "whatsappConfirm": "6285196755675",
         "giftAddress": "Jl. Jend. Sudirman No. 21, Yogyakarta",
         "accounts": [
           {
@@ -178,7 +178,7 @@
       "amplop": {
         "enabled": true,
         "note": "Kehadiranmu adalah hadiah terindah. Namun jika ingin berbagi tanda kasih, kami sediakan dengan tulus hati:",
-        "whatsappConfirm": "6282128718485",
+        "whatsappConfirm": "6285196755675",
         "giftAddress": "Jl. Asia Afrika No. 112, Bandung",
         "accounts": [
           {
@@ -230,20 +230,20 @@
       "fxMode": "kilau",
       "musicUrl": "musik.mp3",
       "photos": {
-        "cover": "foto-cover.jpg",
-        "photo1": "foto-cover.jpg",
-        "photo2": "foto-rahma-cover.jpg",
+        "cover": "foto-premium-cover.jpg",
+        "photo1": "foto-premium-cover.jpg",
+        "photo2": "foto-premium-cover.jpg",
         "gallery": [
+          "foto-premium-cover.jpg",
           "foto-cover.jpg",
           "foto-rahma-cover.jpg",
-          "foto-jawa-cover.jpg",
-          "foto-cover.jpg"
+          "foto-premium-cover.jpg"
         ]
       },
       "amplop": {
         "enabled": true,
         "note": "Doa restu Bapak/Ibu/Saudara/i merupakan karunia terindah. Bagi yang ingin mengirimkan tanda kasih:",
-        "whatsappConfirm": "6282128718485",
+        "whatsappConfirm": "6285196755675",
         "giftAddress": "Residences at The Trans Luxury, Bandung",
         "accounts": [
           {
@@ -295,20 +295,20 @@
       "fxMode": "bintang",
       "musicUrl": "musik.mp3",
       "photos": {
-        "cover": "foto-cover.jpg",
-        "photo1": "foto-cover.jpg",
-        "photo2": "",
+        "cover": "foto-khitanan-cover.jpg",
+        "photo1": "foto-khitanan-cover.jpg",
+        "photo2": "foto-khitanan-cover.jpg",
         "gallery": [
+          "foto-khitanan-cover.jpg",
           "foto-cover.jpg",
-          "foto-jawa-cover.jpg",
           "foto-rahma-cover.jpg",
-          "foto-cover.jpg"
+          "foto-khitanan-cover.jpg"
         ]
       },
       "amplop": {
         "enabled": true,
         "note": "Terima kasih atas doa restu Bapak/Ibu/Saudara/i untuk ananda Zidan. Tanda kasih digital dapat dikirimkan melalui:",
-        "whatsappConfirm": "6282128718485",
+        "whatsappConfirm": "6285196755675",
         "giftAddress": "Jl. Diponegoro No. 63, Bandung",
         "accounts": [
           {
@@ -360,20 +360,20 @@
       "fxMode": "balon",
       "musicUrl": "musik.mp3",
       "photos": {
-        "cover": "foto-rahma-cover.jpg",
-        "photo1": "foto-rahma-cover.jpg",
-        "photo2": "",
+        "cover": "foto-ultah-cover.jpg",
+        "photo1": "foto-ultah-cover.jpg",
+        "photo2": "foto-ultah-cover.jpg",
         "gallery": [
-          "foto-rahma-cover.jpg",
+          "foto-ultah-cover.jpg",
           "foto-cover.jpg",
           "foto-jawa-cover.jpg",
-          "foto-rahma-cover.jpg"
+          "foto-ultah-cover.jpg"
         ]
       },
       "amplop": {
         "enabled": true,
         "note": "Kehadiran teman-teman adalah hadiah paling seru! Jika ingin mengirimkan kado atau angpau ulang tahun untuk Kanaya:",
-        "whatsappConfirm": "6282128718485",
+        "whatsappConfirm": "6285196755675",
         "giftAddress": "Jl. Progo No. 16, Bandung (Rumah Kanaya)",
         "accounts": [
           {
@@ -385,7 +385,7 @@
           {
             "id": "acc-12",
             "bank": "GoPay",
-            "number": "082128718485",
+            "number": "085196755675",
             "holder": "Dimas Anggara"
           }
         ]
