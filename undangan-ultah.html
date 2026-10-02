@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Party Kanaya Putri — 08.11.2026</title>
+<!--
+  ============================================
+  TEMA ULANG TAHUN "SWEET WONDER PARTY 🎂"
+  Terintegrasi dengan Studio Admin (studio.html) & Backend Studio (studio-api.js)
+  - Mendukung ?to=Nama+Tamu, ?mode=..., ?fx=..., ?id=ultah-kanaya
+  - Upload Foto Cover & Galeri dari Studio Admin
+  - Pengaturan Amplop Digital / Kado & Pengaturan RSVP otomatis sinkron
+  ============================================
+-->
+<style>
+  :root{
+    --sage:#d95b82; --sage-dark:#8e2a4b; --sage-soft:#fff0f5;
+    --cream:#fffaf6; --beige:#fde8f0; --gold:#e59b38; --lilac:#8b6fd6;
+    --ink:#3b2330; --muted:#846373; --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#f7dce6;color:var(--ink);line-height:1.7}
+  body.locked{overflow:hidden}
+  .frame{max-width:480px;margin:0 auto;background:var(--cream);min-height:100vh;
+    position:relative;overflow:hidden;box-shadow:0 0 40px rgba(142,42,75,.2)}
+  .confetti-bar{height:10px;background:repeating-linear-gradient(90deg,#d95b82 0 16px,#f6bd60 16px 32px,#84a59d 32px 48px,#8b6fd6 48px 64px)}
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;
+    background:
+      linear-gradient(180deg,rgba(88,24,52,.15) 0%,rgba(88,24,52,.45) 45%,rgba(74,20,44,.92) 85%,rgba(52,12,30,.98) 100%),
+      url('foto-rahma-cover.jpg') center/cover no-repeat,
+      linear-gradient(165deg,#d95b82,#8e2a4b);
+    transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease}
+  .cover.opened{transform:translateY(-101%);opacity:.5;pointer-events:none}
+  .cover-inner{width:100%;max-width:480px;text-align:center;padding:0 26px 46px;color:#fff}
+  .cover-pill{display:inline-block;background:rgba(255,255,255,.22);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.45);color:#fff;padding:6px 18px;border-radius:50px;
+    font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;font-weight:800}
+  .cover h1{font-family:Georgia,serif;font-size:40px;font-weight:700;color:#fff;text-shadow:0 3px 14px rgba(0,0,0,.35)}
+  .cover .age-tag{display:inline-block;background:#f6bd60;color:#4a142c;font-weight:800;font-size:13px;
+    padding:4px 16px;border-radius:50px;margin:6px 0 12px}
+  .cover .date{font-size:14px;letter-spacing:3px;margin:2px 0 16px;opacity:.95}
+  .cover .to{font-size:12px;opacity:.9}
+  .cover .guest{font-family:Georgia,serif;font-style:italic;font-size:19px;margin:4px 0 22px;color:#ffe6ef}
+  .open-btn{background:linear-gradient(135deg,#ff7aa2,#d95b82);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:800;
+    padding:14px 36px;border-radius:50px;box-shadow:0 10px 26px rgba(0,0,0,.3);transition:transform .2s}
+  .open-btn:hover{transform:scale(1.05)}
+
+  /* ---------- UMUM ---------- */
+  section{padding:56px 24px;text-align:center;position:relative}
+  .sec-title{font-family:Georgia,serif;font-weight:700;font-size:26px;color:var(--sage-dark)}
+  .sec-sub{font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage);margin-bottom:6px;font-weight:800}
+  .divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 24px;max-width:200px}
+  .divider::before,.divider::after{content:"";height:1.5px;flex:1;background:#f3c6d5}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:none}
+  .card{background:var(--white);border-radius:18px;box-shadow:0 8px 24px rgba(217,91,130,.1);
+    border:1px solid #f6d5e0;padding:22px 18px}
+  .btn-sage{display:inline-block;background:var(--sage);color:#fff;font-size:13px;font-weight:700;
+    padding:11px 26px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:.2s}
+  .btn-sage:hover{background:var(--sage-dark)}
+
+  /* ---------- PROFIL ---------- */
+  .bday-avatar{width:140px;height:140px;border-radius:50%;margin:10px auto 16px;
+    border:4px solid #f6bd60;box-shadow:0 10px 26px rgba(217,91,130,.22);
+    background:url('foto-rahma-cover.jpg') center/cover no-repeat}
+  .bday-name{font-family:Georgia,serif;font-size:26px;font-weight:700;color:var(--sage-dark)}
+  .bday-age{display:inline-block;background:var(--beige);color:var(--sage-dark);font-size:12.5px;
+    font-weight:800;padding:5px 16px;border-radius:50px;margin:6px 0 12px}
+  .quote-txt{font-size:14px;color:var(--muted);max-width:360px;margin:0 auto}
+
+  /* ---------- COUNTDOWN ---------- */
+  .cd-grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+  .cd-box{background:var(--white);border:2px solid #f6d5e0;border-radius:16px;width:80px;padding:16px 0 12px;box-shadow:0 6px 16px rgba(217,91,130,.08)}
+  .cd-box b{display:block;font-family:Georgia,serif;font-size:30px;color:var(--sage)}
+  .cd-box small{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- ACARA ---------- */
+  .ev-card{margin:0 auto 16px;max-width:380px;text-align:left}
+  .ev-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .ev-icon{width:46px;height:46px;border-radius:50%;background:var(--sage-soft);display:flex;align-items:center;justify-content:center;flex:none;font-size:22px}
+  .ev-head b{font-family:Georgia,serif;font-size:18px;color:var(--sage-dark)}
+  .ev-body{font-size:13.5px;color:#5c3d4c;padding-left:58px}
+  .ev-body .btn-sage{margin-top:10px;font-size:12px;padding:9px 20px}
+
+  /* ---------- GALERI ---------- */
+  .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto}
+  .gal-item{aspect-ratio:1/1.1;border-radius:16px;background-size:cover;background-position:center;
+    box-shadow:0 6px 16px rgba(217,91,130,.15);cursor:pointer;position:relative;transition:transform .25s ease}
+  .gal-item:hover{transform:scale(1.03)}
+  .gal-zoom{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.5);color:#fff;
+    font-size:11px;padding:4px 9px;border-radius:50px}
+
+  /* ---------- RSVP ---------- */
+  .rsvp-card{max-width:380px;margin:0 auto;text-align:left}
+  .rsvp-card .lead{font-size:13px;color:var(--muted);text-align:center;margin-bottom:14px}
+  .pill-row{display:flex;gap:10px;margin-bottom:12px}
+  .pill{flex:1;padding:11px;border-radius:50px;border:1.5px solid #f3c6d5;background:var(--cream);
+    font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;text-align:center}
+  .pill.active{background:var(--sage);border-color:var(--sage);color:#fff}
+  .rsvp-card input,.rsvp-card select,.rsvp-card textarea{width:100%;padding:11px 13px;border:1px solid #f3c6d5;
+    border-radius:10px;background:var(--cream);font-size:13.5px;font-family:inherit;color:var(--ink);margin-bottom:10px}
+  .rsvp-card .full{width:100%;background:var(--sage);color:#fff;border:none;font-size:14px;font-weight:700;
+    padding:13px;border-radius:50px;cursor:pointer}
+  .rsvp-ok{display:none;background:var(--sage-soft);border:1px solid #f3c6d5;color:var(--sage-dark);
+    border-radius:14px;padding:18px;font-size:13.5px;text-align:center;max-width:380px;margin:0 auto}
+  .wish-list{max-width:380px;margin:20px auto 0;text-align:left}
+  .wish{background:var(--white);border:1px solid #f6d5e0;border-radius:12px;padding:12px 16px;margin-bottom:10px}
+  .wish b{font-size:13px;color:var(--sage-dark)}
+  .wish p{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+  /* ---------- AMPLOP ---------- */
+  .gift-note{font-size:13px;color:var(--muted);max-width:340px;margin:0 auto 18px}
+  .bank-card{max-width:360px;margin:0 auto 12px;text-align:left}
+  .bank-row{display:flex;align-items:center;gap:14px}
+  .bank-logo{min-width:56px;height:36px;padding:0 8px;border-radius:8px;background:var(--beige);color:var(--sage-dark);
+    font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+  .bank-info .num{font-family:Georgia,serif;font-size:18px;letter-spacing:1px;color:var(--ink)}
+  .bank-info .an{font-size:11.5px;color:var(--muted)}
+  .copy-mini{margin-left:auto;background:transparent;border:1.5px solid var(--sage);color:var(--sage);
+    font-size:11px;font-weight:700;padding:7px 14px;border-radius:50px;cursor:pointer}
+  .copy-mini:hover{background:var(--sage);color:#fff}
+
+  /* ---------- PENUTUP ---------- */
+  .closing{min-height:360px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    background:linear-gradient(180deg,rgba(142,42,75,.6),rgba(74,20,44,.92)),url('foto-rahma-cover.jpg') center/cover no-repeat;color:#fff}
+  .closing .big{font-family:Georgia,serif;font-size:34px;color:#ffe6ef;margin-bottom:10px}
+  .closing p{font-size:13.5px;max-width:310px;margin:0 auto 14px;color:#fff0f5}
+  .footstrip{background:var(--sage-dark);color:#fde8f0;font-size:11px;letter-spacing:1.5px;text-align:center;padding:16px 12px}
+  .footstrip a{color:#f6bd60;text-decoration:none;font-weight:700}
+
+  .lightbox{position:fixed;inset:0;z-index:120;background:rgba(35,10,22,.94);display:none;align-items:center;justify-content:center}
+  .lightbox.show{display:flex}
+  .lb-img{max-width:88vw;max-height:76vh;border-radius:12px}
+  .lb-close{position:fixed;top:16px;right:16px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:18px;cursor:pointer}
+</style>
+</head>
+<body class="locked">
+
+<!-- ============ COVER ============ -->
+<div class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="cover-pill">🎂 <span class="mini" data-studio="title">7th Birthday Party</span></div>
+    <h1 data-studio="primaryName">Kanaya Putri</h1>
+    <div class="age-tag" data-studio="secondaryName">Turning 7!</div>
+    <div class="date" data-studio="dateDot">08 . 11 . 2026</div>
+    <p class="to">Spesial Diundang:</p>
+    <p class="guest" id="guestName">Teman &amp; Sahabat Tercinta</p>
+    <button class="open-btn" id="openBtn">🎈 &nbsp;Buka Undangan Pesta!</button>
+  </div>
+</div>
+
+<div class="frame">
+  <div class="confetti-bar"></div>
+
+  <!-- ============ PROFIL ULANG TAHUN ============ -->
+  <section>
+    <div class="reveal">
+      <div class="sec-sub">You Are Cordially Invited!</div>
+      <h2 class="sec-title">Let's Celebrate Together</h2>
+      <div class="divider"><span>🎂</span></div>
+
+      <div class="bday-avatar" data-studio-img="photo1"></div>
+      <div class="bday-name" data-studio="fullName1">Kanaya Azzahra Putri</div>
+      <div class="bday-age" data-studio="fullName2">Turning 7 Years Old ✨</div>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:6px" data-studio="parents1">Putri kesayangan Papa Dimas Anggara &amp; Mama Raisa Andriana</p>
+      <p style="font-size:12.5px;color:var(--sage);font-weight:700;margin-bottom:16px" data-studio="parents2">Dress Code: Pastel Pink, Lilac &amp; Cream</p>
+      <p class="quote-txt" data-studio="quote">"Yuk datang dan rayakan hari ulang tahun Kanaya yang ke-7! Akan ada games seru, sulap, potong kue, dan goodie bag spesial!"</p>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section style="background:var(--sage-soft)">
+    <div class="reveal">
+      <div class="sec-sub">Countdown</div>
+      <h2 class="sec-title">Menuju Hari Pesta 🎉</h2>
+      <div class="divider"><span>🎈</span></div>
+      <div class="cd-grid">
+        <div class="cd-box"><b id="cdD">00</b><small>Hari</small></div>
+        <div class="cd-box"><b id="cdH">00</b><small>Jam</small></div>
+        <div class="cd-box"><b id="cdM">00</b><small>Menit</small></div>
+        <div class="cd-box"><b id="cdS">00</b><small>Detik</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DETAIL ACARA ============ -->
+  <section>
+    <div class="reveal">
+      <div class="sec-sub">Save The Date</div>
+      <h2 class="sec-title">Waktu &amp; Lokasi Pesta</h2>
+      <div class="divider"><span>✨</span></div>
+
+      <div class="card ev-card">
+        <div class="ev-head">
+          <div class="ev-icon">🎪</div>
+          <b>Games &amp; Fun Magic Show</b>
+        </div>
+        <div class="ev-body">
+          <span data-studio="dateFormatted">Minggu, 8 November 2026</span><br>
+          Pukul <span data-studio="akadTime">15.00 – 16.00 WIB (Games &amp; Magic Show)</span><br>
+          <b data-studio="venueName">Hummingbird Eatery &amp; Space</b>
+        </div>
+      </div>
+
+      <div class="card ev-card">
+        <div class="ev-head">
+          <div class="ev-icon">🎂</div>
+          <b>Tiup Lilin, Potong Kue &amp; Dinner</b>
+        </div>
+        <div class="ev-body">
+          <span data-studio="dateFormatted">Minggu, 8 November 2026</span><br>
+          Pukul <span data-studio="resepsiTime">16.00 – 18.00 WIB (Tiup Lilin, Potong Kue &amp; Dinner)</span><br>
+          <b data-studio="venueName">Hummingbird Eatery &amp; Space</b><br>
+          <span style="color:var(--muted)" data-studio="venueAddress">Jl. Progo No. 16, Citarum, Bandung</span><br>
+          <a class="btn-sage" data-studio-href="mapsUrl" href="https://www.google.com/maps/search/?api=1&amp;query=Hummingbird+Eatery+Bandung" target="_blank" rel="noopener">📍 Lihat Peta Lokasi</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERI ============ -->
+  <section style="background:var(--sage-soft)">
+    <div class="reveal">
+      <div class="sec-sub">Sweet Memories</div>
+      <h2 class="sec-title">Galeri Foto</h2>
+      <div class="divider"><span>📸</span></div>
+      <div class="gal-grid">
+        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg');background-position:center bottom"><span class="gal-zoom">🔍 Perbesar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RSVP & UCAPAN ============ -->
+  <section id="rsvpSection">
+    <div class="reveal">
+      <div class="sec-sub">RSVP</div>
+      <h2 class="sec-title">Konfirmasi Kehadiran &amp; Ucapan</h2>
+      <div class="divider"><span>💌</span></div>
+      <form class="card rsvp-card" id="rsvpForm">
+        <p class="lead">Konfirmasi sebelum <b id="studioRsvpDeadline">5 November 2026</b> supaya kami bisa menyiapkan goodie bag spesial!</p>
+        <input id="rName" type="text" placeholder="Nama kamu & keluarga" required>
+        <select id="rCount">
+          <option value="1">1 Orang</option>
+          <option value="2" selected>2 Orang (Anak + Pendamping)</option>
+          <option value="3">3 Orang</option>
+          <option value="4">4 Orang</option>
+        </select>
+        <div class="pill-row">
+          <button type="button" class="pill active" data-val="Hadir">🎉 Yeay, Aku Hadir!</button>
+          <button type="button" class="pill" data-val="Tidak Hadir">😢 Belum Bisa Hadir</button>
+        </div>
+        <textarea id="rsvpMsg" rows="3" placeholder="Tulis ucapan selamat ulang tahun..."></textarea>
+        <button class="full" type="submit">🎈 &nbsp;Kirim Konfirmasi</button>
+      </form>
+      <div class="rsvp-ok" id="rsvpOk">🎂 <b>Yeay, Terima Kasih!</b><br>Sampai ketemu di pesta ulang tahun ya!</div>
+      <div class="wish-list" id="wishList">
+        <div class="wish"><b>Alya &amp; Mama · Hadir</b><p>Happy 7th Birthday Kanaya cantik! Alya nggak sabar datang ke pesta ulang tahunnya 🎂🎈</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AMPLOP / KADO DIGITAL ============ -->
+  <section id="amplopSection" style="background:var(--sage-soft)">
+    <div class="reveal">
+      <div class="sec-sub">Birthday Gift</div>
+      <h2 class="sec-title">Kado &amp; Amplop Digital</h2>
+      <div class="divider"><span>🎁</span></div>
+      <p class="gift-note">Kehadiran teman-teman adalah hadiah paling seru! Jika ingin mengirimkan kado atau tanda kasih digital:</p>
+
+      <div id="studioAmplopList">
+        <div class="card bank-card">
+          <div class="bank-row">
+            <div class="bank-logo">BCA</div>
+            <div class="bank-info">
+              <div class="num">4321 0987 65</div>
+              <div class="an">a.n. Raisa Andriana</div>
+            </div>
+            <button type="button" class="copy-mini" data-copy="4321098765">Salin</button>
+          </div>
+        </div>
+        <div class="card bank-card">
+          <div class="bank-row">
+            <div class="bank-logo">GoPay</div>
+            <div class="bank-info">
+              <div class="num">0821 2871 8485</div>
+              <div class="an">a.n. Dimas Anggara</div>
+            </div>
+            <button type="button" class="copy-mini" data-copy="082128718485">Salin</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <a class="btn-sage" id="studioAmplopWa" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20sudah%20kirim%20kado%20ulang%20tahun%20untuk%20Kanaya" target="_blank" rel="noopener">💬 Konfirmasi Kado via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP ============ -->
+  <section class="closing">
+    <div class="reveal">
+      <div class="big">See You at The Party! 🥳</div>
+      <p>Terima kasih atas doa dan kehadiran teman-teman semua.</p>
+      <div style="font-family:Georgia,serif;font-size:24px;color:#fff;font-weight:700" data-studio="primaryName">Kanaya Putri</div>
+    </div>
+  </section>
+
+  <div class="footstrip">
+    ✦ Sweet Birthday Invitation ✦<br>
+    <span style="text-transform:none">Dibuat dengan ❤ oleh <a href="index.html">Kartu Digital</a> · <a href="studio.html">Buka Studio Admin</a></span>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
+</div>
+
+<script src="studio-api.js"></script>
+<script>
+  (function(){
+    var to = new URLSearchParams(location.search).get('to');
+    if(to){
+      document.getElementById('guestName').textContent = to;
+      var rName = document.getElementById('rName');
+      if(rName) rName.value = to;
+    }
+    if(window.StudioBackend){
+      window.StudioBackend.hydrateInvitationPage('ultah-kanaya');
+    }
+  })();
+
+  document.getElementById('openBtn').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('opened');
+    document.body.classList.remove('locked');
+  });
+
+  function updateCountdown(){
+    var inv = window.StudioBackend ? window.StudioBackend.getInvitation('ultah-kanaya') : null;
+    var targetStr = (inv && inv.eventDate) ? (inv.eventDate + 'T15:00:00+07:00') : '2026-11-08T15:00:00+07:00';
+    var diff = Math.max(0, new Date(targetStr) - new Date());
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('cdD').textContent = pad(Math.floor(diff/864e5));
+    document.getElementById('cdH').textContent = pad(Math.floor(diff/36e5)%24);
+    document.getElementById('cdM').textContent = pad(Math.floor(diff/6e4)%60);
+    document.getElementById('cdS').textContent = pad(Math.floor(diff/1e3)%60);
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.pill').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+    });
+  });
+
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('rName').value.trim() || 'Teman Kanaya';
+    var msg = document.getElementById('rsvpMsg').value.trim();
+    var status = document.querySelector('.pill.active').getAttribute('data-val');
+    if(msg){
+      var el = document.createElement('div');
+      el.className = 'wish';
+      el.innerHTML = '<b></b><p></p>';
+      el.querySelector('b').textContent = name + ' · ' + status;
+      el.querySelector('p').textContent = msg;
+      document.getElementById('wishList').prepend(el);
+    }
+    this.style.display = 'none';
+    document.getElementById('rsvpOk').style.display = 'block';
+  });
+
+  document.querySelectorAll('.copy-mini').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = btn.getAttribute('data-copy');
+      if(navigator.clipboard) navigator.clipboard.writeText(txt);
+      var old = btn.textContent; btn.textContent = '✓ Tersalin';
+      setTimeout(function(){ btn.textContent = old; }, 1500);
+    });
+  });
+
+  document.querySelectorAll('.gal-item').forEach(function(g){
+    g.addEventListener('click', function(){
+      document.getElementById('lbImg').src = g.getAttribute('data-src');
+      document.getElementById('lightbox').classList.add('show');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){
+    document.getElementById('lightbox').classList.remove('show');
+  });
+
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting) en.target.classList.add('visible'); });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(io) io.observe(el); else el.classList.add('visible');
+  });
+</script>
+</body>
+</html>

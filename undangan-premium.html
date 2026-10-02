@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Wedding of Alvaro &amp; Clara — 28.11.2026</title>
+<!--
+  ============================================
+  TEMA PREMIUM EKSKLUSIF "ROYAL GOLD LUXURY 👑"
+  Terintegrasi dengan Studio Admin (studio.html) & Backend Studio (studio-api.js)
+  - Mendukung ?to=Nama+Tamu, ?mode=..., ?fx=..., ?id=premium-alvaro-clara
+  - Fitur Eksklusif: Monogram Kerajaan, QR Check-in VIP, Galeri Lightbox,
+    Pengaturan Amplop Digital Prioritas, dan Pengaturan RSVP VIP
+  ============================================
+-->
+<style>
+  :root{
+    --obsidian:#0d0e12; --charcoal:#151821; --card-bg:#1b1f2b;
+    --gold:#d4af37; --gold-light:#f5e29c; --gold-dark:#9e7b1c;
+    --ink:#f5efe0; --muted:#a9a394; --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#07080a;color:var(--ink);line-height:1.7}
+  body.locked{overflow:hidden}
+  .script{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+  .frame{max-width:480px;margin:0 auto;background:var(--obsidian);min-height:100vh;
+    position:relative;overflow:hidden;box-shadow:0 0 50px rgba(212,175,55,.18);border-left:1px solid rgba(212,175,55,.2);border-right:1px solid rgba(212,175,55,.2)}
+  .royal-crest-bar{height:6px;background:linear-gradient(90deg,#9e7b1c,#f5e29c,#d4af37,#f5e29c,#9e7b1c)}
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    background:
+      linear-gradient(180deg,rgba(13,14,18,.45) 0%,rgba(13,14,18,.82) 65%,rgba(10,11,15,.96) 100%),
+      url('foto-cover.jpg') center/cover no-repeat,
+      linear-gradient(165deg,#1b1f2b,#0d0e12);
+    transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease}
+  .cover.opened{transform:translateY(-101%);opacity:.5;pointer-events:none}
+  .cover-inner{width:90%;max-width:430px;text-align:center;padding:38px 26px;color:var(--ink);
+    border:1px solid rgba(212,175,55,.55);border-radius:16px;background:rgba(13,14,18,.68);backdrop-filter:blur(8px);
+    box-shadow:0 24px 60px rgba(0,0,0,.65)}
+  .crown-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(212,175,55,.25),rgba(158,123,28,.15));
+    border:1px solid var(--gold);color:var(--gold-light);padding:5px 16px;border-radius:50px;
+    font-size:10.5px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:700}
+  .mono-crest{width:84px;height:84px;margin:0 auto 14px;border:1.5px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:26px;
+    font-style:italic;color:var(--gold-light);box-shadow:0 0 24px rgba(212,175,55,.25)}
+  .cover h1{font-family:Georgia,serif;font-size:38px;font-weight:400;color:var(--gold-light);letter-spacing:1px}
+  .cover .date{font-size:13px;letter-spacing:3.5px;margin:10px 0 20px;color:var(--muted)}
+  .cover .to{font-size:12px;color:var(--muted)}
+  .cover .guest{font-family:Georgia,serif;font-style:italic;font-size:20px;margin:4px 0 24px;color:#fff}
+  .open-btn{background:linear-gradient(135deg,#f5e29c,#d4af37,#9e7b1c);color:#0d0e12;border:none;cursor:pointer;
+    font-size:13.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+    padding:14px 36px;border-radius:50px;box-shadow:0 10px 28px rgba(212,175,55,.35);transition:transform .2s}
+  .open-btn:hover{transform:scale(1.05)}
+
+  /* ---------- UMUM ---------- */
+  section{padding:60px 24px;text-align:center;position:relative;border-bottom:1px solid rgba(212,175,55,.12)}
+  .sec-title{font-family:Georgia,serif;font-weight:400;font-size:27px;color:var(--gold-light)}
+  .sec-sub{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:700}
+  .divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 26px;max-width:200px}
+  .divider::before,.divider::after{content:"";height:1px;flex:1;background:rgba(212,175,55,.4)}
+  .divider span{color:var(--gold)}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:none}
+  .card{background:var(--card-bg);border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.45);
+    border:1px solid rgba(212,175,55,.28);padding:24px 18px}
+  .btn-sage{display:inline-block;background:linear-gradient(135deg,#f5e29c,#d4af37);color:#0d0e12;font-size:12.5px;font-weight:800;
+    padding:11px 26px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:.2s}
+  .btn-sage:hover{filter:brightness(1.08)}
+
+  /* ---------- MEMPELAI ---------- */
+  .couple-photo{width:124px;height:124px;border-radius:50%;margin:0 auto 14px;border:3px solid var(--gold);
+    background-size:cover;background-position:center;box-shadow:0 8px 24px rgba(212,175,55,.2)}
+  .couple h3{font-family:Georgia,serif;font-weight:400;font-size:22px;color:var(--gold-light)}
+  .couple .amp{font-family:Georgia,serif;font-style:italic;font-size:32px;color:var(--gold);margin:14px 0}
+  .couple p{font-size:13px;color:var(--muted)}
+  .quote-txt{font-size:14px;font-style:italic;color:var(--muted);max-width:370px;margin:0 auto}
+
+  /* ---------- COUNTDOWN ---------- */
+  .cd-grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+  .cd-box{background:var(--card-bg);border:1px solid rgba(212,175,55,.35);border-radius:14px;width:82px;padding:16px 0 12px}
+  .cd-box b{display:block;font-family:Georgia,serif;font-size:30px;color:var(--gold-light)}
+  .cd-box small{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- ACARA ---------- */
+  .ev-card{margin:0 auto 16px;max-width:380px;text-align:left}
+  .ev-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .ev-icon{width:46px;height:46px;border-radius:50%;background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.4);
+    display:flex;align-items:center;justify-content:center;flex:none;font-size:20px}
+  .ev-head b{font-family:Georgia,serif;font-weight:400;font-size:19px;color:var(--gold-light)}
+  .ev-body{font-size:13.5px;color:var(--muted);padding-left:58px}
+  .ev-body .btn-sage{margin-top:12px}
+
+  /* ---------- GALERI ---------- */
+  .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto}
+  .gal-item{aspect-ratio:1/1.15;border-radius:14px;background-size:cover;background-position:center;
+    border:1px solid rgba(212,175,55,.3);cursor:pointer;position:relative;transition:transform .25s ease}
+  .gal-item:hover{transform:scale(1.03)}
+  .gal-zoom{position:absolute;right:8px;bottom:8px;background:rgba(13,14,18,.75);color:var(--gold-light);
+    font-size:11px;padding:4px 9px;border-radius:50px}
+
+  /* ---------- QR VIP PASS ---------- */
+  .vip-pass{max-width:360px;margin:0 auto;background:linear-gradient(145deg,#1f2433,#12151e);
+    border:1.5px solid var(--gold);border-radius:18px;padding:22px;text-align:center}
+  .qr-box{width:132px;height:132px;margin:12px auto;background:#fff;padding:10px;border-radius:12px;display:grid;place-items:center}
+
+  /* ---------- RSVP ---------- */
+  .rsvp-card{max-width:380px;margin:0 auto;text-align:left}
+  .rsvp-card .lead{font-size:13px;color:var(--muted);text-align:center;margin-bottom:14px}
+  .pill-row{display:flex;gap:10px;margin-bottom:12px}
+  .pill{flex:1;padding:11px;border-radius:50px;border:1px solid rgba(212,175,55,.35);background:var(--obsidian);
+    font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;text-align:center}
+  .pill.active{background:linear-gradient(135deg,#f5e29c,#d4af37);border-color:var(--gold);color:#0d0e12}
+  .rsvp-card input,.rsvp-card select,.rsvp-card textarea{width:100%;padding:11px 13px;border:1px solid rgba(212,175,55,.3);
+    border-radius:10px;background:var(--obsidian);font-size:13.5px;font-family:inherit;color:var(--ink);margin-bottom:10px}
+  .rsvp-card .full{width:100%;background:linear-gradient(135deg,#f5e29c,#d4af37);color:#0d0e12;border:none;
+    font-size:14px;font-weight:800;padding:13px;border-radius:50px;cursor:pointer}
+  .rsvp-ok{display:none;background:rgba(212,175,55,.15);border:1px solid var(--gold);color:var(--gold-light);
+    border-radius:14px;padding:18px;font-size:13.5px;text-align:center;max-width:380px;margin:0 auto}
+  .wish-list{max-width:380px;margin:20px auto 0;text-align:left}
+  .wish{background:var(--card-bg);border:1px solid rgba(212,175,55,.22);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+  .wish b{font-size:13px;color:var(--gold-light)}
+  .wish p{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+  /* ---------- AMPLOP ---------- */
+  .gift-note{font-size:13px;color:var(--muted);max-width:340px;margin:0 auto 18px}
+  .bank-card{max-width:360px;margin:0 auto 12px;text-align:left}
+  .bank-row{display:flex;align-items:center;gap:14px}
+  .bank-logo{min-width:64px;height:36px;padding:0 8px;border-radius:8px;background:rgba(212,175,55,.18);
+    border:1px solid rgba(212,175,55,.4);color:var(--gold-light);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+  .bank-info .num{font-family:Georgia,serif;font-size:18px;letter-spacing:1.5px;color:var(--gold-light)}
+  .bank-info .an{font-size:11.5px;color:var(--muted)}
+  .copy-mini{margin-left:auto;background:transparent;border:1px solid var(--gold);color:var(--gold-light);
+    font-size:11px;font-weight:700;padding:7px 14px;border-radius:50px;cursor:pointer}
+  .copy-mini:hover{background:var(--gold);color:#0d0e12}
+
+  /* ---------- PENUTUP ---------- */
+  .closing{min-height:380px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    background:linear-gradient(180deg,rgba(13,14,18,.65),rgba(13,14,18,.94)),url('foto-cover.jpg') center/cover no-repeat;color:var(--gold-light)}
+  .closing .big{font-family:Georgia,serif;font-size:34px;margin-bottom:10px}
+  .closing p{font-size:13.5px;max-width:310px;margin:0 auto 14px;color:var(--ink)}
+  .footstrip{background:#08090c;color:var(--muted);font-size:11px;letter-spacing:2px;text-align:center;padding:18px 12px}
+  .footstrip a{color:var(--gold-light);text-decoration:none;font-weight:700}
+
+  .lightbox{position:fixed;inset:0;z-index:120;background:rgba(5,6,8,.95);display:none;align-items:center;justify-content:center}
+  .lightbox.show{display:flex}
+  .lb-img{max-width:88vw;max-height:76vh;border-radius:12px;border:1px solid var(--gold)}
+  .lb-close{position:fixed;top:16px;right:16px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(212,175,55,.25);color:#fff;font-size:18px;cursor:pointer}
+</style>
+</head>
+<body class="locked">
+
+<!-- ============ COVER ============ -->
+<div class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="crown-badge">👑 <span class="mini" data-studio="title">Royal Wedding Invitation</span></div>
+    <div class="mono-crest">A &amp; C</div>
+    <h1 data-studio="pairTitle">Alvaro &amp; Clara</h1>
+    <div class="date" data-studio="dateDot">28 . 11 . 2026</div>
+    <p class="to">Kepada Yth. Bapak/Ibu/Saudara/i VIP</p>
+    <p class="guest" id="guestName">Tamu Kehormatan</p>
+    <button class="open-btn" id="openBtn">✨ &nbsp;Buka Undangan Eksklusif</button>
+  </div>
+</div>
+
+<div class="frame">
+  <div class="royal-crest-bar"></div>
+
+  <!-- ============ MEMPELAI ============ -->
+  <section>
+    <div class="reveal">
+      <div class="sec-sub">The Royal Union Of</div>
+      <h2 class="sec-title" data-studio="pairTitle">Alvaro &amp; Clara</h2>
+      <div class="divider"><span>👑</span></div>
+      <p class="quote-txt" data-studio="quote" style="margin-bottom:26px">"Cinta sejati bukan tentang menemukan seseorang yang sempurna, melainkan belajar melihat ketidaksempurnaan secara sempurna."</p>
+
+      <div class="couple">
+        <div class="couple-photo" data-studio-img="photo1" style="background-image:url('foto-cover.jpg')"></div>
+        <h3 data-studio="fullName1">Alvaro Dirgantara Putra, M.B.A.</h3>
+        <p data-studio="parents1">Putra sulung Bpk. Ir. H. Hendra Dirgantara &amp; Ibu Hj. Sofia Maharani</p>
+        <div class="amp">&amp;</div>
+        <div class="couple-photo" data-studio-img="photo2" style="background-image:url('foto-rahma-cover.jpg')"></div>
+        <h3 data-studio="fullName2">Clarissa Aurelia Wijaya, S.Ked.</h3>
+        <p data-studio="parents2">Putri bungsu Bpk. dr. Antonius Wijaya, Sp.PD &amp; Ibu Margaretha Laksmi</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section style="background:var(--charcoal)">
+    <div class="reveal">
+      <div class="sec-sub">Counting The Days</div>
+      <h2 class="sec-title">Menuju Hari Agung</h2>
+      <div class="divider"><span>✦</span></div>
+      <div class="cd-grid">
+        <div class="cd-box"><b id="cdD">00</b><small>Hari</small></div>
+        <div class="cd-box"><b id="cdH">00</b><small>Jam</small></div>
+        <div class="cd-box"><b id="cdM">00</b><small>Menit</small></div>
+        <div class="cd-box"><b id="cdS">00</b><small>Detik</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RANGKAIAN ACARA ============ -->
+  <section>
+    <div class="reveal">
+      <div class="sec-sub">Royal Schedule</div>
+      <h2 class="sec-title">Rangkaian Acara</h2>
+      <div class="divider"><span>💍</span></div>
+
+      <div class="card ev-card">
+        <div class="ev-head">
+          <div class="ev-icon">💍</div>
+          <b>Holy Matrimony / Akad Nikah</b>
+        </div>
+        <div class="ev-body">
+          <span data-studio="dateFormatted">Sabtu, 28 November 2026</span><br>
+          Pukul <span data-studio="akadTime">09.00 – 11.00 WIB</span><br>
+          <b style="color:var(--ink)" data-studio="venueName">The Trans Luxury Hotel — Grand Ballroom</b>
+        </div>
+      </div>
+
+      <div class="card ev-card">
+        <div class="ev-head">
+          <div class="ev-icon">🥂</div>
+          <b>Royal Gala Reception</b>
+        </div>
+        <div class="ev-body">
+          <span data-studio="dateFormatted">Sabtu, 28 November 2026</span><br>
+          Pukul <span data-studio="resepsiTime">18.30 – 21.30 WIB (Royal Gala Dinner)</span><br>
+          <b style="color:var(--ink)" data-studio="venueName">The Trans Luxury Hotel — Grand Ballroom</b><br>
+          <span data-studio="venueAddress">Jl. Gatot Subroto No. 289, Bandung</span><br>
+          <a class="btn-sage" data-studio-href="mapsUrl" href="https://www.google.com/maps/search/?api=1&amp;query=The+Trans+Luxury+Hotel+Bandung" target="_blank" rel="noopener">📍 Petunjuk Lokasi Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERI EKSKLUSIF ============ -->
+  <section style="background:var(--charcoal)">
+    <div class="reveal">
+      <div class="sec-sub">Prewedding Portraits</div>
+      <h2 class="sec-title">Galeri Eksklusif</h2>
+      <div class="divider"><span>📸</span></div>
+      <div class="gal-grid">
+        <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg');background-position:center bottom"><span class="gal-zoom">🔍 Perbesar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QR CHECK-IN VIP ============ -->
+  <section>
+    <div class="reveal">
+      <div class="sec-sub">VIP Access Pass</div>
+      <h2 class="sec-title">QR Check-In Buku Tamu</h2>
+      <div class="divider"><span>✦</span></div>
+      <div class="vip-pass">
+        <div style="font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase">Tunjukkan di Meja Penerima Tamu</div>
+        <div class="qr-box">
+          <svg width="108" height="108" viewBox="0 0 100 100" fill="#0d0e12">
+            <rect x="8" y="8" width="26" height="26" fill="none" stroke="#0d0e12" stroke-width="6"/>
+            <rect x="15" y="15" width="12" height="12"/>
+            <rect x="66" y="8" width="26" height="26" fill="none" stroke="#0d0e12" stroke-width="6"/>
+            <rect x="73" y="15" width="12" height="12"/>
+            <rect x="8" y="66" width="26" height="26" fill="none" stroke="#0d0e12" stroke-width="6"/>
+            <rect x="15" y="73" width="12" height="12"/>
+            <rect x="42" y="12" width="8" height="8"/><rect x="42" y="28" width="8" height="16"/>
+            <rect x="12" y="44" width="16" height="8"/><rect x="36" y="48" width="24" height="8"/>
+            <rect x="68" y="44" width="16" height="8"/><rect x="44" y="66" width="12" height="12"/>
+            <rect x="64" y="64" width="10" height="24"/><rect x="80" y="74" width="12" height="16"/>
+          </svg>
+        </div>
+        <b style="color:var(--gold-light);font-size:15px" id="vipGuestLabel">VIP Guest Pass</b>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:4px">ID: KD-ROYAL-2026</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RSVP VIP ============ -->
+  <section id="rsvpSection" style="background:var(--charcoal)">
+    <div class="reveal">
+      <div class="sec-sub">VIP Confirmation</div>
+      <h2 class="sec-title">RSVP &amp; Wishes</h2>
+      <div class="divider"><span>👑</span></div>
+      <form class="card rsvp-card" id="rsvpForm">
+        <p class="lead">Mohon konfirmasi kehadiran sebelum <b id="studioRsvpDeadline" style="color:var(--gold-light)">20 November 2026</b> untuk reservasi meja Gala Dinner</p>
+        <input id="rName" type="text" placeholder="Nama lengkap & gelar" required>
+        <select id="rCount">
+          <option value="1">1 Orang (Single Seat)</option>
+          <option value="2" selected>2 Orang (Couple Table)</option>
+          <option value="3">3 Orang (Family)</option>
+          <option value="4">4 Orang (VIP Table)</option>
+        </select>
+        <div class="pill-row">
+          <button type="button" class="pill active" data-val="Hadir">✓ Hadir di Gala Dinner</button>
+          <button type="button" class="pill" data-val="Tidak Hadir">✕ Berhalangan</button>
+        </div>
+        <textarea id="rsvpMsg" rows="3" placeholder="Tulis doa & ucapan untuk kedua mempelai..."></textarea>
+        <button class="full" type="submit">✨ &nbsp;Kirim Konfirmasi VIP</button>
+      </form>
+      <div class="rsvp-ok" id="rsvpOk">👑 <b>Terima Kasih!</b><br>Reservasi kehadiran VIP Anda telah tercatat di Studio Admin.</div>
+      <div class="wish-list" id="wishList">
+        <div class="wish"><b>dr. Kevin Sanjaya &amp; Partner · Hadir</b><p>Happy Wedding Alvaro &amp; Clara! Wishing you a lifetime of royal happiness ✨</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AMPLOP DIGITAL ============ -->
+  <section id="amplopSection">
+    <div class="reveal">
+      <div class="sec-sub">Wedding Gift</div>
+      <h2 class="sec-title">Amplop Digital</h2>
+      <div class="divider"><span>🎁</span></div>
+      <p class="gift-note">Doa restu Bapak/Ibu/Saudara/i merupakan karunia terindah. Bagi yang ingin mengirimkan tanda kasih:</p>
+
+      <div id="studioAmplopList">
+        <div class="card bank-card">
+          <div class="bank-row">
+            <div class="bank-logo">BCA</div>
+            <div class="bank-info">
+              <div class="num">8890 1234 56</div>
+              <div class="an">a.n. Alvaro Dirgantara Putra</div>
+            </div>
+            <button type="button" class="copy-mini" data-copy="8890123456">Salin</button>
+          </div>
+        </div>
+        <div class="card bank-card">
+          <div class="bank-row">
+            <div class="bank-logo">MANDIRI</div>
+            <div class="bank-info">
+              <div class="num">131 0098 7654 32</div>
+              <div class="an">a.n. Clarissa Aurelia Wijaya</div>
+            </div>
+            <button type="button" class="copy-mini" data-copy="1310098765432">Salin</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <a class="btn-sage" id="studioAmplopWa" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20sudah%20mengirimkan%20Wedding%20Gift%20untuk%20Alvaro%20%26%20Clara" target="_blank" rel="noopener">💬 Konfirmasi Tanda Kasih via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP ============ -->
+  <section class="closing">
+    <div class="reveal">
+      <div class="big">Thank You</div>
+      <p>Merupakan kehormatan besar bagi kami atas kehadiran dan doa restu Bapak/Ibu/Saudara/i.</p>
+      <div style="font-family:Georgia,serif;font-size:26px;color:var(--gold-light)" data-studio="pairTitle">Alvaro &amp; Clara</div>
+    </div>
+  </section>
+
+  <div class="footstrip">
+    👑 Royal Gold Exclusive Edition · Tanpa Watermark 👑<br>
+    <span style="text-transform:none">Powered by <a href="index.html">Kartu Digital</a> · <a href="studio.html">Studio Admin</a></span>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
+</div>
+
+<script src="studio-api.js"></script>
+<script>
+  (function(){
+    var to = new URLSearchParams(location.search).get('to');
+    if(to){
+      document.getElementById('guestName').textContent = to;
+      document.getElementById('vipGuestLabel').textContent = to;
+      var rName = document.getElementById('rName');
+      if(rName) rName.value = to;
+    }
+    if(window.StudioBackend){
+      window.StudioBackend.hydrateInvitationPage('premium-alvaro-clara');
+    }
+  })();
+
+  document.getElementById('openBtn').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('opened');
+    document.body.classList.remove('locked');
+  });
+
+  function updateCountdown(){
+    var inv = window.StudioBackend ? window.StudioBackend.getInvitation('premium-alvaro-clara') : null;
+    var targetStr = (inv && inv.eventDate) ? (inv.eventDate + 'T09:00:00+07:00') : '2026-11-28T09:00:00+07:00';
+    var diff = Math.max(0, new Date(targetStr) - new Date());
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('cdD').textContent = pad(Math.floor(diff/864e5));
+    document.getElementById('cdH').textContent = pad(Math.floor(diff/36e5)%24);
+    document.getElementById('cdM').textContent = pad(Math.floor(diff/6e4)%60);
+    document.getElementById('cdS').textContent = pad(Math.floor(diff/1e3)%60);
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.pill').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+    });
+  });
+
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('rName').value.trim() || 'Tamu Kehormatan';
+    var msg = document.getElementById('rsvpMsg').value.trim();
+    var status = document.querySelector('.pill.active').getAttribute('data-val');
+    if(msg){
+      var el = document.createElement('div');
+      el.className = 'wish';
+      el.innerHTML = '<b></b><p></p>';
+      el.querySelector('b').textContent = name + ' · ' + status;
+      el.querySelector('p').textContent = msg;
+      document.getElementById('wishList').prepend(el);
+    }
+    this.style.display = 'none';
+    document.getElementById('rsvpOk').style.display = 'block';
+  });
+
+  document.querySelectorAll('.copy-mini').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = btn.getAttribute('data-copy');
+      if(navigator.clipboard) navigator.clipboard.writeText(txt);
+      var old = btn.textContent; btn.textContent = '✓ Tersalin';
+      setTimeout(function(){ btn.textContent = old; }, 1500);
+    });
+  });
+
+  document.querySelectorAll('.gal-item').forEach(function(g){
+    g.addEventListener('click', function(){
+      document.getElementById('lbImg').src = g.getAttribute('data-src');
+      document.getElementById('lightbox').classList.add('show');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){
+    document.getElementById('lightbox').classList.remove('show');
+  });
+
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting) en.target.classList.add('visible'); });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(io) io.observe(el); else el.classList.add('visible');
+  });
+</script>
+</body>
+</html>
