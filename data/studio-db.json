@@ -1,0 +1,464 @@
+{
+  "version": "2.0.0",
+  "updatedAt": "2026-10-02T15:00:00.000Z",
+  "settings": {
+    "brandName": "Kartu Digital",
+    "domain": "kartudigital.my.id",
+    "adminWhatsapp": "6282128718485",
+    "defaultCurrency": "IDR"
+  },
+  "invitations": [
+    {
+      "id": "sage-rahma-dika",
+      "slug": "rahma-dika",
+      "category": "pernikahan",
+      "theme": "Sage Blossom",
+      "themeFile": "undangan-sage.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 184,
+      "title": "The Wedding Of",
+      "primaryName": "Rahma",
+      "secondaryName": "Dika",
+      "fullName1": "Rahmawati, S.E.",
+      "parents1": "Putri dari Bapak Ahmad Santoso & Ibu Siti Nurhayati",
+      "fullName2": "Dika Pratama, S.T.",
+      "parents2": "Putra dari Bapak Budi Hartono & Ibu Maria Ulfa",
+      "quote": "Bersama dalam cinta, menuju ridha-Nya.",
+      "eventDate": "2026-10-12",
+      "akadTime": "08.00 – 10.00 WIB",
+      "resepsiTime": "11.00 – 15.00 WIB",
+      "venueName": "Gedung Serbaguna Sariwangi",
+      "venueAddress": "Jl. Terusan Jakarta No. 123, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sariwangi+Bandung",
+      "navMode": "scroll",
+      "fxMode": "kelopak",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-rahma-cover.jpg",
+        "photo1": "foto-rahma-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-rahma-cover.jpg",
+          "foto-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Bagi yang ingin memberikan kado pernikahan, bisa melalui rekening atau e-wallet berikut:",
+        "whatsappConfirm": "6282128718485",
+        "giftAddress": "Jl. Terusan Jakarta No. 123, Bandung",
+        "accounts": [
+          {
+            "id": "acc-1",
+            "bank": "BCA",
+            "number": "1234567890",
+            "holder": "Rahmawati"
+          },
+          {
+            "id": "acc-2",
+            "bank": "DANA",
+            "number": "085712345678",
+            "holder": "Dika Pratama"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-09-30",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    },
+    {
+      "id": "jawa-ratri-galih",
+      "slug": "ratri-galih",
+      "category": "pernikahan",
+      "theme": "Jawa Heritage",
+      "themeFile": "undangan-jawa.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 142,
+      "title": "The Wedding Of",
+      "primaryName": "Ratri",
+      "secondaryName": "Galih",
+      "fullName1": "Ratri Widyastuti, S.E.",
+      "parents1": "Putri dari Bapak H. Soebianto Wijoyo & Ibu Raden Ayu Kusumaningrum",
+      "fullName2": "Galih Saputra, S.T.",
+      "parents2": "Putra dari Bapak H. Gunawan Prawira & Ibu Tutik Mardiyah",
+      "quote": "Bersama dalam cinta, menuju ridha-Nya.",
+      "eventDate": "2027-06-19",
+      "akadTime": "06.00 – 09.00 WIB",
+      "resepsiTime": "11.00 – 15.00 WIB",
+      "venueName": "Kedhaton Graha Saraswati",
+      "venueAddress": "Jl. Jend. Sudirman No. 21, Yogyakarta",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Graha+Saraswati+Yogyakarta",
+      "navMode": "scroll",
+      "fxMode": "kelopak",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-jawa-cover.jpg",
+        "photo1": "foto-jawa-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-jawa-cover.jpg",
+          "foto-cover.jpg",
+          "foto-cover.jpg",
+          "foto-jawa-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Bagi yang ingin memberikan tanda kasih pernikahan, dapat melalui rekening atau e-wallet berikut:",
+        "whatsappConfirm": "6282128718485",
+        "giftAddress": "Jl. Jend. Sudirman No. 21, Yogyakarta",
+        "accounts": [
+          {
+            "id": "acc-3",
+            "bank": "BCA",
+            "number": "1234567890",
+            "holder": "Ratri Widyastuti"
+          },
+          {
+            "id": "acc-4",
+            "bank": "DANA",
+            "number": "085712345678",
+            "holder": "Galih Saputra"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2027-06-05",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    },
+    {
+      "id": "emerald-raka-laras",
+      "slug": "raka-laras",
+      "category": "pernikahan",
+      "theme": "Blush & Emerald Floral",
+      "themeFile": "undangan-demo.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 96,
+      "title": "Undangan Pernikahan",
+      "primaryName": "Raka",
+      "secondaryName": "Laras",
+      "fullName1": "Raka Aditya Pratama, S.T.",
+      "parents1": "Putra pertama dari Bpk. H. Surya Pratama & Ibu Hj. Dewi Anggraini",
+      "fullName2": "Laras Ayu Wulandari, S.E.",
+      "parents2": "Putri kedua dari Bpk. Drs. Bambang Wulandari & Ibu Siti Rahayu",
+      "quote": "Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu agar kamu merasa tenteram kepadanya.",
+      "eventDate": "2026-12-12",
+      "akadTime": "08.00 – 10.00 WIB",
+      "resepsiTime": "11.00 – 14.00 WIB",
+      "venueName": "Grand Ballroom Hotel Savoy",
+      "venueAddress": "Jl. Asia Afrika No. 112, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Savoy+Homann+Bandung",
+      "navMode": "scroll",
+      "fxMode": "kilau",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-cover.jpg",
+        "photo1": "foto-cover.jpg",
+        "photo2": "foto-rahma-cover.jpg",
+        "gallery": [
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-jawa-cover.jpg",
+          "foto-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiranmu adalah hadiah terindah. Namun jika ingin berbagi tanda kasih, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6282128718485",
+        "giftAddress": "Jl. Asia Afrika No. 112, Bandung",
+        "accounts": [
+          {
+            "id": "acc-5",
+            "bank": "BCA",
+            "number": "1234567890",
+            "holder": "Raka Aditya Pratama"
+          },
+          {
+            "id": "acc-6",
+            "bank": "GoPay",
+            "number": "081234567890",
+            "holder": "Laras Ayu Wulandari"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-12-01",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    },
+    {
+      "id": "premium-alvaro-clara",
+      "slug": "alvaro-clara",
+      "category": "premium",
+      "theme": "Royal Gold Luxury 👑",
+      "themeFile": "undangan-premium.html",
+      "isPremium": true,
+      "status": "Aktif",
+      "views": 215,
+      "title": "Royal Wedding Invitation",
+      "primaryName": "Alvaro",
+      "secondaryName": "Clara",
+      "fullName1": "Alvaro Dirgantara Putra, M.B.A.",
+      "parents1": "Putra sulung Bpk. Ir. H. Hendra Dirgantara & Ibu Hj. Sofia Maharani",
+      "fullName2": "Clarissa Aurelia Wijaya, S.Ked.",
+      "parents2": "Putri bungsu Bpk. dr. Antonius Wijaya, Sp.PD & Ibu Margaretha Laksmi",
+      "quote": "Cinta sejati bukan tentang menemukan seseorang yang sempurna, melainkan belajar melihat ketidaksempurnaan secara sempurna.",
+      "eventDate": "2026-11-28",
+      "akadTime": "09.00 – 11.00 WIB",
+      "resepsiTime": "18.30 – 21.30 WIB (Royal Gala Dinner)",
+      "venueName": "The Trans Luxury Hotel — Grand Ballroom",
+      "venueAddress": "Jl. Gatot Subroto No. 289, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Trans+Luxury+Hotel+Bandung",
+      "navMode": "fade",
+      "fxMode": "kilau",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-cover.jpg",
+        "photo1": "foto-cover.jpg",
+        "photo2": "foto-rahma-cover.jpg",
+        "gallery": [
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-jawa-cover.jpg",
+          "foto-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Doa restu Bapak/Ibu/Saudara/i merupakan karunia terindah. Bagi yang ingin mengirimkan tanda kasih:",
+        "whatsappConfirm": "6282128718485",
+        "giftAddress": "Residences at The Trans Luxury, Bandung",
+        "accounts": [
+          {
+            "id": "acc-7",
+            "bank": "BCA Prioritas",
+            "number": "8890123456",
+            "holder": "Alvaro Dirgantara Putra"
+          },
+          {
+            "id": "acc-8",
+            "bank": "Mandiri",
+            "number": "1310098765432",
+            "holder": "Clarissa Aurelia Wijaya"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-20",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": true
+      }
+    },
+    {
+      "id": "khitan-zidan",
+      "slug": "khitanan-zidan",
+      "category": "khitanan",
+      "theme": "Al-Fatih Khitanan 🕌",
+      "themeFile": "undangan-khitanan.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 119,
+      "title": "Walimatul Khitan",
+      "primaryName": "M. Zidan Al-Fatih",
+      "secondaryName": "Zidan",
+      "fullName1": "Muhammad Zidan Al-Fatih",
+      "parents1": "Putra tercinta dari Bapak H. Ridwan Kamiludin & Ibu Hj. Nisa Sabyaniah",
+      "fullName2": "",
+      "parents2": "Keluarga Besar Bpk. H. Abdullah & Bpk. H. Sulaiman",
+      "quote": "Ya Allah, jadikanlah ia anak yang sholeh, berbakti kepada kedua orang tua, berguna bagi agama, nusa, dan bangsa.",
+      "eventDate": "2026-11-15",
+      "akadTime": "08.00 – 10.30 WIB (Doa & Pengajian)",
+      "resepsiTime": "11.00 – 15.00 WIB (Tasyakuran & Ramah Tamah)",
+      "venueName": "Bale Asri Pusdai Jawa Barat",
+      "venueAddress": "Jl. Diponegoro No. 63, Cihaur Geulis, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bale+Asri+Pusdai+Bandung",
+      "navMode": "scroll",
+      "fxMode": "bintang",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-cover.jpg",
+        "photo1": "foto-cover.jpg",
+        "photo2": "",
+        "gallery": [
+          "foto-cover.jpg",
+          "foto-jawa-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Terima kasih atas doa restu Bapak/Ibu/Saudara/i untuk ananda Zidan. Tanda kasih digital dapat dikirimkan melalui:",
+        "whatsappConfirm": "6282128718485",
+        "giftAddress": "Jl. Diponegoro No. 63, Bandung",
+        "accounts": [
+          {
+            "id": "acc-9",
+            "bank": "BSI",
+            "number": "7123456789",
+            "holder": "H. Ridwan Kamiludin"
+          },
+          {
+            "id": "acc-10",
+            "bank": "BRI",
+            "number": "040101002345501",
+            "holder": "Hj. Nisa Sabyaniah"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-10",
+        "maxGuests": 5,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    },
+    {
+      "id": "ultah-kanaya",
+      "slug": "ultah-kanaya-7th",
+      "category": "ultah",
+      "theme": "Sweet Wonder Party 🎂",
+      "themeFile": "undangan-ultah.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 134,
+      "title": "7th Birthday Party",
+      "primaryName": "Kanaya Putri",
+      "secondaryName": "Turning 7!",
+      "fullName1": "Kanaya Azzahra Putri",
+      "parents1": "Putri kesayangan Papa Dimas Anggara & Mama Raisa Andriana",
+      "fullName2": "Turning 7 Years Old",
+      "parents2": "Dress Code: Pastel Pink, Lilac & Cream",
+      "quote": "Yuk datang dan rayakan hari ulang tahun Kanaya yang ke-7! Akan ada games seru, sulap, potong kue, dan goodie bag spesial!",
+      "eventDate": "2026-11-08",
+      "akadTime": "15.00 – 16.00 WIB (Games & Magic Show)",
+      "resepsiTime": "16.00 – 18.00 WIB (Tiup Lilin, Potong Kue & Dinner)",
+      "venueName": "Hummingbird Eatery & Space",
+      "venueAddress": "Jl. Progo No. 16, Citarum, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hummingbird+Eatery+Bandung",
+      "navMode": "scroll",
+      "fxMode": "balon",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-rahma-cover.jpg",
+        "photo1": "foto-rahma-cover.jpg",
+        "photo2": "",
+        "gallery": [
+          "foto-rahma-cover.jpg",
+          "foto-cover.jpg",
+          "foto-jawa-cover.jpg",
+          "foto-rahma-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran teman-teman adalah hadiah paling seru! Jika ingin mengirimkan kado atau angpau ulang tahun untuk Kanaya:",
+        "whatsappConfirm": "6282128718485",
+        "giftAddress": "Jl. Progo No. 16, Bandung (Rumah Kanaya)",
+        "accounts": [
+          {
+            "id": "acc-11",
+            "bank": "BCA",
+            "number": "4321098765",
+            "holder": "Raisa Andriana"
+          },
+          {
+            "id": "acc-12",
+            "bank": "GoPay",
+            "number": "082128718485",
+            "holder": "Dimas Anggara"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-05",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    }
+  ],
+  "rsvps": [
+    {
+      "id": "rsvp-1",
+      "invitationId": "sage-rahma-dika",
+      "name": "Keluarga Besar Wijaya",
+      "status": "Hadir",
+      "guests": 3,
+      "phone": "081234567801",
+      "message": "Barakallahu lakuma! Sampai jumpa di hari bahagianya 🤍",
+      "createdAt": "2026-10-01T09:30:00.000Z"
+    },
+    {
+      "id": "rsvp-2",
+      "invitationId": "sage-rahma-dika",
+      "name": "Nadia & Rian",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081398765432",
+      "message": "Selamat menempuh hidup baru Rahma & Dika, semoga sakinah mawaddah warahmah!",
+      "createdAt": "2026-10-01T14:15:00.000Z"
+    },
+    {
+      "id": "rsvp-3",
+      "invitationId": "jawa-ratri-galih",
+      "name": "Bpk. Drs. Haryono",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081122334455",
+      "message": "Ndherek mangayubagya, mugi dadosaken kulawarga ingkang sakinah mawaddah warahmah.",
+      "createdAt": "2026-10-01T16:40:00.000Z"
+    },
+    {
+      "id": "rsvp-4",
+      "invitationId": "premium-alvaro-clara",
+      "name": "dr. Kevin Sanjaya & Partner",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081700112233",
+      "message": "Happy Wedding Alvaro & Clara! Wishing you a lifetime of royal happiness ✨",
+      "createdAt": "2026-10-02T04:10:00.000Z"
+    },
+    {
+      "id": "rsvp-5",
+      "invitationId": "khitan-zidan",
+      "name": "Ustadz H. Fauzan & Keluarga",
+      "status": "Hadir",
+      "guests": 4,
+      "phone": "085211223344",
+      "message": "Barakallah ananda Zidan, semoga lekas pulih dan tumbuh menjadi anak sholeh kebanggaan orang tua.",
+      "createdAt": "2026-10-02T07:20:00.000Z"
+    },
+    {
+      "id": "rsvp-6",
+      "invitationId": "ultah-kanaya",
+      "name": "Alya & Mama",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081987654321",
+      "message": "Happy 7th Birthday Kanaya cantik! Alya nggak sabar datang ke pesta ulang tahunnya 🎂🎈",
+      "createdAt": "2026-10-02T10:05:00.000Z"
+    }
+  ]
+}

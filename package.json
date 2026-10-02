@@ -1,0 +1,11 @@
+{
+  "name": "kartu-digital-studio",
+  "version": "2.0.0",
+  "description": "Kartu Digital — Platform & Backend Studio Admin Undangan Digital (kartudigital.my.id)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walimatul Khitan M. Zidan Al-Fatih — 15.11.2026</title>
+<!--
+  ============================================
+  TEMA KHITANAN "AL-FATIH ISLAMIC GOLD"
+  Terintegrasi dengan Studio Admin (studio.html) & Backend Studio (studio-api.js)
+  - Mendukung ?to=Nama+Tamu, ?mode=..., ?fx=..., ?id=khitan-zidan
+  - Upload Foto Cover & Galeri dari Studio Admin
+  - Pengaturan Amplop Digital & Pengaturan RSVP otomatis sinkron
+  ============================================
+-->
+<style>
+  :root{
+    --sage:#165b4c; --sage-dark:#0d382e; --sage-soft:#e8f3ef;
+    --cream:#f8faf8; --beige:#e3efe9; --gold:#c89b3c; --gold-light:#f1deb4;
+    --ink:#19322c; --muted:#5c746d; --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#cfded8;color:var(--ink);line-height:1.7}
+  body.locked{overflow:hidden}
+  .script{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+  .frame{max-width:480px;margin:0 auto;background:var(--cream);min-height:100vh;
+    position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.22)}
+  .islamic-border{height:10px;background:repeating-linear-gradient(90deg,#0d382e 0 14px,#c89b3c 14px 22px,#165b4c 22px 36px,#f1deb4 36px 40px)}
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;
+    background:
+      linear-gradient(180deg,rgba(13,56,46,.15) 0%,rgba(13,56,46,.45) 45%,rgba(9,40,33,.92) 85%,rgba(6,28,23,.98) 100%),
+      url('foto-cover.jpg') center/cover no-repeat,
+      linear-gradient(165deg,#165b4c,#0d382e);
+    transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease}
+  .cover.opened{transform:translateY(-101%);opacity:.5;pointer-events:none}
+  .cover-inner{width:100%;max-width:480px;text-align:center;padding:0 26px 44px;color:#fff}
+  .cover-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,155,60,.25);
+    border:1px solid var(--gold-light);color:var(--gold-light);padding:5px 16px;border-radius:50px;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+  .cover h1{font-family:Georgia,serif;font-size:36px;font-weight:700;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.4);margin-bottom:4px}
+  .cover .date{font-size:13.5px;letter-spacing:3px;margin:6px 0 18px;color:var(--gold-light)}
+  .cover .to{font-size:12px;opacity:.9}
+  .cover .guest{font-family:Georgia,serif;font-style:italic;font-size:18px;margin:4px 0 22px;color:#fff}
+  .open-btn{background:linear-gradient(135deg,#dfb15b,#b6862c);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:700;
+    padding:13px 34px;border-radius:50px;box-shadow:0 10px 26px rgba(0,0,0,.35);transition:transform .2s}
+  .open-btn:hover{transform:scale(1.05)}
+
+  /* ---------- UMUM ---------- */
+  section{padding:56px 24px;text-align:center;position:relative}
+  .sec-title{font-family:Georgia,serif;font-weight:700;font-size:25px;color:var(--sage-dark)}
+  .sec-sub{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:700}
+  .divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 24px;max-width:200px}
+  .divider::before,.divider::after{content:"";height:1px;flex:1;background:#c5d8d0}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:none}
+  .card{background:var(--white);border-radius:16px;box-shadow:0 8px 22px rgba(13,56,46,.08);
+    border:1px solid #d7e6e0;padding:22px 18px}
+  .btn-sage{display:inline-block;background:var(--sage);color:#fff;font-size:13px;font-weight:700;
+    padding:11px 26px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:.2s}
+  .btn-sage:hover{background:var(--sage-dark)}
+
+  /* ---------- PROFIL ANAK ---------- */
+  .bismillah{font-family:Georgia,serif;font-size:22px;color:var(--sage-dark);margin-bottom:8px}
+  .child-avatar{width:136px;height:136px;border-radius:50%;margin:14px auto 16px;
+    border:4px solid var(--gold);box-shadow:0 10px 26px rgba(13,56,46,.18);
+    background:url('foto-cover.jpg') center/cover no-repeat}
+  .child-name{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--sage-dark);margin-bottom:4px}
+  .child-nick{display:inline-block;background:var(--sage-soft);color:var(--sage);font-size:12px;
+    font-weight:700;padding:4px 14px;border-radius:50px;margin-bottom:12px}
+  .quote-txt{font-size:13.5px;font-style:italic;color:var(--muted);max-width:360px;margin:0 auto}
+
+  /* ---------- COUNTDOWN ---------- */
+  .cd-grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+  .cd-box{background:var(--white);border:1px solid #cde0d8;border-radius:14px;width:80px;padding:16px 0 12px;box-shadow:0 6px 16px rgba(13,56,46,.06)}
+  .cd-box b{display:block;font-family:Georgia,serif;font-size:30px;color:var(--sage-dark)}
+  .cd-box small{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- ACARA ---------- */
+  .ev-card{margin:0 auto 16px;max-width:380px;text-align:left}
+  .ev-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .ev-icon{width:46px;height:46px;border-radius:50%;background:var(--sage-soft);display:flex;align-items:center;justify-content:center;flex:none;font-size:20px}
+  .ev-head b{font-family:Georgia,serif;font-size:18px;color:var(--sage-dark)}
+  .ev-body{font-size:13.5px;color:#405952;padding-left:58px}
+  .ev-body .btn-sage{margin-top:10px;font-size:12px;padding:9px 20px}
+
+  /* ---------- GALERI ---------- */
+  .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto}
+  .gal-item{aspect-ratio:1/1.1;border-radius:14px;background-size:cover;background-position:center;
+    box-shadow:0 6px 16px rgba(13,56,46,.14);cursor:pointer;position:relative;transition:transform .25s ease}
+  .gal-item:hover{transform:scale(1.03)}
+  .gal-zoom{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.5);color:#fff;
+    font-size:11px;padding:4px 9px;border-radius:50px}
+
+  /* ---------- RSVP ---------- */
+  .rsvp-card{max-width:380px;margin:0 auto;text-align:left}
+  .rsvp-card .lead{font-size:13px;color:var(--muted);text-align:center;margin-bottom:14px}
+  .pill-row{display:flex;gap:10px;margin-bottom:12px}
+  .pill{flex:1;padding:11px;border-radius:50px;border:1.5px solid #c5d8d0;background:var(--cream);
+    font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;text-align:center}
+  .pill.active{background:var(--sage);border-color:var(--sage);color:#fff}
+  .rsvp-card input,.rsvp-card select,.rsvp-card textarea{width:100%;padding:11px 13px;border:1px solid #c5d8d0;
+    border-radius:10px;background:var(--cream);font-size:13.5px;font-family:inherit;color:var(--ink);margin-bottom:10px}
+  .rsvp-card .full{width:100%;background:var(--sage);color:#fff;border:none;font-size:14px;font-weight:700;
+    padding:13px;border-radius:50px;cursor:pointer}
+  .rsvp-ok{display:none;background:var(--sage-soft);border:1px solid #b6d6c9;color:var(--sage-dark);
+    border-radius:14px;padding:18px;font-size:13.5px;text-align:center;max-width:380px;margin:0 auto}
+  .wish-list{max-width:380px;margin:20px auto 0;text-align:left}
+  .wish{background:var(--white);border:1px solid #d7e6e0;border-radius:12px;padding:12px 16px;margin-bottom:10px}
+  .wish b{font-size:13px;color:var(--sage-dark)}
+  .wish p{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+  /* ---------- AMPLOP ---------- */
+  .gift-note{font-size:13px;color:var(--muted);max-width:340px;margin:0 auto 18px}
+  .bank-card{max-width:360px;margin:0 auto 12px;text-align:left}
+  .bank-row{display:flex;align-items:center;gap:14px}
+  .bank-logo{min-width:56px;height:36px;padding:0 8px;border-radius:8px;background:#e3efe9;color:var(--sage-dark);
+    font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+  .bank-info .num{font-family:Georgia,serif;font-size:18px;letter-spacing:1px;color:var(--ink)}
+  .bank-info .an{font-size:11.5px;color:var(--muted)}
+  .copy-mini{margin-left:auto;background:transparent;border:1.5px solid var(--sage);color:var(--sage);
+    font-size:11px;font-weight:700;padding:7px 14px;border-radius:50px;cursor:pointer}
+  .copy-mini:hover{background:var(--sage);color:#fff}
+
+  /* ---------- PENUTUP ---------- */
+  .closing{min-height:360px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    background:linear-gradient(180deg,rgba(13,56,46,.65),rgba(9,40,33,.92)),url('foto-cover.jpg') center/cover no-repeat;color:#fff}
+  .closing .big{font-family:Georgia,serif;font-size:32px;color:var(--gold-light);margin-bottom:10px}
+  .closing p{font-size:13px;max-width:310px;margin:0 auto 14px;color:#e8f3ef}
+  .footstrip{background:var(--sage-dark);color:#c5d8d0;font-size:11px;letter-spacing:1.5px;text-align:center;padding:16px 12px}
+  .footstrip a{color:var(--gold-light);text-decoration:none;font-weight:700}
+
+  /* ---------- LIGHTBOX & MUSIK & FX ---------- */
+  .lightbox{position:fixed;inset:0;z-index:120;background:rgba(10,25,20,.94);display:none;align-items:center;justify-content:center}
+  .lightbox.show{display:flex}
+  .lb-img{max-width:88vw;max-height:76vh;border-radius:12px}
+  .lb-close{position:fixed;top:16px;right:16px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:18px;cursor:pointer}
+  .music-btn{position:fixed;left:calc(50% - 230px);bottom:24px;z-index:91;width:50px;height:56px;border:1px solid #c5d8d0;
+    background:rgba(255,255,255,.95);border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 20px rgba(13,56,46,.2)}
+  .music-btn.playing{background:var(--sage);color:#fff}
+  @media(max-width:520px){.music-btn{left:14px}}
+  #fxLayer{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:hidden}
+  .fx-p{position:absolute;top:-40px;display:block;animation:fxDown var(--d) linear forwards}
+  @keyframes fxDown{to{transform:translate3d(0,114vh,0) rotate(300deg)}}
+</style>
+</head>
+<body class="locked">
+
+<!-- ============ COVER ============ -->
+<div class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="cover-badge">🕌 <span class="mini" data-studio="title">Walimatul Khitan</span></div>
+    <h1 data-studio="primaryName">M. Zidan Al-Fatih</h1>
+    <div class="date" data-studio="dateDot">15 . 11 . 2026</div>
+    <p class="to">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+    <p class="guest" id="guestName">Tamu Undangan</p>
+    <button class="open-btn" id="openBtn">🕌 &nbsp;Buka Undangan</button>
+  </div>
+</div>
+
+<div class="frame">
+  <div class="islamic-border"></div>
+
+  <!-- ============ PROFIL ANAK & DOA ============ -->
+  <section>
+    <div class="reveal">
+      <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+      <div class="sec-sub">Assalamu'alaikum Wr. Wb.</div>
+      <h2 class="sec-title">Tasyakuran Khitan</h2>
+      <div class="divider"><span>☪</span></div>
+      <p class="quote-txt" style="font-style:normal;margin-bottom:14px">Dengan memohon rahmat dan ridha Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara Walimatul Khitan putra tercinta kami:</p>
+
+      <div class="child-avatar" data-studio-img="photo1"></div>
+      <div class="child-name" data-studio="fullName1">Muhammad Zidan Al-Fatih</div>
+      <span class="child-nick">Ananda <span data-studio="secondaryName">Zidan</span></span>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:8px" data-studio="parents1">Putra tercinta dari Bapak H. Ridwan Kamiludin &amp; Ibu Hj. Nisa Sabyaniah</p>
+      <p style="font-size:12.5px;color:var(--gold);font-weight:700" data-studio="parents2">Keluarga Besar Bpk. H. Abdullah &amp; Bpk. H. Sulaiman</p>
+
+      <div class="divider" style="margin-top:20px"><span>✦</span></div>
+      <p class="quote-txt" data-studio="quote">"Ya Allah, jadikanlah ia anak yang sholeh, berbakti kepada kedua orang tua, berguna bagi agama, nusa, dan bangsa."</p>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section style="background:var(--sage-soft)">
+    <div class="reveal">
+      <div class="sec-sub">Hitung Mundur</div>
+      <h2 class="sec-title">Menuju Hari Tasyakuran</h2>
+      <div class="divider"><span>✦</span></div>
+      <div class="cd-grid">
+        <div class="cd-box"><b id="cdD">00</b><small>Hari</small></div>
+        <div class="cd-box"><b id="cdH">00</b><small>Jam</small></div>
+        <div class="cd-box"><b id="cdM">00</b><small>Menit</small></div>
+        <div class="cd-box"><b id="cdS">00</b><small>Detik</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DETAIL ACARA ============ -->
+  <section>
+    <div class="reveal">
+      <div class="sec-sub">Waktu &amp; Tempat</div>
+      <h2 class="sec-title">Rangkaian Acara</h2>
+      <div class="divider"><span>🕌</span></div>
+
+      <div class="card ev-card">
+        <div class="ev-head">
+          <div class="ev-icon">🤲</div>
+          <b>Doa &amp; Pengajian Syukuran</b>
+        </div>
+        <div class="ev-body">
+          <span data-studio="dateFormatted">Minggu, 15 November 2026</span><br>
+          Pukul <span data-studio="akadTime">08.00 – 10.30 WIB (Doa &amp; Pengajian)</span><br>
+          <b data-studio="venueName">Bale Asri Pusdai Jawa Barat</b>
+        </div>
+      </div>
+
+      <div class="card ev-card">
+        <div class="ev-head">
+          <div class="ev-icon">🍽️</div>
+          <b>Walimatul Khitan &amp; Ramah Tamah</b>
+        </div>
+        <div class="ev-body">
+          <span data-studio="dateFormatted">Minggu, 15 November 2026</span><br>
+          Pukul <span data-studio="resepsiTime">11.00 – 15.00 WIB (Tasyakuran &amp; Ramah Tamah)</span><br>
+          <span data-studio="venueName">Bale Asri Pusdai Jawa Barat</span><br>
+          <span style="color:var(--muted)" data-studio="venueAddress">Jl. Diponegoro No. 63, Cihaur Geulis, Bandung</span><br>
+          <a class="btn-sage" data-studio-href="mapsUrl" href="https://www.google.com/maps/search/?api=1&amp;query=Bale+Asri+Pusdai+Bandung" target="_blank" rel="noopener">📍 Buka Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERI ============ -->
+  <section style="background:var(--sage-soft)">
+    <div class="reveal">
+      <div class="sec-sub">Momen Bahagia</div>
+      <h2 class="sec-title">Galeri Ananda</h2>
+      <div class="divider"><span>📸</span></div>
+      <div class="gal-grid">
+        <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg');background-position:center bottom"><span class="gal-zoom">🔍 Perbesar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RSVP & DOA ============ -->
+  <section id="rsvpSection">
+    <div class="reveal">
+      <div class="sec-sub">Konfirmasi Kehadiran</div>
+      <h2 class="sec-title">RSVP &amp; Doa Restu</h2>
+      <div class="divider"><span>🤍</span></div>
+      <form class="card rsvp-card" id="rsvpForm">
+        <p class="lead">Mohon konfirmasi kehadiran Bapak/Ibu/Saudara/i sebelum <b id="studioRsvpDeadline">10 November 2026</b></p>
+        <input id="rName" type="text" placeholder="Nama lengkap Anda" required>
+        <select id="rCount">
+          <option value="1">1 Orang</option>
+          <option value="2" selected>2 Orang</option>
+          <option value="3">3 Orang</option>
+          <option value="4">4 Orang</option>
+        </select>
+        <div class="pill-row">
+          <button type="button" class="pill active" data-val="Hadir">✓ Insya Allah Hadir</button>
+          <button type="button" class="pill" data-val="Tidak Hadir">✕ Berhalangan</button>
+        </div>
+        <textarea id="rsvpMsg" rows="3" placeholder="Tulis doa terbaik untuk ananda..."></textarea>
+        <button class="full" type="submit">✈ &nbsp;Kirim Konfirmasi &amp; Doa</button>
+      </form>
+      <div class="rsvp-ok" id="rsvpOk">🎉 <b>Alhamdulillah, Terima Kasih!</b><br>Konfirmasi dan doa restu Bapak/Ibu telah tersimpan di Studio Admin.</div>
+      <div class="wish-list" id="wishList">
+        <div class="wish"><b>Ustadz H. Fauzan &amp; Keluarga · Hadir</b><p>Barakallah ananda Zidan, semoga lekas pulih dan tumbuh menjadi anak sholeh kebanggaan orang tua.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AMPLOP DIGITAL ============ -->
+  <section id="amplopSection" style="background:var(--sage-soft)">
+    <div class="reveal">
+      <div class="sec-sub">Tanda Kasih</div>
+      <h2 class="sec-title">Amplop Digital</h2>
+      <div class="divider"><span>🎁</span></div>
+      <p class="gift-note">Terima kasih atas doa restu Bapak/Ibu/Saudara/i. Apabila ingin berbagi tanda kasih untuk ananda, dapat melalui:</p>
+
+      <div id="studioAmplopList">
+        <div class="card bank-card">
+          <div class="bank-row">
+            <div class="bank-logo">BSI</div>
+            <div class="bank-info">
+              <div class="num">7123 4567 89</div>
+              <div class="an">a.n. H. Ridwan Kamiludin</div>
+            </div>
+            <button type="button" class="copy-mini" data-copy="7123456789">Salin</button>
+          </div>
+        </div>
+        <div class="card bank-card">
+          <div class="bank-row">
+            <div class="bank-logo">BRI</div>
+            <div class="bank-info">
+              <div class="num">0401 0100 2345 501</div>
+              <div class="an">a.n. Hj. Nisa Sabyaniah</div>
+            </div>
+            <button type="button" class="copy-mini" data-copy="040101002345501">Salin</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <a class="btn-sage" id="studioAmplopWa" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20sudah%20mengirimkan%20tanda%20kasih%20untuk%20Walimatul%20Khitan%20Zidan" target="_blank" rel="noopener">💬 Konfirmasi via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP ============ -->
+  <section class="closing">
+    <div class="reveal">
+      <div class="big">Jazakumullahu Khairan</div>
+      <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.</p>
+      <div style="font-family:Georgia,serif;font-size:22px;color:#fff" data-studio="primaryName">M. Zidan Al-Fatih</div>
+    </div>
+  </section>
+
+  <div class="footstrip">
+    ✦ Walimatul Khitan Digital ✦<br>
+    <span style="text-transform:none">Dibuat dengan ❤ oleh <a href="index.html">Kartu Digital</a> · <a href="studio.html">Buka Studio Admin</a></span>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
+</div>
+
+<!-- MUSIK -->
+<button class="music-btn" id="musicBtn" title="Musik Latar"><span>🎵</span></button>
+<div id="fxLayer"></div>
+
+<script src="studio-api.js"></script>
+<script>
+  (function(){
+    var to = new URLSearchParams(location.search).get('to');
+    if(to){
+      document.getElementById('guestName').textContent = to;
+      var rName = document.getElementById('rName');
+      if(rName) rName.value = to;
+    }
+    if(window.StudioBackend){
+      window.StudioBackend.hydrateInvitationPage('khitan-zidan');
+    }
+  })();
+
+  document.getElementById('openBtn').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('opened');
+    document.body.classList.remove('locked');
+  });
+
+  function updateCountdown(){
+    var inv = window.StudioBackend ? window.StudioBackend.getInvitation('khitan-zidan') : null;
+    var targetStr = (inv && inv.eventDate) ? (inv.eventDate + 'T08:00:00+07:00') : '2026-11-15T08:00:00+07:00';
+    var diff = Math.max(0, new Date(targetStr) - new Date());
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('cdD').textContent = pad(Math.floor(diff/864e5));
+    document.getElementById('cdH').textContent = pad(Math.floor(diff/36e5)%24);
+    document.getElementById('cdM').textContent = pad(Math.floor(diff/6e4)%60);
+    document.getElementById('cdS').textContent = pad(Math.floor(diff/1e3)%60);
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.pill').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+    });
+  });
+
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('rName').value.trim() || 'Tamu Undangan';
+    var msg = document.getElementById('rsvpMsg').value.trim();
+    var status = document.querySelector('.pill.active').getAttribute('data-val');
+    if(msg){
+      var el = document.createElement('div');
+      el.className = 'wish';
+      el.innerHTML = '<b></b><p></p>';
+      el.querySelector('b').textContent = name + ' · ' + status;
+      el.querySelector('p').textContent = msg;
+      document.getElementById('wishList').prepend(el);
+    }
+    this.style.display = 'none';
+    document.getElementById('rsvpOk').style.display = 'block';
+  });
+
+  document.querySelectorAll('.copy-mini').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = btn.getAttribute('data-copy');
+      if(navigator.clipboard) navigator.clipboard.writeText(txt);
+      var old = btn.textContent; btn.textContent = '✓ Tersalin';
+      setTimeout(function(){ btn.textContent = old; }, 1500);
+    });
+  });
+
+  document.querySelectorAll('.gal-item').forEach(function(g){
+    g.addEventListener('click', function(){
+      document.getElementById('lbImg').src = g.getAttribute('data-src');
+      document.getElementById('lightbox').classList.add('show');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){
+    document.getElementById('lightbox').classList.remove('show');
+  });
+
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting) en.target.classList.add('visible'); });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(io) io.observe(el); else el.classList.add('visible');
+  });
+</script>
+</body>
+</html>

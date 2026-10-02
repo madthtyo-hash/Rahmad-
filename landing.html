@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kartu Digital — Undangan Digital Elegan, Jadi 1×24 Jam</title>
+<title>Kartu Digital — Undangan Pernikahan, Khitanan, Ulang Tahun &amp; Premium</title>
 <!--
   ============================================
-  CARA PAKAI: ganti bagian-bagian ini sesuai usahamu:
-  1) Ganti nomor WhatsApp: cari "6282128718485" (ada 4 tempat)
-  2) Ganti nama brand "Kartu Digital"
-  3) Sesuaikan harga di bagian #harga dengan daftar-harga.md
-  4) Ganti testimoni dengan testimoni asli klienmu
+  KARTU DIGITAL (kartudigital.my.id)
+  Lengkap dengan:
+  - Studio Admin (studio.html) & Backend Studio (studio-api.js)
+  - Tema Pernikahan (Sage Blossom, Jawa Heritage, Blush & Emerald Floral)
+  - Tema Khitanan (Al-Fatih Islamic Gold)
+  - Tema Ulang Tahun (Sweet Wonder Party)
+  - Tema Premium Eksklusif (Royal Gold Luxury)
+  - Upload Foto, Pengaturan Amplop Digital, Pengaturan RSVP
   ============================================
 -->
 <style>
@@ -24,8 +27,8 @@
     color:var(--ink);background:var(--cream);line-height:1.6}
   h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;line-height:1.25}
   a{color:inherit}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-  .btn{display:inline-block;padding:13px 28px;border-radius:50px;text-decoration:none;font-weight:700;
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  .btn{display:inline-block;padding:13px 26px;border-radius:50px;text-decoration:none;font-weight:700;
     transition:transform .15s ease,box-shadow .15s ease;border:none;cursor:pointer;font-size:15px}
   .btn:hover{transform:translateY(-2px)}
   .btn-gold{background:linear-gradient(135deg,#caa14e,#a67c2e);color:#fff;box-shadow:0 8px 20px rgba(166,124,46,.35)}
@@ -36,29 +39,32 @@
     padding:6px 16px;border-radius:50px;letter-spacing:.5px}
 
   /* ---------- Header ---------- */
-  header{position:sticky;top:0;z-index:50;background:rgba(250,246,239,.92);backdrop-filter:blur(10px);
+  header{position:sticky;top:0;z-index:50;background:rgba(250,246,239,.94);backdrop-filter:blur(10px);
     border-bottom:1px solid #e8e0d0}
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:14px}
   .logo{font-family:Georgia,serif;font-size:22px;font-weight:700;color:var(--green);text-decoration:none}
   .logo span{color:var(--gold)}
-  .nav-links{display:flex;gap:26px;align-items:center}
-  .nav-links a{text-decoration:none;font-size:15px;color:var(--ink);font-weight:600}
+  .nav-links{display:flex;gap:22px;align-items:center}
+  .nav-links a{text-decoration:none;font-size:14.5px;color:var(--ink);font-weight:600}
   .nav-links a:hover{color:var(--gold)}
-  .nav-cta{text-decoration:none;background:var(--green);color:#fff;padding:9px 20px;border-radius:50px;
-    font-size:14px;font-weight:700}
+  .nav-actions{display:flex;gap:10px;align-items:center}
+  .nav-studio{text-decoration:none;background:#eee3c8;color:#654b14;padding:9px 16px;border-radius:50px;
+    font-size:13.5px;font-weight:700;border:1px solid #dec99a}
+  .nav-cta{text-decoration:none;background:var(--green);color:#fff;padding:9px 18px;border-radius:50px;
+    font-size:13.5px;font-weight:700}
 
   /* ---------- Hero ---------- */
   .hero{background:
     radial-gradient(circle at 85% 15%,rgba(185,141,62,.14),transparent 45%),
     radial-gradient(circle at 10% 90%,rgba(30,77,59,.10),transparent 40%), var(--cream);
-    padding:70px 0 80px;overflow:hidden}
-  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
-  .hero h1{font-size:46px;color:var(--green-dark);margin:18px 0 16px}
+    padding:66px 0 76px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:46px;align-items:center}
+  .hero h1{font-size:44px;color:var(--green-dark);margin:16px 0 14px}
   .hero h1 em{font-style:italic;color:var(--gold)}
-  .hero p{font-size:17px;color:var(--muted);max-width:480px;margin-bottom:28px}
-  .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
-  .hero-stats{display:flex;gap:34px;margin-top:38px}
-  .hero-stats b{font-family:Georgia,serif;font-size:26px;color:var(--green);display:block}
+  .hero p{font-size:16.5px;color:var(--muted);max-width:520px;margin-bottom:26px}
+  .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:32px;margin-top:34px;flex-wrap:wrap}
+  .hero-stats b{font-family:Georgia,serif;font-size:25px;color:var(--green);display:block}
   .hero-stats small{color:var(--muted);font-size:13px}
 
   /* Phone mockup */
@@ -77,51 +83,64 @@
   .screen .mini-date{font-size:12px;opacity:85%;margin-bottom:18px}
   .screen .mini-orn{width:120px;height:26px;opacity:.9;margin-bottom:14px}
   .screen .mini-btn{margin-top:auto;background:var(--gold);color:#123527;font-size:12px;font-weight:700;
-    padding:9px 22px;border-radius:50px}
+    padding:9px 22px;border-radius:50px;text-decoration:none}
   .screen .mini-photo{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,#e5cf9a,#b98d3e);
     display:flex;align-items:center;justify-content:center;margin:12px 0 6px;font-size:26px}
 
   /* ---------- Sections ---------- */
   section{padding:72px 0}
-  .sec-head{text-align:center;max-width:640px;margin:0 auto 46px}
+  .sec-head{text-align:center;max-width:680px;margin:0 auto 40px}
   .sec-head h2{font-size:34px;color:var(--green-dark);margin:14px 0 10px}
   .sec-head p{color:var(--muted)}
 
-  /* Keunggulan */
+  /* Keunggulan & Studio Fitur */
   .feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-  .feat{background:#fff;border:1px solid #ece3d2;border-radius:18px;padding:26px 22px;text-align:center;
+  .feat{background:#fff;border:1px solid #ece3d2;border-radius:18px;padding:26px 20px;text-align:center;
     transition:transform .2s,box-shadow .2s}
   .feat:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(30,77,59,.12)}
   .feat .icon{width:54px;height:54px;border-radius:16px;background:#eef3ec;display:flex;align-items:center;
-    justify-content:center;margin:0 auto 14px}
+    justify-content:center;margin:0 auto 14px;font-size:24px}
   .feat h3{font-size:17px;color:var(--green-dark);margin-bottom:6px}
-  .feat p{font-size:14px;color:var(--muted)}
+  .feat p{font-size:13.5px;color:var(--muted)}
 
-  /* Tema */
-  .tema-section{background:var(--green);background:linear-gradient(180deg,#1e4d3b,#173f31)}
+  /* Tema Katalog */
+  .tema-section{background:linear-gradient(180deg,#1e4d3b,#123527)}
   .tema-section .sec-head h2{color:#f6eed9}
   .tema-section .sec-head p{color:#cfdcc9}
+  .tema-filter{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+  .tema-filter button{border:1px solid rgba(229,207,154,.35);background:rgba(255,255,255,.08);color:#f3ead3;
+    padding:9px 18px;border-radius:50px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s}
+  .tema-filter button.active,.tema-filter button:hover{background:var(--gold);border-color:var(--gold);color:#fff}
   .tema-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .tema-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.18)}
-  .tema-preview{height:180px;position:relative;display:flex;align-items:center;justify-content:center}
-  .tema-preview .bar{position:absolute;top:0;left:0;right:0;height:22px;background:rgba(255,255,255,.55);
+  .tema-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.2);display:flex;flex-direction:column}
+  .tema-preview{height:185px;position:relative;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center}
+  .tema-preview .bar{position:absolute;top:0;left:0;right:0;height:22px;background:rgba(255,255,255,.65);
     display:flex;align-items:center;gap:4px;padding:0 8px}
   .tema-preview .bar i{width:7px;height:7px;border-radius:50%;background:#c66;display:inline-block}
   .tema-preview .bar i:nth-child(2){background:#db4}
   .tema-preview .bar i:nth-child(3){background:#5a5}
-  .tema-preview .initial{font-family:Georgia,serif;font-style:italic;font-size:34px;color:rgba(255,255,255,.95)}
-  .t1{background:linear-gradient(135deg,#f6d9d3,#e8a9a0)}
-  .t2{background:linear-gradient(135deg,#3d2b1f,#7a5230)}
-  .t3{background:linear-gradient(135deg,#eef0e8,#b7c4a3)}
-  .t4{background:linear-gradient(135deg,#123527,#1e4d3b)}
-  .t5{background:linear-gradient(135deg,#d9c9a3,#a38b5f)}
-  .t6{background:linear-gradient(135deg,#1f2a44,#e2703a)}
-  .t1 .initial,.t3 .initial{color:#7c4a42}
-  .t3 .initial{color:#3e5233}
-  .tema-body{padding:18px 20px 20px}
-  .tema-body h3{font-size:17px;color:var(--green-dark)}
-  .tema-body p{font-size:13px;color:var(--muted);margin:4px 0 14px}
-  .tema-body a{font-size:14px;font-weight:700;color:var(--gold);text-decoration:none}
+  .tema-badge{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;
+    font-weight:700;padding:4px 10px;border-radius:50px;letter-spacing:.5px}
+  .tema-preview .initial{font-family:Georgia,serif;font-style:italic;font-size:32px;color:rgba(255,255,255,.95);
+    text-shadow:0 2px 12px rgba(0,0,0,.35)}
+  .t1{background:linear-gradient(135deg,rgba(30,77,59,.45),rgba(18,53,39,.75)),url('foto-cover.jpg') center/cover}
+  .t2{background:linear-gradient(135deg,rgba(61,43,31,.45),rgba(122,82,48,.75)),url('foto-jawa-cover.jpg') center/cover}
+  .t3{background:linear-gradient(135deg,rgba(78,90,61,.35),rgba(78,90,61,.7)),url('foto-rahma-cover.jpg') center/cover}
+  .t4{background:linear-gradient(135deg,#0d0e12,#2b2312)}
+  .t5{background:linear-gradient(135deg,#0d382e,#165b4c)}
+  .t6{background:linear-gradient(135deg,#d95b82,#8e2a4b)}
+  .tema-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+  .tema-body h3{font-size:17.5px;color:var(--green-dark)}
+  .tema-body p{font-size:13px;color:var(--muted);margin:5px 0 14px}
+  .tema-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:10px;border-top:1px solid #f0eadc}
+  .tema-actions a.demo-link{font-size:13.5px;font-weight:700;color:var(--green);text-decoration:none}
+  .tema-actions a.studio-link{font-size:12.5px;font-weight:700;color:var(--gold);text-decoration:none;background:#faf3e3;padding:5px 11px;border-radius:50px}
+
+  /* Studio Showcase Banner */
+  .studio-banner{background:#fff;border:1px solid #e6decb;border-radius:22px;padding:34px;display:grid;
+    grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;box-shadow:0 18px 40px rgba(30,77,59,.08)}
+  .studio-banner ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 24px}
+  .studio-banner li{font-size:14px;font-weight:600;color:var(--green-dark)}
 
   /* Harga */
   .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
@@ -185,13 +204,13 @@
   .wa-float:hover{transform:scale(1.1)}
 
   @media(max-width:900px){
-    .hero-grid{grid-template-columns:1fr;text-align:center}
-    .hero h1{font-size:34px}
-    .hero p{margin:0 auto 26px}
+    .hero-grid,.studio-banner{grid-template-columns:1fr;text-align:center}
+    .hero h1{font-size:33px}
+    .hero p{margin:0 auto 24px}
     .hero-btns,.hero-stats{justify-content:center}
     .feat-grid{grid-template-columns:repeat(2,1fr)}
     .tema-grid,.price-grid,.testi-grid{grid-template-columns:1fr}
-    .step-grid{grid-template-columns:repeat(2,1fr)}
+    .step-grid,.studio-banner ul{grid-template-columns:1fr}
     .price.best{transform:none}
     .nav-links{display:none}
   }
@@ -204,14 +223,16 @@
   <div class="wrap nav">
     <a class="logo" href="#top">Kartu<span>Digital</span></a>
     <nav class="nav-links">
-      <a href="#keunggulan">Keunggulan</a>
-      <a href="#tema">Tema</a>
+      <a href="#keunggulan">Fitur</a>
+      <a href="#tema">Katalog Tema</a>
+      <a href="studio.html">Studio Admin</a>
       <a href="#harga">Harga</a>
-      <a href="#cara">Cara Pesan</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <!-- GANTI NOMOR WA DI SINI -->
-    <a class="nav-cta" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20tanya%20undangan%20digital" target="_blank" rel="noopener">Chat WhatsApp</a>
+    <div class="nav-actions">
+      <a class="nav-studio" href="studio.html">⚙ Studio Admin</a>
+      <a class="nav-cta" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20tanya%20undangan%20digital" target="_blank" rel="noopener">Chat WhatsApp</a>
+    </div>
   </div>
 </header>
 
@@ -219,113 +240,247 @@
 <section class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <span class="tag">✦ Jasa Undangan Digital No. 1</span>
-      <h1>Undangan Pernikahan Digital <em>Elegan</em>, Siap Dibagikan dalam Hitungan Menit</h1>
-      <p>Satu link untuk semua tamu — lengkap dengan RSVP, buku tamu online, peta lokasi, hitung mundur, dan amplop digital. Praktis, hemat, dan ramah lingkungan.</p>
+      <span class="tag">✦ Pernikahan · Khitanan · Ulang Tahun · Premium</span>
+      <h1>Undangan Digital <em>Elegan</em> &amp; Lengkap dengan Studio Admin</h1>
+      <p>Satu platform untuk semua momen spesial — Pernikahan, Walimatul Khitan, Ulang Tahun, hingga Royal Exclusive. Dilengkapi Studio Admin untuk upload foto, atur amplop digital, dan pantau RSVP secara real-time.</p>
       <div class="hero-btns">
-        <a class="btn btn-gold" href="#tema">Lihat Katalog Tema</a>
-        <!-- GANTI NOMOR WA DI SINI -->
-        <a class="btn btn-outline" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20pesan%20undangan%20digital" target="_blank" rel="noopener">Konsultasi Gratis</a>
+        <a class="btn btn-gold" href="#tema">Lihat 6 Tema Live</a>
+        <a class="btn btn-outline" href="studio.html">Buka Studio Admin →</a>
       </div>
       <div class="hero-stats">
-        <div><b>500+</b><small>Pasangan terbantu</small></div>
-        <div><b>50+</b><small>Pilihan tema</small></div>
-        <div><b>1×24 jam</b><small>Pengerjaan kilat</small></div>
+        <div><b>500+</b><small>Klien terbantu</small></div>
+        <div><b>6 Tema</b><small>Pernikahan, Khitan, Ultah &amp; VIP</small></div>
+        <div><b>1×24 jam</b><small>Siap sebar ke tamu</small></div>
       </div>
     </div>
     <div class="phone-wrap">
       <div class="phone">
         <div class="screen">
           <div class="mini-label">The Wedding Of</div>
-          <div class="mono">R&nbsp;&amp;&nbsp;L</div>
+          <div class="mono">R&nbsp;&amp;&nbsp;D</div>
           <svg class="mini-orn" viewBox="0 0 120 26">
             <path d="M0 13 H48 M72 13 H120" stroke="#e5cf9a" stroke-width="1"/>
             <path d="M60 3 C55 8 55 18 60 23 C65 18 65 8 60 3 Z" fill="none" stroke="#e5cf9a" stroke-width="1.2"/>
             <circle cx="54" cy="13" r="1.6" fill="#e5cf9a"/><circle cx="66" cy="13" r="1.6" fill="#e5cf9a"/>
           </svg>
-          <div class="mini-names">Raka &amp; Laras</div>
-          <div class="mini-date">Sabtu, 12 Desember 2026</div>
+          <div class="mini-names">Rahma &amp; Dika</div>
+          <div class="mini-date">Senin, 12 Oktober 2026</div>
           <div class="mini-photo">💍</div>
-          <div class="mini-btn">Buka Undangan</div>
+          <a class="mini-btn" href="undangan-sage.html">Buka Demo Undangan</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= KEUNGGULAN ================= -->
+<!-- ================= KEUNGGULAN & FITUR STUDIO ================= -->
 <section id="keunggulan">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag">Kenapa Kami</span>
-      <h2>Semua yang Kamu Butuhkan dalam Satu Link</h2>
-      <p>Tanpa cetak, tanpa antre, tanpa ribet. Tamu cukup klik link dari WhatsApp.</p>
+      <span class="tag">Fitur Unggulan</span>
+      <h2>Kelola Sendiri dari Studio Admin atau Terima Beres</h2>
+      <p>Terintegrasi dengan Backend Studio untuk pengaturan foto, rekening amplop digital, dan buku tamu RSVP.</p>
     </div>
     <div class="feat-grid">
       <div class="feat">
-        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e4d3b" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
-        <h3>Kilat 1×24 Jam</h3><p>Undangan jadi super cepat, ada opsi express 3 jam untuk kebutuhan mendesak.</p>
+        <div class="icon">⚙</div>
+        <h3>Studio Admin &amp; Backend</h3>
+        <p>Dashboard lengkap untuk mengubah nama, tanggal, lokasi, mode navigasi, dan efek animasi kapan saja.</p>
       </div>
       <div class="feat">
-        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e4d3b" stroke-width="2"><path d="M12 2l2.9 6.3 6.6.7-5 4.5 1.4 6.5L12 16.7 6.1 20l1.4-6.5-5-4.5 6.6-.7L12 2z"/></svg></div>
-        <h3>Desain Premium</h3><p>50+ tema elegan: minimalis, floral, adat, hingga modern — bebas ganti tema.</p>
+        <div class="icon">📸</div>
+        <h3>Upload Foto Instan</h3>
+        <p>Upload foto cover, foto profil mempelai/anak, hingga galeri foto lightbox langsung dari HP atau laptop.</p>
       </div>
       <div class="feat">
-        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e4d3b" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/></svg></div>
-        <h3>Fitur Lengkap</h3><p>RSVP, buku tamu digital, hitung mundur, galeri foto, musik, dan kado cashless.</p>
+        <div class="icon">🎁</div>
+        <h3>Amplop Digital Fleksibel</h3>
+        <p>Atur banyak rekening bank &amp; e-wallet (BCA, Mandiri, BSI, BRI, DANA, GoPay) lengkap dengan tombol salin.</p>
       </div>
       <div class="feat">
-        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e4d3b" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 01-8.5 8.4c-1.5 0-2.9-.4-4.1-1L3 20l1.2-5.2A8.4 8.4 0 1121 11.5z"/></svg></div>
-        <h3>Fast Response</h3><p>Admin siap membantu setiap hari. Revisi mudah cukup lewat chat WhatsApp.</p>
+        <div class="icon">💌</div>
+        <h3>Pengaturan RSVP &amp; Doa</h3>
+        <p>Pantau konfirmasi kehadiran tamu, jumlah pax, batas tanggal RSVP, ucapan doa, hingga export CSV.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= TEMA ================= -->
+<!-- ================= KATALOG TEMA ================= -->
 <section id="tema" class="tema-section">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag">Katalog</span>
-      <h2>Pilih Tema Favoritmu</h2>
-      <p>Semua tema sudah termasuk di setiap paket. Klik untuk melihat contoh undangan jadinya.</p>
+      <span class="tag">Katalog Lengkap</span>
+      <h2>Pilih Tema Sesuai Acara Spesialmu</h2>
+      <p>Tersedia untuk Pernikahan, Khitanan, Ulang Tahun, dan Edisi Royal Premium. Klik untuk mencoba langsung.</p>
     </div>
-    <div class="tema-grid">
-      <div class="tema-card">
-        <div class="tema-preview t1"><div class="bar"><i></i><i></i><i></i></div><span class="initial">A&amp;B</span></div>
-        <div class="tema-body"><h3>Blush Floral</h3><p>Romantis dengan sentuhan bunga pastel.</p><a href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a></div>
+
+    <div class="tema-filter" id="katalogFilter">
+      <button type="button" class="active" data-filter="all">Semua Tema (6)</button>
+      <button type="button" data-filter="pernikahan">💍 Tema Pernikahan</button>
+      <button type="button" data-filter="khitanan">🕌 Tema Khitanan</button>
+      <button type="button" data-filter="ultah">🎂 Tema Ulang Tahun</button>
+      <button type="button" data-filter="premium">👑 Tema Premium</button>
+    </div>
+
+    <div class="tema-grid" id="katalogGrid">
+      <!-- 1. Sage Blossom (Pernikahan) -->
+      <div class="tema-card" data-cat="pernikahan">
+        <div class="tema-preview t3">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <span class="initial">Rahma &amp; Dika</span>
+          <span class="tema-badge">💍 Tema Pernikahan</span>
+        </div>
+        <div class="tema-body">
+          <div>
+            <h3>Sage Blossom ⭐ Paling Laris</h3>
+            <p>Nuansa hijau sage lembut &amp; floral romantis, lengkap dengan Love Story, Galeri Lightbox, Dress Code, RSVP, dan Amplop Digital.</p>
+          </div>
+          <div class="tema-actions">
+            <a class="demo-link" href="undangan-sage.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            <a class="studio-link" href="studio.html?id=sage-rahma-dika">✎ Edit di Studio</a>
+          </div>
+        </div>
       </div>
-      <div class="tema-card">
-        <div class="tema-preview t2"><div class="bar"><i></i><i></i><i></i></div><span class="initial">ꦲꦤ꧀</span></div>
-        <div class="tema-body"><h3>Jawa Heritage ✨ BARU</h3><p>Nuansa adat Jawa yang sakral dan megah — batik kawung, sogan &amp; emas.</p><a href="undangan-jawa.html" target="_blank" rel="noopener">Lihat Demo →</a></div>
+
+      <!-- 2. Jawa Heritage (Pernikahan) -->
+      <div class="tema-card" data-cat="pernikahan">
+        <div class="tema-preview t2">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <span class="initial">ꦲꦤ꧀ · Ratri &amp; Galih</span>
+          <span class="tema-badge">💍 Tema Pernikahan Adat</span>
+        </div>
+        <div class="tema-body">
+          <div>
+            <h3>Jawa Heritage ✨</h3>
+            <p>Nuansa adat Jawa kraton yang sakral dan megah dengan ornamen batik kawung, warna sogan, dan aksen emas.</p>
+          </div>
+          <div class="tema-actions">
+            <a class="demo-link" href="undangan-jawa.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            <a class="studio-link" href="studio.html?id=jawa-ratri-galih">✎ Edit di Studio</a>
+          </div>
+        </div>
       </div>
-      <div class="tema-card">
-        <div class="tema-preview t3"><div class="bar"><i></i><i></i><i></i></div><span class="initial">C&amp;D</span></div>
-        <div class="tema-body"><h3>Sage Blossom ⭐</h3><p>Terang &amp; romantis, gaya paling laris saat ini — lengkap dengan dress code.</p><a href="undangan-sage.html" target="_blank" rel="noopener">Lihat Demo →</a></div>
+
+      <!-- 3. Blush & Emerald Floral (Pernikahan) -->
+      <div class="tema-card" data-cat="pernikahan">
+        <div class="tema-preview t1">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <span class="initial">Raka &amp; Laras</span>
+          <span class="tema-badge">💍 Tema Pernikahan</span>
+        </div>
+        <div class="tema-body">
+          <div>
+            <h3>Blush &amp; Emerald Floral</h3>
+            <p>Perpaduan zamrud klasik dan bunga elegan, dilengkapi simpan kalender (.ics), hitung mundur, dan buku tamu.</p>
+          </div>
+          <div class="tema-actions">
+            <a class="demo-link" href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            <a class="studio-link" href="studio.html?id=emerald-raka-laras">✎ Edit di Studio</a>
+          </div>
+        </div>
       </div>
-      <div class="tema-card">
-        <div class="tema-preview t4"><div class="bar"><i></i><i></i><i></i></div><span class="initial">E&amp;F</span></div>
-        <div class="tema-body"><h3>Emerald Gold</h3><p>Hijau zamrud berpadu aksen emas mewah.</p><a href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a></div>
+
+      <!-- 4. Royal Gold Luxury (Tema Premium) -->
+      <div class="tema-card" data-cat="premium">
+        <div class="tema-preview t4">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <span class="initial" style="color:#f5e29c">👑 Alvaro &amp; Clara</span>
+          <span class="tema-badge" style="background:linear-gradient(135deg,#caa14e,#8f681e)">👑 Tema Premium</span>
+        </div>
+        <div class="tema-body">
+          <div>
+            <h3>Royal Gold Luxury 👑</h3>
+            <p>Desain eksklusif hitam obsidian &amp; emas kerajaan, dilengkapi QR Check-In Buku Tamu VIP, galeri mewah, dan reservasi Gala Dinner.</p>
+          </div>
+          <div class="tema-actions">
+            <a class="demo-link" href="undangan-premium.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            <a class="studio-link" href="studio.html?id=premium-alvaro-clara">✎ Edit di Studio</a>
+          </div>
+        </div>
       </div>
-      <div class="tema-card">
-        <div class="tema-preview t5"><div class="bar"><i></i><i></i><i></i></div><span class="initial">G&amp;H</span></div>
-        <div class="tema-body"><h3>Rustic Kraft</h3><p>Hangat ala pedesaan dengan tekstur kayu.</p><a href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a></div>
+
+      <!-- 5. Al-Fatih Islamic Gold (Tema Khitanan) -->
+      <div class="tema-card" data-cat="khitanan">
+        <div class="tema-preview t5">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <span class="initial" style="color:#f1deb4">🕌 M. Zidan Al-Fatih</span>
+          <span class="tema-badge">🕌 Tema Khitanan</span>
+        </div>
+        <div class="tema-body">
+          <div>
+            <h3>Al-Fatih Islamic Gold 🕌</h3>
+            <p>Tema khusus Walimatul Khitan / Tasyakuran Khitan bernuansa Islami zamrud &amp; emas, doa anak sholeh, jadwal pengajian, RSVP, dan tanda kasih.</p>
+          </div>
+          <div class="tema-actions">
+            <a class="demo-link" href="undangan-khitanan.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            <a class="studio-link" href="studio.html?id=khitan-zidan">✎ Edit di Studio</a>
+          </div>
+        </div>
       </div>
-      <div class="tema-card">
-        <div class="tema-preview t6"><div class="bar"><i></i><i></i><i></i></div><span class="initial">I&amp;J</span></div>
-        <div class="tema-body"><h3>Modern Bold</h3><p>Warna berani untuk pasangan kekinian.</p><a href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a></div>
+
+      <!-- 6. Sweet Wonder Party (Tema Ulang Tahun) -->
+      <div class="tema-card" data-cat="ultah">
+        <div class="tema-preview t6">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <span class="initial">🎂 Kanaya 7th</span>
+          <span class="tema-badge">🎂 Tema Ulang Tahun</span>
+        </div>
+        <div class="tema-body">
+          <div>
+            <h3>Sweet Wonder Party 🎂</h3>
+            <p>Tema pesta ulang tahun anak &amp; remaja yang ceria dengan warna pastel, jadwal potong kue, dress code, RSVP goodie bag, dan kado digital.</p>
+          </div>
+          <div class="tema-actions">
+            <a class="demo-link" href="undangan-ultah.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            <a class="studio-link" href="studio.html?id=ultah-kanaya">✎ Edit di Studio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STUDIO ADMIN SHOWCASE ================= -->
+<section id="studio-fitur">
+  <div class="wrap">
+    <div class="studio-banner">
+      <div>
+        <span class="tag">✨ Baru di Kartu Digital</span>
+        <h2 style="font-size:30px;color:var(--green-dark);margin:12px 0 10px">Studio Admin &amp; Backend Studio Siap Pakai</h2>
+        <p style="color:var(--muted)">Ubah isi undangan, upload foto baru, sesuaikan nomor rekening amplop digital, hingga kelola konfirmasi kehadiran RSVP langsung dari browser.</p>
+        <ul>
+          <li>✓ Upload Foto Cover &amp; Galeri</li>
+          <li>✓ Pengaturan Amplop Digital</li>
+          <li>✓ Pengaturan RSVP &amp; Export CSV</li>
+          <li>✓ Generator Link Nama Tamu WA</li>
+          <li>✓ 6 Tema Multi-Acara Lengkap</li>
+          <li>✓ Preview Real-Time Interaktif</li>
+        </ul>
+        <a class="btn btn-gold" href="studio.html">Buka Dashboard Studio Admin →</a>
+      </div>
+      <div style="background:var(--cream);border:1px solid #e5dec9;border-radius:16px;padding:22px;text-align:left">
+        <div style="font-size:12px;font-weight:800;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Status Sistem</div>
+        <h3 style="font-size:20px;color:var(--green-dark);margin-bottom:12px">Terhubung ke kartudigital.my.id</h3>
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px">Semua perubahan yang disimpan di Studio Admin langsung teraplikasikan ke halaman undangan yang dibuka oleh tamu.</p>
+        <div style="display:grid;gap:8px;font-size:13px">
+          <div style="background:#fff;padding:9px 12px;border-radius:9px;border:1px solid #ece3d2">💍 <b>Tema Pernikahan:</b> Sage, Jawa, Emerald</div>
+          <div style="background:#fff;padding:9px 12px;border-radius:9px;border:1px solid #ece3d2">🕌 <b>Tema Khitanan:</b> Al-Fatih Islamic Gold</div>
+          <div style="background:#fff;padding:9px 12px;border-radius:9px;border:1px solid #ece3d2">🎂 <b>Tema Ulang Tahun:</b> Sweet Wonder Party</div>
+          <div style="background:#fff;padding:9px 12px;border-radius:9px;border:1px solid #ece3d2">👑 <b>Tema Premium:</b> Royal Gold Luxury VIP</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= HARGA ================= -->
-<section id="harga">
+<section id="harga" style="background:#fff">
   <div class="wrap">
     <div class="sec-head">
       <span class="tag">Investasi</span>
       <h2>Harga Transparan, Sekali Bayar</h2>
-      <p>Tanpa biaya bulanan. Tanpa biaya tersembunyi. Lebih hemat dari cetak 50 undangan kertas.</p>
+      <p>Tanpa biaya bulanan. Berlaku untuk undangan Pernikahan, Khitanan, maupun Ulang Tahun.</p>
     </div>
     <div class="price-grid">
       <div class="price">
@@ -333,14 +488,13 @@
         <div class="amt"><s>Rp129.000</s>Rp79.000</div>
         <div class="per">sekali bayar · aktif 6 bulan</div>
         <ul>
-          <li>25+ tema siap pakai</li>
-          <li>Detail mempelai &amp; acara</li>
+          <li>Pilihan tema pernikahan / khitan / ultah</li>
+          <li>Detail acara &amp; profil lengkap</li>
           <li>Countdown &amp; Google Maps</li>
-          <li>Musik latar</li>
+          <li>Musik latar otomatis</li>
           <li>Ucapan &amp; doa tamu</li>
-          <li>Revisi 2× · jadi 2 hari</li>
+          <li>Revisi 2× · jadi 1×24 jam</li>
         </ul>
-        <!-- GANTI NOMOR WA DI SINI -->
         <a class="btn btn-outline" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20pesan%20Paket%20Hemat" target="_blank" rel="noopener">Pilih Hemat</a>
       </div>
       <div class="price best">
@@ -349,12 +503,12 @@
         <div class="amt"><s>Rp249.000</s>Rp149.000</div>
         <div class="per">sekali bayar · aktif 1 tahun</div>
         <ul>
-          <li><b>Semua tema premium</b></li>
-          <li>Galeri 10 foto lightbox + video prewed</li>
-          <li>Animasi kelopak, salju & kilau emas</li>
-          <li>Love story &amp; dress code</li>
-          <li>RSVP &amp; buku tamu digital</li>
-          <li>Amplop / kado digital</li>
+          <li><b>Semua tema + akses Studio Admin</b></li>
+          <li>Upload foto cover &amp; galeri lightbox</li>
+          <li>Pengaturan amplop digital multi-rekening</li>
+          <li>Pengaturan RSVP &amp; export buku tamu</li>
+          <li>Animasi kelopak, salju &amp; kilau emas</li>
+          <li>Generator link nama tamu tak terbatas</li>
           <li>3 mode navigasi (Gulir/Snap/Slide)</li>
           <li>Revisi 5× · jadi 1×24 jam</li>
         </ul>
@@ -365,11 +519,10 @@
         <div class="amt"><s>Rp450.000</s>Rp299.000</div>
         <div class="per">sekali bayar · support VIP</div>
         <ul>
-          <li>Semua fitur Premium</li>
+          <li>Semua fitur Premium + Tema Royal Gold 👑</li>
           <li>Domain sendiri (namakamu.my.id)</li>
-          <li>Undangan video 60 detik</li>
-          <li>QR check-in buku tamu</li>
-          <li>6 mode navigasi premium 👑 (Fade, Buku, Zoom, dll)</li>
+          <li>QR Check-in buku tamu VIP</li>
+          <li>6 mode navigasi 3D premium 👑</li>
           <li>Animasi premium 👑 (kupu-kupu, balon, bintang)</li>
           <li>Tanpa watermark</li>
           <li>Revisi bebas · prioritas same-day</li>
@@ -385,40 +538,13 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="tag">Semudah Itu</span>
-      <h2>Pesan dalam 4 Langkah</h2>
+      <h2>Pesan atau Kelola dalam 4 Langkah</h2>
     </div>
     <div class="step-grid">
-      <div class="step"><div class="num">1</div><h3>Pilih Tema &amp; Paket</h3><p>Lihat katalog, tentukan tema dan paket yang paling pas.</p></div>
-      <div class="step"><div class="num">2</div><h3>Kirim Data via WA</h3><p>Isi form: nama, tanggal, lokasi, foto, dan lagu favorit.</p></div>
-      <div class="step"><div class="num">3</div><h3>Terima Link Preview</h3><p>Undangan jadi 1×24 jam. Cek dan ajukan revisi bila perlu.</p></div>
-      <div class="step"><div class="num">4</div><h3>Sebarkan!</h3><p>Bagikan 1 link ke semua tamu lewat WhatsApp atau IG.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= TESTIMONI ================= -->
-<section id="testimoni">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="tag">Kata Mereka</span>
-      <h2>Dipercaya Ratusan Pasangan</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi">
-        <div class="stars">★★★★★</div>
-        <p>"Pesan Kamis malam, Jumat pagi sudah jadi! Tamu-tamu pada bilang undangannya bagus banget. Bakal rekomendasiin ke teman-teman."</p>
-        <div class="who"><div class="avatar">DN</div><div><b>Dina &amp; Nanda</b><small>Bandung · Paket Premium</small></div></div>
-      </div>
-      <div class="testi">
-        <div class="stars">★★★★★</div>
-        <p>"Admin fast respon, revisi dibantu terus sampai cocok. Fitur RSVP-nya sangat membantu buat hitung katering. Worth it banget harga segini!"</p>
-        <div class="who"><div class="avatar">RA</div><div><b>Rani &amp; Agus</b><small>Jakarta · Paket Premium</small></div></div>
-      </div>
-      <div class="testi">
-        <div class="stars">★★★★★</div>
-        <p>"Ambil paket Eksklusif dengan domain sendiri, hasilnya jauh melebihi ekspektasi. Undangan videonya juga keren untuk status WA."</p>
-        <div class="who"><div class="avatar">SF</div><div><b>Sari &amp; Fajar</b><small>Yogyakarta · Paket Eksklusif</small></div></div>
-      </div>
+      <div class="step"><div class="num">1</div><h3>Pilih Tema Acara</h3><p>Pilih tema Pernikahan, Khitanan, Ulang Tahun, atau Royal Premium.</p></div>
+      <div class="step"><div class="num">2</div><h3>Atur di Studio / WA</h3><p>Upload foto, isi detail acara, rekening amplop digital, dan pengaturan RSVP.</p></div>
+      <div class="step"><div class="num">3</div><h3>Cek Live Preview</h3><p>Lihat hasil undangan secara real-time dan buat link khusus per nama tamu.</p></div>
+      <div class="step"><div class="num">4</div><h3>Sebarkan!</h3><p>Bagikan link ke WhatsApp dan pantau konfirmasi kehadiran tamu dari Studio.</p></div>
     </div>
   </div>
 </section>
@@ -432,24 +558,16 @@
     </div>
     <div class="faq-list">
       <details>
+        <summary>Apakah tersedia untuk acara selain pernikahan (Khitanan &amp; Ulang Tahun)?</summary>
+        <div class="ans">Ya! Kami menyediakan tema khusus untuk Pernikahan (Sage Blossom, Jawa Heritage, Emerald Floral), Walimatul Khitan (Al-Fatih Islamic Gold), Ulang Tahun (Sweet Wonder Party), serta Tema Premium Eksklusif (Royal Gold Luxury).</div>
+      </details>
+      <details>
+        <summary>Bagaimana cara upload foto dan mengatur amplop digital?</summary>
+        <div class="ans">Kamu bisa langsung membuka menu <b>Studio Admin</b>, pilih tab <b>Upload Foto</b> untuk mengganti foto sampul/galeri, serta tab <b>Amplop Digital</b> dan <b>Pengaturan RSVP</b> untuk menyesuaikan rekening maupun batas konfirmasi kehadiran.</div>
+      </details>
+      <details>
         <summary>Berapa lama pengerjaan undangannya?</summary>
-        <div class="ans">Paket Hemat maksimal 2 hari, Premium 1×24 jam, dan Eksklusif bisa jadi di hari yang sama (same-day). Butuh lebih cepat? Ada layanan express 3 jam dengan tambahan Rp49.000 dengan sistem antrian prioritas.</div>
-      </details>
-      <details>
-        <summary>Bisakah saya request revisi?</summary>
-        <div class="ans">Tentu! Paket Hemat mendapat 2× revisi, Premium 5× revisi, dan Eksklusif bebas revisi sampai H-3 acara. Revisi tambahan di luar jatah hanya Rp15.000 per revisi.</div>
-      </details>
-      <details>
-        <summary>Berapa lama undangan aktif?</summary>
-        <div class="ans">Paket Hemat aktif 6 bulan dan Premium aktif 1 tahun sejak tanggal pembuatan — lebih dari cukup sampai acara selesai. Undangan tetap bisa diakses sebagai kenang-kenangan selama masa aktif.</div>
-      </details>
-      <details>
-        <summary>Bagaimana cara pembayarannya?</summary>
-        <div class="ans">Cukup DP 50% dulu untuk mengunci antrean pengerjaan. Pembayaran bisa via transfer bank (BCA, Mandiri, BRI, BNI), QRIS, GoPay, OVO, dan DANA. Pelunasan dilakukan setelah kamu menyetujui hasil akhirnya.</div>
-      </details>
-      <details>
-        <summary>Apakah bisa pakai nama domain sendiri?</summary>
-        <div class="ans">Bisa, di Paket Eksklusif kamu mendapat domain sendiri seperti <b>namakamu.my.id</b> aktif 1 tahun. Tersedia juga opsi upgrade ke .com atau .id dengan biaya tambahan.</div>
+        <div class="ans">Melalui Studio Admin perubahan langsung tampil seketika. Jika dibantu penuh oleh tim admin kami via WhatsApp, pengerjaan selesai dalam 1×24 jam (tersedia layanan express 3 jam).</div>
       </details>
     </div>
   </div>
@@ -458,23 +576,38 @@
 <!-- ================= CTA FINAL ================= -->
 <section class="cta-final">
   <div class="wrap">
-    <h2>Hari Bahagia Sekali Seumur Hidup,<br>Buat Undangannya Berkesan ✨</h2>
-    <p>Slot pengerjaan minggu ini terbatas. Amankan antreanmu sekarang — konsultasi gratis, tanpa komitmen.</p>
-    <a class="btn btn-wa" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20konsultasi%20undangan%20digital" target="_blank" rel="noopener">💬 Chat WhatsApp Sekarang</a>
+    <h2>Siap Membuat Undangan Digital untuk Momen Spesialmu? ✨</h2>
+    <p>Coba langsung Studio Admin sekarang atau hubungi kami lewat WhatsApp untuk konsultasi gratis.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-gold" href="studio.html">⚙ Buka Studio Admin</a>
+      <a class="btn btn-wa" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20konsultasi%20undangan%20digital" target="_blank" rel="noopener">💬 Chat WhatsApp Sekarang</a>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <b>Kartu Digital</b> · Undangan digital elegan untuk momen spesialmu<br>
-    © 2026 Kartu Digital. Dibuat dengan ❤ di Bandung.
+    <b>Kartu Digital (kartudigital.my.id)</b> · Undangan Digital Pernikahan, Khitanan, Ulang Tahun &amp; Premium<br>
+    © 2026 Kartu Digital. Dibuat dengan ❤ di Bandung · <a href="studio.html" style="color:#e9dcb9">Studio Admin</a>
   </div>
 </footer>
 
-<!-- GANTI NOMOR WA DI SINI -->
 <a class="wa-float" href="https://wa.me/6282128718485?text=Halo%2C%20saya%20mau%20tanya%20undangan%20digital" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
   <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.9-1.4A10 10 0 1012 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.8 1.7.3.2.5.1.7-.1l1.1-1.3c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1z"/></svg>
 </a>
 
+<script>
+  document.querySelectorAll('#katalogFilter button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('#katalogFilter button').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('#katalogGrid .tema-card').forEach(function(card){
+        var cat = card.getAttribute('data-cat');
+        card.style.display = (filter === 'all' || cat === filter) ? 'flex' : 'none';
+      });
+    });
+  });
+</script>
 </body>
 </html>
