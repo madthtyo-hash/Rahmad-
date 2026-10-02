@@ -150,6 +150,20 @@
     .toast.show{display:block;animation:fadeUp .25s ease}
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
+    /* ---------- KUNCI PIN ADMIN ---------- */
+    .pin-lock{position:fixed;inset:0;z-index:300;background:linear-gradient(135deg,#123527,#1e4d3b 60%,#165b4c);
+      display:flex;align-items:center;justify-content:center;padding:20px}
+    .pin-card{background:#fff;border-radius:22px;padding:34px 30px;max-width:380px;width:100%;text-align:center;
+      box-shadow:0 30px 80px rgba(0,0,0,.45)}
+    .pin-logo{font-size:44px;margin-bottom:10px}
+    .pin-card h2{font-size:22px;color:var(--ink);margin-bottom:6px}
+    .pin-card p{font-size:13px;color:var(--muted);margin-bottom:18px}
+    .pin-card input{width:100%;text-align:center;font-size:26px;letter-spacing:10px;padding:12px;border:2px solid var(--line);
+      border-radius:14px;margin-bottom:12px;font-family:inherit}
+    .pin-card input:focus{outline:none;border-color:var(--gold)}
+    .pin-err{display:none;color:#c0392b;font-size:12.5px;font-weight:700;margin-top:10px}
+    .pin-hint{margin-top:14px;font-size:11.5px;color:var(--muted)}
+
     .mobile-menu{display:none}
     @media(max-width:980px){
       .app{grid-template-columns:1fr}
@@ -170,6 +184,19 @@
   </style>
 </head>
 <body>
+  <!-- ================= KUNCI PIN ADMIN ================= -->
+  <div class="pin-lock" id="pinLock" style="display:none">
+    <div class="pin-card">
+      <div class="pin-logo">🔐</div>
+      <h2>Studio Admin Terkunci</h2>
+      <p>Halaman khusus Admin Kartu Digital.<br>Masukkan PIN Admin untuk membuka Studio.</p>
+      <input type="password" id="pinInput" inputmode="numeric" maxlength="8" placeholder="••••••" autocomplete="off">
+      <button type="button" class="btn primary" id="pinUnlockBtn" style="width:100%;justify-content:center">🔓 Buka Kunci Studio</button>
+      <div class="pin-err" id="pinErr">⚠ PIN salah, silakan coba lagi.</div>
+      <div class="pin-hint">PIN bawaan: <b>123456</b> · dapat diubah lewat tombol "Ubah PIN"</div>
+    </div>
+  </div>
+
   <div class="app">
     <!-- ================= SIDEBAR ================= -->
     <aside class="sidebar" id="sidebar">
@@ -209,6 +236,8 @@
         <div class="top-actions">
           <a class="btn" href="index.html">← Katalog Website</a>
           <a class="btn gold" id="topOpenLiveBtn" href="undangan-sage.html" target="_blank" rel="noopener">Buka Undangan ↗</a>
+          <button type="button" class="btn" id="changePinBtn" title="Ubah PIN Admin">🔑 Ubah PIN</button>
+          <button type="button" class="btn" id="lockStudioBtn" title="Kunci Studio Admin">🔒 Kunci Studio</button>
           <div class="avatar" title="Admin Kartu Digital">A</div>
         </div>
       </header>
@@ -410,6 +439,9 @@
                     <button type="button" class="btn sm preset-cover" data-src="foto-rahma-cover.jpg">Preset Sage</button>
                     <button type="button" class="btn sm preset-cover" data-src="foto-jawa-cover.jpg">Preset Jawa</button>
                     <button type="button" class="btn sm preset-cover" data-src="foto-cover.jpg">Preset Utama</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-khitanan-cover.jpg">Preset Khitanan</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-ultah-cover.jpg">Preset Ultah</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-premium-cover.jpg">Preset Premium</button>
                   </div>
                 </div>
 
@@ -461,7 +493,7 @@
               <div class="form-grid" style="margin-bottom:16px">
                 <div class="field">
                   <label for="fAmplopWa">No. WhatsApp Konfirmasi Transfer</label>
-                  <input id="fAmplopWa" placeholder="6282128718485">
+                  <input id="fAmplopWa" placeholder="6285196755675">
                 </div>
                 <div class="field">
                   <label for="fGiftAddress">Alamat Kirim Kado Fisik</label>
@@ -507,6 +539,18 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <!-- Upload & Tampilkan Barcode QRIS -->
+              <div style="background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px">
+                <strong style="font-size:13px;display:block;margin-bottom:6px">💠 Barcode QRIS (Opsional)</strong>
+                <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Upload gambar QRIS agar tamu bisa scan &amp; transfer langsung dari halaman undangan (tampil di bagian Amplop Digital).</div>
+                <div id="qrisPreviewBox" style="display:none;text-align:center;margin-bottom:10px">
+                  <img id="qrisPreviewImg" alt="QRIS" style="max-width:210px;border-radius:12px;border:1px solid var(--line);background:#fff;padding:8px">
+                  <div style="margin-top:8px"><button type="button" class="btn sm danger" id="qrisRemoveBtn">🗑 Hapus QRIS</button></div>
+                </div>
+                <label class="btn sm primary" for="inputQrisFile">📤 Upload Gambar QRIS</label>
+                <input type="file" id="inputQrisFile" accept="image/*" style="display:none">
               </div>
 
               <div class="form-footer">
@@ -615,6 +659,21 @@
               <div class="form-footer">
                 <button type="button" class="btn" id="copyWaTextBtn">📋 Salin Pesan WA</button>
                 <a class="btn gold" id="sendWaDirectBtn" href="#" target="_blank" rel="noopener">💬 Kirim via WhatsApp Sekarang</a>
+              </div>
+
+              <!-- Generator Nama Tamu Massal -->
+              <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+                <h3><span>🚀 Generator Nama Tamu Massal</span><span style="font-size:12px;color:var(--muted);font-weight:500">Bulk Copy-Paste</span></h3>
+                <p class="sub-desc">Tempel (paste) daftar nama tamu sekaligus — satu nama per baris atau dipisah koma. Setiap tamu otomatis mendapat link personal beserta tombol <b>Salin</b> &amp; <b>Kirim WA</b>.</p>
+                <div class="field full">
+                  <label for="bulkGuestNames">Daftar Nama Tamu (bulk copy-paste)</label>
+                  <textarea id="bulkGuestNames" rows="5" placeholder="Bapak Budi Santoso &amp; Keluarga&#10;Ibu Sari Wulandari&#10;Keluarga Besar H. Ahmad&#10;Nadia &amp; Rian"></textarea>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
+                  <button type="button" class="btn primary" id="bulkGenerateBtn">⚙ Generate Link Massal</button>
+                  <button type="button" class="btn" id="bulkCopyAllBtn">📋 Salin Semua Link</button>
+                </div>
+                <div id="bulkResultList" class="rsvp-list"></div>
               </div>
             </section>
           </div>
@@ -839,10 +898,11 @@
         // Amplop Digital
         var amplop = inv.amplop || { enabled: true, accounts: [] };
         $('fAmplopEnabled').checked = amplop.enabled !== false;
-        $('fAmplopWa').value = amplop.whatsappConfirm || '6282128718485';
+        $('fAmplopWa').value = amplop.whatsappConfirm || '6285196755675';
         $('fGiftAddress').value = amplop.giftAddress || '';
         $('fAmplopNote').value = amplop.note || '';
         renderAmplopAccounts(amplop.accounts || []);
+        renderQris(inv);
 
         // RSVP Settings
         var rsvp = inv.rsvp || { enabled: true, deadline: '', maxGuests: 4 };
@@ -1332,7 +1392,7 @@
           amplop: {
             enabled: true,
             note: 'Bagi yang ingin mengirimkan tanda kasih pernikahan:',
-            whatsappConfirm: '6282128718485',
+            whatsappConfirm: '6285196755675',
             giftAddress: 'Jakarta Selatan',
             accounts: [
               { id: 'acc-new-1', bank: 'BCA', number: '1234567890', holder: 'Alya Putri Maharani' }
@@ -1371,6 +1431,137 @@
           currentCategoryFilter = btn.getAttribute('data-cat');
           renderProjectsCollection();
         });
+      });
+
+      // ---------- KUNCI PIN ADMIN ----------
+      var PIN_KEY = 'kd_admin_pin';
+      var UNLOCK_KEY = 'kd_studio_unlocked';
+      function getAdminPin() {
+        try { return localStorage.getItem(PIN_KEY) || '123456'; } catch (e) { return '123456'; }
+      }
+      function isStudioUnlocked() {
+        try { return sessionStorage.getItem(UNLOCK_KEY) === '1'; } catch (e) { return false; }
+      }
+      function applyPinLock() {
+        var locked = !isStudioUnlocked();
+        $('pinLock').style.display = locked ? 'flex' : 'none';
+        if (locked) { $('pinInput').value = ''; $('pinErr').style.display = 'none'; }
+      }
+      $('pinUnlockBtn').addEventListener('click', function () {
+        if ($('pinInput').value === getAdminPin()) {
+          try { sessionStorage.setItem(UNLOCK_KEY, '1'); } catch (e) {}
+          applyPinLock();
+          showToast('🔓 Studio terbuka. Selamat bekerja, Admin!');
+        } else {
+          $('pinErr').style.display = 'block';
+        }
+      });
+      $('pinInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('pinUnlockBtn').click(); });
+      $('lockStudioBtn').addEventListener('click', function () {
+        try { sessionStorage.removeItem(UNLOCK_KEY); } catch (e) {}
+        applyPinLock();
+        showToast('🔒 Studio dikunci');
+      });
+      $('changePinBtn').addEventListener('click', function () {
+        var cur = prompt('Masukkan PIN lama:', '');
+        if (cur === null) return;
+        if (cur !== getAdminPin()) { showToast('⚠ PIN lama salah'); return; }
+        var nw = prompt('Masukkan PIN baru (4-8 digit angka):', '');
+        if (nw === null) return;
+        if (!/^\d{4,8}$/.test(nw)) { showToast('⚠ PIN baru harus 4-8 digit angka'); return; }
+        try { localStorage.setItem(PIN_KEY, nw); } catch (e) {}
+        showToast('🔑 PIN Admin berhasil diubah');
+      });
+      applyPinLock();
+
+      // ---------- QRIS ----------
+      function renderQris(inv) {
+        var amplop = inv.amplop || {};
+        var has = !!amplop.qrisImage;
+        $('qrisPreviewBox').style.display = has ? 'block' : 'none';
+        if (has) $('qrisPreviewImg').src = amplop.qrisImage;
+      }
+      $('inputQrisFile').addEventListener('change', async function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        showToast('⏳ Mengompres & meng-upload QRIS...');
+        var dataUrl = await StudioBackend.compressImage(file, 720, 0.85);
+        var inv = StudioBackend.getInvitation(activeId);
+        inv.amplop = inv.amplop || { enabled: true, accounts: [] };
+        inv.amplop.qrisImage = dataUrl;
+        await StudioBackend.saveInvitation(inv);
+        renderQris(inv);
+        showToast('✓ QRIS berhasil di-upload & tampil di undangan');
+      });
+      $('qrisRemoveBtn').addEventListener('click', async function () {
+        var inv = StudioBackend.getInvitation(activeId);
+        if (inv.amplop) delete inv.amplop.qrisImage;
+        await StudioBackend.saveInvitation(inv);
+        renderQris(inv);
+        showToast('🗑 QRIS dihapus');
+      });
+
+      // ---------- GENERATOR NAMA TAMU MASSAL ----------
+      var bulkResults = [];
+      function buildGuestLink(guest) {
+        var inv = StudioBackend.getInvitation(activeId);
+        var baseOrigin = window.location.origin + window.location.pathname.replace(/studio\.html.*$/, '');
+        var file = $('fThemeFile').value || inv.themeFile || 'undangan-sage.html';
+        return baseOrigin + file +
+          '?id=' + encodeURIComponent(inv.id) +
+          '&to=' + encodeURIComponent(guest) +
+          '&mode=' + encodeURIComponent($('fNavMode').value || 'scroll') +
+          '&fx=' + encodeURIComponent($('fFxMode').value || 'kelopak');
+      }
+      function buildGuestMsg(guest, fullUrl) {
+        var inv = StudioBackend.getInvitation(activeId);
+        var pairName = (inv.secondaryName && inv.category !== 'khitanan' && inv.category !== 'ultah')
+          ? (inv.primaryName + ' & ' + inv.secondaryName) : inv.primaryName;
+        return 'Kepada Yth. ' + guest + ',\n\n' +
+          'Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara bahagia kami:\n\n' +
+          '✨ *' + pairName + '* ✨\n' +
+          '📅 ' + StudioBackend.formatIndonesianDate(inv.eventDate) + '\n' +
+          '📍 ' + (inv.venueName || '') + '\n\n' +
+          'Silakan buka undangan lengkap melalui link berikut:\n' + fullUrl + '\n\n' +
+          'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\nTerima kasih 🙏';
+      }
+      $('bulkGenerateBtn').addEventListener('click', function () {
+        var names = $('bulkGuestNames').value.split(/[\n,;]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+        var wrap = $('bulkResultList');
+        wrap.innerHTML = '';
+        bulkResults = [];
+        if (!names.length) { showToast('⚠ Tempel daftar nama tamu terlebih dahulu'); return; }
+        names.forEach(function (name) {
+          var url = buildGuestLink(name);
+          var msg = buildGuestMsg(name, url);
+          bulkResults.push({ name: name, url: url });
+          var row = document.createElement('div');
+          row.className = 'rsvp-item';
+          row.innerHTML =
+            '<div style="min-width:0">' +
+              '<strong style="display:block;font-size:13.5px;margin-bottom:2px"></strong>' +
+              '<div class="bulk-url" style="font-size:11.5px;color:var(--muted);word-break:break-all"></div>' +
+            '</div>' +
+            '<div style="display:flex;gap:6px;flex:none">' +
+              '<button type="button" class="btn sm primary bulk-copy">📋 Salin</button>' +
+              '<a class="btn sm gold bulk-wa" href="#" target="_blank" rel="noopener">💬 Kirim WA</a>' +
+            '</div>';
+          row.querySelector('strong').textContent = name;
+          row.querySelector('.bulk-url').textContent = url;
+          row.querySelector('.bulk-wa').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+          row.querySelector('.bulk-copy').addEventListener('click', function () {
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(msg);
+            showToast('✓ Link & pesan untuk ' + name + ' disalin');
+          });
+          wrap.appendChild(row);
+        });
+        showToast('✓ ' + names.length + ' link tamu massal berhasil dibuat');
+      });
+      $('bulkCopyAllBtn').addEventListener('click', function () {
+        if (!bulkResults.length) { showToast('⚠ Generate daftar tamu terlebih dahulu'); return; }
+        var all = bulkResults.map(function (r) { return r.name + ' → ' + r.url; }).join('\n');
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(all);
+        showToast('✓ Semua link tamu disalin');
       });
 
       // Initialize & Sync with Backend Studio

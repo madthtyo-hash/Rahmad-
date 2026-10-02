@@ -15,7 +15,7 @@
     settings: {
       brandName: 'Kartu Digital',
       domain: 'kartudigital.my.id',
-      adminWhatsapp: '6282128718485',
+      adminWhatsapp: '6285196755675',
       defaultCurrency: 'IDR'
     },
     invitations: [
@@ -59,7 +59,7 @@
         amplop: {
           enabled: true,
           note: 'Bagi yang ingin memberikan kado pernikahan, bisa melalui rekening atau e-wallet berikut:',
-          whatsappConfirm: '6282128718485',
+          whatsappConfirm: '6285196755675',
           giftAddress: 'Jl. Terusan Jakarta No. 123, Bandung',
           accounts: [
             { id: 'acc-1', bank: 'BCA', number: '1234567890', holder: 'Rahmawati' },
@@ -114,7 +114,7 @@
         amplop: {
           enabled: true,
           note: 'Bagi yang ingin memberikan tanda kasih pernikahan, dapat melalui rekening atau e-wallet berikut:',
-          whatsappConfirm: '6282128718485',
+          whatsappConfirm: '6285196755675',
           giftAddress: 'Jl. Jend. Sudirman No. 21, Yogyakarta',
           accounts: [
             { id: 'acc-3', bank: 'BCA', number: '1234567890', holder: 'Ratri Widyastuti' },
@@ -169,7 +169,7 @@
         amplop: {
           enabled: true,
           note: 'Kehadiranmu adalah hadiah terindah. Namun jika ingin berbagi tanda kasih, kami sediakan dengan tulus hati:',
-          whatsappConfirm: '6282128718485',
+          whatsappConfirm: '6285196755675',
           giftAddress: 'Jl. Asia Afrika No. 112, Bandung',
           accounts: [
             { id: 'acc-5', bank: 'BCA', number: '1234567890', holder: 'Raka Aditya Pratama' },
@@ -211,20 +211,20 @@
         fxMode: 'kilau',
         musicUrl: 'musik.mp3',
         photos: {
-          cover: 'foto-cover.jpg',
-          photo1: 'foto-cover.jpg',
-          photo2: 'foto-rahma-cover.jpg',
+          cover: 'foto-premium-cover.jpg',
+          photo1: 'foto-premium-cover.jpg',
+          photo2: 'foto-premium-cover.jpg',
           gallery: [
+            'foto-premium-cover.jpg',
             'foto-cover.jpg',
             'foto-rahma-cover.jpg',
-            'foto-jawa-cover.jpg',
-            'foto-cover.jpg'
+            'foto-premium-cover.jpg'
           ]
         },
         amplop: {
           enabled: true,
           note: 'Doa restu Bapak/Ibu/Saudara/i merupakan karunia terindah. Bagi yang ingin mengirimkan tanda kasih:',
-          whatsappConfirm: '6282128718485',
+          whatsappConfirm: '6285196755675',
           giftAddress: 'Residences at The Trans Luxury, Bandung',
           accounts: [
             { id: 'acc-7', bank: 'BCA Prioritas', number: '8890123456', holder: 'Alvaro Dirgantara Putra' },
@@ -266,20 +266,20 @@
         fxMode: 'bintang',
         musicUrl: 'musik.mp3',
         photos: {
-          cover: 'foto-cover.jpg',
-          photo1: 'foto-cover.jpg',
-          photo2: '',
+          cover: 'foto-khitanan-cover.jpg',
+          photo1: 'foto-khitanan-cover.jpg',
+          photo2: 'foto-khitanan-cover.jpg',
           gallery: [
+            'foto-khitanan-cover.jpg',
             'foto-cover.jpg',
-            'foto-jawa-cover.jpg',
             'foto-rahma-cover.jpg',
-            'foto-cover.jpg'
+            'foto-khitanan-cover.jpg'
           ]
         },
         amplop: {
           enabled: true,
           note: 'Terima kasih atas doa restu Bapak/Ibu/Saudara/i untuk ananda Zidan. Tanda kasih digital dapat dikirimkan melalui:',
-          whatsappConfirm: '6282128718485',
+          whatsappConfirm: '6285196755675',
           giftAddress: 'Jl. Diponegoro No. 63, Bandung',
           accounts: [
             { id: 'acc-9', bank: 'BSI', number: '7123456789', holder: 'H. Ridwan Kamiludin' },
@@ -321,24 +321,24 @@
         fxMode: 'balon',
         musicUrl: 'musik.mp3',
         photos: {
-          cover: 'foto-rahma-cover.jpg',
-          photo1: 'foto-rahma-cover.jpg',
-          photo2: '',
+          cover: 'foto-ultah-cover.jpg',
+          photo1: 'foto-ultah-cover.jpg',
+          photo2: 'foto-ultah-cover.jpg',
           gallery: [
-            'foto-rahma-cover.jpg',
+            'foto-ultah-cover.jpg',
             'foto-cover.jpg',
             'foto-jawa-cover.jpg',
-            'foto-rahma-cover.jpg'
+            'foto-ultah-cover.jpg'
           ]
         },
         amplop: {
           enabled: true,
           note: 'Kehadiran teman-teman adalah hadiah paling seru! Jika ingin mengirimkan kado atau angpau ulang tahun untuk Kanaya:',
-          whatsappConfirm: '6282128718485',
+          whatsappConfirm: '6285196755675',
           giftAddress: 'Jl. Progo No. 16, Bandung (Rumah Kanaya)',
           accounts: [
             { id: 'acc-11', bank: 'BCA', number: '4321098765', holder: 'Raisa Andriana' },
-            { id: 'acc-12', bank: 'GoPay', number: '082128718485', holder: 'Dimas Anggara' }
+            { id: 'acc-12', bank: 'GoPay', number: '085196755675', holder: 'Dimas Anggara' }
           ]
         },
         rsvp: {
@@ -750,6 +750,25 @@
                 setTimeout(function () { btn.textContent = old; }, 1600);
               });
             });
+          }
+          // Render Barcode QRIS (opsional) jika di-upload dari Studio Admin
+          var oldQris = document.getElementById('studioQrisCard');
+          if (oldQris) oldQris.remove();
+          if (amplopList && inv.amplop.qrisImage) {
+            var qrisCard = document.createElement('div');
+            qrisCard.id = 'studioQrisCard';
+            qrisCard.className = 'card bank-card';
+            qrisCard.style.textAlign = 'center';
+            var qimg = document.createElement('img');
+            qimg.src = inv.amplop.qrisImage;
+            qimg.alt = 'QRIS';
+            qimg.style.cssText = 'max-width:210px;width:78%;border-radius:12px;border:1px solid #c9c9c9;background:#fff;padding:8px;margin:4px auto 8px;display:block';
+            var qcap = document.createElement('div');
+            qcap.style.cssText = 'font-size:12px;font-weight:700';
+            qcap.textContent = '\u{1F4A0} Scan QRIS untuk Transfer';
+            qrisCard.appendChild(qimg);
+            qrisCard.appendChild(qcap);
+            amplopList.appendChild(qrisCard);
           }
           var waBtn = document.getElementById('studioAmplopWa');
           if (waBtn && inv.amplop.whatsappConfirm) {
