@@ -21,7 +21,7 @@
   ============================================
   KARTU DIGITAL (kartudigital.my.id)
   Lengkap dengan:
-  - Studio Admin (studio.html) & Backend Studio (studio-api.js)
+  - Backend Studio (studio-api.js)
   - Tema Pernikahan (Sage Blossom, Jawa Heritage, Blush & Emerald Floral)
   - Tema Khitanan (Al-Fatih Islamic Gold)
   - Tema Ulang Tahun (Sweet Wonder Party)
@@ -61,8 +61,6 @@
   .nav-links a{text-decoration:none;font-size:14.5px;color:var(--ink);font-weight:600}
   .nav-links a:hover{color:var(--gold)}
   .nav-actions{display:flex;gap:10px;align-items:center}
-  .nav-studio{text-decoration:none;background:#eee3c8;color:#654b14;padding:9px 16px;border-radius:50px;
-    font-size:13.5px;font-weight:700;border:1px solid #dec99a}
   .nav-cta{text-decoration:none;background:var(--green);color:#fff;padding:9px 18px;border-radius:50px;
     font-size:13.5px;font-weight:700}
 
@@ -147,7 +145,6 @@
   .tema-body p{font-size:13px;color:var(--muted);margin:5px 0 14px}
   .tema-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:10px;border-top:1px solid #f0eadc}
   .tema-actions a.demo-link{font-size:13.5px;font-weight:700;color:var(--green);text-decoration:none}
-  .tema-actions a.studio-link{font-size:12.5px;font-weight:700;color:var(--gold);text-decoration:none;background:#faf3e3;padding:5px 11px;border-radius:50px}
 
   /* Studio Showcase Banner */
   .studio-banner{background:#fff;border:1px solid #e6decb;border-radius:22px;padding:34px;display:grid;
@@ -215,7 +212,6 @@
     background:var(--wa);display:flex;align-items:center;justify-content:center;
     box-shadow:0 10px 24px rgba(34,193,94,.45);text-decoration:none;transition:transform .2s}
   .wa-float:hover{transform:scale(1.1)}
-  .kd-hidden{display:none!important}
 
   @media(max-width:900px){
     .hero-grid,.studio-banner{grid-template-columns:1fr;text-align:center}
@@ -239,12 +235,10 @@
     <nav class="nav-links">
       <a href="#keunggulan">Fitur</a>
       <a href="#tema">Katalog Tema</a>
-      <a href="studio.html" class="kd-hidden">Studio Admin</a>
       <a href="#harga">Harga</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-studio kd-hidden" href="studio.html">⚙ Studio Admin</a>
       <a class="nav-cta" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20tanya%20undangan%20digital" target="_blank" rel="noopener">Chat WhatsApp</a>
     </div>
   </div>
@@ -259,7 +253,6 @@
       <p>Satu platform untuk semua momen spesial — Pernikahan, Walimatul Khitan, Ulang Tahun, hingga Royal Exclusive. Dilengkapi Studio Admin untuk upload foto, atur amplop digital, dan pantau RSVP secara real-time.</p>
       <div class="hero-btns">
         <a class="btn btn-gold" href="#tema">Lihat 6 Tema Live</a>
-        <a class="btn btn-outline kd-hidden" href="studio.html">Buka Studio Admin →</a>
       </div>
       <div class="hero-stats">
         <div><b>500+</b><small>Klien terbantu</small></div>
@@ -352,7 +345,6 @@
           </div>
           <div class="tema-actions">
             <a class="demo-link" href="undangan-sage.html" target="_blank" rel="noopener">Lihat Demo →</a>
-            <a class="studio-link kd-hidden" href="studio.html?id=sage-rahma-dika">✎ Edit di Studio</a>
           </div>
         </div>
       </div>
@@ -371,7 +363,6 @@
           </div>
           <div class="tema-actions">
             <a class="demo-link" href="undangan-jawa.html" target="_blank" rel="noopener">Lihat Demo →</a>
-            <a class="studio-link kd-hidden" href="studio.html?id=jawa-ratri-galih">✎ Edit di Studio</a>
           </div>
         </div>
       </div>
@@ -390,7 +381,6 @@
           </div>
           <div class="tema-actions">
             <a class="demo-link" href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a>
-            <a class="studio-link kd-hidden" href="studio.html?id=emerald-raka-laras">✎ Edit di Studio</a>
           </div>
         </div>
       </div>
@@ -409,7 +399,6 @@
           </div>
           <div class="tema-actions">
             <a class="demo-link" href="undangan-premium.html" target="_blank" rel="noopener">Lihat Demo →</a>
-            <a class="studio-link kd-hidden" href="studio.html?id=premium-alvaro-clara">✎ Edit di Studio</a>
           </div>
         </div>
       </div>
@@ -428,7 +417,6 @@
           </div>
           <div class="tema-actions">
             <a class="demo-link" href="undangan-khitanan.html" target="_blank" rel="noopener">Lihat Demo →</a>
-            <a class="studio-link kd-hidden" href="studio.html?id=khitan-zidan">✎ Edit di Studio</a>
           </div>
         </div>
       </div>
@@ -447,7 +435,6 @@
           </div>
           <div class="tema-actions">
             <a class="demo-link" href="undangan-ultah.html" target="_blank" rel="noopener">Lihat Demo →</a>
-            <a class="studio-link kd-hidden" href="studio.html?id=ultah-kanaya">✎ Edit di Studio</a>
           </div>
         </div>
       </div>
@@ -471,7 +458,6 @@
           <li>✓ 6 Tema Multi-Acara Lengkap</li>
           <li>✓ Preview Real-Time Interaktif</li>
         </ul>
-        <a class="btn btn-gold kd-hidden" href="studio.html">Buka Dashboard Studio Admin →</a>
       </div>
       <div style="background:var(--cream);border:1px solid #e5dec9;border-radius:16px;padding:22px;text-align:left">
         <div style="font-size:12px;font-weight:800;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Status Sistem</div>
@@ -593,7 +579,6 @@
     <h2>Siap Membuat Undangan Digital untuk Momen Spesialmu? ✨</h2>
     <p>Coba langsung Studio Admin sekarang atau hubungi kami lewat WhatsApp untuk konsultasi gratis.</p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a class="btn btn-gold kd-hidden" href="studio.html">⚙ Buka Studio Admin</a>
       <a class="btn btn-wa" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20konsultasi%20undangan%20digital" target="_blank" rel="noopener">💬 Chat WhatsApp Sekarang</a>
     </div>
   </div>
@@ -602,7 +587,7 @@
 <footer>
   <div class="wrap">
     <b>Kartu Digital (kartudigital.my.id)</b> · Undangan Digital Pernikahan, Khitanan, Ulang Tahun &amp; Premium<br>
-    © 2026 Kartu Digital. Dibuat dengan ❤ di Bandung <span class="kd-hidden">· <a href="studio.html" style="color:#e9dcb9">Studio Admin</a></span>
+    © 2026 Kartu Digital. Dibuat dengan ❤ di Bandung
   </div>
 </footer>
 

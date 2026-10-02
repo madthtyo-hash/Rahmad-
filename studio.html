@@ -210,6 +210,7 @@
         <button type="button" data-nav="amplop"><span class="ic">🎁</span> Amplop Digital</button>
         <button type="button" data-nav="rsvp"><span class="ic">💌</span> Pengaturan RSVP</button>
         <button type="button" data-nav="share"><span class="ic">🔗</span> Sebar Link Tamu</button>
+        <button type="button" data-nav="storage"><span class="ic">💾</span> Penyimpanan Lokal HP</button>
         <button type="button" data-nav="koleksi"><span class="ic">▣</span> Semua Tema (6)</button>
       </nav>
       <div class="sidebar-box">
@@ -307,12 +308,16 @@
                 <div class="field">
                   <label for="fThemeFile">Pilih Template Tema</label>
                   <select id="fThemeFile">
-                    <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
-                    <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
-                    <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
-                    <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
-                    <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
-                    <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
+                    <optgroup label="Tema Reguler">
+                      <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
+                      <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
+                      <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
+                      <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
+                      <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
+                    </optgroup>
+                    <optgroup label="Tema Premium 👑">
+                      <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
+                    </optgroup>
                   </select>
                 </div>
 
@@ -676,6 +681,41 @@
                 <div id="bulkResultList" class="rsvp-list"></div>
               </div>
             </section>
+
+            <!-- ================= TAB 6: PENYIMPANAN LOKAL HP & BACKUP ================= -->
+            <section class="panel tab-pane" id="tab-storage">
+              <h3><span>Penyimpanan Lokal HP &amp; Backup Folder</span><span style="font-size:12px;color:var(--muted);font-weight:500">Offline Ready</span></h3>
+              <p class="sub-desc">Semua perubahan (foto, QRIS, pengaturan amplop, RSVP, link tamu) otomatis tersimpan di <b>penyimpanan lokal HP</b> Anda. Lakukan <b>backup folder HP</b> secara berkala agar data aman &amp; bisa dipulihkan.</p>
+
+              <div class="rsvp-stats">
+                <div class="rsvp-mini"><b id="storageInvCount">0</b><small>Undangan Tersimpan</small></div>
+                <div class="rsvp-mini"><b id="storageRsvpCount">0</b><small>RSVP Tersimpan</small></div>
+                <div class="rsvp-mini"><b id="storageSize">0 KB</b><small>Ukuran Penyimpanan</small></div>
+              </div>
+
+              <div style="background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px">
+                <strong style="display:block;margin-bottom:6px">📍 Status Penyimpanan Lokal HP</strong>
+                <div style="color:var(--muted)" id="storageModeText">Mode: Cloud LocalSync (localStorage)</div>
+                <div style="color:var(--muted)" id="storageUpdatedText">Terakhir diperbarui: —</div>
+              </div>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label>Backup &amp; Pemulihan</label>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="button" class="btn primary" id="backupLocalBtn">⬇ Backup ke Folder HP</button>
+                    <label class="btn" for="restoreLocalFile" style="margin:0">📂 Pulihkan dari File Backup</label>
+                    <input type="file" id="restoreLocalFile" accept="application/json,.json" style="display:none">
+                    <button type="button" class="btn" id="refreshStorageBtn">↻ Hitung Ulang</button>
+                  </div>
+                  <p class="sub-desc" style="margin-top:8px">File backup berformat <code>.json</code>. Di browser yang mendukung, Anda bisa langsung memilih folder HP/laptop tujuan; jika tidak, file otomatis masuk ke folder <b>Download</b>.</p>
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <span class="saved">Data tidak dikirim ke pihak ketiga — hanya tersimpan di perangkat Anda &amp; Backend Studio milik sendiri.</span>
+              </div>
+            </section>
           </div>
 
           <!-- ================= LIVE PREVIEW PANEL ================= -->
@@ -785,6 +825,7 @@
           else if (target === 'amplop') { activateTab('tab-amplop'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
           else if (target === 'rsvp') { activateTab('tab-rsvp'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
           else if (target === 'share') { activateTab('tab-share'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
+          else if (target === 'storage') { refreshStorageInfo(); activateTab('tab-storage'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
           else if (target === 'koleksi') {
             $('koleksiSection').scrollIntoView({ behavior: 'smooth' });
           }
@@ -1564,6 +1605,80 @@
         showToast('✓ Semua link tamu disalin');
       });
 
+      // ---------- PENYIMPANAN LOKAL HP & BACKUP FOLDER HP ----------
+      function formatBytes(bytes) {
+        if (!bytes || bytes < 1024) return (bytes || 0) + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+      function refreshStorageInfo() {
+        var db;
+        try { db = StudioBackend.getDb(); } catch (e) { return; }
+        if (!db) return;
+        var invCount = (db.invitations || []).length;
+        var rsvpCount = (db.rsvps || []).length;
+        $('storageInvCount').textContent = invCount;
+        $('storageRsvpCount').textContent = rsvpCount;
+        $('storageSize').textContent = formatBytes(JSON.stringify(db).length);
+        var online = StudioBackend.isOnline();
+        $('storageModeText').textContent = 'Mode: ' + (online ? 'REST API Server + localStorage HP' : 'Cloud LocalSync (localStorage HP)') +
+          ' · ' + invCount + ' undangan · ' + rsvpCount + ' RSVP';
+        $('storageUpdatedText').textContent = 'Terakhir diperbarui: ' +
+          (db.updatedAt ? new Date(db.updatedAt).toLocaleString('id-ID') : '—');
+      }
+      $('refreshStorageBtn').addEventListener('click', function () {
+        refreshStorageInfo();
+        showToast('↻ Data penyimpanan lokal diperbarui');
+      });
+      $('backupLocalBtn').addEventListener('click', async function () {
+        var db = StudioBackend.getDb();
+        var fileName = 'kartu-digital-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+        var blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+        if (window.showSaveFilePicker) {
+          try {
+            var handle = await window.showSaveFilePicker({
+              suggestedName: fileName,
+              types: [{ description: 'Backup Studio Kartu Digital', accept: { 'application/json': ['.json'] } }]
+            });
+            var writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            showToast('✓ Backup tersimpan di folder pilihan Anda');
+            return;
+          } catch (e) {
+            if (e && e.name === 'AbortError') return;
+          }
+        }
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = fileName;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+        showToast('✓ Backup diunduh ke folder Download HP');
+      });
+      $('restoreLocalFile').addEventListener('change', function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = async function () {
+          try {
+            var parsed = JSON.parse(String(reader.result));
+            if (!parsed || !Array.isArray(parsed.invitations)) throw new Error('format');
+            await StudioBackend.replaceDb(parsed);
+            activeId = parsed.invitations[0] ? parsed.invitations[0].id : activeId;
+            renderDashboardStats();
+            renderProjectsCollection();
+            loadActiveInvitationToForm();
+            refreshStorageInfo();
+            showToast('✓ Backup berhasil dipulihkan dari folder HP');
+          } catch (err) {
+            showToast('⚠ File backup tidak valid');
+          }
+          e.target.value = '';
+        };
+        reader.readAsText(file);
+      });
+
       // Initialize & Sync with Backend Studio
       (async function init() {
         var syncRes = await StudioBackend.sync();
@@ -1579,6 +1694,7 @@
         renderDashboardStats();
         renderProjectsCollection();
         loadActiveInvitationToForm();
+        refreshStorageInfo();
       })();
     })();
   </script>

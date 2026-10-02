@@ -173,7 +173,7 @@
           giftAddress: 'Jl. Asia Afrika No. 112, Bandung',
           accounts: [
             { id: 'acc-5', bank: 'BCA', number: '1234567890', holder: 'Raka Aditya Pratama' },
-            { id: 'acc-6', bank: 'GoPay', number: '081234567890', holder: 'Laras Ayu Wulandari' }
+            { id: 'acc-6', bank: 'GoPay', number: '087890001122', holder: 'Laras Ayu Wulandari' }
           ]
         },
         rsvp: {
@@ -591,6 +591,20 @@
       db.invitations = db.invitations.filter(function (i) { return i.id !== id; });
       await pushToServer(db);
       return true;
+    },
+    replaceDb: async function (db) {
+      if (!db || !Array.isArray(db.invitations)) {
+        throw new Error('Format backup tidak valid');
+      }
+      var clean = {
+        version: db.version || DEFAULT_DB.version,
+        updatedAt: new Date().toISOString(),
+        settings: db.settings || {},
+        invitations: db.invitations,
+        rsvps: Array.isArray(db.rsvps) ? db.rsvps : []
+      };
+      await pushToServer(clean);
+      return clean;
     },
     resetToDefault: async function () {
       localStorage.removeItem(STORAGE_KEY);
