@@ -25,12 +25,31 @@ tersimpan ke satu tempat dan bisa dipantau dari Studio Admin.
 2. Isi nama project, database password (simpan sendiri), pilih region **Singapore** (paling dekat).
 3. Tunggu ±2 menit sampai project selesai dibuat.
 
-### 2. Jalankan skema database
+### 2. Pasang skema database — pilih salah satu
+
+**Cara A — Connect GitHub (otomatis, sekali set lalu lupakan)**
+1. Buka **Project Settings → Integrations** → cari **GitHub Integration** → **Authorize GitHub**.
+2. Pilih repository **`madthtyo-hash/Rahmad-`**.
+3. Isi **Working directory** = `.` (titik — karena folder `supabase/` ada di root repo).
+4. Aktifkan **Deploy to production**, pastikan production branch = **`main`**.
+5. Klik **Enable integration**.
+   Setelah itu setiap kali `supabase/migrations/*.sql` di-push/merge ke `main`,
+   Supabase menjalankan migrasinya sendiri — tidak perlu paste SQL lagi.
+
+> Syaratnya: folder `supabase/` (berisi `config.toml` + `migrations/`) harus sudah ada di
+> branch **`main`**. Kalau masih di branch PR, merge dulu PR-nya.
+
+**Cara B — Paste manual (paling cepat)**
 1. Di dashboard Supabase → menu **SQL Editor** → **New query**.
 2. Buka file [`schema.sql`](schema.sql) di folder ini, **copy semua isinya**, paste ke SQL Editor.
 3. Klik **Run**. Harus muncul `Success. No rows returned`.
-4. Cek menu **Table Editor** → harus ada tabel `invitations`, `guests`, `rsvp`
-   (plus view `guests_public`).
+4. Cek menu **Table Editor** → harus ada tabel `invitations`, `guests`, `rsvp`.
+
+> Dua cara ini isinya sama: `schema.sql` = salinan untuk paste manual,
+> [`migrations/20261003013708_kartu_digital_init.sql`](migrations/20261003013708_kartu_digital_init.sql)
+> = file migrasi untuk integrasi GitHub (isinya identik).
+> Skemanya **aman dijalankan berulang kali**, jadi kalau sudah pernah paste manual
+> lalu GitHub integration jalan, tidak akan error dan tidak menggandakan data.
 
 ### 3. Ambil URL & kunci
 1. Menu **Settings** → **API Keys** (project lama: **Settings** → **API**).
@@ -50,11 +69,14 @@ Buka file **`supabase-config.json`** di root repo, isi seperti ini:
 {
   "enabled": true,
   "url": "https://abcdefgh.supabase.co",
-  "anonKey": "eyJhbGciOi...anon...",
+  "anonKey": "sb_publishable_xxxxxxxxxxxx",
   "tables": { "invitations": "invitations", "guests": "guests", "rsvp": "rsvp" },
   "pullOnLoad": true
 }
 ```
+
+> Nilai `anonKey` boleh diisi **Publishable key** (`sb_publishable_...`) atau
+> **anon key lama** (`eyJ...`) — keduanya didukung.
 
 Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
 
@@ -85,6 +107,21 @@ Daftar tamu massal  →  kirim       →  INSERT ke tabel guests (hanya menambah
 - **RSVP** memakai `external_id` unik sehingga aman dikirim berulang (tidak dobel).
 - **Tamu** hanya bisa **ditambah**, tidak bisa dibaca dari browser — jadi **nomor HP tamu
   tidak mungkin diunduh siapa pun**, walau punya kunci publik.
+
+---
+
+## Mengubah skema di kemudian hari
+
+Jangan edit file migrasi yang sudah pernah dijalankan (Supabase menganggapnya sudah diterapkan).
+Buat migrasi **baru**:
+
+```bash
+npx supabase migration new nama_perubahannya   # membuat file kosong ber-timestamp
+# tulis SQL-nya di file itu, lalu commit + push
+```
+
+Kalau memakai **Cara B (paste manual)**, cukup tulis perubahannya di SQL Editor
+(lalu rapikan `schema.sql` di repo supaya tetap sinkron).
 
 ---
 

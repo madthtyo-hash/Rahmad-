@@ -22,3 +22,14 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Ulang Tahun & Tema Pr
 - **Upload Foto**: Upload foto cover, foto profil, dan multi-foto galeri lightbox dengan kompresi otomatis.
 - **Pengaturan Amplop Digital**: Kelola multi-rekening bank & e-wallet (BCA, Mandiri, BRI, BNI, BSI, DANA, GoPay, OVO), tombol salin rekening, dan konfirmasi WhatsApp (`6285196755675`).
 - **Pengaturan RSVP**: Pengaturan batas waktu konfirmasi, kuota tamu, rekap kehadiran real-time, buku tamu ucapan & doa, serta Export CSV.
+
+## Pemeriksa & Uji (untuk pengembang)
+
+- `python3 tools/audit.py` — memeriksa 9 bagian: syntax JS/JSON, struktur HTML, link lokal,
+  registrasi tema di Studio, hook tema baru, katalog, aturan nomor WhatsApp & link Studio,
+  footer/meta, serta skema & migrasi Supabase.
+- `node tools/test-cloud.js` — menguji lapisan Supabase Cloud (tarik/kirim data, pemetaan RSVP,
+  penolakan kunci rahasia, fallback saat offline) memakai jaringan tiruan — aman, tanpa
+  menyentuh database sungguhan.
+
+Integrasi Supabase opsional dijelaskan lengkap di [`supabase/README.md`](supabase/README.md).
