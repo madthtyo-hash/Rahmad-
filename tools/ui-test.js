@@ -497,9 +497,10 @@ async function ujiStudio() {
     cek('Link pelanggan berbentuk <domain>/<tema>.html?id=… (tanpa nama tamu)',
       /^https?:\/\/[^?#]+\/undangan-[a-z-]+\.html\?id=[a-z0-9-]+$/.test(d.getElementById('clientUrl').value),
       d.getElementById('clientUrl').value.replace(/^https?:\/\/[^/]+/, ''));
-    cek('Pesan serah terima memuat kabar siap + link undangan',
+    cek('Pesan serah terima memuat kabar siap + link pendek',
       /sudah siap/.test(d.getElementById('clientText').value) &&
-      d.getElementById('clientText').value.indexOf(d.getElementById('clientUrl').value) > -1);
+      d.getElementById('clientText').value.indexOf(d.getElementById('clientShortUrl').value) > -1,
+      d.getElementById('clientShortUrl').value.replace(/^https?:\/\/[^/]+/, ''));
     d.getElementById('clientName').value = 'Bapak Andi';
     d.getElementById('clientName').dispatchEvent(new w.Event('input', { bubbles: true }));
     cek('Nama pemesan masuk ke sapaan pesan',
@@ -521,9 +522,9 @@ async function ujiStudio() {
     // ---- Satu link untuk semua tamu + kirim massal tanpa nama ----
     cek('Blok Bagikan ke Semua Tamu tersedia',
       !!d.getElementById('broadcastText') && !!d.getElementById('broadcastNumbers') && !!d.getElementById('broadcastSendBtn'));
-    const linkBroadcast = (d.getElementById('broadcastText').value.split('\n').filter((b) => /undangan-/.test(b))[0] || '');
-    cek('Pesan untuk semua tamu memakai satu link tanpa nama tamu',
-      /\/undangan-[a-z-]+\.html\?id=[a-z0-9-]+$/.test(linkBroadcast),
+    const linkBroadcast = (d.getElementById('broadcastText').value.split('\n').filter((b) => /https?:\/\//.test(b))[0] || '');
+    cek('Pesan untuk semua tamu memakai link pendek /u/<slug>',
+      /\/u\/[a-z0-9-]+$/.test(linkBroadcast),
       linkBroadcast.replace(/^https?:\/\/[^/]+/, ''));
     cek('Pesan utama tidak lagi meminta nama per tamu',
       d.getElementById('broadcastText').value.indexOf('nama tiap tamu') === -1 &&
@@ -540,6 +541,42 @@ async function ujiStudio() {
       (d.getElementById('broadcastWaBtn').getAttribute('href') || '').indexOf('https://wa.me/?text=') === 0);
     d.getElementById('broadcastNumbers').value = '';
     d.getElementById('broadcastNumbers').dispatchEvent(new w.Event('input', { bubbles: true }));
+
+    // ---- Link pendek /u/<slug> ----
+    const invAktif = w.StudioBackend.getInvitation(d.getElementById('activeInvitationSelect').value);
+    const slugSingkat = invAktif.slug || invAktif.id;
+    cek('Studio menampilkan link pendek /u/<slug>',
+      d.getElementById('clientShortUrl').value.indexOf('/u/' + slugSingkat) > -1,
+      d.getElementById('clientShortUrl').value.replace(/^https?:\/\/[^/]+/, ''));
+    cek('Link lengkap tetap tersedia sebagai cadangan',
+      /\/undangan-[a-z-]+\.html\?id=/.test(d.getElementById('clientUrl').value));
+    cek('Pesan ke pelanggan memakai link pendek',
+      (d.getElementById('clientText').value.match(/https?:\/\/\S+/g) || []).every((u) => /\/u\//.test(u)),
+      (d.getElementById('clientText').value.match(/https?:\/\/\S+/g) || ['-'])[0]);
+    d.getElementById('clientShortCustom').value = 'https://s.id/undangan-uji';
+    d.getElementById('clientShortCustom').dispatchEvent(new w.Event('input', { bubbles: true }));
+    cek('Link pendek sendiri (bit.ly/s.id) dipakai bila diisi',
+      d.getElementById('clientShortUrl').value === 'https://s.id/undangan-uji' &&
+      d.getElementById('clientText').value.indexOf('https://s.id/undangan-uji') > -1);
+    d.getElementById('clientShortCustom').value = '';
+    d.getElementById('clientShortCustom').dispatchEvent(new w.Event('input', { bubbles: true }));
+
+    const rPendek = await fetch(BASE + '/u/' + slugSingkat, { redirect: 'manual' });
+    cek('Server mengalihkan /u/<slug> ke halaman tema yang benar',
+      rPendek.status === 302 && new RegExp('^/undangan-[a-z-]+\\.html[?]id=' + invAktif.id).test(rPendek.headers.get('location') || ''),
+      rPendek.status + ' -> ' + rPendek.headers.get('location'));
+    const rPendekParam = await fetch(BASE + '/u/' + slugSingkat + '?to=Bapak+Budi&mode=cube', { redirect: 'manual' });
+    const lokasiParam = rPendekParam.headers.get('location') || '';
+    cek('Parameter ?to= & ?mode= diteruskan lewat link pendek',
+      /to=Bapak\+Budi/.test(lokasiParam) && /mode=cube/.test(lokasiParam), lokasiParam);
+    const rHalamanPendek = await fetch(BASE + '/u/' + slugSingkat + '/index.html');
+    const isiHalamanPendek = await rHalamanPendek.text();
+    cek('Halaman pengalih statis (untuk GitHub Pages) lengkap',
+      rHalamanPendek.status === 200 && /rel="canonical"/.test(isiHalamanPendek) &&
+      /http-equiv="refresh"/.test(isiHalamanPendek) && /noindex/.test(isiHalamanPendek));
+    const rPendekSalah = await fetch(BASE + '/u/tidak-ada-beb', { redirect: 'manual' });
+    cek('Link pendek tak dikenal diberi halaman penjelasan 404',
+      rPendekSalah.status === 404 && /tidak dikenali/.test(await rPendekSalah.text()));
 
     // ---- Pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan ----
     const grupKoleksiAwal = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));

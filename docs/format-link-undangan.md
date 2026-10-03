@@ -34,6 +34,8 @@ https://kartudigital.my.id/undangan-sage.html?id=sage-rahma-dika
 | `fx` | opsional | Animasi dekorasi jatuh: `kelopak` (bawaan) · `kilau` · `salju` · `bintang` · `konfeti` · `balon` · `kupu` · `daun` · `off`. | `konfeti` |
 | `checkin` | otomatis | Kode check-in `KD-XXXXXX` (6 angka) yang ditanam di dalam QR buku tamu. Dipakai saat panitia memindai QR. | `KD-481920` |
 
+> Versi pendeknya: `https://<domain>/u/<slug>` — lihat [seksi 6](#6-link-pendek-uslug-praktis-dibagikan).
+
 Urutan parameter bebas. Tanda `&` tidak boleh ditulis mentah di dalam nama tamu — Studio selalu
 meng-encode (`encodeURIComponent`) nilai yang diisi.
 
@@ -159,7 +161,39 @@ Setelan efek dekorasi berlaku di tema yang punya mesin efek (Sage Blossom & Jawa
 11 tema lain memakai efek khasnya masing-masing. Kalau ada `?mode=`/`?fx=` di link, nilai di
 link selalu menang atas setelan Studio.
 
-## 6. Keluaran lain (bukan halaman undangan)
+## 6. Link Pendek /u/<slug> (praktis dibagikan)
+
+Selain link panjang, setiap undangan punya **link pendek**:
+
+```
+https://kartudigital.my.id/u/rahma-dika
+```
+
+Link ini **mengalihkan otomatis** ke halaman yang benar:
+
+```
+/u/rahma-dika  →  /undangan-sage.html?id=sage-rahma-dika
+```
+
+- Parameter lain ikut diteruskan, jadi link pendek bisa dipakai untuk hal khusus:
+  `/u/rahma-dika?to=Bapak+Budi&mode=cube&checkin=KD-123456`.
+- Cara kerjanya ada **dua lapis** supaya jalan di semua hosting:
+  1. **Server Node** (`server.js`) — rute `/u/<slug>` membalas `302` ke halaman tema + `?id=`.
+     Slug yang tidak dikenal mendapat halaman penjelasan "link tidak dikenali" (bukan 404 kosong).
+  2. **Hosting statis (GitHub Pages)** — folder `u/<slug>/index.html` berisi pengalih
+     (`meta refresh` + `location.replace` + tautan cadangan), lengkap dengan judul, deskripsi, dan
+     gambar pratinjau (`og:*`) supaya rapi saat dibagikan di WhatsApp.
+- Halaman pengalih memakai `canonical` ke halaman undangan asli dan `noindex`, jadi tidak dihitung
+  konten ganda; `robots.txt` juga menutup `/u/`.
+- Menambah/merapikan link pendek: jalankan `python3 tools/make-short-links.py` (atau `npm run short-links`)
+  setelah menambah undangan baru — skrip membuat folder untuk semua undangan di `data/studio-db.json`
+  dan menghapus folder basi, lalu commit/unggah folder `u/`.
+- Di Studio, link pendek muncul otomatis di blok **📤 Serah Terima ke Pelanggan** (`🔗 Link Pendek`) dan
+  pesan pelanggan maupun pesan massal memakai link pendek ini. Kalau Anda memakai layanan pihak ketiga
+  (bit.ly, s.id, dan sejenisnya), tempel saja hasilnya di kolom **Pakai Link Pendek Sendiri** — Studio akan
+  memakainya untuk semua pesan.
+
+## 7. Keluaran lain (bukan halaman undangan)
 
 | Keluaran | Format | Dibuat di |
 |---|---|---|
@@ -174,7 +208,7 @@ link selalu menang atas setelan Studio.
 Nomor admin pada dua keluaran WhatsApp di atas diambil dari **pengaturan Studio**
 (`settings.adminWhatsapp`); kalau belum diisi, dipakai nomor bawaan `6285196755675`.
 
-## 7. Contoh lengkap alur
+## 8. Contoh lengkap alur
 
 ```
 Studio  →  Bagikan Link Tamu
@@ -189,7 +223,7 @@ https://kartudigital.my.id/undangan-wisuda.html?id=wisuda-naura&checkin=KD-50734
 Panitia memindai QR  →  kehadiran tercatat di rekap RSVP Studio
 ```
 
-## 8. Uji cepat
+## 9. Uji cepat
 
 ```bash
 # 1) Pastikan halaman & database menjawab

@@ -256,6 +256,9 @@ async function ujiHalaman(file, label, opsi = {}) {
         const fieldBroadcast = ['broadcastText', 'broadcastNumbers'];
         cek('Isian blok Bagikan ke Semua Tamu punya label',
           fieldBroadcast.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldBroadcast.join(', '));
+        const fieldPendek = ['clientShortUrl', 'clientShortCustom'];
+        cek('Isian link pendek punya label pembaca layar',
+          fieldPendek.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldPendek.join(', '));
         const fieldPelanggan = ['clientName', 'clientPhone', 'clientUrl', 'clientText'];
         cek('Isian blok Serah Terima ke Pelanggan punya label',
           fieldPelanggan.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldPelanggan.join(', '));

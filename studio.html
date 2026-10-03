@@ -890,7 +890,18 @@
                     <input id="clientPhone" inputmode="tel" placeholder="Opsional — 08xx (untuk kirim otomatis)">
                   </div>
                   <div class="field full">
-                    <label for="clientUrl">Link Undangan (untuk pelanggan &amp; semua tamu)</label>
+                    <label for="clientShortUrl">🔗 Link Pendek (praktis dibagikan ke tamu)</label>
+                    <div style="display:flex;gap:8px">
+                      <input id="clientShortUrl" readonly>
+                      <button type="button" class="btn primary" id="copyClientShortBtn" style="white-space:nowrap">📋 Salin</button>
+                    </div>
+                  </div>
+                  <div class="field full">
+                    <label for="clientShortCustom">Pakai Link Pendek Sendiri (opsional)</label>
+                    <input id="clientShortCustom" placeholder="Tempel link pendek dari layanan lain, mis. bit.ly/… atau s.id/…">
+                  </div>
+                  <div class="field full">
+                    <label for="clientUrl">Link Lengkap (cadangan)</label>
                     <div style="display:flex;gap:8px">
                       <input id="clientUrl" readonly>
                       <button type="button" class="btn primary" id="copyClientUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
@@ -1753,6 +1764,7 @@
           $('fMusicCustom').value = '';
         }
         $('fQuote').value = inv.quote || '';
+        $('clientShortCustom').value = inv.shortUrl || '';
         $('clientName').value = inv.clientName || '';
         $('clientPhone').value = inv.clientPhone || '';
 
@@ -1983,6 +1995,7 @@
         inv.musicUrl = (($('fMusicCustom') || {}).value || '').trim() || ($('fMusicUrl') || {}).value || '';
         inv.checkin = ($('fCheckin') || {}).value !== 'off';
         inv.quote = $('fQuote').value;
+        inv.shortUrl = ($('clientShortCustom') || {}).value ? $('clientShortCustom').value.trim() : '';
         inv.clientName = ($('clientName') || {}).value ? $('clientName').value.trim() : '';
         inv.clientPhone = ($('clientPhone') || {}).value ? $('clientPhone').value.trim() : '';
 
@@ -2389,6 +2402,11 @@
       $('clientName').addEventListener('input', updateSerahTerima);
       $('clientPhone').addEventListener('input', updateSerahTerima);
       $('clientText').addEventListener('input', function () { $('sendClientWaBtn').href = tautanWaPelanggan(); });
+      $('clientShortCustom').addEventListener('input', updateSerahTerima);
+      $('copyClientShortBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('clientShortUrl').value);
+        showToast('\u2713 Link pendek berhasil disalin');
+      });
       $('copyClientUrlBtn').addEventListener('click', function () {
         navigator.clipboard.writeText($('clientUrl').value);
         showToast('\u2713 Link pelanggan berhasil disalin');
@@ -2575,6 +2593,19 @@
         if (inv.secondaryName && !isSingleNameCat(inv.category)) return inv.primaryName + ' & ' + inv.secondaryName;
         return inv.primaryName || inv.title || inv.theme || 'Undangan Digital';
       }
+      // Link pendek: pakai link pendek sendiri kalau diisi, kalau tidak /u/slug.
+      function linkPendek(inv) {
+        var custom = (($('clientShortCustom') || {}).value || inv.shortUrl || '').trim();
+        if (custom) return custom;
+        var slug = String(inv.slug || inv.id || '').trim();
+        if (!slug) return linkPelanggan(inv);
+        var baseOrigin = window.location.origin + window.location.pathname.replace(/studio\.html.*$/, '');
+        return baseOrigin + 'u/' + encodeURIComponent(slug);
+      }
+      // Link yang dipakai di pesan (link pendek; cadangan link lengkap).
+      function linkUntukDibagikan(inv) {
+        try { return linkPendek(inv); } catch (e) { return linkPelanggan(inv); }
+      }
       function linkPelanggan(inv) {
         var baseOrigin = window.location.origin + window.location.pathname.replace(/studio\.html.*$/, '');
         var file = $('fThemeFile').value || inv.themeFile || 'undangan-sage.html';
@@ -2598,7 +2629,7 @@
         baris = baris.concat([
           '',
           'Silakan cek tampilannya dulu di link ini:',
-          linkPelanggan(inv),
+          linkUntukDibagikan(inv),
           '',
           'Kalau sudah sesuai, link di atas siap dibagikan ke para tamu — bisa ditempel ke grup WhatsApp atau dikirim ke banyak nomor sekaligus.',
           '',
@@ -2616,6 +2647,7 @@
         if (!$('clientUrl')) return;
         var inv = StudioBackend.getInvitation(activeId);
         $('clientUrl').value = linkPelanggan(inv);
+        $('clientShortUrl').value = linkPendek(inv);
         $('clientText').value = pesanPelanggan(inv);
         $('sendClientWaBtn').href = tautanWaPelanggan();
         updateBroadcast();
@@ -2638,7 +2670,7 @@
         baris = baris.concat([
           '',
           'Undangan lengkapnya (galeri, lokasi, RSVP) bisa dibuka di sini:',
-          linkPelanggan(inv),
+          linkUntukDibagikan(inv),
           '',
           'Kehadiran & doa Anda sangat berarti bagi kami. Terima kasih 🙏'
         ]);

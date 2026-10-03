@@ -69,6 +69,20 @@ serta format link WhatsApp (`wa.me`), QR check-in, `.ics`/Google Calendar, dan n
 Halaman undangan **menyegarkan datanya sendiri** dari server/Supabase/`data/studio-db.json` saat dibuka, jadi
 pelanggan & tamu selalu melihat versi terakhir (termasuk mode navigasi dan efek dekorasi pilihan Studio).
 
+## Link Pendek `/u/<slug>` 🔗
+
+Setiap undangan punya link pendek yang otomatis mengalihkan ke halaman tema yang benar, mis.
+**`https://kartudigital.my.id/u/rahma-dika`** → `/undangan-sage.html?id=sage-rahma-dika`.
+Parameter lain ikut diteruskan (`?to=Nama+Tamu`, `?mode=`, `?fx=`, `?checkin=`), jadi link pendek bisa
+dipakai untuk semua keperluan berbagi — praktis ditempel di WhatsApp, status, atau undangan cetak.
+
+- Jalan di dua tempat: **server Node** punya rute `/u/<slug>` (302 + halaman penjelasan kalau slug salah),
+  dan **GitHub Pages** memakai folder `u/<slug>/index.html` berisi pengalih + pratinjau WhatsApp (`og:*`).
+- Perbarui dengan **`npm run short-links`** (atau `python3 tools/make-short-links.py`) setelah menambah undangan.
+- Di Studio, kolom **🔗 Link Pendek** sudah tersedia di blok Serah Terima, dan bisa diganti dengan layanan
+  sendiri (bit.ly/s.id) lewat kolom **Pakai Link Pendek Sendiri**. Detailnya di
+  [`docs/format-link-undangan.md`](docs/format-link-undangan.md).
+
 ## Paket Harga
 
 - **Hemat Rp79.000** (6 bulan), **Premium Rp149.000** (1 tahun + Studio Admin), **Eksklusif Rp299.000** (domain sendiri + tema Royal/Platinum).
@@ -108,6 +122,8 @@ pelanggan & tamu selalu melihat versi terakhir (termasuk mode navigasi dan efek 
   (`A11Y_TEST_PORT=3333` untuk mengganti).
 - `npm test` — menjalankan pemeriksa berurutan: audit → cloud → WhatsApp → UI → aksesibilitas.
   (`npm run test:wa` untuk menjalankan uji WhatsApp saja.)
+- `python3 tools/make-short-links.py` — membuat ulang halaman pengalih link pendek di `u/<slug>/`
+  (jalankan setiap kali ada undangan baru, lalu commit foldernya).
 - `python3 tools/make-thumbs.py` — membuat ulang 13 thumbnail katalog di `thumbs/` (butuh ImageMagick).
 - `python3 tools/make-music.py` — membuat ulang 6 lagu MP3 bebas royalti di `musik/` (butuh `pip install lameenc`).
 - `node tools/check-cloud.js` — memeriksa koneksi ke project Supabase **asli** yang sudah diisi

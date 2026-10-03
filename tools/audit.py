@@ -348,6 +348,41 @@ for fn, nama in [('function pesanBroadcast', 'pembuat pesan satu-untuk-semua'),
     ok('Kirim massal: %s' % nama) if fn in st else bad('Kirim massal: %s tidak ada' % nama)
 ok('Link per nama tamu tetap ada tapi terlipat (opsional)') if '<summary' in st and 'shareGeneratedUrl' in st else warn('bagian opsional per nama tamu tidak ditemukan')
 
+print('\n== 8j. Link pendek /u/<slug> ==')
+ok('tools/make-short-links.py tersedia') if os.path.exists('tools/make-short-links.py') else bad('pembuat link pendek TIDAK ADA')
+if os.path.exists('tools/make-short-links.py'):
+    skrip = rd('tools/make-short-links.py')
+    ok('halaman pengalih meneruskan ?to=/?mode=/?fx=') if 'location.search' in skrip else bad('parameter tidak diteruskan')
+    ok('halaman pengalih punya canonical + noindex') if 'rel="canonical"' in skrip and 'noindex' in skrip else warn('canonical/noindex tidak ada di templat')
+db = {}
+try:
+    db = json.loads(rd('data/studio-db.json'))
+except Exception as e:
+    bad('data/studio-db.json tidak terbaca: %s' % e)
+invs = db.get('invitations') or []
+kurang, kosong = [], []
+for inv in invs:
+    slug = str(inv.get('slug') or inv.get('id') or '').strip()
+    berkas = os.path.join('u', slug, 'index.html')
+    if not os.path.exists(berkas):
+        kurang.append(slug)
+        continue
+    isi = rd(berkas)
+    if inv.get('themeFile', '') not in isi or ('id=%s' % inv.get('id', '')) not in isi:
+        kosong.append(slug)
+ok('halaman pengalih tersedia untuk %d undangan' % len(invs)) if not kurang else bad('belum ada folder u/: %s' % ', '.join(kurang))
+ok('tiap halaman pengalih menunjuk tema & id undangan yang benar') if not kosong else bad('pengalih salah target: %s' % ', '.join(kosong))
+srv = rd('server.js')
+ok('server.js punya rute /u/<slug> (302)') if 'LINK PENDEK (/u/<slug>)' in srv and 'writeHead(302' in srv else bad('rute link pendek tidak ada')
+ok('slug tak dikenal diberi halaman penjelasan') if 'tidak dikenali' in srv else warn('halaman 404 link pendek tidak ada')
+ok('berkas statis u/<slug>/index.html tetap disajikan') if "indexOf('/u/') === 0" in srv else warn('fallback berkas statis tidak ada')
+st = rd('studio.html')
+ok('Studio menampilkan link pendek') if 'id="clientShortUrl"' in st and 'function linkPendek' in st else bad('link pendek tidak tampil di Studio')
+ok('link pendek sendiri (bit.ly/s.id) bisa dipakai') if 'id="clientShortCustom"' in st else warn('isian link pendek sendiri tidak ada')
+ok('link pendek dipakai di pesan pelanggan & pesan massal') if st.count('linkUntukDibagikan(') >= 2 else bad('pesan belum memakai link pendek')
+ok('robots.txt tidak mengindeks /u/') if 'Disallow: /u/' in rd('robots.txt') else warn('/u/ belum dibatasi di robots.txt')
+ok('npm run short-links tersedia') if 'make-short-links.py' in rd('package.json') else warn('skrip short-links belum ada di package.json')
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')

@@ -3,5 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /studio.html
 Disallow: /data/
+# Halaman pengalih link pendek (bukan halaman undangan asli)
+Disallow: /u/
 
 Sitemap: https://kartudigital.my.id/sitemap.xml

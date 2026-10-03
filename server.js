@@ -448,9 +448,47 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // ==================== LINK PENDEK (/u/<slug>) ====================
+  // Contoh: https://kartudigital.my.id/u/rahma-dika
+  // Dialihkan (302) ke halaman tema yang benar + ?id=, sambil meneruskan parameter
+  // lain (?to=, ?mode=, ?fx=, ?checkin=) supaya link pendek bisa dipakai di mana saja.
+  const slugPendek = pathname.slice(0, 3) === '/u/' ? pathname.slice(3).replace(/\/+$/, '').trim() : '';
+  if (slugPendek && slugPendek.indexOf('/') === -1 && slugPendek.indexOf('.') === -1 &&
+      (req.method === 'GET' || req.method === 'HEAD')) {
+    const slug = slugPendek.toLowerCase();
+    let db = { invitations: [] };
+    try { db = readDb(); } catch (e) { /* pakai daftar kosong */ }
+    const inv = slug
+      ? (db.invitations || []).find(i => String(i.slug || '').toLowerCase() === slug ||
+                                         String(i.id || '').toLowerCase() === slug)
+      : null;
+    if (inv && inv.themeFile) {
+      const q = new URLSearchParams(parsedUrl.query || {});
+      q.set('id', inv.id);
+      res.writeHead(302, { 'Location': '/' + inv.themeFile + '?' + q.toString(), 'Cache-Control': 'no-cache' });
+      return res.end();
+    }
+    const pesan = 'Link pendek "/u/' + slug + '" tidak dikenali.';
+    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+    return res.end('<!DOCTYPE html><html lang="id"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+      '<title>Link tidak ditemukan — Kartu Digital</title></head>' +
+      '<body style="font-family:system-ui,Segoe UI,Roboto,sans-serif;text-align:center;padding:64px 20px;color:#2b2b2b">' +
+      '<h1 style="font-size:20px;margin:0 0 10px">🔗 ' + pesan + '</h1>' +
+      '<p style="opacity:.75;font-size:14px">Cek kembali tautan yang dibagikan, atau buka halaman utama di bawah ini.</p>' +
+      '<p><a href="/" style="display:inline-block;margin-top:10px;padding:10px 18px;border-radius:999px;' +
+      'background:#1e7a4d;color:#fff;text-decoration:none;font-weight:700">Buka Halaman Utama</a></p>' +
+      '</body></html>');
+  }
+
   // ==================== STATIC FILE SERVER ====================
   let safePath = path.normalize(pathname).replace(/^(\.\.[/\\])+/, '');
   if (safePath === '/' || safePath === '\\') safePath = '/index.html';
+  // Hosting statis (GitHub Pages) menyajikan u/<slug>/index.html untuk alamat /u/<slug>;
+  // server ini menyamakan perilakunya supaya link pendek tetap jalan tanpa rute dinamis.
+  if (safePath.indexOf('/u/') === 0 && !path.extname(safePath)) {
+    safePath = safePath.replace(/\/+$/, '') + '/index.html';
+  }
   const filePath = path.join(ROOT_DIR, safePath);
 
   if (!filePath.startsWith(ROOT_DIR)) {

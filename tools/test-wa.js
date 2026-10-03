@@ -255,9 +255,9 @@ function hapusBerkas(f) { try { fs.unlinkSync(f); } catch (e) {} }
           /Keluarga Massal Satu/.test(pesanMassal) && /Keluarga Massal Dua/.test(pesanMassal),
           diterima.length - sebelumMassal + ' pesan');
         // Bagikan satu pesan yang sama ke banyak nomor (tanpa nama tamu)
-        cek('Pesan untuk semua tamu memuat link undangan bersih (tanpa ?to=)',
-          /\/undangan-[a-z-]+\.html\?id=[a-z0-9-]+$/.test(d.getElementById('broadcastText').value.split('\n').filter((b) => /undangan-/.test(b))[0] || ''),
-          (d.getElementById('broadcastText').value.split('\n').filter((b) => /undangan-/.test(b))[0] || '-').slice(0, 60));
+        const barisLinkMassal = d.getElementById('broadcastText').value.split('\n').filter((b) => /https?:\/\//.test(b))[0] || '';
+        cek('Pesan untuk semua tamu memakai link pendek /u/<slug> (tanpa ?to=)',
+          /\/u\/[a-z0-9-]+$/.test(barisLinkMassal), barisLinkMassal.replace(/^https?:\/\/[^/]+/, '') || '-');
         d.getElementById('broadcastNumbers').value = '0851196755675\n0812 3456 7890 - Ibu Sari\ntanpa nomor';
         d.getElementById('broadcastNumbers').dispatchEvent(new w.Event('input', { bubbles: true }));
         cek('Daftar nomor dibaca & dinormalkan (nama ikut dibersihkan)',
