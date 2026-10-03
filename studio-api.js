@@ -350,8 +350,8 @@
         }
       },
       {
-        id: 'iceblue-rahmad-lina',
-        slug: 'iceblue-rahmad-lina',
+        id: 'iceblue-adi-lina',
+        slug: 'iceblue-adi-lina',
         category: 'pernikahan',
         theme: 'Ice Blue Floral ❄',
         themeFile: 'undangan-iceblue.html',
@@ -359,9 +359,9 @@
         status: 'Aktif',
         views: 76,
         title: 'The Wedding Of',
-        primaryName: 'Rahmad',
+        primaryName: 'Adi',
         secondaryName: 'Lina',
-        fullName1: 'Rahmad Fadillah, S.T.',
+        fullName1: 'Adi Fadillah, S.T.',
         parents1: 'Putra dari Bapak H. Fadillah & Ibu Hj. Nurhayati',
         fullName2: 'Lina Marlina, S.E.',
         parents2: 'Putri dari Bapak M. Soleh & Ibu Siti Aminah',
@@ -390,7 +390,7 @@
   id: 'acc-13',
   bank: 'BCA',
   number: '8830456712',
-  holder: 'Rahmad Fadillah'
+  holder: 'Adi Fadillah'
 }, {
   id: 'acc-14',
   bank: 'DANA',
@@ -581,6 +581,36 @@
         phone: '081987654321',
         message: 'Happy 7th Birthday Kanaya cantik! Alya nggak sabar datang ke pesta ulang tahunnya 🎂🎈',
         createdAt: '2026-10-02T10:05:00.000Z'
+      },
+      {
+        id: 'rsvp-7',
+        invitationId: 'iceblue-adi-lina',
+        name: 'Keluarga Bapak Hendra',
+        status: 'Hadir',
+        guests: 3,
+        phone: '081900112233',
+        message: 'Barakallah Adi & Lina! Tema Ice Blue-nya elegan banget 🤍',
+        createdAt: '2026-10-02T11:00:00.000Z'
+      },
+      {
+        id: 'rsvp-8',
+        invitationId: 'iceblue-khitanan-alif',
+        name: 'Ustadz Rahmat & Keluarga',
+        status: 'Hadir',
+        guests: 4,
+        phone: '081755667788',
+        message: 'Barakallah ananda Alif, semoga menjadi anak sholeh dan hafal Qur\'an.',
+        createdAt: '2026-10-02T11:30:00.000Z'
+      },
+      {
+        id: 'rsvp-9',
+        invitationId: 'iceblue-ultah-kalila',
+        name: 'Alya & Mama',
+        status: 'Hadir',
+        guests: 2,
+        phone: '081987654321',
+        message: 'Happy 8th Birthday Kalila cantik! Nggak sabar ikut ice cream party-nya 🎂',
+        createdAt: '2026-10-02T12:05:00.000Z'
       }
     ]
   };
