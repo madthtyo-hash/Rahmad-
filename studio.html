@@ -46,7 +46,9 @@
     .btn.primary:hover{background:var(--ink-2)}
     .btn.gold{background:linear-gradient(135deg,#caa14e,#a67c2e);border-color:#a67c2e;color:#fff}
     .btn.danger{color:var(--danger);border-color:#f1c8c8;background:#fff8f8}
-    .btn.sm{padding:6px 11px;font-size:12px;border-radius:7px}
+    .btn.soft{background:#e7f2ea;border-color:#cfe6d8;color:#1f5c3d}
+    .btn.soft:hover{border-color:#9dc9b3}
+    .btn.sm{padding:6px 11px;font-size:12px;border-radius:9px}
 
     .content{padding:30px 4vw 60px;max-width:1340px;margin:auto;width:100%}
     .eyebrow{color:var(--gold);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
@@ -164,22 +166,125 @@
     .pin-err{display:none;color:#c0392b;font-size:12.5px;font-weight:700;margin-top:10px}
     .pin-hint{margin-top:14px;font-size:11.5px;color:var(--muted)}
 
-    .mobile-menu{display:none}
-    @media(max-width:980px){
-      .app{grid-template-columns:1fr}
-      .sidebar{display:none;position:fixed;left:0;top:0;bottom:0;width:270px;z-index:100}
-      .sidebar.open{display:flex}
-      .mobile-menu{display:inline-flex}
-      .workspace{grid-template-columns:1fr}
-      .cards{grid-template-columns:1fr 1fr}
-      .project-list{grid-template-columns:1fr 1fr}
-      .preview-sticky{position:static}
+    /* ============================================================
+       TAMPILAN STUDIO v3 — mobile-first mengikuti desain kartu:
+       laci menu (☰), bilah atas putih, hero, tab pil emas, kartu
+       putih besar, sakelar (switch), dan bilah aksi bawah.
+       ============================================================ */
+    .app{display:block;min-height:100vh}
+    .sidebar{position:fixed;left:0;top:0;bottom:0;width:284px;z-index:130;display:none;overflow-y:auto;
+      box-shadow:0 30px 70px rgba(10,30,24,.35)}
+    .sidebar.open{display:flex;animation:drawerIn .22s ease}
+    @keyframes drawerIn{from{transform:translateX(-18px);opacity:.5}to{transform:none;opacity:1}}
+    .sidebar-backdrop{position:fixed;inset:0;background:rgba(12,38,30,.5);z-index:125;display:none}
+    .sidebar-backdrop.show{display:block}
+    .nav-sep{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8fb3a8;font-weight:800;padding:14px 13px 4px}
+
+    /* Bilah atas */
+    .topbar{height:auto;min-height:58px;padding:9px 14px;gap:10px;flex-wrap:wrap;align-items:center}
+    .topbar-left{flex:1;min-width:0;gap:10px}
+    .topbar h1{font:700 21px Georgia,serif}
+    .badge-api{border:1px solid #cfe6d8;cursor:pointer;white-space:nowrap}
+    .top-actions{gap:8px;overflow-x:auto;max-width:100%;padding-bottom:2px;scrollbar-width:none}
+    .top-actions::-webkit-scrollbar{display:none}
+    .top-actions .btn{white-space:nowrap;flex:none}
+    .avatar{width:32px;height:32px;font-size:13px}
+
+    /* Isi halaman */
+    .content{padding:18px 14px 128px;max-width:1080px}
+    .heading{display:block}
+    .heading h2{font:700 29px/1.18 Georgia,serif;margin:6px 0 7px}
+    .heading p{font-size:14px;max-width:62ch}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+    /* Statistik ringkas */
+    .cards{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+    .stat{padding:13px 14px;border-radius:14px}
+    .stat label{font-size:11.5px}
+    .stat strong{font:700 21px Georgia,serif;margin-top:3px}
+    .stat small{font-size:11px}
+
+    /* Kartu pilih undangan */
+    .inv-selector-bar{border-radius:16px;padding:12px 14px;margin-bottom:14px}
+    .inv-selector-bar select{min-width:0;flex:1}
+
+    /* Tab pil */
+    .editor-tabs{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;background:#fff;border:1px solid var(--line);
+      border-radius:16px;padding:6px;margin-bottom:14px;box-shadow:0 8px 24px rgba(24,63,56,.06);scrollbar-width:none}
+    .editor-tabs::-webkit-scrollbar{display:none}
+    .editor-tabs button{border:0;background:transparent;color:var(--muted);padding:10px 14px;border-radius:11px;
+      font-weight:700;font-size:13px;white-space:nowrap;flex:none}
+    .editor-tabs button.active{background:linear-gradient(135deg,#f6e0ab,#e3c072);color:#5d4512;
+      box-shadow:0 3px 10px rgba(198,157,88,.35)}
+
+    /* Kartu (panel) */
+    .panel{padding:16px;border-radius:18px;margin-bottom:14px;box-shadow:0 10px 30px rgba(24,63,56,.06)}
+    .panel h3{font:700 16.5px Georgia,serif;align-items:center;gap:10px;padding-bottom:11px;
+      border-bottom:1px solid var(--line);margin-bottom:13px;flex-wrap:wrap}
+    .panel h3 .chip{font:700 11px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      color:#246342;background:#e4f3e9;border:1px solid #cfe6d8;padding:5px 10px;border-radius:99px;letter-spacing:.02em}
+    .panel h3 .chip.gold{color:#7a5a17;background:var(--gold-soft);border-color:#ead8b1}
+    .panel .sub-desc{font-size:12.5px;margin-bottom:14px}
+
+    /* Kolom isian */
+    .form-grid{gap:12px}
+    .field{gap:6px}
+    .field label{font-size:12.5px;color:var(--ink);font-weight:700}
+    .field input,.field select,.field textarea{border-radius:12px;padding:11px 13px;background:#fff}
+    .field input::placeholder,.field textarea::placeholder{color:#a9a79e}
+    .form-footer{border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+
+    /* Sakelar (switch) gaya iOS */
+    .toggle-bar{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;gap:12px;margin-bottom:14px}
+    .toggle-bar strong{font-size:13.5px}
+    .toggle-bar input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:52px;height:30px;border-radius:99px;
+      background:#e2e0d6;border:0;position:relative;flex:none;cursor:pointer;transition:background .2s;margin:0}
+    .toggle-bar input[type="checkbox"]::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;
+      border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.22);transition:left .2s}
+    .toggle-bar input[type="checkbox"]:checked{background:var(--success)}
+    .toggle-bar input[type="checkbox"]:checked::after{left:25px}
+
+    /* Unggah foto, rekening, RSVP */
+    .upload-box{border-radius:16px;background:#fff;border:1.5px dashed #cfcabb;padding:14px}
+    .upload-thumb{border-radius:12px}
+    .gal-admin-grid{gap:8px}
+    .acc-item{border-radius:12px}
+    .rsvp-mini{border-radius:12px}
+    .rsvp-item{border-radius:12px}
+
+    /* Koleksi tema */
+    .project-list{grid-template-columns:1fr;gap:12px}
+    .project{border-radius:16px;padding:16px}
+    .cat-filter button{white-space:nowrap}
+
+    /* Bilah aksi bawah (menempel) */
+    .actionbar{position:fixed;left:0;right:0;bottom:0;z-index:95;background:rgba(255,255,255,.95);
+      backdrop-filter:blur(12px);border-top:1px solid var(--line);
+      padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+    .actionbar .inner{max-width:1080px;margin:0 auto;display:flex;gap:10px}
+    .actionbar .btn{flex:1;justify-content:center;padding:13px 14px;border-radius:14px;font-size:14px}
+    .toast{bottom:96px}
+
+    /* Desktop: tetap rapi memakai kartu yang sama */
+    @media(min-width:861px){
+      .cards{grid-template-columns:repeat(4,1fr)}
+      .project-list{grid-template-columns:repeat(3,1fr)}
+      .top-actions{overflow:visible}
+      .topbar{flex-wrap:nowrap}
+      .content{padding:26px 26px 130px}
+      .heading{display:flex;align-items:flex-end;justify-content:space-between}
     }
-    @media(max-width:580px){
-      .cards,.project-list,.form-grid,.upload-grid{grid-template-columns:1fr}
+    @media(max-width:860px){
+      .top-actions{order:3;flex-basis:100%}
+      .avatar{display:none}
+      .workspace{grid-template-columns:1fr}
+      .preview-sticky{position:static}
+      .preview{min-height:340px}
+    }
+    @media(max-width:480px){
+      .form-grid,.upload-grid{grid-template-columns:1fr}
       .gal-admin-grid{grid-template-columns:repeat(2,1fr)}
-      .topbar{padding:0 16px}
-      .content{padding:20px 16px 50px}
+      .actionbar .btn{font-size:13px;padding:12px 10px}
     }
   </style>
 </head>
@@ -205,13 +310,18 @@
         <div>Kartu Digital<small>Studio Admin &amp; Backend</small></div>
       </a>
       <nav class="nav" aria-label="Navigasi Studio">
-        <button type="button" class="active" data-nav="editor"><span class="ic">✦</span> Editor Undangan</button>
-        <button type="button" data-nav="foto"><span class="ic">📸</span> Upload Foto</button>
+        <button type="button" class="active" data-nav="utama"><span class="ic">📝</span> Data Utama</button>
+        <button type="button" data-nav="tema"><span class="ic">🎨</span> Tema &amp; Visual</button>
+        <button type="button" data-nav="foto"><span class="ic">🖼️</span> Galeri Foto</button>
+        <button type="button" data-nav="lokasi"><span class="ic">📍</span> Lokasi &amp; Map</button>
+        <button type="button" data-nav="ekstra"><span class="ic">⚙️</span> Fitur Ekstra</button>
+        <div class="nav-sep">Rincian Fitur</div>
         <button type="button" data-nav="amplop"><span class="ic">🎁</span> Amplop Digital</button>
-        <button type="button" data-nav="rsvp"><span class="ic">💌</span> Pengaturan RSVP</button>
-        <button type="button" data-nav="share"><span class="ic">🔗</span> Sebar Link Tamu</button>
-        <button type="button" data-nav="storage"><span class="ic">💾</span> Penyimpanan Lokal HP</button>
-        <button type="button" data-nav="koleksi"><span class="ic">▣</span> Semua Tema (9)</button>
+        <button type="button" data-nav="rsvp"><span class="ic">💌</span> RSVP &amp; Buku Tamu</button>
+        <button type="button" data-nav="share"><span class="ic">🔗</span> Link Tamu &amp; QR</button>
+        <button type="button" data-nav="storage"><span class="ic">☁️</span> Penyimpanan &amp; Cloud</button>
+        <div class="nav-sep">Katalog</div>
+        <button type="button" data-nav="koleksi"><span class="ic">▣</span> Koleksi Tema (9)</button>
       </nav>
       <div class="sidebar-box">
         <b>Kategori Tersedia:</b>
@@ -225,35 +335,36 @@
         <div style="margin-top:4px;opacity:.8">kartudigital.my.id · v2.0</div>
       </div>
     </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- ================= MAIN ================= -->
     <main>
       <header class="topbar">
         <div class="topbar-left">
-          <button class="btn mobile-menu" id="mobileMenuBtn" aria-label="Buka menu">☰</button>
+          <button class="btn sm mobile-menu" id="mobileMenuBtn" aria-label="Buka menu">☰</button>
           <h1>Studio Admin</h1>
-          <span class="badge-api" id="apiModeBadge">⚡ Backend Studio Ready</span>
+          <button type="button" class="badge-api" id="apiModeBadge" title="Buka Penyimpanan &amp; Database Online">⚡ Cloud LocalSync Aktif</button>
         </div>
         <div class="top-actions">
-          <a class="btn" href="index.html">← Katalog Website</a>
-          <a class="btn gold" id="topOpenLiveBtn" href="undangan-sage.html" target="_blank" rel="noopener">Buka Undangan ↗</a>
-          <button type="button" class="btn" id="changePinBtn" title="Ubah PIN Admin">🔑 Ubah PIN</button>
-          <button type="button" class="btn" id="lockStudioBtn" title="Kunci Studio Admin">🔒 Kunci Studio</button>
+          <a class="btn sm" href="index.html">← Katalog Website</a>
+          <button type="button" class="btn sm" id="changePinBtn" title="Ubah PIN Admin">🔑 Ubah PIN</button>
+          <button type="button" class="btn sm" id="lockStudioBtn" title="Kunci Studio Admin">🔒 Kunci</button>
+          <a class="btn sm gold" id="topOpenLiveBtn" href="undangan-sage.html" target="_blank" rel="noopener">Buka Undangan ↗</a>
           <div class="avatar" title="Admin Kartu Digital">A</div>
         </div>
       </header>
 
       <section class="content">
-        <!-- HEADING -->
+        <!-- HERO / HEADING -->
         <div class="heading">
           <div>
             <div class="eyebrow">Dashboard &amp; Backend Studio</div>
-            <h2>Kelola Semua Tema &amp; Fitur Undangan</h2>
-            <p>Atur tema pernikahan, khitanan, ulang tahun, tema premium, upload foto, amplop digital, dan RSVP dari satu tempat.</p>
+            <h2>Kelola Undangan &amp; Tema</h2>
+            <p>Isi detail undangan dari satu tempat: teks, foto, lokasi, amplop digital, dan fitur interaktif seperti RSVP serta link tamu WhatsApp.</p>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn" id="resetDefaultBtn" title="Kembalikan data contoh bawaan">↺ Reset Demo</button>
+          <div class="hero-actions">
             <button class="btn primary" id="newInvitationBtn">+ Buat Undangan Baru</button>
+            <button class="btn" id="resetDefaultBtn" title="Kembalikan data contoh bawaan">↺ Reset Demo</button>
           </div>
         </div>
 
@@ -281,19 +392,19 @@
         <!-- WORKSPACE: EDITOR + LIVE PREVIEW -->
         <div class="workspace">
           <div>
-            <!-- SUB-TABS EDITOR -->
+            <!-- TAB PIL UTAMA -->
             <div class="editor-tabs" role="tablist">
-              <button type="button" class="active" data-tab="tab-detail">1. Tema &amp; Detail Acara</button>
-              <button type="button" data-tab="tab-foto">2. Upload Foto</button>
-              <button type="button" data-tab="tab-amplop">3. Amplop Digital</button>
-              <button type="button" data-tab="tab-rsvp">4. Pengaturan RSVP</button>
-              <button type="button" data-tab="tab-share">5. Kirim Link Tamu</button>
+              <button type="button" class="active" data-tab="tab-utama">📝 Data Utama</button>
+              <button type="button" data-tab="tab-tema">🎨 Tema &amp; Visual</button>
+              <button type="button" data-tab="tab-foto">🖼️ Galeri Foto</button>
+              <button type="button" data-tab="tab-lokasi">📍 Lokasi &amp; Map</button>
+              <button type="button" data-tab="tab-ekstra">⚙️ Fitur Ekstra</button>
             </div>
 
-            <!-- ================= TAB 1: DETAIL & TEMA ================= -->
-            <section class="panel tab-pane active" id="tab-detail">
-              <h3><span>Detail Acara &amp; Pilihan Tema</span><span style="font-size:12px;color:var(--muted);font-weight:500">Langkah 1/5</span></h3>
-              <p class="sub-desc">Pilih kategori acara (Pernikahan, Khitanan, Ulang Tahun, atau Premium) dan sesuaikan seluruh informasi acara.</p>
+            <!-- ================= TAB: DATA UTAMA ================= -->
+            <section class="panel tab-pane active" id="tab-utama">
+              <h3><span>📝 Informasi Utama</span><span class="chip">Data Acara</span></h3>
+              <p class="sub-desc">Pilih kategori acara, lalu isi judul, nama, tanggal, dan kutipan undangan. Detail tema &amp; lokasi ada di tab sebelah.</p>
 
               <div class="form-grid">
                 <div class="field">
@@ -305,25 +416,6 @@
                     <option value="premium">👑 Tema Premium Eksklusif</option>
                   </select>
                 </div>
-                <div class="field">
-                  <label for="fThemeFile">Pilih Template Tema</label>
-                  <select id="fThemeFile">
-                    <optgroup label="Tema Reguler">
-                      <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
-                      <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
-                      <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
-                      <option value="undangan-iceblue.html" data-cat="pernikahan">Ice Blue Floral ❄ (Pernikahan — BARU)</option>
-                      <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
-                      <option value="undangan-iceblue-khitanan.html" data-cat="khitanan">Ice Blue Barakah ❄ (Khitanan — BARU)</option>
-                      <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
-                      <option value="undangan-iceblue-ultah.html" data-cat="ultah">Ice Blue Party ❄ (Ulang Tahun — BARU)</option>
-                    </optgroup>
-                    <optgroup label="Tema Premium 👑">
-                      <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
-                    </optgroup>
-                  </select>
-                </div>
-
                 <div class="field">
                   <label for="fTitle">Judul Cover Undangan</label>
                   <input id="fTitle" placeholder="Contoh: The Wedding Of / Walimatul Khitan">
@@ -376,20 +468,45 @@
                   <label for="fResepsiTime">Jam Sesi 2 (Resepsi / Tasyakuran / Pesta)</label>
                   <input id="fResepsiTime" placeholder="11.00 – 15.00 WIB">
                 </div>
-                <div class="field">
-                  <label for="fVenueName">Nama Gedung / Lokasi</label>
-                  <input id="fVenueName" placeholder="Gedung Serbaguna Sariwangi">
-                </div>
 
                 <div class="field full">
-                  <label for="fVenueAddress">Alamat Lengkap Lokasi</label>
-                  <input id="fVenueAddress" placeholder="Jl. Terusan Jakarta No. 123, Bandung">
+                  <label for="fQuote">Kutipan Ayat / Doa / Sambutan</label>
+                  <textarea id="fQuote" rows="2" placeholder="Tulis kutipan ayat suci, doa khitanan, atau ajakan ulang tahun..."></textarea>
                 </div>
-                <div class="field full">
-                  <label for="fMapsUrl">Link Google Maps</label>
-                  <input id="fMapsUrl" placeholder="https://www.google.com/maps/search/?api=1&query=...">
-                </div>
+              </div>
 
+              <div class="form-footer">
+                <span class="saved" id="saveStatusText">✓ Terhubung ke Backend Studio</span>
+                <div style="display:flex;gap:8px">
+                  <button type="button" class="btn primary" id="saveDetailBtn">💾 Simpan Data Utama</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- ================= TAB: TEMA & VISUAL ================= -->
+            <section class="panel tab-pane" id="tab-tema">
+              <h3><span>🎨 Tema &amp; Visual</span><span class="chip gold">9 Tema</span></h3>
+              <p class="sub-desc">Pilih template tema, mode navigasi tamu, dan animasi dekorasi. Semua tema bisa dilihat di bagian <b>Koleksi Tema</b> paling bawah halaman.</p>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="fThemeFile">Pilih Template Tema</label>
+                  <select id="fThemeFile">
+                    <optgroup label="Tema Reguler">
+                      <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
+                      <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
+                      <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
+                      <option value="undangan-iceblue.html" data-cat="pernikahan">Ice Blue Floral ❄ (Pernikahan — BARU)</option>
+                      <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
+                      <option value="undangan-iceblue-khitanan.html" data-cat="khitanan">Ice Blue Barakah ❄ (Khitanan — BARU)</option>
+                      <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
+                      <option value="undangan-iceblue-ultah.html" data-cat="ultah">Ice Blue Party ❄ (Ulang Tahun — BARU)</option>
+                    </optgroup>
+                    <optgroup label="Tema Premium 👑">
+                      <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
+                    </optgroup>
+                  </select>
+                </div>
                 <div class="field">
                   <label for="fNavMode">Mode Navigasi Tamu</label>
                   <select id="fNavMode">
@@ -415,25 +532,21 @@
                     <option value="off">✕ Tanpa Animasi</option>
                   </select>
                 </div>
-
-                <div class="field full">
-                  <label for="fQuote">Kutipan Ayat / Doa / Sambutan</label>
-                  <textarea id="fQuote" rows="2" placeholder="Tulis kutipan ayat suci, doa khitanan, atau ajakan ulang tahun..."></textarea>
-                </div>
               </div>
 
               <div class="form-footer">
-                <span class="saved" id="saveStatusText">✓ Terhubung ke Backend Studio</span>
-                <div style="display:flex;gap:8px">
-                  <button type="button" class="btn primary" id="saveDetailBtn">Simpan Detail &amp; Tema</button>
+                <span class="saved">Tema &amp; animasi langsung terlihat di Preview Cepat</span>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <button type="button" class="btn goto-koleksi">▣ Lihat Koleksi Tema</button>
+                  <button type="button" class="btn primary save-any">Simpan Tema &amp; Visual</button>
                 </div>
               </div>
             </section>
 
             <!-- ================= TAB 2: UPLOAD FOTO ================= -->
             <section class="panel tab-pane" id="tab-foto">
-              <h3><span>Upload Foto Cover, Profil &amp; Galeri</span><span style="font-size:12px;color:var(--muted);font-weight:500">Langkah 2/5</span></h3>
-              <p class="sub-desc">Upload foto dari perangkatmu (otomatis dikompres agar ringan &amp; cepat dimuat) atau pilih dari foto bawaan.</p>
+              <h3><span>🖼️ Galeri Foto &amp; Media</span><span class="chip">Cover, Profil &amp; 8 Foto</span></h3>
+              <p class="sub-desc">Unggah foto dari perangkat (otomatis dikompres agar ringan &amp; cepat dimuat) atau pilih dari foto bawaan.</p>
 
               <div class="upload-grid">
                 <!-- Cover Photo -->
@@ -481,13 +594,42 @@
 
               <div class="form-footer">
                 <span class="saved">Foto langsung tersimpan di Backend Studio &amp; tampil di undangan</span>
-                <button type="button" class="btn primary" id="savePhotoBtn">Simpan Semua Foto</button>
+                <button type="button" class="btn primary" id="savePhotoBtn">💾 Simpan Semua Foto</button>
               </div>
             </section>
 
-            <!-- ================= TAB 3: AMPLOP DIGITAL ================= -->
-            <section class="panel tab-pane" id="tab-amplop">
-              <h3><span>Pengaturan Amplop Digital &amp; Kado</span><span style="font-size:12px;color:var(--muted);font-weight:500">Langkah 3/5</span></h3>
+            <!-- ================= TAB: LOKASI & MAP ================= -->
+            <section class="panel tab-pane" id="tab-lokasi">
+              <h3><span>📍 Lokasi &amp; Map</span><span class="chip">Alamat Acara</span></h3>
+              <p class="sub-desc">Nama tempat, alamat lengkap, dan link Google Maps yang dipakai tombol lokasi di halaman undangan.</p>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="fVenueName">Nama Gedung / Lokasi</label>
+                  <input id="fVenueName" placeholder="Gedung Serbaguna Sariwangi">
+                </div>
+                <div class="field full">
+                  <label for="fVenueAddress">Alamat Lengkap Lokasi</label>
+                  <input id="fVenueAddress" placeholder="Jl. Terusan Jakarta No. 123, Bandung">
+                </div>
+                <div class="field full">
+                  <label for="fMapsUrl">Link Google Maps</label>
+                  <input id="fMapsUrl" placeholder="https://www.google.com/maps/search/?api=1&query=...">
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <span class="saved">Tip: tempel link dari Google Maps → Bagikan → Salin link</span>
+                <button type="button" class="btn primary save-any">Simpan Lokasi</button>
+              </div>
+            </section>
+
+            <!-- ================= TAB: FITUR EKSTRA (Amplop · RSVP · Link Tamu · Penyimpanan) ================= -->
+            <section class="tab-pane" id="tab-ekstra">
+
+            <!-- ---- Kartu: Amplop Digital ---- -->
+            <div class="panel" id="card-amplop">
+              <h3><span>🎁 Amplop Digital &amp; Kado</span><span class="chip">Opsional</span></h3>
               <p class="sub-desc">Kelola nomor rekening bank, e-wallet (DANA/GoPay/OVO), dan nomor WhatsApp konfirmasi transfer.</p>
 
               <div class="toggle-bar">
@@ -495,7 +637,7 @@
                   <strong>Tampilkan Bagian Amplop Digital di Undangan</strong>
                   <div style="font-size:12px;color:var(--muted)">Matikan jika tidak ingin menampilkan rekening/tanda kasih</div>
                 </div>
-                <input type="checkbox" id="fAmplopEnabled" checked style="width:20px;height:20px;accent-color:var(--ink)">
+                <input type="checkbox" id="fAmplopEnabled" checked>
               </div>
 
               <div class="form-grid" style="margin-bottom:16px">
@@ -563,13 +705,13 @@
 
               <div class="form-footer">
                 <span class="saved">Rekening otomatis muncul dengan tombol Salin di undangan</span>
-                <button type="button" class="btn primary" id="saveAmplopBtn">Simpan Pengaturan Amplop</button>
+                <button type="button" class="btn primary" id="saveAmplopBtn">💾 Simpan Pengaturan Amplop</button>
               </div>
-            </section>
+            </div>
 
-            <!-- ================= TAB 4: PENGATURAN RSVP ================= -->
-            <section class="panel tab-pane" id="tab-rsvp">
-              <h3><span>Pengaturan RSVP &amp; Buku Tamu Digital</span><span style="font-size:12px;color:var(--muted);font-weight:500">Langkah 4/5</span></h3>
+            <!-- ---- Kartu: RSVP & Buku Tamu ---- -->
+            <div class="panel" id="card-rsvp">
+              <h3><span>💌 RSVP &amp; Buku Tamu</span><span class="chip">Konfirmasi Kehadiran</span></h3>
               <p class="sub-desc">Atur batas tanggal konfirmasi kehadiran, kuota tamu, dan kelola daftar ucapan yang masuk.</p>
 
               <div class="toggle-bar">
@@ -577,7 +719,7 @@
                   <strong>Aktifkan Form Konfirmasi Kehadiran (RSVP) &amp; Ucapan</strong>
                   <div style="font-size:12px;color:var(--muted)">Tamu dapat mengisi kehadiran &amp; doa restu langsung dari undangan</div>
                 </div>
-                <input type="checkbox" id="fRsvpEnabled" checked style="width:20px;height:20px;accent-color:var(--ink)">
+                <input type="checkbox" id="fRsvpEnabled" checked>
               </div>
 
               <div class="form-grid" style="margin-bottom:18px">
@@ -637,13 +779,13 @@
 
               <div class="form-footer">
                 <span class="saved">Data RSVP tersinkronisasi otomatis dengan halaman undangan</span>
-                <button type="button" class="btn primary" id="saveRsvpBtn">Simpan Pengaturan RSVP</button>
+                <button type="button" class="btn primary" id="saveRsvpBtn">💾 Simpan Pengaturan RSVP</button>
               </div>
-            </section>
+            </div>
 
-            <!-- ================= TAB 5: GENERATOR LINK TAMU ================= -->
-            <section class="panel tab-pane" id="tab-share">
-              <h3><span>Generator Link Tamu Personal (WhatsApp)</span><span style="font-size:12px;color:var(--muted);font-weight:500">Langkah 5/5</span></h3>
+            <!-- ---- Kartu: Link Tamu & QR ---- -->
+            <div class="panel" id="card-share">
+              <h3><span>🔗 Link Tamu &amp; Undangan Personal</span><span class="chip">WhatsApp</span></h3>
               <p class="sub-desc">Buat link undangan khusus dengan nama tamu di sampul depan (<code>?to=Nama+Tamu</code>) siap kirim ke WhatsApp.</p>
 
               <div class="form-grid">
@@ -671,7 +813,7 @@
 
               <!-- Generator Nama Tamu Massal -->
               <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
-                <h3><span>🚀 Generator Nama Tamu Massal</span><span style="font-size:12px;color:var(--muted);font-weight:500">Bulk Copy-Paste</span></h3>
+                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">🚀 Generator Nama Tamu Massal</h4>
                 <p class="sub-desc">Tempel (paste) daftar nama tamu sekaligus — satu nama per baris atau dipisah koma. Setiap tamu otomatis mendapat link personal beserta tombol <b>Salin</b> &amp; <b>Kirim WA</b>.</p>
                 <div class="field full">
                   <label for="bulkGuestNames">Daftar Nama Tamu (bulk copy-paste)</label>
@@ -683,11 +825,11 @@
                 </div>
                 <div id="bulkResultList" class="rsvp-list"></div>
               </div>
-            </section>
+            </div>
 
-            <!-- ================= TAB 6: PENYIMPANAN LOKAL HP & BACKUP ================= -->
-            <section class="panel tab-pane" id="tab-storage">
-              <h3><span>Penyimpanan Lokal HP &amp; Backup Folder</span><span style="font-size:12px;color:var(--muted);font-weight:500">Offline Ready</span></h3>
+            <!-- ---- Kartu: Penyimpanan & Database Online ---- -->
+            <div class="panel" id="card-storage">
+              <h3><span>☁️ Penyimpanan &amp; Database Online</span><span class="chip gold">Cloud &amp; Backup</span></h3>
               <p class="sub-desc">Semua perubahan (foto, QRIS, pengaturan amplop, RSVP, link tamu) otomatis tersimpan di <b>penyimpanan lokal HP</b> Anda. Lakukan <b>backup folder HP</b> secara berkala agar data aman &amp; bisa dipulihkan.</p>
 
               <div class="rsvp-stats">
@@ -732,14 +874,15 @@
               <div class="form-footer">
                 <span class="saved">Data tidak dikirim ke pihak ketiga — hanya tersimpan di perangkat Anda &amp; Backend Studio milik sendiri.</span>
               </div>
+            </div>
             </section>
           </div>
 
           <!-- ================= LIVE PREVIEW PANEL ================= -->
           <aside class="preview-sticky">
-            <section class="panel">
+            <section class="panel" id="card-preview">
               <h3>
-                <span>Preview Cepat</span>
+                <span>👁️ Preview Cepat</span>
                 <span class="status" id="previewThemeBadge">Sage Blossom</span>
               </h3>
               <div class="preview">
@@ -775,7 +918,7 @@
           <div class="heading" style="margin-bottom:14px">
             <div>
               <div class="eyebrow">Katalog &amp; Koleksi Studio (9 Tema)</div>
-              <h2 style="font-size:24px">Semua Tema Undangan (Pernikahan, Khitanan, Ulang Tahun &amp; Premium)</h2>
+              <h2 style="font-size:22px">Semua Tema Undangan (9 Tema Siap Pakai)</h2>
             </div>
           </div>
 
@@ -790,6 +933,14 @@
           <div class="project-list" id="projectListGrid"></div>
         </section>
       </section>
+
+      <!-- ================= BILAH AKSI BAWAH (selalu terlihat) ================= -->
+      <div class="actionbar">
+        <div class="inner">
+          <button type="button" class="btn primary" id="stickySaveBtn">💾 Simpan Perubahan</button>
+          <button type="button" class="btn soft" id="stickyShareBtn">🚀 Bagikan Link Tamu</button>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -830,28 +981,42 @@
         });
       });
 
-      // Sidebar Navigation
+      // Laci menu (drawer) & navigasi
+      function closeDrawer() {
+        $('sidebar').classList.remove('open');
+        if ($('sidebarBackdrop')) $('sidebarBackdrop').classList.remove('show');
+      }
+      function scrollToEl(el) {
+        if (!el) return;
+        var y = el.getBoundingClientRect().top + window.pageYOffset - 76;
+        window.scrollTo({ top: Math.max(y, 0), behavior: 'smooth' });
+      }
       document.querySelectorAll('.nav button').forEach(function (btn) {
         btn.addEventListener('click', function () {
           document.querySelectorAll('.nav button').forEach(function (b) { b.classList.remove('active'); });
           btn.classList.add('active');
           var target = btn.getAttribute('data-nav');
-          $('sidebar').classList.remove('open');
-          if (target === 'editor') { activateTab('tab-detail'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-          else if (target === 'foto') { activateTab('tab-foto'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
-          else if (target === 'amplop') { activateTab('tab-amplop'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
-          else if (target === 'rsvp') { activateTab('tab-rsvp'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
-          else if (target === 'share') { activateTab('tab-share'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
-          else if (target === 'storage') { refreshStorageInfo(); activateTab('tab-storage'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
-          else if (target === 'koleksi') {
-            $('koleksiSection').scrollIntoView({ behavior: 'smooth' });
-          }
+          closeDrawer();
+          if (target === 'utama') { activateTab('tab-utama'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+          else if (target === 'tema') { activateTab('tab-tema'); scrollToEl($('tab-tema')); }
+          else if (target === 'foto') { activateTab('tab-foto'); scrollToEl($('tab-foto')); }
+          else if (target === 'lokasi') { activateTab('tab-lokasi'); scrollToEl($('tab-lokasi')); }
+          else if (target === 'ekstra') { activateTab('tab-ekstra'); scrollToEl($('tab-ekstra')); }
+          else if (target === 'amplop') { activateTab('tab-ekstra'); scrollToEl($('card-amplop')); }
+          else if (target === 'rsvp') { activateTab('tab-ekstra'); scrollToEl($('card-rsvp')); }
+          else if (target === 'share') { activateTab('tab-ekstra'); scrollToEl($('card-share')); }
+          else if (target === 'storage') { refreshStorageInfo(); activateTab('tab-ekstra'); scrollToEl($('card-storage')); }
+          else if (target === 'koleksi') { scrollToEl($('koleksiSection')); }
         });
       });
 
       $('mobileMenuBtn').addEventListener('click', function () {
-        $('sidebar').classList.toggle('open');
+        var open = $('sidebar').classList.toggle('open');
+        if ($('sidebarBackdrop')) $('sidebarBackdrop').classList.toggle('show', open);
       });
+      if ($('sidebarBackdrop')) {
+        $('sidebarBackdrop').addEventListener('click', closeDrawer);
+      }
 
       // Dynamic Field Labels by Category
       function updateCategoryLabels(cat) {
@@ -1467,7 +1632,7 @@
         renderDashboardStats();
         renderProjectsCollection();
         loadActiveInvitationToForm();
-        activateTab('tab-detail');
+        activateTab('tab-utama');
         showToast('✨ Undangan baru berhasil dibuat');
       });
 
@@ -1815,6 +1980,25 @@
           e.target.value = '';
         };
         reader.readAsText(file);
+      });
+
+      // ---------- BILAH AKSI BAWAH & PINTASAN ----------
+      if ($('stickySaveBtn')) $('stickySaveBtn').addEventListener('click', function () { saveCurrentInvitation(); });
+      if ($('stickyShareBtn')) $('stickyShareBtn').addEventListener('click', function () {
+        activateTab('tab-ekstra');
+        if ($('card-share')) $('card-share').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showToast('🔗 Salin link & pesan WhatsApp tamu di kartu ini');
+      });
+      document.querySelectorAll('.save-any').forEach(function (b) {
+        b.addEventListener('click', function () { saveCurrentInvitation(); });
+      });
+      document.querySelectorAll('.goto-koleksi').forEach(function (b) {
+        b.addEventListener('click', function () { $('koleksiSection').scrollIntoView({ behavior: 'smooth' }); });
+      });
+      if ($('apiModeBadge')) $('apiModeBadge').addEventListener('click', function () {
+        refreshStorageInfo();
+        activateTab('tab-ekstra');
+        if ($('card-storage')) $('card-storage').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
       // Initialize & Sync with Backend Studio

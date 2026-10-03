@@ -191,6 +191,32 @@ for kata in ['Connect GitHub', 'Deploy to production', 'npx supabase migration n
     ok(f'panduan memuat "{kata}"') if kata in rmd else warn(f'panduan belum memuat "{kata}"')
 ok('README utama menautkan panduan') if 'supabase/README.md' in rd('README.md') else warn('README utama belum menautkan')
 
+print('\n== 10. Studio: struktur tampilan & id yang dipakai JS ==')
+st_ids_used = set(re.findall(r"\$\('([^']+)'\)", st)) | set(re.findall(r"getElementById\('([^']+)'\)", st))
+st_ids_have = set(re.findall(r'id="([^"]+)"', st))
+st_hilang = sorted(i for i in st_ids_used if i not in st_ids_have)
+ok(f'semua {len(st_ids_used)} id yang dipakai JS studio.html tersedia') if not st_hilang else bad(f'id hilang di studio.html: {st_hilang}')
+tabs = re.findall(r'data-tab="([^"]+)"', st)
+panes = re.findall(r'class="[^"]*tab-pane[^"]*" id="([^"]+)"', st)
+ok(f'{len(tabs)} tab pil: ' + ', '.join(tabs)) if len(tabs) == 5 else bad(f'tab pil: {tabs}')
+ok('setiap tab punya panel isi (cocok)') if sorted(tabs) == sorted(panes) else bad(f'tab vs panel beda: {tabs} vs {panes}')
+for nama in ['Data Utama', 'Tema &amp; Visual', 'Galeri Foto', 'Lokasi &amp; Map', 'Fitur Ekstra']:
+    ok(f'label tab "{nama}" ada') if nama in st else bad(f'label tab {nama} hilang')
+for cid in ['card-amplop', 'card-rsvp', 'card-share', 'card-storage']:
+    ok(f'kartu {cid} ada di tab Fitur Ekstra') if f'id="{cid}"' in st else bad(f'{cid} hilang')
+for hook, nama in [('class="actionbar"', 'bilah aksi bawah'),
+                   ('id="sidebarBackdrop"', 'laci menu + latar gelap'),
+                   ('id="stickySaveBtn"', 'tombol Simpan Perubahan'),
+                   ('id="stickyShareBtn"', 'tombol Bagikan Link Tamu'),
+                   ('class="chip"', 'label kecil di judul kartu')]:
+    ok(f'{nama} ada') if hook in st else bad(f'{nama} tidak ada')
+kolom_wajib = ['fCategory','fTitle','fStatus','fPrimaryName','fSecondaryName','fFullName1','fParents1','fFullName2','fParents2',
+               'fEventDate','fAkadTime','fResepsiTime','fQuote','fThemeFile','fNavMode','fFxMode',
+               'fVenueName','fVenueAddress','fMapsUrl','fAmplopEnabled','fAmplopWa','fGiftAddress','fAmplopNote',
+               'fRsvpEnabled','fRsvpDeadline','fRsvpMaxGuests']
+kolom_hilang = [k for k in kolom_wajib if f'id="{k}"' not in st]
+ok(f'semua {len(kolom_wajib)} kolom isian tetap ada') if not kolom_hilang else bad(f'kolom hilang: {kolom_hilang}')
+
 py = [f for f in os.listdir('.') if f.endswith('.py')] + sorted(glob.glob('tools/*.py'))
 if py:
     r = subprocess.run([sys.executable,'-m','py_compile'] + py, capture_output=True, text=True)
