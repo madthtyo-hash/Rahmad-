@@ -51,16 +51,38 @@ tersimpan ke satu tempat dan bisa dipantau dari Studio Admin.
 > Skemanya **aman dijalankan berulang kali**, jadi kalau sudah pernah paste manual
 > lalu GitHub integration jalan, tidak akan error dan tidak menggandakan data.
 
+> **Tidak yakin sudah pernah menjalankan atau belum?** Jalankan saja **Cara B** sekali lagi —
+> tidak akan error dan tidak menggandakan data. Cara memastikannya: menu **Table Editor**
+> harus menampilkan tabel `invitations`, `guests`, dan `rsvp` (3 tabel). Cara paling pasti:
+> `node tools/check-cloud.js` (langkah 6) akan langsung bilang kalau tabelnya belum ada.
+
 ### 3. Ambil URL & kunci
-1. Menu **Settings** → **API Keys** (project lama: **Settings** → **API**).
-2. Copy **Project URL** (contoh: `https://abcdefgh.supabase.co`).
-3. Copy **Publishable key** — diawali **`sb_publishable_...`**
-   (project lama: kolom **anon public**, diawali `eyJ...`). Keduanya didukung aplikasi ini.
+1. Buka <https://supabase.com/dashboard> → klik project Anda.
+2. **Cara tercepat:** klik panel **Connect** (tombol di bagian atas dashboard project).
+   Di situ sudah tertulis **Project URL** dan **Publishable key** siap disalin.
+3. Ingin melihat semua kunci: menu **Settings → API Keys**.
+   - Tab **Publishable and secret keys** → salin **Publishable key** (`sb_publishable_...`).
+   - Tab **Legacy API keys** (project yang dibuat lebih dulu) → salin **anon** key (`eyJ...`).
+   - Project lama yang belum punya publishable key: buat dulu di halaman itu
+     (tombol **Create new key** → pilih *Publishable*). Kunci lama tetap jalan, tidak perlu dihapus.
+
+   Contoh bentuknya:
+   ```
+   Project URL      : https://abcdefgh.supabase.co
+   Publishable key   : sb_publishable_AbCdEf123...
+   (atau anon lama)  : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIs...
+   ```
 
 > ⚠️ **PENTING:** yang dipakai hanya **Publishable / anon public**.
 > **JANGAN pernah** memakai/publikasikan **Secret key** (`sb_secret_...`) atau
 > **`service_role`** — itu kunci rahasia penuh yang bisa menghapus seluruh database
 > dan memang dirancang untuk kode server saja, bukan untuk browser.
+> Di halaman **Settings → API Keys**, kunci rahasia ada di baris yang sama —
+> pastikan yang Anda salin adalah baris **Publishable**, bukan **Secret**.
+>
+> Catatan: Supabase menghentikan kunci gaya lama (anon/service_role) secara bertahap
+> sepanjang 2026. Aplikasi ini sudah mendukung keduanya, jadi Anda tidak perlu buru-buru
+> mengganti — tapi project baru sebaiknya langsung memakai publishable key.
 
 ### 4. Isi config di repo ini
 Buka file **`supabase-config.json`** di root repo, isi seperti ini:
