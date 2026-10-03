@@ -260,6 +260,30 @@ async function ujiHalaman(file, label, opsi = {}) {
           cek(file + ': setiap tombol salin rekening punya nama',
             salin.length > 0 && salin.every((b) => b.getAttribute('aria-label') || b.textContent.trim()),
             salin.length + ' tombol');
+          // QR check-in & tombol kalender harus bisa dipakai pembaca layar
+          const checkin = d.getElementById('studioCheckin');
+          if (checkin) {
+            const qrWadah = checkin.querySelector('#studioCheckinQr');
+            cek(file + ': kotak QR punya label pembaca layar',
+              !!qrWadah && !!qrWadah.getAttribute('aria-label'));
+            const tombolCheckin = Array.from(checkin.querySelectorAll('button, a'));
+            cek(file + ': tombol QR check-in semuanya punya nama',
+              tombolCheckin.length >= 3 && tombolCheckin.every((b) => b.textContent.trim().length > 2),
+              tombolCheckin.length + ' tombol');
+          }
+          const kal = d.getElementById('studioKalender');
+          if (kal) {
+            const tautanKal = Array.from(kal.querySelectorAll('a'));
+            cek(file + ': tombol Simpan ke Kalender punya nama',
+              tautanKal.length === 2 && tautanKal.every((a) => a.textContent.trim().length > 4),
+              tautanKal.map((a) => a.textContent.trim()).join(' / '));
+          }
+          const barWa = d.getElementById('studioRsvpWa');
+          if (barWa) {
+            cek(file + ': tawaran kabari WhatsApp punya nama jelas',
+              /Kabari lewat WhatsApp/.test(barWa.textContent));
+          }
+
           // Musik mengikuti pilihan Studio (sampel DB memakai berkas MP3)
           const musik = d.getElementById('musicBtn');
           cek(file + ': tombol musik ada & punya nama', !!musik && !!musik.getAttribute('aria-label'),

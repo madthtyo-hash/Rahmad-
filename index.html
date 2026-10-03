@@ -313,6 +313,14 @@
   /* jaga efek hover tetap jalan pada elemen yang sudah muncul */
   .reveal.visible.feat:hover{transform:translateY(-5px)}
   .reveal.visible.tema-card:hover{transform:translateY(-7px)}
+  .paket-spesial{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:space-between;
+    margin-top:26px;padding:20px 24px;border-radius:20px;border:1px dashed rgba(185,141,62,.6);
+    background:linear-gradient(135deg,#fffaf0,#fdf3df)}
+  .paket-spesial .ps-icon{font-size:30px;line-height:1;letter-spacing:4px}
+  .paket-spesial .ps-text{flex:1;min-width:240px;display:flex;flex-direction:column;gap:4px}
+  .paket-spesial .ps-text b{color:var(--green-dark);font-size:16px}
+  .paket-spesial .ps-text span{font-size:13.5px;color:var(--muted);line-height:1.6}
+  @media(max-width:600px){.paket-spesial{flex-direction:column;align-items:flex-start;text-align:left}}
   .price.best.reveal{transform:translateY(28px) scale(1.03)}
   .price.best.reveal.visible{transform:scale(1.03)}
   .reveal.visible.hero-chip:hover{transform:translateY(-3px)}
@@ -1014,7 +1022,7 @@
         <ul>
           <li>Semua fitur Premium + tema Royal Gold &amp; Platinum Marble 👑</li>
           <li>Domain sendiri (namakamu.my.id)</li>
-          <li>QR Check-in buku tamu VIP</li>
+          <li>QR Check-in buku tamu (kini di semua tema)</li>
           <li>6 mode navigasi 3D premium 👑</li>
           <li>Animasi premium 👑 (kupu-kupu, balon, bintang)</li>
           <li>Tanpa watermark</li>
@@ -1022,6 +1030,16 @@
         </ul>
         <a class="btn btn-outline" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20Paket%20Eksklusif" target="_blank" rel="noopener">Pilih Eksklusif</a>
       </div>
+    </div>
+
+    <!-- Paket spesial kategori baru -->
+    <div class="paket-spesial">
+      <div class="ps-icon" aria-hidden="true">🍼🎓</div>
+      <div class="ps-text">
+        <b>Paket Spesial Aqiqah &amp; Wisuda — Rp69.000</b>
+        <span>Hemat Rp10.000 dari Paket Hemat, khusus tema <b>Aqiqah Rahmah</b> &amp; <b>Grand Graduation</b>. Sudah termasuk musik MP3 pilihan, QR check-in buku tamu, dan tombol Simpan ke Kalender.</span>
+      </div>
+      <a class="btn btn-gold" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20Paket%20Spesial%20Aqiqah%20%2F%20Wisuda%20Rp69.000" target="_blank" rel="noopener">Pesan Rp69.000</a>
     </div>
   </div>
 </section>

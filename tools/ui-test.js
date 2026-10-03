@@ -161,6 +161,37 @@ async function ujiUndangan(dbMap, file, invId, berpasangan) {
     }
     cek('window.musikMain diarahkan ke pemutar MP3', typeof w.musikMain === 'function');
 
+    // ---- QR check-in buku tamu (semua tema) ----
+    const checkin = d.getElementById('studioCheckin');
+    cek('kartu QR check-in tampil di undangan', !!checkin);
+    if (checkin) {
+      const qrSvg = checkin.querySelector('#studioCheckinQr svg');
+      cek('QR check-in dirender sebagai gambar QR asli', !!qrSvg && qrSvg.innerHTML.length > 200);
+      cek('kode check-in berformat KD-XXXXXX',
+        /^KD-\d{6}$/.test(checkin.querySelector('#studioCheckinCode').textContent.trim()),
+        checkin.querySelector('#studioCheckinCode').textContent.trim());
+      checkin.querySelector('#studioCheckinHadir').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+      await new Promise((r) => setTimeout(r, 200));
+      cek('tombol "Tandai Hadir" mencatat kehadiran ke RSVP',
+        /tercatat/.test(checkin.querySelector('#studioCheckinStatus').textContent),
+        checkin.querySelector('#studioCheckinStatus').textContent.trim().slice(0, 50));
+    }
+
+    // ---- Tombol simpan ke kalender ----
+    const kalender = d.getElementById('studioKalender');
+    const ics = d.getElementById('studioKalenderIcs');
+    cek('tombol Simpan ke Kalender (.ics) tersedia', !!kalender && !!ics);
+    if (ics) {
+      const isiIcs = decodeURIComponent(ics.getAttribute('href') || '');
+      cek('berkas .ics memuat agenda & lokasi acara',
+        isiIcs.indexOf('BEGIN:VCALENDAR') > -1 && isiIcs.indexOf('DTSTART') > -1 &&
+        isiIcs.indexOf(inv.venueName) > -1,
+        (ics.getAttribute('download') || '') + ' · ' + isiIcs.slice(0, 15));
+    }
+    cek('tautan Google Calendar tersedia',
+      !!d.getElementById('studioKalenderGoogle') &&
+      /calendar\.google\.com/.test(d.getElementById('studioKalenderGoogle').getAttribute('href') || ''));
+
     const wishes = d.querySelectorAll('#wishList .wish');
     cek('buku ucapan terisi dari RSVP tersimpan', wishes.length >= 1, wishes.length + ' ucapan');
 
@@ -193,6 +224,11 @@ async function ujiUndangan(dbMap, file, invId, berpasangan) {
     copy.dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
     cek('tombol salin rekening bereaksi', copy.textContent.includes('Tersalin'));
 
+    const barWa = d.getElementById('studioRsvpWa');
+    cek('setelah RSVP muncul tawaran kabari admin lewat WhatsApp',
+      !!barWa && !!barWa.querySelector('a') &&
+      /wa\.me\/6285196755675/.test(barWa.querySelector('a').getAttribute('href') || ''),
+      barWa ? barWa.textContent.trim().slice(0, 45) : 'tidak ada');
     cek('tidak ada error JS saat halaman dipakai', errors.length === 0,
       errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
@@ -290,6 +326,12 @@ async function ujiStudio() {
         selMusik.value === (invAktif.musicUrl || '') ||
         (d.getElementById('fMusicCustom') || {}).value === (invAktif.musicUrl || ''),
         selMusik.value + ' / ' + ((d.getElementById('fMusicCustom') || {}).value || '-'));
+    }
+    const selCheckin = d.getElementById('fCheckin');
+    cek('Studio punya pilihan QR Check-In', !!selCheckin &&
+      Array.from(selCheckin.options).map((o) => o.value).join(',') === 'on,off');
+    if (selCheckin) {
+      cek('status QR check-in undangan aktif terbaca di form', selCheckin.value === 'on', selCheckin.value);
     }
     cek('Studio punya kartu Musik Halaman Depan', !!d.getElementById('card-musikdepan'));
     const selDepan = d.getElementById('fFrontMusic');
@@ -389,6 +431,16 @@ async function ujiKatalog() {
       cek('klik Putar Musik mengubah label menjadi "Hentikan Musik"',
         d.getElementById('landingMusicLabel').textContent.trim() === 'Hentikan Musik');
       btnDepan.dispatchEvent(new (d.defaultView.MouseEvent)('click', { bubbles: true }));
+    }
+    const paket = d.querySelector('.paket-spesial');
+    cek('halaman depan punya paket spesial Aqiqah & Wisuda', !!paket);
+    if (paket) {
+      cek('paket spesial menyebut harga Rp69.000 dan tema baru',
+        /Rp69\.000/.test(paket.textContent) && /Aqiqah/.test(paket.textContent) &&
+        /(Graduation|Wisuda)/.test(paket.textContent));
+      cek('tombol pesan paket spesial mengarah ke WhatsApp admin',
+        /wa\.me\/6285196755675/.test((paket.querySelector('a') || {}).getAttribute
+          ? paket.querySelector('a').getAttribute('href') : ''));
     }
     cek('tidak ada error JS di halaman depan', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {

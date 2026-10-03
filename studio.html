@@ -570,6 +570,14 @@
                   <input id="fMusicCustom" type="text" placeholder="Opsional: tempel link MP3 sendiri (https://... .mp3)">
                   <small style="display:block;color:var(--muted);margin:-2px 0 10px">Kalau kolom link diisi, yang dipakai adalah link tersebut. Semua lagu bawaan bebas royalti (dibuat sendiri).</small>
                 </div>
+                <div class="field full">
+                  <label for="fCheckin">QR Check-In Buku Tamu</label>
+                  <select id="fCheckin">
+                    <option value="on">✅ Aktif — tamu dapat QR check-in</option>
+                    <option value="off">✕ Nonaktif — tanpa QR check-in</option>
+                  </select>
+                  <small style="display:block;color:var(--muted);margin:-2px 0 10px">Kartu QR muncul otomatis di undangan semua tema. Panitia memindai QR untuk mencatat kehadiran; tamu juga bisa menekan “Tandai Hadir” agar masuk rekap RSVP.</small>
+                </div>
               </div>
 
               <div class="form-footer">
@@ -1242,6 +1250,7 @@
         $('fMapsUrl').value = inv.mapsUrl || '';
         $('fNavMode').value = inv.navMode || 'scroll';
         $('fFxMode').value = inv.fxMode || 'kelopak';
+        $('fCheckin').value = (inv.checkin === false) ? 'off' : 'on';
         // Musik: cocokkan dengan daftar lagu bawaan, sisanya dianggap link kustom
         var daftarMusik = Array.prototype.map.call($('fMusicUrl').options, function (o) { return o.value; });
         var musikInv = (inv.musicUrl || '').trim();
@@ -1479,6 +1488,7 @@
         inv.navMode = $('fNavMode').value;
         inv.fxMode = $('fFxMode').value;
         inv.musicUrl = (($('fMusicCustom') || {}).value || '').trim() || ($('fMusicUrl') || {}).value || '';
+        inv.checkin = ($('fCheckin') || {}).value !== 'off';
         inv.quote = $('fQuote').value;
 
         inv.amplop = inv.amplop || { accounts: [] };
@@ -1604,7 +1614,7 @@
         'fCategory', 'fThemeFile', 'fTitle', 'fStatus', 'fPrimaryName', 'fSecondaryName',
         'fFullName1', 'fParents1', 'fFullName2', 'fParents2', 'fEventDate', 'fAkadTime',
         'fResepsiTime', 'fVenueName', 'fVenueAddress', 'fMapsUrl', 'fNavMode', 'fFxMode',
-        'fMusicUrl', 'fMusicCustom',
+        'fMusicUrl', 'fMusicCustom', 'fCheckin',
         'fQuote', 'fAmplopEnabled', 'fRsvpEnabled'
       ].forEach(function (id) {
         var el = $(id);

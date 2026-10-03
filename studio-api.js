@@ -1636,6 +1636,278 @@
     }
   }
 
+  // ====== QR CHECK-IN BUKU TAMU — berlaku di semua tema ======
+  // Kode check-in diturunkan dari id undangan (tetap/sama setiap kali dibuka).
+
+  function kodeCheckin(inv) {
+    var dasar = String((inv && (inv.id || inv.slug)) || 'undangan');
+    var h = 5381;
+    for (var i = 0; i < dasar.length; i++) h = ((h << 5) + h + dasar.charCodeAt(i)) >>> 0;
+    var angka = String(h % 1000000);
+    while (angka.length < 6) angka = '0' + angka;
+    return 'KD-' + angka;
+  }
+
+  function namaTamuDariUrl() {
+    try {
+      var p = new URLSearchParams(window.location.search);
+      return String(p.get('to') || p.get('tamu') || '').replace(/\+/g, ' ').trim();
+    } catch (e) { return ''; }
+  }
+
+  function terapkanCheckIn(inv) {
+    if (!inv) return;
+    var lama = document.getElementById('studioCheckin');
+    var aktif = inv.checkin !== false;
+    if (!aktif) { if (lama) lama.parentNode.removeChild(lama); return; }
+
+    var kode = kodeCheckin(inv);
+    var tamu = namaTamuDariUrl() || 'Tamu Undangan';
+
+    // Sudah terpasang → cukup segarkan nama tamu (mis. link ?to=Nama).
+    if (lama && lama.getAttribute('data-inv') === String(inv.id || '')) {
+      var elTamu = lama.querySelector('#studioCheckinGuest');
+      if (elTamu) elTamu.textContent = tamu;
+      return;
+    }
+    if (lama) lama.parentNode.removeChild(lama);
+    if (typeof window.qrcode !== 'function') return;  // pustaka QR belum termuat
+
+    if (window.qrcode.stringToBytesFuncs) {
+      window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs['UTF-8'] || window.qrcode.stringToBytes;
+    }
+
+    var dasar = window.location.origin + window.location.pathname;
+    var tautan = dasar + '?checkin=' + encodeURIComponent(kode) + '&to=' + encodeURIComponent(tamu);
+    var qr = window.qrcode(0, 'M');
+    try {
+      qr.addData(tautan);
+      qr.make();
+    } catch (e) { return; }
+
+    var seksi = document.createElement('section');
+    seksi.id = 'studioCheckin';
+    seksi.setAttribute('data-inv', String(inv.id || ''));
+    seksi.setAttribute('data-kode', kode);
+    seksi.innerHTML =
+      '<div style="max-width:420px;margin:0 auto;text-align:center;background:#fff;border:1px solid rgba(0,0,0,.08);' +
+      'border-radius:18px;padding:24px 20px;box-shadow:0 14px 34px rgba(0,0,0,.10)">' +
+        '<div style="font-size:11px;letter-spacing:2.6px;text-transform:uppercase;opacity:.65">Check-In Tamu</div>' +
+        '<h2 style="font:600 22px/1.25 Georgia,serif;margin:8px 0 6px">QR Check-In Buku Tamu</h2>' +
+        '<p style="font-size:13px;line-height:1.6;opacity:.7;margin:0 0 16px">Tunjukkan QR ini di meja penerima tamu. ' +
+          'Panitia cukup memindai untuk mencatat kehadiran Anda.</p>' +
+        '<div id="studioCheckinQr" role="img" aria-label="Kode QR check-in" style="background:#fff;padding:10px;border-radius:14px;' +
+          'display:inline-block;border:1px solid rgba(0,0,0,.08)"></div>' +
+        '<div id="studioCheckinGuest" style="font-weight:700;margin-top:14px">' + tamu + '</div>' +
+        '<div style="font-size:12.5px;letter-spacing:1.6px;opacity:.7;margin-top:4px">KODE: ' +
+          '<b id="studioCheckinCode">' + kode + '</b></div>' +
+        '<div id="studioCheckinStatus" style="display:none;font-size:12.5px;margin-top:10px"></div>' +
+        '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px">' +
+          '<button type="button" id="studioCheckinCopy" style="cursor:pointer;border:1px solid rgba(0,0,0,.15);' +
+            'background:#fff;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600">\uD83D\uDCCB Salin Kode</button>' +
+          '<button type="button" id="studioCheckinHadir" style="cursor:pointer;border:0;background:#1e7a4d;color:#fff;' +
+            'border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600">\u2705 Tandai Hadir</button>' +
+          '<a id="studioCheckinWa" target="_blank" rel="noopener" style="text-decoration:none;border:1px solid rgba(0,0,0,.15);' +
+            'border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600;color:inherit">\uD83D\uDCAC Kirim ke Admin</a>' +
+        '</div>' +
+        '<p style="font-size:11.5px;opacity:.6;margin:14px 0 0">Kode ini juga tercatat otomatis di rekap RSVP Studio Admin.</p>' +
+      '</div>';
+
+    try {
+      seksi.querySelector('#studioCheckinQr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+    } catch (e) {
+      seksi.querySelector('#studioCheckinQr').innerHTML = '<div style="width:132px;height:132px"></div>';
+    }
+
+    // Titipkan di dekat amplop / RSVP, atau sebelum footer.
+    var jangkar = document.getElementById('studioAmplopList') || document.getElementById('studioRsvpDeadline') ||
+                  document.getElementById('wishList');
+    var seksiInduk = jangkar && jangkar.closest ? jangkar.closest('section') : null;
+    if (seksiInduk && seksiInduk.parentNode) seksiInduk.parentNode.insertBefore(seksi, seksiInduk.nextSibling);
+    else document.body.appendChild(seksi);
+
+    var wa = seksi.querySelector('#studioCheckinWa');
+    var pesan = 'Halo Admin Kartu Digital, saya ' + tamu + ' — kode check-in saya ' + kode +
+                ' (' + (inv.title || inv.theme || 'undangan') + ').';
+    if (wa) wa.href = 'https://wa.me/6285196755675?text=' + encodeURIComponent(pesan);
+
+    var tombolSalin = seksi.querySelector('#studioCheckinCopy');
+    if (tombolSalin) tombolSalin.addEventListener('click', function () {
+      var status = seksi.querySelector('#studioCheckinStatus');
+      var catat = function (teks) {
+        if (status) { status.style.display = 'block'; status.textContent = teks; }
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(kode).then(function () { catat('\u2713 Kode ' + kode + ' disalin'); },
+                                                  function () { catat('Kode: ' + kode); });
+        } else catat('Kode: ' + kode);
+      } catch (e) { catat('Kode: ' + kode); }
+    });
+
+    var tombolHadir = seksi.querySelector('#studioCheckinHadir');
+    if (tombolHadir) tombolHadir.addEventListener('click', function () {
+      var status = seksi.querySelector('#studioCheckinStatus');
+      if (!window.StudioBackend || !window.StudioBackend.addRsvp) return;
+      Promise.resolve(window.StudioBackend.addRsvp({
+        invitationId: inv.id,
+        name: tamu,
+        status: 'Hadir',
+        guests: 1,
+        message: 'Check-in QR ' + kode
+      })).then(function () {
+        if (status) { status.style.display = 'block'; status.textContent = '\u2713 Kehadiran ' + tamu + ' tercatat di rekap RSVP.'; }
+      }, function () {
+        if (status) { status.style.display = 'block'; status.textContent = '\u26a0 Gagal menyimpan, coba lagi.'; }
+      });
+    });
+
+    // Kalau halaman dibuka dari hasil pindai QR (?checkin=KODE)
+    try {
+      var param = new URLSearchParams(window.location.search);
+      var kodeMasuk = (param.get('checkin') || '').trim().toUpperCase();
+      if (kodeMasuk) {
+        var status = seksi.querySelector('#studioCheckinStatus');
+        status.style.display = 'block';
+        status.innerHTML = (kodeMasuk === kode)
+          ? '\u2713 Kode check-in terverifikasi — selamat datang, ' + tamu + '.'
+          : '\u26a0 Kode tidak dikenali untuk undangan ini.';
+      }
+    } catch (e) { /* abaikan */ }
+  }
+
+  // ====== NOTIFIKASI RSVP KE WHATSAPP ADMIN (satu ketuk oleh tamu) ======
+
+  function tampilkanNotifikasiWa(inv, nama, status, jumlah, pesan) {
+    var form = document.getElementById('rsvpForm');
+    if (!form) return;
+    var isiPesan = [
+      'RSVP baru — ' + (inv.title || inv.theme || 'Undangan Digital'),
+      'Nama: ' + nama,
+      'Status: ' + status,
+      'Jumlah tamu: ' + jumlah,
+      pesan ? 'Ucapan: ' + pesan : '',
+      'Undangan: ' + window.location.origin + window.location.pathname
+    ].filter(Boolean).join('\n');
+    var tautan = 'https://wa.me/6285196755675?text=' + encodeURIComponent(isiPesan);
+
+    var bar = document.getElementById('studioRsvpWa');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'studioRsvpWa';
+      bar.style.cssText = 'margin:14px 0 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);' +
+        'border-radius:12px;font-size:13px;line-height:1.6;text-align:center';
+      form.parentNode.insertBefore(bar, form.nextSibling);
+    }
+    bar.innerHTML = '\u2705 <b>RSVP tersimpan.</b> Mau sekaligus memberi tahu admin? ' +
+      '<a href="' + tautan + '" target="_blank" rel="noopener" ' +
+      'style="font-weight:700;color:#1e7a4d;text-decoration:underline">\uD83D\uDCAC Kabari lewat WhatsApp</a>';
+    bar.style.display = 'block';
+  }
+
+  // ====== SIMPAN KE KALENDER (.ics & Google Calendar) — semua tema ======
+
+  function jamKe(teks, bawaan) {
+    var m = /(\d{1,2})[:.](\d{2})/.exec(String(teks || ''));
+    if (!m) return bawaan;
+    var j = parseInt(m[1], 10), n = parseInt(m[2], 10);
+    if (isNaN(j) || isNaN(n) || j > 23 || n > 59) return bawaan;
+    return (j < 10 ? '0' : '') + j + ':' + (n < 10 ? '0' : '') + n;
+  }
+
+  function duaAngka(n) { return (n < 10 ? '0' : '') + n; }
+
+  function waktuKalender(inv) {
+    var tanggal = String(inv.eventDate || '').split('-');
+    if (tanggal.length !== 3) return null;
+    var jam = jamKe(inv.resepsiTime || inv.akadTime, '09:00').split(':');
+    var mulai = new Date(Number(tanggal[0]), Number(tanggal[1]) - 1, Number(tanggal[2]),
+                         Number(jam[0]), Number(jam[1]), 0);
+    if (isNaN(mulai.getTime())) return null;
+    var selesai = new Date(mulai.getTime() + 2 * 60 * 60 * 1000);   // durasi 2 jam
+    var fmt = function (d) {
+      return d.getUTCFullYear() + duaAngka(d.getUTCMonth() + 1) + duaAngka(d.getUTCDate()) +
+             'T' + duaAngka(d.getUTCHours()) + duaAngka(d.getUTCMinutes()) + '00Z';
+    };
+    var fmtLokal = function (d) {
+      return d.getFullYear() + duaAngka(d.getMonth() + 1) + duaAngka(d.getDate()) +
+             'T' + duaAngka(d.getHours()) + duaAngka(d.getMinutes()) + '00';
+    };
+    return { mulai: mulai, selesai: selesai, utc: fmt(mulai) + '/' + fmt(selesai),
+             lokal: fmtLokal(mulai) + '/' + fmtLokal(selesai) };
+  }
+
+  function isiKalender(inv) {
+    var judul = inv.title || inv.theme || 'Undangan Digital';
+    if (inv.primaryName) judul = judul + ' — ' + inv.primaryName +
+      (inv.secondaryName ? ' & ' + inv.secondaryName : '');
+    var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
+    var tautan = window.location.origin + window.location.pathname;
+    return { judul: judul, lokasi: lokasi, tautan: tautan };
+  }
+
+  function berkasIcs(inv, waktu) {
+    var isi = isiKalender(inv);
+    var baris = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Kartu Digital//Undangan Digital//ID',
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:' + (inv.id || 'undangan') + '@kartudigital.my.id',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''),
+      'DTSTART:' + waktu.utc.split('/')[0],
+      'DTEND:' + waktu.utc.split('/')[1],
+      'SUMMARY:' + isi.judul,
+      'LOCATION:' + isi.lokasi,
+      'DESCRIPTION:Undangan digital Kartu Digital — ' + isi.tautan,
+      'URL:' + isi.tautan,
+      'BEGIN:VALARM',
+      'TRIGGER:-P1D',
+      'ACTION:DISPLAY',
+      'DESCRIPTION:Pengingat acara',
+      'END:VALARM',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ];
+    return baris.join('\r\n');
+  }
+
+  function terapkanKalender(inv) {
+    if (!inv || document.getElementById('studioKalender')) return;
+    var waktu = waktuKalender(inv);
+    if (!waktu) return;
+    var isi = isiKalender(inv);
+
+    var bar = document.createElement('div');
+    bar.id = 'studioKalender';
+    bar.style.cssText = 'max-width:520px;margin:22px auto 0;padding:0 16px;text-align:center';
+    bar.innerHTML =
+      '<div style="background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:16px 18px;' +
+        'box-shadow:0 10px 26px rgba(0,0,0,.08)">' +
+        '<div style="font-size:12px;letter-spacing:1.8px;text-transform:uppercase;opacity:.6;margin-bottom:10px">' +
+          'Ingatkan Saya</div>' +
+        '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">' +
+          '<a id="studioKalenderIcs" download="' + (inv.slug || 'undangan') + '.ics" ' +
+            'href="data:text/calendar;charset=utf-8,' + encodeURIComponent(berkasIcs(inv, waktu)) + '" ' +
+            'style="text-decoration:none;background:#1e7a4d;color:#fff;border-radius:999px;padding:10px 18px;' +
+            'font-size:13px;font-weight:700">\uD83D\uDCC5 Simpan ke Kalender (.ics)</a>' +
+          '<a id="studioKalenderGoogle" target="_blank" rel="noopener" ' +
+            'href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+              encodeURIComponent(isi.judul) + '&dates=' + waktu.lokal +
+              '&location=' + encodeURIComponent(isi.lokasi) +
+              '&details=' + encodeURIComponent('Undangan digital: ' + isi.tautan) + '" ' +
+            'style="text-decoration:none;border:1px solid rgba(0,0,0,.16);border-radius:999px;padding:10px 18px;' +
+            'font-size:13px;font-weight:700;color:inherit">\uD83D\uDD17 Google Calendar</a>' +
+        '</div>' +
+      '</div>';
+
+    var jangkar = document.getElementById('cdD') || document.getElementById('studioRsvpDeadline');
+    var seksi = jangkar && jangkar.closest ? jangkar.closest('section') : null;
+    if (seksi && seksi.parentNode) seksi.parentNode.insertBefore(bar, seksi.nextSibling);
+    else document.body.insertBefore(bar, document.body.firstChild);
+  }
+
   // ====== MUSIK LATAR (MP3) — dipilih dari Studio Admin ======
   // Daftar lagu bawaan yang ikut terunggah bersama website (folder musik/).
   // Semuanya disintesis sendiri lewat tools/make-music.py → bebas royalti.
@@ -2021,6 +2293,10 @@
         aktifkanAksesKeyboard();
         // Lightbox ramah keyboard (Escape, Tab terkunci, fokus kembali)
         aktifkanLightboxA11y();
+        // Kartu QR check-in buku tamu (semua tema)
+        terapkanCheckIn(inv);
+        // Tombol simpan ke kalender (.ics & Google Calendar)
+        terapkanKalender(inv);
 
         // Hook RSVP Form submission to save into StudioBackend
         var rsvpForm = document.getElementById('rsvpForm');
@@ -2048,6 +2324,10 @@
               guests: guestsVal,
               message: msgVal
             });
+            // Tawarkan kabari admin lewat WhatsApp (satu ketuk, teks sudah terisi)
+            try {
+              tampilkanNotifikasiWa(inv, nameVal, statusVal, guestsVal, msgVal);
+            } catch (e) { /* jangan sampai menghalangi RSVP */ }
           });
         }
       } catch (e) {

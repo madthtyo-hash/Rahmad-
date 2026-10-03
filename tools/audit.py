@@ -187,6 +187,25 @@ for f in TEMPLATES:
         tema_ld_rusak.append(f)
 ok('13 tema punya JSON-LD Event lengkap') if not tema_ld and not any(tema_ld_rusak) else bad('JSON-LD Event bermasalah: %s' % ', '.join([x for x in tema_ld + tema_ld_rusak if x]))
 
+print('\n== 8c. Fitur nilai jual: QR check-in, kalender, notifikasi WA, paket ==')
+ok('vendor/qrcode.js tersedia (pustaka QR)') if os.path.exists('vendor/qrcode.js') else bad('vendor/qrcode.js TIDAK ADA')
+vendor_ok = re.search(r'QR Code Generator for JavaScript', rd('vendor/qrcode.js')) is not None and 'MIT' in rd('vendor/qrcode.js')
+ok('pustaka QR memuat lisensi MIT') if vendor_ok else bad('header lisensi pustaka QR hilang')
+tema_qr = [f for f in TEMPLATES if 'vendor/qrcode.js' not in rd(f)]
+ok('13 tema memuat vendor/qrcode.js') if not tema_qr else bad('tanpa vendor/qrcode.js: %s' % ', '.join(tema_qr))
+api = rd('studio-api.js')
+for nama, syarat in [('kodeCheckin', 'function kodeCheckin'),
+                     ('terapkanCheckIn', 'function terapkanCheckIn'),
+                     ('terapkanKalender (.ics)', 'function terapkanKalender'),
+                     ('notifikasi RSVP ke WA admin', 'function tampilkanNotifikasiWa')]:
+    ok('studio-api/Studio: %s' % nama) if syarat in api else bad('tidak ditemukan: %s' % syarat)
+studio = rd('studio.html')
+ok('Studio punya opsi QR Check-In') if 'id="fCheckin"' in studio else bad('Studio tanpa opsi QR Check-In')
+ok('Studio menyimpan pilihan QR Check-In') if 'inv.checkin' in studio else bad('Studio tidak menyimpan pilihan QR Check-In')
+for f in ['index.html', 'landing.html']:
+    h = rd(f)
+    ok('%s: paket spesial Aqiqah & Wisuda' % f) if 'paket-spesial' in h and 'Rp69.000' in h else bad('%s: paket spesial Aqiqah/Wisuda tidak ada' % f)
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')

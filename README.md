@@ -29,6 +29,14 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - **Upload Foto**: Upload foto cover, foto profil, dan multi-foto galeri lightbox dengan kompresi otomatis.
 - **Pengaturan Amplop Digital**: Kelola multi-rekening bank & e-wallet (BCA, Mandiri, BRI, BNI, BSI, DANA, GoPay, OVO), tombol salin rekening, dan konfirmasi WhatsApp (`6285196755675`).
 - **Pengaturan RSVP**: Pengaturan batas waktu konfirmasi, kuota tamu, rekap kehadiran real-time, buku tamu ucapan & doa, serta Export CSV.
+  Setelah tamu mengirim RSVP, muncul tawaran satu ketuk **"Kabari lewat WhatsApp"** ke admin (teks sudah terisi nama, status, jumlah tamu, dan ucapan).
+- **QR Check-In Buku Tamu 🎫 (semua tema)**: kartu QR asli (pustaka MIT di `vendor/qrcode.js`, hasilnya sudah diuji cocok dengan pembaca QR) berisi tautan check-in + kode unik `KD-XXXXXX` per undangan. Panitia memindai QR untuk mencatat kehadiran, dan tamu bisa menekan **Tandai Hadir** agar langsung masuk rekap RSVP. Bisa dinyalakan/dimatikan per undangan di tab **Tema & Visual → QR Check-In Buku Tamu**.
+- **Simpan ke Kalender 📅 (semua tema)**: tombol `.ics` (Google/Apple/Outlook Calendar) + tautan **Google Calendar**, otomatis dari tanggal, jam resepsi, lokasi, dan judul undangan.
+
+## Paket Harga
+
+- **Hemat Rp79.000** (6 bulan), **Premium Rp149.000** (1 tahun + Studio Admin), **Eksklusif Rp299.000** (domain sendiri + tema Royal/Platinum).
+- **Paket Spesial Aqiqah & Wisuda Rp69.000** — khusus tema `undangan-aqiqah.html` & `undangan-wisuda.html`, sudah termasuk musik MP3 pilihan, QR check-in buku tamu, dan tombol Simpan ke Kalender.
 
 ## Pemeriksa & Uji (untuk pengembang)
 
