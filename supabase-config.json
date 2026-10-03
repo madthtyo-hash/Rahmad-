@@ -1,9 +1,9 @@
 {
   "_cara_pakai": "Isi url + anonKey dari Supabase > Settings > API Keys. Nilai yang dipakai adalah PUBLISHABLE key (sb_publishable_...) atau anon key lama (eyJ...). JANGAN pernah menaruh SECRET key (sb_secret_...) atau service_role di file ini karena file ini ikut terunggah ke internet.",
   "_status": "Kalau enabled=false atau url/kunci kosong, website otomatis memakai mode lama (localStorage + server Node). Tidak ada error.",
-  "enabled": false,
-  "url": "",
-  "anonKey": "",
+  "enabled": true,
+  "url": "https://vtducyukaifqdnghmasr.supabase.co",
+  "anonKey": "sb_publishable_WqBEPmH0ZexDsml1tGz6Hw_9UIl-ZD0",
   "tables": {
     "invitations": "invitations",
     "guests": "guests",

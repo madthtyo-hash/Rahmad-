@@ -51,16 +51,38 @@ tersimpan ke satu tempat dan bisa dipantau dari Studio Admin.
 > Skemanya **aman dijalankan berulang kali**, jadi kalau sudah pernah paste manual
 > lalu GitHub integration jalan, tidak akan error dan tidak menggandakan data.
 
+> **Tidak yakin sudah pernah menjalankan atau belum?** Jalankan saja **Cara B** sekali lagi —
+> tidak akan error dan tidak menggandakan data. Cara memastikannya: menu **Table Editor**
+> harus menampilkan tabel `invitations`, `guests`, dan `rsvp` (3 tabel). Cara paling pasti:
+> `node tools/check-cloud.js` (langkah 6) akan langsung bilang kalau tabelnya belum ada.
+
 ### 3. Ambil URL & kunci
-1. Menu **Settings** → **API Keys** (project lama: **Settings** → **API**).
-2. Copy **Project URL** (contoh: `https://abcdefgh.supabase.co`).
-3. Copy **Publishable key** — diawali **`sb_publishable_...`**
-   (project lama: kolom **anon public**, diawali `eyJ...`). Keduanya didukung aplikasi ini.
+1. Buka <https://supabase.com/dashboard> → klik project Anda.
+2. **Cara tercepat:** klik panel **Connect** (tombol di bagian atas dashboard project).
+   Di situ sudah tertulis **Project URL** dan **Publishable key** siap disalin.
+3. Ingin melihat semua kunci: menu **Settings → API Keys**.
+   - Tab **Publishable and secret keys** → salin **Publishable key** (`sb_publishable_...`).
+   - Tab **Legacy API keys** (project yang dibuat lebih dulu) → salin **anon** key (`eyJ...`).
+   - Project lama yang belum punya publishable key: buat dulu di halaman itu
+     (tombol **Create new key** → pilih *Publishable*). Kunci lama tetap jalan, tidak perlu dihapus.
+
+   Contoh bentuknya:
+   ```
+   Project URL      : https://abcdefgh.supabase.co
+   Publishable key   : sb_publishable_AbCdEf123...
+   (atau anon lama)  : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIs...
+   ```
 
 > ⚠️ **PENTING:** yang dipakai hanya **Publishable / anon public**.
 > **JANGAN pernah** memakai/publikasikan **Secret key** (`sb_secret_...`) atau
 > **`service_role`** — itu kunci rahasia penuh yang bisa menghapus seluruh database
 > dan memang dirancang untuk kode server saja, bukan untuk browser.
+> Di halaman **Settings → API Keys**, kunci rahasia ada di baris yang sama —
+> pastikan yang Anda salin adalah baris **Publishable**, bukan **Secret**.
+>
+> Catatan: Supabase menghentikan kunci gaya lama (anon/service_role) secara bertahap
+> sepanjang 2026. Aplikasi ini sudah mendukung keduanya, jadi Anda tidak perlu buru-buru
+> mengganti — tapi project baru sebaiknya langsung memakai publishable key.
 
 ### 4. Isi config di repo ini
 Buka file **`supabase-config.json`** di root repo, isi seperti ini:
@@ -85,10 +107,62 @@ Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
 2. Klik tab **Penyimpanan Lokal HP & Backup Folder**.
 3. Klik **🔌 Cek Koneksi** → harus muncul “Supabase terhubung & siap dipakai”.
    (Status akan menampilkan jenis kunci yang dipakai, mis. `kunci: publishable`.)
-4. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
-5. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
+4. **Disarankan:** klik **🧪 Uji Lengkap (5 bagian)**. Hasilnya muncul langsung di bawah tombol,
+   memeriksa: konfigurasi · skema database · izin kirim RSVP · privasi nomor HP tamu ·
+   undangan aman dari perubahan. **Aman diklik berkali-kali** — tidak ada data Anda yang berubah.
+5. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
+6. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
+
+#### Arti tanda pada hasil Uji Lengkap
+
+| Tanda | Arti | Tindakan |
+|---|---|---|
+| ✓ | lulus | — |
+| ✗ | ada masalah (mis. nomor HP tamu terbaca publik) | ikuti saran yang tertulis di baris itu, biasanya jalankan ulang `supabase/schema.sql` |
+| ⚠ | **catatan**: tidak bisa dipastikan dari luar | biasanya soal *penghapusan*. Supabase menjawab “sukses” walau RLS menolak hapus, jadi dari luar tidak bisa dibedakan. Jalankan `supabase/schema.sql` sekali (aman diulang) untuk memastikan izin hapus tetap dicabut |
+
+### 6. Cek otomatis dari komputer (opsional, disarankan)
+
+Mau bukti lengkap dalam sekali jalan — termasuk memastikan **nomor HP tamu benar-benar tidak
+bisa diunduh** dan **undangan tidak bisa diubah** orang lain? Jalankan:
+
+```bash
+cd /home/user/Rahmad-
+node tools/check-cloud.js
+```
+
+Alat ini menembak project Supabase Anda yang asli dan memeriksa 5 hal: konfigurasi, jangkauan
+server + skema, izin RSVP, privasi daftar tamu, dan sifat read-only undangan.
+**Aman diulang kapan saja** — hanya membaca data, sedangkan uji izin tulis memakai baris
+yang sengaja salah/kolom kosong sehingga **tidak ada satu pun baris yang tersimpan**.
+Keluar dengan kode `1` kalau ada masalah (bisa dipakai di GitHub Actions nanti).
+
+Contoh hasil kalau semuanya beres:
+
+```
+== C. RSVP (tamu boleh kirim & baca ucapan) ==
+  ✓ tabel rsvp bisa dibaca → 5 RSVP terbaru terbaca
+  ✓ tamu boleh mengirim RSVP dari browser → ditolak karena nilai uji (bukan karena izin)
+== D. Daftar tamu (nomor HP) — harus PRIVAT ==
+  ✓ daftar tamu TIDAK bisa dibaca dari browser → ditolak (401) — nomor HP aman
+== RINGKASAN ==
+  ✅ SEMUA SEHAT — Supabase siap dipakai.
+```
+
+### Kalau ada masalah (pemecahan cepat)
+
+| Gejala di `node tools/check-cloud.js` | Artinya | Tindakan |
+|---|---|---|
+| `url & kunci sudah diisi ✗` | config masih kosong | isi langkah 4 di atas |
+| `kunci AMAN untuk dipublikasikan ✗` | kunci `sb_secret_`/`service_role` terpasang | **hapus**, pakai Publishable/anon |
+| `project Supabase bisa dihubungi ✗` → `fetch failed`/`timeout` | URL salah, internet mati, atau project di-pause | cek URL, buka dashboard Supabase (project gratis bisa pause) |
+| `→ Kemungkinan kunci salah/terpotong` (HTTP 401) | kunci salah salin | salin ulang dari **Settings → API Keys** |
+| `→ Kemungkinan tabel belum dibuat` (HTTP 404) | `schema.sql` belum dijalankan | jalankan langkah 2 (Cara A atau B) |
+| `daftar tamu TIDAK bisa dibaca ✓✗` / `BAHAYA` | RLS tidak aktif | jalankan ulang `supabase/schema.sql` |
+| `undangan tidak bisa diubah ✗` | masih ada kebijakan tulis lama | jalankan ulang `supabase/schema.sql` (bagian 7 mencabutnya) |
 
 ---
+
 
 ## Cara kerja singkat
 

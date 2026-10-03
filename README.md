@@ -3,9 +3,9 @@
 Platform Undangan Digital Elegan — Pernikahan, Khitanan, Ulang Tahun & Tema Premium.
 
 ## Fitur Utama & Pembaruan Terbaru
-- **Studio Admin (`studio.html`)**: Dashboard kelola semua tema & detail undangan, live preview, serta generator link tamu WhatsApp (`?to=Nama+Tamu`).
+- **Studio Admin (`studio.html`)**: Tampilan baru mobile-first yang tetap rapi di desktop — laci menu (☰), bilah atas, hero, **tab pil: Data Utama · Tema & Visual · Galeri Foto · Lokasi & Map · Fitur Ekstra**, kartu-kartu rapi, sakelar on/off, serta **bilah aksi bawah** (Simpan Perubahan & Bagikan Link Tamu). Semua fitur lama tetap ada: live preview, 9 tema, amplop digital, RSVP, dan generator link tamu WhatsApp (`?to=Nama+Tamu`).
 - **Backend Studio (`server.js`, `studio-api.js`, `data/studio-db.json`)**: Mesin sinkronisasi data REST API (`/api/*`) sekaligus Cloud LocalSync untuk GitHub Pages (`kartudigital.my.id`).
-- **Database Online Opsional (`supabase/`, `supabase-config.json`)**: Integrasi Supabase — RSVP & daftar tamu dari HP tamu mana pun tersimpan ke satu database online, lengkap dengan skema SQL, RLS, dan panduan pasang di [`supabase/README.md`](supabase/README.md). Nonaktif secara default (tanpa `url`/`anonKey` website tetap jalan seperti biasa).
+- **Database Online Opsional (`supabase/`, `supabase-config.json`)**: Integrasi Supabase — RSVP & daftar tamu dari HP tamu mana pun tersimpan ke satu database online, lengkap dengan skema SQL, RLS, dan panduan pasang di [`supabase/README.md`](supabase/README.md). Nonaktif secara default (tanpa `url`/`anonKey` website tetap jalan seperti biasa). Di Studio tersedia tombol **🧪 Uji Lengkap (5 bagian)** — memeriksa konfigurasi, skema, izin RSVP, privasi nomor HP tamu, dan keamanan undangan, tanpa mengubah data.
 - **Tema Pernikahan**:
   - `undangan-sage.html` — Sage Blossom ⭐
   - `undangan-jawa.html` — Jawa Heritage ✨
@@ -31,5 +31,8 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Ulang Tahun & Tema Pr
 - `node tools/test-cloud.js` — menguji lapisan Supabase Cloud (tarik/kirim data, pemetaan RSVP,
   penolakan kunci rahasia, fallback saat offline) memakai jaringan tiruan — aman, tanpa
   menyentuh database sungguhan.
+- `node tools/check-cloud.js` — memeriksa koneksi ke project Supabase **asli** yang sudah diisi
+  di `supabase-config.json`: skema, izin RSVP, privasi daftar tamu (nomor HP), dan sifat
+  read-only undangan. Aman diulang karena tidak menulis data.
 
 Integrasi Supabase opsional dijelaskan lengkap di [`supabase/README.md`](supabase/README.md).

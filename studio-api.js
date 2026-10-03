@@ -1127,6 +1127,156 @@
       var res = await cloudRest(cloudTable('invitations') + '?select=slug&limit=1');
       return { ok: res.ok, error: res.error, online: cloudOnline };
     },
+
+    /**
+     * Uji menyeluruh 5 bagian ke project Supabase yang sedang dipakai:
+     *   A. konfigurasi · B. jangkauan & skema · C. izin RSVP
+     *   D. privasi daftar tamu (nomor HP) · E. undangan read-only
+     *
+     * AMAN DIULANG kapan saja:
+     *  - hanya MEMBACA data yang sudah ada;
+     *  - uji izin tulis memakai nilai/kolom yang pasti ditolak database
+     *    (foreign key ke id kosong) sehingga TIDAK ADA data tamu yang tersimpan;
+     *  - uji “tidak bisa diubah” menulis NILAI YANG SAMA PERSIS ke baris undangan,
+     *    jadi walau kebijakan tulis masih terbuka, isi undangan tidak berubah.
+     *
+     * Catatan jujur soal penghapusan: RLS yang memblokir DELETE tetap dijawab
+     * "sukses 0 baris" oleh PostgREST, jadi dari luar tidak bisa dipastikan —
+     * hasilnya dilaporkan sebagai catatan, bukan lulus palsu.
+     */
+    selfTest: async function () {
+      var bagian = [];
+      var hitung = { lulus: 0, gagal: 0, catatan: 0 };
+      var ID_KOSONG = '00000000-0000-0000-0000-000000000000';
+
+      function mulai(judul) { var b = { judul: judul, items: [] }; bagian.push(b); return b; }
+      function cek(b, nama, lulus, info) {
+        b.items.push({ nama: nama, lulus: (lulus === null ? null : !!lulus), info: info || '' });
+        if (lulus === null) hitung.catatan++; else if (lulus) hitung.lulus++; else hitung.gagal++;
+        return lulus;
+      }
+      function catat(b, nama, info) { return cek(b, nama, null, info); }
+      function selesai() {
+        return {
+          ok: hitung.gagal === 0, lulus: hitung.lulus, gagal: hitung.gagal, catatan: hitung.catatan,
+          bagian: bagian, diujiPada: new Date().toISOString()
+        };
+      }
+      function kode(res) { return (res && res.data && res.data.code) || null; }
+      function ditolakRls(res) { return (res && (res.status === 401 || res.status === 403)) || kode(res) === '42501'; }
+      function petunjuk(res) {
+        if (!res || !res.status) return 'Periksa: url benar? project belum di-pause? koneksi internet jalan?';
+        if (res.status === 401 || res.status === 403) return 'Kunci kemungkinan salah/terpotong — salin ulang dari Supabase → Settings → API Keys.';
+        if (res.status === 404) return 'Tabel belum ada — jalankan supabase/schema.sql di Supabase → SQL Editor.';
+        return String(res.error || 'gagal');
+      }
+
+      // ---------- A. Konfigurasi ----------
+      await loadCloudConfig(true);
+      var st = cloudApi.status();
+      var a = mulai('A. Konfigurasi (supabase-config.json)');
+      cek(a, 'file konfigurasi terbaca', !!(cloudConfig && Object.keys(cloudConfig).length), cloudConfig ? '' : 'file tidak ada / bukan JSON');
+      if (!cloudConfigured()) {
+        cek(a, 'url & kunci siap dipakai', false, st.pesan || 'isi url + anonKey (publishable/anon) di supabase-config.json');
+        return selesai();
+      }
+      cek(a, 'url & kunci terisi', true, st.url);
+      cek(a, 'kunci aman dipublikasikan (bukan rahasia)', st.keyType === 'publishable' || st.keyType === 'jwt-legacy', 'jenis: ' + st.keyType);
+      cek(a, 'format url wajar', /^https:\/\//i.test(st.url) || /^https?:\/\/(127\.0\.0\.1|localhost)/i.test(st.url), st.url);
+
+      // ---------- B. Jangkauan & skema ----------
+      var b = mulai('B. Jangkauan server & skema database');
+      var inv = await cloudRest(cloudTable('invitations') + '?select=slug,event_type,event_date&order=created_at.asc');
+      if (!inv.ok) {
+        cek(b, 'project Supabase bisa dihubungi', false, petunjuk(inv));
+        cloudOnline = false;
+        return selesai();
+      }
+      var rowsInv = inv.data || [];
+      cek(b, 'project Supabase bisa dihubungi', true, rowsInv.length + ' undangan terbaca');
+      var seed = ['iceblue-adi-lina', 'iceblue-khitanan-alif', 'iceblue-ultah-kalila'].filter(function (s) {
+        return rowsInv.some(function (r) { return r.slug === s; });
+      });
+      if (seed.length) cek(b, 'contoh undangan dari schema.sql ada', true, seed.join(', '));
+      else catat(b, 'contoh undangan tidak ditemukan', 'bukan masalah kalau sudah Anda hapus/ganti');
+      var contoh = rowsInv[0] || {};
+      cek(b, 'kolom ringkas terisi (event_type, event_date)', !!contoh.event_type && !!contoh.event_date,
+        contoh.event_type ? (contoh.event_type + ' → ' + contoh.event_date) : 'jalankan ulang supabase/schema.sql');
+
+      // ---------- C. RSVP ----------
+      var c = mulai('C. RSVP (tamu boleh kirim & baca ucapan)');
+      var rs = await cloudRest(cloudTable('rsvp') + '?select=external_id,name,attendance,created_at&order=created_at.desc&limit=5');
+      cek(c, 'ucapan/RSVP bisa dibaca', rs.ok, rs.ok ? ((rs.data || []).length + ' RSVP terbaru terbaca') : petunjuk(rs));
+      // Uji izin TULIS tanpa menyimpan data: nilai valid, tapi invitation_id diarahkan ke
+      // id kosong → database menolak lewat foreign key (23503) SESUDAH izin RLS dilewati.
+      var pc = await cloudRest(cloudTable('rsvp'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: [{
+          external_id: 'uji-koneksi-' + Date.now(), invitation_slug: 'iceblue-adi-lina',
+          invitation_id: ID_KOSONG, name: 'Uji Koneksi', attendance: 'hadir', pax: 1
+        }]
+      });
+      if (kode(pc) === '23503') cek(c, 'tamu bisa mengirim RSVP dari browser', true, 'izin terverifikasi — baris uji ditolak kolom uji, tidak ada data tersimpan');
+      else if (ditolakRls(pc)) cek(c, 'tamu bisa mengirim RSVP dari browser', false, 'ditolak RLS: ' + petunjuk(pc));
+      else if (pc.ok) catat(c, 'tamu bisa mengirim RSVP dari browser', 'izin ada, tapi 1 baris uji tersimpan — hapus lewat SQL Editor: delete from rsvp where name = \'Uji Koneksi\';');
+      else cek(c, 'tamu bisa mengirim RSVP dari browser', false, petunjuk(pc));
+      // Uji hapus: blokiran RLS tetap dijawab "sukses 0 baris", jadi hasilnya catatan.
+      var hr = await cloudRest(cloudTable('rsvp') + '?id=eq.' + ID_KOSONG, { method: 'DELETE' });
+      if (ditolakRls(hr)) cek(c, 'RSVP tidak bisa dihapus dari browser', true, 'ditolak RLS');
+      else if (hr.ok) catat(c, 'RSVP tidak bisa dihapus dari browser', 'tidak bisa dipastikan dari luar: penghapusan yang diblokir RLS tetap dijawab "sukses". Jalankan supabase/schema.sql lalu cek Supabase → Table Editor → rsvp → Policies.');
+      else cek(c, 'RSVP tidak bisa dihapus dari browser', false, petunjuk(hr));
+
+      // ---------- D. Privasi daftar tamu ----------
+      var d = mulai('D. Daftar tamu (nomor HP) — harus PRIVAT');
+      var gt = await cloudRest(cloudTable('guests') + '?select=id,name,phone&limit=1');
+      var barisTamu = (gt.ok && Array.isArray(gt.data)) ? gt.data.length : 0;
+      if (gt.ok && barisTamu > 0) {
+        cek(d, 'daftar tamu TIDAK bisa dibaca dari browser', false,
+          'BAHAYA: nomor HP tamu terbaca siapa pun yang punya kunci publik! Jalankan supabase/schema.sql sekarang.');
+      } else if (!gt.ok) {
+        cek(d, 'daftar tamu TIDAK bisa dibaca dari browser', !!(gt.status === 401 || gt.status === 403 || kode(gt) === '42501'),
+          gt.status ? ('ditolak (' + gt.status + ') — nomor HP aman') : petunjuk(gt));
+      } else {
+        catat(d, 'daftar tamu TIDAK bisa dibaca dari browser', 'tidak ada baris yang terbaca — besar kemungkinan sudah terkunci (aman), tapi tabel kosong juga terlihat sama. Pastikan lewat Supabase → Table Editor → guests → Policies.');
+      }
+      // Uji izin TAMBAH (generator tamu massal) tanpa menyimpan data — foreign key ke id kosong.
+      var tg = await cloudRest(cloudTable('guests'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: [{ invitation_id: ID_KOSONG, name: '__UJI_KONEKSI__', phone: null, group_name: 'uji' }]
+      });
+      if (kode(tg) === '23503') cek(d, 'Studio bisa menambah tamu massal', true, 'izin terverifikasi — baris uji ditolak kolom uji, tidak ada data tersimpan');
+      else if (ditolakRls(tg)) cek(d, 'Studio bisa menambah tamu massal', false, 'ditolak RLS: ' + petunjuk(tg));
+      else if (tg.ok) catat(d, 'Studio bisa menambah tamu massal', 'izin ada, tapi 1 baris uji tersimpan — hapus lewat SQL Editor: delete from guests where name = \'__UJI_KONEKSI__\';');
+      else cek(d, 'Studio bisa menambah tamu massal', false, petunjuk(tg));
+
+      // ---------- E. Undangan read-only ----------
+      var e = mulai('E. Undangan di cloud read-only (aman dari perubahan)');
+      if (contoh.slug && contoh.event_type) {
+        // Menulis kembali NILAI YANG SAMA PERSIS: kalau kebijakan tulis masih terbuka,
+        // baris ini akan ter-ubah (terdeteksi) tetapi ISI undangan tetap sama.
+        var up = await cloudRest(cloudTable('invitations') + '?slug=eq.' + encodeURIComponent(contoh.slug), {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+          body: { event_type: contoh.event_type }
+        });
+        var diubah = Array.isArray(up.data) ? up.data.length : 0;
+        if (ditolakRls(up)) cek(e, 'undangan tidak bisa diubah dari browser', true, 'ditolak RLS');
+        else if (diubah > 0) cek(e, 'undangan tidak bisa diubah dari browser', false, 'BAHAYA: undangan bisa diubah siapa pun. Isi undangan tidak berubah (nilai ditulis sama), tapi jalankan supabase/schema.sql sekarang.');
+        else cek(e, 'undangan tidak bisa diubah dari browser', true, '0 baris berubah — terkunci kebijakan (aman)');
+      } else {
+        catat(e, 'undangan tidak bisa diubah dari browser', 'belum ada baris undangan untuk diuji — jalankan schema.sql atau kirim undangan dulu');
+      }
+      var hp = await cloudRest(cloudTable('invitations') + '?slug=eq.__tidak_ada__', { method: 'DELETE' });
+      if (ditolakRls(hp)) cek(e, 'undangan tidak bisa dihapus dari browser', true, 'ditolak RLS');
+      else if (hp.ok) catat(e, 'undangan tidak bisa dihapus dari browser', 'tidak bisa dipastikan dari luar: penghapusan yang diblokir RLS tetap dijawab "sukses". Jalankan supabase/schema.sql untuk memastikan izin hapus dicabut.');
+      else cek(e, 'undangan tidak bisa dihapus dari browser', false, petunjuk(hp));
+
+      cloudOnline = true; // bagian B sudah membuktikan project bisa dihubungi
+      return selesai();
+    },
+
     pull: pullFromCloud,
     push: pushAllToCloud,
     addRsvp: async function (item) {

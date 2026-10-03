@@ -32,6 +32,9 @@ print('\n== 1. Syntax: JS & JSON ==')
 for f in ['server.js','studio-api.js']:
     r = subprocess.run(['node','--check',f], capture_output=True, text=True)
     ok(f'{f} OK') if r.returncode == 0 else bad(f'{f}: {r.stderr.strip().splitlines()[-1]}')
+for f in sorted(glob.glob('tools/*.js')):
+    r = subprocess.run(['node','--check',f], capture_output=True, text=True)
+    ok(f'{f} OK') if r.returncode == 0 else bad(f'{f}: {r.stderr.strip().splitlines()[-1]}')
 for f in PAGES:
     tmp = f'/tmp/_audit_{f}.js'
     open(tmp,'w',encoding='utf-8').write('\n;\n'.join(scripts(rd(f))))
@@ -168,17 +171,51 @@ if mig:
     ok('migrasi byte-identical dengan schema.sql') if rd(mig[-1]) == rd('supabase/schema.sql') else bad('isi migrasi berbeda dari schema.sql')
 ok('supabase/.gitignore ada') if os.path.exists('supabase/.gitignore') else warn('supabase/.gitignore tidak ada')
 
-for hook in ['cloudApi','pullFromCloud','pushAllToCloud','pushGuestsToCloud','cloudKeyInfo','sb_publishable_','read-only']:
+for hook in ['cloudApi','pullFromCloud','pushAllToCloud','pushGuestsToCloud','cloudKeyInfo','sb_publishable_','read-only','selfTest']:
     ok(f'studio-api.js: {hook}') if hook in js else bad(f'studio-api.js tidak memuat {hook}')
 ok('tamu tidak dibaca dari browser') if 'guests_public' not in js else bad('studio-api.js masih membaca view guests_public')
-for hook in ['cloudTestBtn','cloudPushBtn','cloudPullBtn','cloudStatusText']:
+ok('selfTest memakai uji foreign key (tanpa menyimpan data)') if "'23503'" in js else warn('selfTest tidak memakai uji foreign key')
+ok('selfTest jujur soal penghapusan RLS') if 'tidak bisa dipastikan dari luar' in js else warn('selfTest tidak menjelaskan keterbatasan uji hapus')
+for hook in ['cloudTestBtn','cloudSelfTestBtn','cloudSelfTestBox','renderSelfTest','cloudPushBtn','cloudPullBtn','cloudStatusText']:
     ok(f'studio.html: {hook}') if hook in st else bad(f'studio.html tidak memuat {hook}')
+ok('tools/check-cloud.js ada (pemeriksa koneksi project asli)') if os.path.exists('tools/check-cloud.js') else warn('tools/check-cloud.js tidak ada')
+if os.path.exists('tools/check-cloud.js'):
+    cc = rd('tools/check-cloud.js')
+    ok('check-cloud.js menolak kunci rahasia') if 'sb_secret_' in cc else bad('check-cloud.js tidak memeriksa kunci rahasia')
+    ok('check-cloud.js menguji privasi daftar tamu') if 'guests' in cc and 'PRIVAT' in cc else bad('check-cloud.js tidak menguji privasi tamu')
 rmd = rd('supabase/README.md')
 ok('panduan menyebut publishable key') if 'sb_publishable_' in rmd else warn('panduan belum menyebut publishable key')
+ok('panduan memuat pemeriksa koneksi') if 'tools/check-cloud.js' in rmd else warn('panduan belum menyebut tools/check-cloud.js')
 ok('panduan menjelaskan Security Advisor') if 'Security Advisor' in rmd else warn('panduan belum menjelaskan Security Advisor')
 for kata in ['Connect GitHub', 'Deploy to production', 'npx supabase migration new', 'Working directory']:
     ok(f'panduan memuat "{kata}"') if kata in rmd else warn(f'panduan belum memuat "{kata}"')
 ok('README utama menautkan panduan') if 'supabase/README.md' in rd('README.md') else warn('README utama belum menautkan')
+
+print('\n== 10. Studio: struktur tampilan & id yang dipakai JS ==')
+st_ids_used = set(re.findall(r"\$\('([^']+)'\)", st)) | set(re.findall(r"getElementById\('([^']+)'\)", st))
+st_ids_have = set(re.findall(r'id="([^"]+)"', st))
+st_hilang = sorted(i for i in st_ids_used if i not in st_ids_have)
+ok(f'semua {len(st_ids_used)} id yang dipakai JS studio.html tersedia') if not st_hilang else bad(f'id hilang di studio.html: {st_hilang}')
+tabs = re.findall(r'data-tab="([^"]+)"', st)
+panes = re.findall(r'class="[^"]*tab-pane[^"]*" id="([^"]+)"', st)
+ok(f'{len(tabs)} tab pil: ' + ', '.join(tabs)) if len(tabs) == 5 else bad(f'tab pil: {tabs}')
+ok('setiap tab punya panel isi (cocok)') if sorted(tabs) == sorted(panes) else bad(f'tab vs panel beda: {tabs} vs {panes}')
+for nama in ['Data Utama', 'Tema &amp; Visual', 'Galeri Foto', 'Lokasi &amp; Map', 'Fitur Ekstra']:
+    ok(f'label tab "{nama}" ada') if nama in st else bad(f'label tab {nama} hilang')
+for cid in ['card-amplop', 'card-rsvp', 'card-share', 'card-storage']:
+    ok(f'kartu {cid} ada di tab Fitur Ekstra') if f'id="{cid}"' in st else bad(f'{cid} hilang')
+for hook, nama in [('class="actionbar"', 'bilah aksi bawah'),
+                   ('id="sidebarBackdrop"', 'laci menu + latar gelap'),
+                   ('id="stickySaveBtn"', 'tombol Simpan Perubahan'),
+                   ('id="stickyShareBtn"', 'tombol Bagikan Link Tamu'),
+                   ('class="chip"', 'label kecil di judul kartu')]:
+    ok(f'{nama} ada') if hook in st else bad(f'{nama} tidak ada')
+kolom_wajib = ['fCategory','fTitle','fStatus','fPrimaryName','fSecondaryName','fFullName1','fParents1','fFullName2','fParents2',
+               'fEventDate','fAkadTime','fResepsiTime','fQuote','fThemeFile','fNavMode','fFxMode',
+               'fVenueName','fVenueAddress','fMapsUrl','fAmplopEnabled','fAmplopWa','fGiftAddress','fAmplopNote',
+               'fRsvpEnabled','fRsvpDeadline','fRsvpMaxGuests']
+kolom_hilang = [k for k in kolom_wajib if f'id="{k}"' not in st]
+ok(f'semua {len(kolom_wajib)} kolom isian tetap ada') if not kolom_hilang else bad(f'kolom hilang: {kolom_hilang}')
 
 py = [f for f in os.listdir('.') if f.endswith('.py')] + sorted(glob.glob('tools/*.py'))
 if py:
