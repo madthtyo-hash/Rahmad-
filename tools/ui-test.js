@@ -14,7 +14,8 @@
  *   2. Interaksi tamu: buka undangan, countdown berjalan, lightbox galeri,
  *      kirim RSVP (ucapan masuk daftar + pesan terima kasih), salin rekening.
  *   3. Studio Admin: 13 template tema, kategori aqiqah & wisuda, label field
- *      yang menyesuaikan kategori, katalog koleksi.
+ *      yang menyesuaikan kategori, koleksi yang dikelompokkan per kategori,
+ *      filter koleksi, serta efek dekorasi terbaca saat mengedit undangan.
  *   4. Katalog halaman depan: pengelompokan per kategori (6 kelompok),
  *      filter kategori, dan efek tampilan awal (percikan, pita tema,
  *      angka statistik, kartu muncul saat di-scroll).
@@ -212,10 +213,53 @@ async function ujiStudio() {
     cek('kembali ke Pernikahan \u2192 label mempelai lagi',
       d.getElementById('lblPrimaryName').textContent === 'Nama Panggilan Mempelai 1');
 
+    // ---- Koleksi di Studio: dikelompokkan per kategori (sama seperti halaman depan) ----
+    const grupKoleksi = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
     const kartu = d.querySelectorAll('#projectListGrid article.project');
-    cek('katalog studio menampilkan 13 undangan', kartu.length === 13, kartu.length + ' kartu');
+    cek('koleksi Studio dikelompokkan jadi 6 kategori', grupKoleksi.length === 6, grupKoleksi.length + ' kelompok');
+    cek('koleksi Studio menampilkan 13 undangan', kartu.length === 13, kartu.length + ' kartu');
+    cek('setiap kelompok koleksi punya judul + penghitung',
+      grupKoleksi.every((g) => g.querySelector('.collection-group-head h3 .count') &&
+        /Undangan$/.test(g.querySelector('.collection-group-head h3 .count').textContent.trim())),
+      grupKoleksi.map((g) => g.getAttribute('data-cat') + ':' +
+        g.querySelector('.collection-group-head .count').textContent.trim().split(' ')[0]).join(', '));
     const baru = Array.from(kartu).filter((k) => /Midnight Emerald|Aqiqah Rahmah|Grand Graduation|Platinum Marble/.test(k.textContent));
     cek('4 tema baru muncul di katalog studio', baru.length === 4, baru.length + ' kartu');
+
+    // filter koleksi di Studio
+    const klikKoleksi = (cat) => d.querySelector('#collectionFilter button[data-cat="' + cat + '"]')
+      .dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+    klikKoleksi('aqiqah');
+    cek('filter koleksi Aqiqah \u2192 1 kelompok, 1 kartu',
+      d.querySelectorAll('#projectListGrid .collection-group').length === 1 &&
+      d.querySelectorAll('#projectListGrid article.project').length === 1);
+    klikKoleksi('wisuda');
+    cek('filter koleksi Wisuda \u2192 menampilkan Grand Graduation',
+      /Grand Graduation/.test(d.getElementById('projectListGrid').textContent));
+    klikKoleksi('all');
+    cek('kembali ke Semua Tema \u2192 13 kartu lagi',
+      d.querySelectorAll('#projectListGrid article.project').length === 13);
+
+    // ---- Efek dekorasi baru tersedia & terbaca saat mengedit undangan ----
+    const fxOpts = Array.from(d.getElementById('fFxMode').options).map((o) => o.value);
+    cek('opsi efek konfeti (tema Wisuda) tersedia di Studio', fxOpts.includes('konfeti'), fxOpts.join(', '));
+    const pilihUndangan = (id) => {
+      const sel = d.getElementById('activeInvitationSelect');
+      sel.value = id;
+      sel.dispatchEvent(new w.Event('change', { bubbles: true }));
+    };
+    pilihUndangan('wisuda-naura');
+    cek('edit undangan Wisuda \u2192 template & efek konfeti terisi',
+      d.getElementById('fThemeFile').value === 'undangan-wisuda.html' && d.getElementById('fFxMode').value === 'konfeti',
+      d.getElementById('fThemeFile').value + ' / fx=' + d.getElementById('fFxMode').value);
+    pilihUndangan('midnight-dirga-amara');
+    cek('edit undangan Midnight \u2192 efek bintang terisi', d.getElementById('fFxMode').value === 'bintang',
+      'fx=' + d.getElementById('fFxMode').value);
+    pilihUndangan('platinum-revan-kiara');
+    cek('edit undangan Platinum \u2192 template premium terisi',
+      d.getElementById('fThemeFile').value === 'undangan-platinum.html' &&
+      d.getElementById('fCategory').value === 'premium',
+      d.getElementById('fThemeFile').value + ' / ' + d.getElementById('fCategory').value);
     cek('tidak ada error JS di Studio', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
     dom.window.close();

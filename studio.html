@@ -137,7 +137,23 @@
     .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
     .cat-filter button{border:1px solid var(--line);background:#fff;color:var(--muted);padding:7px 14px;border-radius:50px;font-size:12.5px;font-weight:700}
     .cat-filter button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-    .project-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .project-list{display:block}
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+    /* Koleksi tema dikelompokkan per kategori acara */
+    .collection-group{margin-bottom:26px}
+    .collection-group:last-child{margin-bottom:0}
+    .collection-group-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+    .collection-group-head h3{margin:0;font-size:16.5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+    .collection-group-head .count{background:var(--gold-soft);border:1px solid #eddfc2;color:#7a5a1f;
+      font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px}
+    .collection-group-head p{margin:0;color:var(--muted);font-size:12.5px;max-width:430px}
+    .collection-group .project{animation:collectionRise .45s ease both}
+    .collection-group .project:nth-child(2){animation-delay:.06s}
+    .collection-group .project:nth-child(3){animation-delay:.12s}
+    @keyframes collectionRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){.collection-group .project{animation:none}}
     .project{padding:18px;box-shadow:none;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
     .project:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
     .project-top{display:flex;justify-content:space-between;align-items:center}
@@ -253,7 +269,7 @@
     .rsvp-item{border-radius:12px}
 
     /* Koleksi tema */
-    .project-list{grid-template-columns:1fr;gap:12px}
+    .project-list,.project-grid{grid-template-columns:1fr;gap:12px}
     .project{border-radius:16px;padding:16px}
     .cat-filter button{white-space:nowrap}
 
@@ -268,7 +284,7 @@
     /* Desktop: tetap rapi memakai kartu yang sama */
     @media(min-width:861px){
       .cards{grid-template-columns:repeat(4,1fr)}
-      .project-list{grid-template-columns:repeat(3,1fr)}
+      .project-list,.project-grid{grid-template-columns:repeat(3,1fr)}
       .top-actions{overflow:visible}
       .topbar{flex-wrap:nowrap}
       .content{padding:26px 26px 130px}
@@ -532,6 +548,7 @@
                     <option value="kilau">✨ Kilau Emas</option>
                     <option value="salju">❄️ Salju Lembut</option>
                     <option value="bintang">👑 Bintang Islami (Premium)</option>
+                    <option value="konfeti">🎉 Konfeti Wisuda (Tema Baru)</option>
                     <option value="balon">👑 Balon &amp; Hati (Premium)</option>
                     <option value="kupu">👑 Kupu-Kupu (Premium)</option>
                     <option value="daun">👑 Daun Gugur (Premium)</option>
@@ -1389,14 +1406,69 @@
         showToast('✓ Perubahan disimpan ke Backend Studio');
       }
 
-      // Render Collection Cards
+      // Urutan & keterangan kelompok koleksi (samakan dengan katalog di halaman depan)
+      var GROUP_META = [
+        { cat: 'pernikahan', label: '💍 Tema Pernikahan',
+          desc: 'Flora lembut, adat Jawa, hingga malam zamrud.' },
+        { cat: 'khitanan', label: '🕌 Tema Khitanan',
+          desc: 'Walimatul khitan islami dengan rundown acara dan doa.' },
+        { cat: 'aqiqah', label: '🍼 Tema Aqiqah & Tasyakuran Bayi',
+          desc: 'Ayat & doa aqiqah, rundown prosesi, dan kado digital.' },
+        { cat: 'ultah', label: '🎂 Tema Ulang Tahun',
+          desc: 'Pesta ceria: agenda acara, games, dan tiup lilin.' },
+        { cat: 'wisuda', label: '🎓 Tema Wisuda & Kelulusan',
+          desc: 'Profil wisudawan, daftar pencapaian, dan animasi konfeti.' },
+        { cat: 'premium', label: '👑 Tema Premium',
+          desc: 'Edisi eksklusif: QR check-in VIP dan reservasi gala dinner.' }
+      ];
+
+      function kategoriKelompok(inv) {
+        if (inv.isPremium || inv.category === 'premium') return 'premium';
+        return inv.category || 'pernikahan';
+      }
+
+      // Render Collection Cards — dikelompokkan per kategori acara
       function renderProjectsCollection() {
         var list = StudioBackend.getInvitations(currentCategoryFilter);
         var grid = $('projectListGrid');
         grid.innerHTML = '';
 
-        list.forEach(function (inv) {
-          var card = document.createElement('article');
+        var kelompok = [];
+        GROUP_META.forEach(function (meta) {
+          if (currentCategoryFilter !== 'all' && currentCategoryFilter !== meta.cat) return;
+          var anggota = list.filter(function (inv) { return kategoriKelompok(inv) === meta.cat; });
+          if (anggota.length) kelompok.push({ meta: meta, anggota: anggota });
+        });
+
+        kelompok.forEach(function (grup) {
+          var wrap = document.createElement('div');
+          wrap.className = 'collection-group';
+          wrap.setAttribute('data-cat', grup.meta.cat);
+
+          var head = document.createElement('div');
+          head.className = 'collection-group-head';
+          head.innerHTML = '<h3>' + grup.meta.label +
+            ' <span class="count">' + grup.anggota.length + ' Undangan</span></h3>' +
+            '<p>' + grup.meta.desc + '</p>';
+          wrap.appendChild(head);
+
+          var listEl = document.createElement('div');
+          listEl.className = 'project-grid';
+          grup.anggota.forEach(function (inv) { listEl.appendChild(buatKartuProyek(inv)); });
+          wrap.appendChild(listEl);
+          grid.appendChild(wrap);
+        });
+
+        if (!kelompok.length) {
+          grid.innerHTML = '<p style="color:var(--muted)">Belum ada undangan pada kategori ini. ' +
+            'Buat baru lewat tab Data Utama.</p>';
+        }
+      }
+
+      // Satu kartu undangan di koleksi
+      function buatKartuProyek(inv) {
+        var card = document.createElement('article');
+        {
           card.className = 'project';
           var icon = inv.category === 'khitanan' ? '🕌' : (inv.category === 'ultah' ? '🎂' : (inv.category === 'aqiqah' ? '🍼' : (inv.category === 'wisuda' ? '🎓' : (inv.isPremium ? '👑' : '💍'))));
           var titlePair = (inv.secondaryName && !isSingleNameCat(inv.category))
@@ -1426,10 +1498,10 @@
             window.scrollTo({ top: 140, behavior: 'smooth' });
             showToast('Mengedit: ' + titlePair);
           });
-
-          grid.appendChild(card);
-        });
+        }
+        return card;
       }
+
 
       // Event Listeners for Form Inputs
       [
