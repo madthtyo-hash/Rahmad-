@@ -15,7 +15,9 @@
  *      kirim RSVP (ucapan masuk daftar + pesan terima kasih), salin rekening.
  *   3. Studio Admin: 13 template tema, kategori aqiqah & wisuda, label field
  *      yang menyesuaikan kategori, katalog koleksi.
- *   4. Katalog halaman depan: filter per kategori.
+ *   4. Katalog halaman depan: pengelompokan per kategori (6 kelompok),
+ *      filter kategori, dan efek tampilan awal (percikan, pita tema,
+ *      angka statistik, kartu muncul saat di-scroll).
  *
  * Server Node dijalankan otomatis di port uji (tidak mengganggu server Anda),
  * jadi tidak perlu menyiapkan apa pun. Uji ini TIDAK menyentuh Supabase dan
@@ -221,22 +223,64 @@ async function ujiStudio() {
 }
 
 async function ujiKatalog() {
-  console.log('\n== C. Katalog halaman depan: filter kategori ==');
+  console.log('\n== C. Katalog halaman depan: kelompok kategori, filter & efek ==');
   const { dom, w, d, errors } = await buka(BASE + '/index.html');
   try {
-    const kartu = Array.from(d.querySelectorAll('#katalogGrid .tema-card'));
-    cek('katalog berisi 13 kartu tema', kartu.length === 13, kartu.length + ' kartu');
+    const grup = Array.from(d.querySelectorAll('#katalogGrid .tema-group'));
+    const harusnya = { pernikahan: 5, khitanan: 2, aqiqah: 1, ultah: 2, wisuda: 1, premium: 2 };
+    cek('katalog dikelompokkan jadi 6 kategori', grup.length === 6, grup.length + ' kelompok');
+
+    let cocok = true;
+    const ringkas = [];
+    grup.forEach((g) => {
+      const kat = g.getAttribute('data-cat');
+      const jml = g.querySelectorAll('.tema-card').length;
+      ringkas.push(kat + '=' + jml);
+      if (harusnya[kat] !== jml) cocok = false;
+    });
+    cek('jumlah tema tiap kelompok sesuai', cocok, ringkas.join(', '));
+    cek('setiap kelompok punya judul & penghitung tema',
+      grup.every((g) => g.querySelector('.group-head h3 .count') &&
+        /Tema$/.test(g.querySelector('.group-head h3 .count').textContent.trim())));
+    cek('total 13 kartu tema di katalog', d.querySelectorAll('#katalogGrid .tema-card').length === 13);
     cek('4 kartu tema baru tertaut ke file yang benar',
       ['undangan-midnight.html', 'undangan-aqiqah.html', 'undangan-wisuda.html', 'undangan-platinum.html']
         .every((f) => d.querySelectorAll('#katalogGrid a[href="' + f + '"]').length === 1));
+
     const klik = (f) => d.querySelector('#katalogFilter button[data-filter="' + f + '"]')
       .dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
-    const terlihat = () => kartu.filter((k) => k.style.display !== 'none').length;
-    klik('aqiqah'); cek('filter Aqiqah menampilkan 1 tema', terlihat() === 1, terlihat() + ' tema');
-    klik('wisuda'); cek('filter Wisuda menampilkan 1 tema', terlihat() === 1, terlihat() + ' tema');
-    klik('premium'); cek('filter Premium menampilkan 2 tema', terlihat() === 2, terlihat() + ' tema');
-    klik('pernikahan'); cek('filter Pernikahan menampilkan 5 tema', terlihat() === 5, terlihat() + ' tema');
-    klik('all'); cek('filter Semua Tema kembali 13', terlihat() === 13, terlihat() + ' tema');
+    const tampil = () => grup.filter((g) => !g.classList.contains('hide'));
+    const label = (s) => s.getAttribute('data-cat');
+
+    klik('aqiqah');
+    cek('filter Aqiqah \u2192 hanya kelompok Aqiqah', tampil().length === 1 && label(tampil()[0]) === 'aqiqah');
+    cek('informasi jumlah ikut berubah',
+      /Menampilkan <b>1 tema<\/b>/.test(d.getElementById('katalogCount').innerHTML),
+      d.getElementById('katalogCount').textContent.trim());
+    klik('wisuda');
+    cek('filter Wisuda \u2192 hanya kelompok Wisuda', tampil().length === 1 && label(tampil()[0]) === 'wisuda');
+    klik('premium');
+    cek('filter Premium \u2192 hanya kelompok Premium', tampil().length === 1 && label(tampil()[0]) === 'premium');
+    klik('pernikahan');
+    cek('filter Pernikahan \u2192 5 tema', tampil()[0].querySelectorAll('.tema-card').length === 5);
+    klik('all');
+    cek('filter Semua Tema \u2192 6 kelompok tampil lagi', tampil().length === 6);
+    cek('informasi jumlah kembali 13 tema', /<b>13 tema<\/b>/.test(d.getElementById('katalogCount').innerHTML),
+      d.getElementById('katalogCount').textContent.trim());
+
+    // ---- efek tampilan awal ----
+    cek('percikan emas di hero dibuat', d.querySelectorAll('#sparkleLayer .sparkle').length > 0,
+      d.querySelectorAll('#sparkleLayer .sparkle').length + ' percikan');
+    cek('pita nama tema berjalan terisi 13 tema (digandakan)', d.querySelectorAll('#temaTrack span').length === 26,
+      d.querySelectorAll('#temaTrack span').length + ' item');
+    cek('chip tema baru tampil di tampilan awal',
+      d.querySelectorAll('.hero-chips .hero-chip').length === 2 && !!d.querySelector('#grup-aqiqah') && !!d.querySelector('#grup-wisuda'));
+    cek('lencana melayang di dekat mockup HP ada', !!d.querySelector('.phone-badge'));
+    cek('semua kartu sudah siap efek muncul-saat-scroll',
+      d.querySelectorAll('#katalogGrid .tema-card.reveal.visible').length === 13,
+      d.querySelectorAll('#katalogGrid .tema-card.reveal.visible').length + ' kartu');
+    const angka = Array.from(d.querySelectorAll('.hero-stats b[data-count]')).map((el) => el.textContent.trim());
+    cek('statistik menampilkan angka akhir', angka.join(' | ') === '500+ | 13 Tema | 6 Kategori', angka.join(' | '));
     cek('tidak ada error JS di halaman depan', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
     dom.window.close();
