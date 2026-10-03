@@ -25,6 +25,7 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - **Tema Premium Eksklusif**:
   - `undangan-premium.html` — Royal Gold Luxury 👑 (dengan QR Check-In Buku Tamu VIP)
   - `undangan-platinum.html` — Platinum Marble 👑 **(BARU: VIP Access Pass + QR Check-In, reservasi Gala Dinner & fasilitas VIP)**
+- **Musik Latar MP3 🎵**: 6 lagu bebas royalti di `musik/` (Romantis, Lembut Islami, Ninabobo, Prosesi Wisuda, Ceria Pesta, Jawa Pentatonik). Pilih per undangan di tab **Tema & Visual → Musik Latar Undangan** (atau tempel link MP3 sendiri / "tanpa musik"), dan pilih lagu halaman depan di tab **Fitur Ekstra → Musik Halaman Depan**. Tombol musik muncul otomatis di undangan maupun di halaman depan.
 - **Upload Foto**: Upload foto cover, foto profil, dan multi-foto galeri lightbox dengan kompresi otomatis.
 - **Pengaturan Amplop Digital**: Kelola multi-rekening bank & e-wallet (BCA, Mandiri, BRI, BNI, BSI, DANA, GoPay, OVO), tombol salin rekening, dan konfirmasi WhatsApp (`6285196755675`).
 - **Pengaturan RSVP**: Pengaturan batas waktu konfirmasi, kuota tamu, rekap kehadiran real-time, buku tamu ucapan & doa, serta Export CSV.
@@ -40,11 +41,20 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - `node tools/ui-test.js` — uji UI nyata memakai jsdom: memuat halaman undangan sungguhan lalu
   memeriksa hydrate data Studio (nama di cover, foto, rekening amplop, galeri, batas RSVP, buku
   ucapan), interaksi tamu (buka undangan, countdown, lightbox, kirim RSVP, salin rekening),
-  kategori & label Studio Admin, serta filter katalog halaman depan. Perlu `npm install` sekali
+  pemutar musik MP3 per undangan & halaman depan, kategori & label Studio Admin, koleksi yang
+  dikelompokkan per kategori, serta filter katalog halaman depan. Perlu `npm install` sekali
   (jsdom sebagai devDependency); server uji dijalankan otomatis di port `3131`
   (`UI_TEST_PORT=3232` untuk mengganti). Uji ini tidak menyentuh Supabase dan tidak mengubah
   `data/studio-db.json`.
-- `npm test` — menjalankan ketiga pemeriksa di atas berurutan (audit → cloud → UI).
+- `node tools/a11y-test.js` — uji aksesibilitas otomatis (axe-core): halaman depan, Studio Admin,
+  dan ke-13 halaman tema diperiksa pelanggaran berisiko *serious/critical* (nama tombol, label
+  form, peran ARIA), ditambah cek perilaku keyboard: tab editor Studio (panah kiri/kanan), kotak
+  Galeri (`role="dialog"`, Escape, fokus terkunci & kembali ke foto asal), pilihan kehadiran RSVP,
+  dan tombol musik. Perlu `npm install` (axe-core sebagai devDependency); port uji `3232`
+  (`A11Y_TEST_PORT=3333` untuk mengganti).
+- `npm test` — menjalankan pemeriksa berurutan: audit → cloud → UI → aksesibilitas.
+- `python3 tools/make-thumbs.py` — membuat ulang 13 thumbnail katalog di `thumbs/` (butuh ImageMagick).
+- `python3 tools/make-music.py` — membuat ulang 6 lagu MP3 bebas royalti di `musik/` (butuh `pip install lameenc`).
 - `node tools/check-cloud.js` — memeriksa koneksi ke project Supabase **asli** yang sudah diisi
   di `supabase-config.json`: skema, izin RSVP, privasi daftar tamu (nomor HP), dan sifat
   read-only undangan. Aman diulang karena tidak menulis data.

@@ -199,6 +199,45 @@
     box-shadow:0 10px 26px rgba(34,193,94,.45);text-decoration:none;font-size:22px}
   @media(max-width:380px){.cover h1{font-size:30px}.cd-box b{font-size:20px}}
 </style>
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<link rel="canonical" href="https://kartudigital.my.id/undangan-wisuda.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Wisuda Naura Safira, S.Ked — Undangan Digital Grand Graduation",
+  "description": "Undangan wisuda & syukuran Naura Safira, S.Ked, Sabtu 5 Desember 2026, Graha Sabha Universitas Nusantara Bandung. Tema Grand Graduation oleh Kartu Digital (kartudigital.my.id).",
+  "startDate": "2026-12-05",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "image": [
+    "https://kartudigital.my.id/foto-wisuda-cover.jpg"
+  ],
+  "url": "https://kartudigital.my.id/undangan-wisuda.html",
+  "location": {
+    "@type": "Place",
+    "name": "Graha Sabha Universitas Nusantara",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Dipatiukur No. 112, Bandung",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Kartu Digital",
+    "url": "https://kartudigital.my.id/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "79000",
+    "priceCurrency": "IDR",
+    "url": "https://kartudigital.my.id/",
+    "availability": "https://schema.org/InStock",
+    "description": "Jasa undangan digital Kartu Digital"
+  }
+}
+</script>
 </head>
 <body class="locked">
 
@@ -319,11 +358,11 @@
       <p style="font-size:13px;color:var(--muted)">Ketuk foto untuk memperbesar</p>
     </div>
     <div class="gal-grid">
-      <div class="gal-item" data-src="foto-wisuda-cover.jpg" style="background-image:url('foto-wisuda-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-premium-cover.jpg" style="background-image:url('foto-premium-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-ultah-cover.jpg" style="background-image:url('foto-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-wisuda-cover.jpg" style="background-image:url('foto-wisuda-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-premium-cover.jpg" style="background-image:url('foto-premium-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-ultah-cover.jpg" style="background-image:url('foto-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
     </div>
   </section>
 
@@ -335,19 +374,19 @@
     </div>
     <form class="glass rsvp-card" id="rsvpForm" style="margin-top:18px">
       <p class="lead">Mohon konfirmasi kehadiran sebelum <b id="studioRsvpDeadline">28 November 2026</b> agar kami dapat mempersiapkan tempat dan hidangan dengan baik.</p>
-      <input id="rName" type="text" placeholder="Nama Anda &amp; keluarga" required>
-      <select id="rCount">
+      <input aria-label="Nama Anda" id="rName" type="text" placeholder="Nama Anda &amp; keluarga" required>
+      <select aria-label="Jumlah tamu" id="rCount">
         <option value="1">1 Orang</option>
         <option value="2" selected>2 Orang</option>
         <option value="3">3 Orang</option>
         <option value="4">4 Orang</option>
       </select>
-      <div class="pills">
-        <div class="pill active" data-val="Hadir">Hadir</div>
-        <div class="pill" data-val="Tidak Hadir">Tidak Hadir</div>
-        <div class="pill" data-val="Masih Ragu">Masih Ragu</div>
+      <div class="pills" role="group" aria-label="Status kehadiran">
+        <button type="button" class="pill active" data-val="Hadir">Hadir</button>
+        <button type="button" class="pill" data-val="Tidak Hadir">Tidak Hadir</button>
+        <button type="button" class="pill" data-val="Masih Ragu">Masih Ragu</button>
       </div>
-      <textarea id="rsvpMsg" rows="3" placeholder="Tulis ucapan selamat &amp; doa untuk wisudawan..."></textarea>
+      <textarea aria-label="Ucapan dan doa" id="rsvpMsg" rows="3" placeholder="Tulis ucapan selamat &amp; doa untuk wisudawan..."></textarea>
       <button type="submit" class="btn-navy" style="width:100%">Kirim Konfirmasi &amp; Ucapan</button>
     </form>
     <div class="rsvp-ok" id="rsvpOk">🎓 <b>Terima kasih!</b><br>Konfirmasi dan ucapan Anda sudah kami terima.</div>
@@ -373,7 +412,7 @@
             <div class="num">8830912277</div>
             <div class="an">a.n. Naura Safira</div>
           </div>
-          <button type="button" class="copy-mini" data-copy="8830912277">Salin</button>
+          <button type="button" class="copy-mini" data-copy="8830912277" aria-label="Salin nomor rekening">Salin</button>
         </div>
       </div>
       <div class="bank-card">
@@ -383,7 +422,7 @@
             <div class="num">0813 4455 7788</div>
             <div class="an">a.n. Naura Safira</div>
           </div>
-          <button type="button" class="copy-mini" data-copy="081344557788">Salin</button>
+          <button type="button" class="copy-mini" data-copy="081344557788" aria-label="Salin nomor rekening">Salin</button>
         </div>
       </div>
     </div>
@@ -412,8 +451,8 @@
 <a class="wa-float" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20undangan%20digital%20tema%20Grand%20Graduation" target="_blank" rel="noopener" aria-label="Chat WhatsApp">💬</a>
 <button class="music-btn" id="musicBtn" aria-label="Musik latar"><span>♫</span> Musik</button>
 
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" id="lbClose">✕</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
+  <button class="lb-close" id="lbClose" aria-label="Tutup foto">✕</button>
   <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
 </div>
 

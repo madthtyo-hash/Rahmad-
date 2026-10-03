@@ -134,19 +134,19 @@
     font-weight:700;padding:4px 10px;border-radius:50px;letter-spacing:.5px}
   .tema-preview .initial{font-family:Georgia,serif;font-style:italic;font-size:32px;color:rgba(255,255,255,.95);
     text-shadow:0 2px 12px rgba(0,0,0,.35)}
-  .t1{background:linear-gradient(135deg,rgba(30,77,59,.45),rgba(18,53,39,.75)),url('foto-cover.jpg') center/cover}
-  .t2{background:linear-gradient(135deg,rgba(61,43,31,.45),rgba(122,82,48,.75)),url('foto-jawa-cover.jpg') center/cover}
-  .t3{background:linear-gradient(135deg,rgba(78,90,61,.35),rgba(78,90,61,.7)),url('foto-rahma-cover.jpg') center/cover}
-  .t4{background:linear-gradient(135deg,rgba(13,14,18,.35),rgba(43,35,18,.72)),url('foto-premium-cover.jpg') center/cover}
-  .t5{background:linear-gradient(135deg,rgba(13,56,46,.35),rgba(22,91,76,.72)),url('foto-khitanan-cover.jpg') center/cover}
-  .t6{background:linear-gradient(135deg,rgba(217,91,130,.35),rgba(142,42,75,.72)),url('foto-ultah-cover.jpg') center/cover}
-  .t7{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('foto-iceblue-cover.jpg') center/cover}
-  .t8{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('foto-iceblue-khitanan-cover.jpg') center/cover}
-  .t9{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('foto-iceblue-ultah-cover.jpg') center/cover}
-  .t10{background:linear-gradient(135deg,rgba(10,45,33,.42),rgba(4,24,15,.78)),url('foto-midnight-cover.jpg') center/cover}
-  .t11{background:linear-gradient(135deg,rgba(63,156,124,.32),rgba(29,74,59,.72)),url('foto-aqiqah-cover.jpg') center/cover}
-  .t12{background:linear-gradient(135deg,rgba(27,58,122,.34),rgba(15,37,87,.76)),url('foto-wisuda-cover.jpg') center/cover}
-  .t13{background:linear-gradient(135deg,rgba(142,149,163,.26),rgba(23,26,33,.72)),url('foto-platinum-cover.jpg') center/cover}
+  .t1{background:linear-gradient(135deg,rgba(30,77,59,.45),rgba(18,53,39,.75)),url('thumbs/foto-cover.jpg') center/cover}
+  .t2{background:linear-gradient(135deg,rgba(61,43,31,.45),rgba(122,82,48,.75)),url('thumbs/foto-jawa-cover.jpg') center/cover}
+  .t3{background:linear-gradient(135deg,rgba(78,90,61,.35),rgba(78,90,61,.7)),url('thumbs/foto-rahma-cover.jpg') center/cover}
+  .t4{background:linear-gradient(135deg,rgba(13,14,18,.35),rgba(43,35,18,.72)),url('thumbs/foto-premium-cover.jpg') center/cover}
+  .t5{background:linear-gradient(135deg,rgba(13,56,46,.35),rgba(22,91,76,.72)),url('thumbs/foto-khitanan-cover.jpg') center/cover}
+  .t6{background:linear-gradient(135deg,rgba(217,91,130,.35),rgba(142,42,75,.72)),url('thumbs/foto-ultah-cover.jpg') center/cover}
+  .t7{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('thumbs/foto-iceblue-cover.jpg') center/cover}
+  .t8{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('thumbs/foto-iceblue-khitanan-cover.jpg') center/cover}
+  .t9{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('thumbs/foto-iceblue-ultah-cover.jpg') center/cover}
+  .t10{background:linear-gradient(135deg,rgba(10,45,33,.42),rgba(4,24,15,.78)),url('thumbs/foto-midnight-cover.jpg') center/cover}
+  .t11{background:linear-gradient(135deg,rgba(63,156,124,.32),rgba(29,74,59,.72)),url('thumbs/foto-aqiqah-cover.jpg') center/cover}
+  .t12{background:linear-gradient(135deg,rgba(27,58,122,.34),rgba(15,37,87,.76)),url('thumbs/foto-wisuda-cover.jpg') center/cover}
+  .t13{background:linear-gradient(135deg,rgba(142,149,163,.26),rgba(23,26,33,.72)),url('thumbs/foto-platinum-cover.jpg') center/cover}
   .tema-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
   .tema-body h3{font-size:17.5px;color:var(--green-dark)}
   .tema-body p{font-size:13px;color:var(--muted);margin:5px 0 14px}
@@ -219,6 +219,16 @@
     background:var(--wa);display:flex;align-items:center;justify-content:center;
     box-shadow:0 10px 24px rgba(34,193,94,.45);text-decoration:none;transition:transform .2s}
   .wa-float:hover{transform:scale(1.1)}
+
+  /* ---------- Musik latar halaman depan ---------- */
+  .music-float{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,#1e4d3b,#123527);color:#f0dfae;border:1px solid rgba(229,207,154,.45);
+    padding:12px 18px;border-radius:50px;font-size:12.5px;font-weight:700;letter-spacing:.4px;cursor:pointer;
+    box-shadow:0 12px 26px rgba(18,53,39,.35);transition:transform .2s,box-shadow .2s}
+  .music-float:hover{transform:translateY(-3px);box-shadow:0 18px 32px rgba(18,53,39,.45)}
+  .music-float.playing span.ic{animation:kdPulse 1.5s ease-in-out infinite}
+  .music-float span.ic{font-size:15px}
+  @media(max-width:600px){.music-float{bottom:16px;left:14px;padding:11px 14px;font-size:11.5px}}
 
 
   /* ============================================================
@@ -331,6 +341,190 @@
 </style>
 </head>
 <body>
+
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "ProfessionalService",
+        "LocalBusiness"
+      ],
+      "@id": "https://kartudigital.my.id/#bisnis",
+      "name": "Kartu Digital",
+      "description": "Jasa undangan digital pernikahan, khitanan, aqiqah, ulang tahun, dan wisuda dengan Studio Admin untuk mengatur foto, amplop digital, dan RSVP.",
+      "url": "https://kartudigital.my.id/",
+      "image": "https://kartudigital.my.id/foto-cover.jpg",
+      "telephone": "+6285196755675",
+      "priceRange": "Rp79.000 - Rp299.000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bandung",
+        "addressRegion": "Jawa Barat",
+        "addressCountry": "ID"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Indonesia"
+      },
+      "openingHours": "Mo-Su 08:00-21:00",
+      "sameAs": [
+        "https://kartudigital.my.id/"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Paket Hemat",
+          "price": "79000",
+          "priceCurrency": "IDR",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Undangan digital 6 bulan"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Paket Premium",
+          "price": "149000",
+          "priceCurrency": "IDR",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Undangan digital + Studio Admin 1 tahun"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Paket Eksklusif",
+          "price": "299000",
+          "priceCurrency": "IDR",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Undangan digital premium + domain sendiri"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://kartudigital.my.id/#katalog",
+      "name": "Katalog 13 Tema Undangan Digital",
+      "numberOfItems": 13,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Sage Blossom — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-sage.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Jawa Heritage — Undangan Pernikahan Adat",
+          "url": "https://kartudigital.my.id/undangan-jawa.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Blush & Emerald Floral — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-demo.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Ice Blue Floral — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-iceblue.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Midnight Emerald — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-midnight.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Al-Fatih Islamic Gold — Undangan Khitanan",
+          "url": "https://kartudigital.my.id/undangan-khitanan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Ice Blue Barakah — Undangan Khitanan",
+          "url": "https://kartudigital.my.id/undangan-iceblue-khitanan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Aqiqah Rahmah — Undangan Aqiqah & Tasyakuran Bayi",
+          "url": "https://kartudigital.my.id/undangan-aqiqah.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Sweet Wonder Party — Undangan Ulang Tahun",
+          "url": "https://kartudigital.my.id/undangan-ultah.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Ice Blue Party — Undangan Ulang Tahun",
+          "url": "https://kartudigital.my.id/undangan-iceblue-ultah.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Grand Graduation — Undangan Wisuda & Kelulusan",
+          "url": "https://kartudigital.my.id/undangan-wisuda.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Royal Gold Luxury — Undangan Premium",
+          "url": "https://kartudigital.my.id/undangan-premium.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Platinum Marble — Undangan Premium",
+          "url": "https://kartudigital.my.id/undangan-platinum.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://kartudigital.my.id/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apakah tersedia untuk acara selain pernikahan (Khitanan & Ulang Tahun)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya! Katalog kami dikelompokkan menjadi 6 kategori berisi 13 tema: Pernikahan, Khitanan, Aqiqah & Tasyakuran Bayi, Ulang Tahun, Wisuda & Kelulusan, serta Premium."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Bagaimana cara upload foto dan mengatur amplop digital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Buka Studio Admin, pilih tab Upload Foto untuk mengganti foto sampul/galeri, lalu tab Amplop Digital dan Pengaturan RSVP untuk mengatur rekening dan batas konfirmasi kehadiran."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Berapa lama pengerjaan undangannya?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Melalui Studio Admin perubahan langsung tampil seketika. Jika dibantu tim admin via WhatsApp, pengerjaan selesai dalam 1x24 jam (tersedia layanan express 3 jam)."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <!-- ================= HEADER ================= -->
 <header>
@@ -890,11 +1084,65 @@
   </div>
 </footer>
 
+<button type="button" class="music-float" id="landingMusicBtn" aria-pressed="false" aria-label="Putar atau hentikan musik latar">
+  <span class="ic">♫</span> <span id="landingMusicLabel">Putar Musik</span>
+</button>
+<audio id="landingMusic" loop preload="none" src="musik/romantis.mp3"></audio>
+
 <a class="wa-float" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20tanya%20undangan%20digital" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
   <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.9-1.4A10 10 0 1012 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.8 1.7.3.2.5.1.7-.1l1.1-1.3c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1z"/></svg>
 </a>
 
 <script>
+  /* =====================================================================
+     0) MUSIK LATAR HALAMAN DEPAN  (bisa diganti: ?musik=musik/jawa.mp3)
+     ===================================================================== */
+  (function () {
+    var audio = document.getElementById('landingMusic');
+    var btn = document.getElementById('landingMusicBtn');
+    var label = document.getElementById('landingMusicLabel');
+    if (!audio || !btn) return;
+
+    // hanya izinkan berkas lokal di folder musik/ atau tautan https
+    function sah(nilai) {
+      return /^musik\/[a-z0-9-]+\.mp3$/.test(nilai) || /^https:\/\//.test(nilai);
+    }
+
+    var lagu = new URLSearchParams(location.search).get('musik');
+    if (lagu && sah(lagu)) {
+      audio.src = lagu;                       // uji cepat: index.html?musik=musik/jawa.mp3
+    } else {
+      // Lagu diatur dari Studio Admin (Pengaturan → Musik Halaman Depan)
+      fetch('/api/db').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        var set = (data && data.db && data.db.settings) || {};
+        var pilih = set.frontMusic || 'musik/romantis.mp3';
+        if (pilih === 'off') {
+          btn.style.display = 'none';
+          audio.removeAttribute('src');
+          return;
+        }
+        if (sah(pilih)) audio.src = pilih;
+      }).catch(function () { /* dibuka tanpa server: pakai lagu bawaan */ });
+    }
+
+    var jalan = false;
+    function tampilkan(keadaan) {
+      jalan = keadaan;
+      btn.classList.toggle('playing', keadaan);
+      if (label) label.textContent = keadaan ? 'Hentikan Musik' : 'Putar Musik';
+      btn.setAttribute('aria-pressed', keadaan ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () {
+      if (jalan) { audio.pause(); tampilkan(false); return; }
+      try {
+        var janji = audio.play();
+        if (janji && janji.catch) janji.catch(function () { tampilkan(false); });
+      } catch (e) { /* browser tanpa dukungan audio */ }
+      tampilkan(true);
+    });
+    audio.addEventListener('pause', function () { if (jalan) tampilkan(false); });
+  })();
+
   /* =====================================================================
      1) FILTER KATALOG — per kelompok kategori acara
      ===================================================================== */

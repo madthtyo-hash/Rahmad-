@@ -5,7 +5,8 @@
     "brandName": "Kartu Digital",
     "domain": "kartudigital.my.id",
     "adminWhatsapp": "6285196755675",
-    "defaultCurrency": "IDR"
+    "defaultCurrency": "IDR",
+    "frontMusic": "musik/romantis.mp3"
   },
   "invitations": [
     {
@@ -33,7 +34,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sariwangi+Bandung",
       "navMode": "scroll",
       "fxMode": "kelopak",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-rahma-cover.jpg",
         "photo1": "foto-rahma-cover.jpg",
@@ -98,7 +99,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Graha+Saraswati+Yogyakarta",
       "navMode": "scroll",
       "fxMode": "kelopak",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/jawa.mp3",
       "photos": {
         "cover": "foto-jawa-cover.jpg",
         "photo1": "foto-jawa-cover.jpg",
@@ -163,7 +164,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Savoy+Homann+Bandung",
       "navMode": "scroll",
       "fxMode": "kilau",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-cover.jpg",
         "photo1": "foto-cover.jpg",
@@ -228,7 +229,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Trans+Luxury+Hotel+Bandung",
       "navMode": "fade",
       "fxMode": "kilau",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-premium-cover.jpg",
         "photo1": "foto-premium-cover.jpg",
@@ -293,7 +294,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bale+Asri+Pusdai+Bandung",
       "navMode": "scroll",
       "fxMode": "bintang",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/khitanan.mp3",
       "photos": {
         "cover": "foto-khitanan-cover.jpg",
         "photo1": "foto-khitanan-cover.jpg",
@@ -358,7 +359,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hummingbird+Eatery+Bandung",
       "navMode": "scroll",
       "fxMode": "balon",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/pesta.mp3",
       "photos": {
         "cover": "foto-ultah-cover.jpg",
         "photo1": "foto-ultah-cover.jpg",
@@ -423,7 +424,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Gatot+Subroto+Jakarta",
       "navMode": "scroll",
       "fxMode": "salju",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-iceblue-cover.jpg",
         "photo1": "foto-iceblue-cover.jpg",
@@ -489,7 +490,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Aula+Al-Ikhlas+Bandung",
       "navMode": "scroll",
       "fxMode": "salju",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/khitanan.mp3",
       "photos": {
         "cover": "foto-iceblue-khitanan-cover.jpg",
         "photo1": "foto-iceblue-khitanan-cover.jpg",
@@ -554,7 +555,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dago+Pakar+Bandung",
       "navMode": "scroll",
       "fxMode": "salju",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/pesta.mp3",
       "photos": {
         "cover": "foto-iceblue-ultah-cover.jpg",
         "photo1": "foto-iceblue-ultah-cover.jpg",
@@ -619,7 +620,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Riau+Bandung",
       "navMode": "scroll",
       "fxMode": "bintang",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-midnight-cover.jpg",
         "photo1": "foto-midnight-cover.jpg",
@@ -684,7 +685,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cihampelas+Bandung",
       "navMode": "scroll",
       "fxMode": "kelopak",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/aqiqah.mp3",
       "photos": {
         "cover": "foto-aqiqah-cover.jpg",
         "photo1": "foto-aqiqah-cover.jpg",
@@ -749,7 +750,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dipatiukur+Bandung",
       "navMode": "scroll",
       "fxMode": "konfeti",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/wisuda.mp3",
       "photos": {
         "cover": "foto-wisuda-cover.jpg",
         "photo1": "foto-wisuda-cover.jpg",
@@ -814,7 +815,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sudirman+Jakarta",
       "navMode": "scroll",
       "fxMode": "kilau",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-platinum-cover.jpg",
         "photo1": "foto-platinum-cover.jpg",

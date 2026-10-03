@@ -10,7 +10,7 @@ Memeriksa 9 bagian: syntax JS/JSON, struktur HTML, link lokal, registrasi tema d
 Studio, hook tema baru, katalog, aturan nomor WhatsApp & link Studio, footer/meta,
 serta integrasi Supabase (schema.sql, migrasi, config.toml, panduan).
 """
-import base64, glob, json, os, re, subprocess, sys, tomllib
+import base64, glob, json, os, re, subprocess, sys, tomllib, xml.dom.minidom
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 gagal, peringatan = [], []
@@ -26,7 +26,8 @@ NEW = TEMPLATES[-4:]
 PAGES = ['index.html','landing.html','studio.html'] + TEMPLATES
 BANNED = ['6281234567890','6282128718485','0812-3456-7890']
 sc = lambda h: re.sub(r'<!--.*?-->', '', h, flags=re.S)
-scripts = lambda h: re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', sc(h), re.S)
+# Hanya blok JavaScript: data terstruktur (application/ld+json) dilewati.
+scripts = lambda h: re.findall(r'<script(?![^>]*\bsrc=)(?![^>]*application/ld\+json)[^>]*>(.*?)</script>', sc(h), re.S)
 rd = lambda f: open(f, encoding='utf-8').read()
 
 print('\n== 1. Syntax: JS & JSON ==')
@@ -134,6 +135,57 @@ for f in NEW:
            ('favicon', 'rel="icon"' in h or 'rel="shortcut icon"' in h),
            ('wa.me/6285196755675', 'wa.me/6285196755675' in h)]
     [ok(f'{f}: {n}') if c else bad(f'{f}: {n} TIDAK ADA') for n, c in uji]
+
+print('\n== 8b. SEO: sitemap, robots, data terstruktur ==')
+ada_sitemap = os.path.exists('sitemap.xml')
+ada_robots = os.path.exists('robots.txt')
+ok('sitemap.xml tersedia') if ada_sitemap else bad('sitemap.xml TIDAK ADA')
+ok('robots.txt tersedia') if ada_robots else bad('robots.txt TIDAK ADA')
+if ada_sitemap:
+    sm = rd('sitemap.xml')
+    try: xml.dom.minidom.parseString(sm); ok('sitemap.xml XML valid')
+    except Exception as e: bad('sitemap.xml tidak valid: %s' % e)
+    url_sitemap = re.findall(r'<loc>(.*?)</loc>', sm)
+    ok('sitemap memuat 14 URL (beranda + 13 tema)') if len(url_sitemap) == 14 else bad('sitemap memuat %d URL' % len(url_sitemap))
+    kurang = [f for f in TEMPLATES if not any(u.endswith(f) for u in url_sitemap)]
+    ok('semua 13 tema ada di sitemap') if not kurang else bad('tema belum masuk sitemap: %s' % ', '.join(kurang))
+if ada_robots:
+    rb = rd('robots.txt')
+    ok('robots.txt menunjuk sitemap') if 'Sitemap:' in rb and 'sitemap.xml' in rb else bad('robots.txt tanpa baris Sitemap')
+    ok('robots.txt menutup studio admin') if 'Disallow: /studio.html' in rb else bad('robots.txt belum menutup /studio.html')
+for f in ['index.html', 'landing.html']:
+    h = rd(f)
+    m = re.search(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', h, re.S)
+    if not m:
+        bad(f'{f}: data terstruktur JSON-LD tidak ada'); continue
+    try:
+        ld = json.loads(m.group(1))
+        graf = ld.get('@graph', [])
+        tipe = [x.get('@type') for x in graf]
+        datar = [t if isinstance(t, str) else '/'.join(t) for t in tipe]
+        ok(f'{f}: JSON-LD valid ({", ".join(datar)})')
+        ok(f'{f}: memuat LocalBusiness + FAQPage') if any('LocalBusiness' in d for d in datar) and 'FAQPage' in datar else bad(f'{f}: JSON-LD belum memuat LocalBusiness & FAQPage')
+        il = [x for x in graf if x.get('@type') == 'ItemList']
+        ok(f'{f}: ItemList katalog 13 tema') if il and il[0].get('numberOfItems') == 13 and len(il[0].get('itemListElement', [])) == 13 else bad(f'{f}: ItemList katalog tidak lengkap')
+    except Exception as e:
+        bad(f'{f}: JSON-LD tidak bisa dibaca: {e}')
+
+tema_kanonikal = [f for f in TEMPLATES if 'rel="canonical"' not in rd(f)]
+ok('13 tema punya tautan kanonikal') if not tema_kanonikal else bad('tanpa kanonikal: %s' % ', '.join(tema_kanonikal))
+tema_ld, tema_ld_rusak = [], []
+for f in TEMPLATES:
+    m = re.search(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', rd(f), re.S)
+    if not m:
+        tema_ld.append(f); continue
+    try:
+        ld = json.loads(m.group(1))
+        if ld.get('@type') == 'Event' and ld.get('startDate') and (ld.get('location') or {}).get('name'):
+            tema_ld_rusak.append('')  # penanda lolos
+        else:
+            tema_ld_rusak.append(f)
+    except Exception:
+        tema_ld_rusak.append(f)
+ok('13 tema punya JSON-LD Event lengkap') if not tema_ld and not any(tema_ld_rusak) else bad('JSON-LD Event bermasalah: %s' % ', '.join([x for x in tema_ld + tema_ld_rusak if x]))
 
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))

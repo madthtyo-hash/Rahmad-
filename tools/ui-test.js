@@ -96,6 +96,8 @@ async function buka(url) {
     // Kegagalan memuat aset eksternal (font Google/CDN) bukan error kode halaman.
     if (/Could not load (link|script|img)|Could not parse CSS/i.test(m) &&
         /fonts\.googleapis|fonts\.gstatic/.test(m)) return;
+    // jsdom belum mengimplementasikan pemutaran audio/video — bukan error halaman.
+    if (/Not implemented: HTMLMediaElement/i.test(m)) return;
     errors.push('jsdomError: ' + m);
   });
   const dom = await JSDOM.fromURL(url, {
@@ -144,6 +146,21 @@ async function ujiUndangan(dbMap, file, invId, berpasangan) {
       (d.getElementById('studioAmplopWa').getAttribute('href') || '').includes('https://wa.me/6285196755675'));
     cek('batas RSVP terisi dari database', d.getElementById('studioRsvpDeadline').textContent.trim().length > 5,
       d.getElementById('studioRsvpDeadline').textContent.trim());
+    // ---- musik MP3 dari Studio ----
+    const audioStudio = d.getElementById('studioMusicAudio');
+    cek('pemutar MP3 Studio memakai lagu pilihan (musicUrl)',
+      !!audioStudio && String(audioStudio.getAttribute('src') || '').endsWith(inv.musicUrl),
+      audioStudio ? audioStudio.getAttribute('src') : 'elemen tidak ada');
+    const btnMusik = d.getElementById('musicBtn');
+    cek('tombol musik tersedia', !!btnMusik);
+    if (btnMusik) {
+      btnMusik.dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+      cek('klik tombol musik menyalakan pemutar', btnMusik.classList.contains('playing'));
+      btnMusik.dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+      cek('klik kedua mematikan pemutar', !btnMusik.classList.contains('playing'));
+    }
+    cek('window.musikMain diarahkan ke pemutar MP3', typeof w.musikMain === 'function');
+
     const wishes = d.querySelectorAll('#wishList .wish');
     cek('buku ucapan terisi dari RSVP tersimpan', wishes.length >= 1, wishes.length + ' ucapan');
 
@@ -260,6 +277,42 @@ async function ujiStudio() {
       d.getElementById('fThemeFile').value === 'undangan-platinum.html' &&
       d.getElementById('fCategory').value === 'premium',
       d.getElementById('fThemeFile').value + ' / ' + d.getElementById('fCategory').value);
+    // ---- Musik: per undangan & halaman depan ----
+    const selMusik = d.getElementById('fMusicUrl');
+    cek('Studio punya pilihan musik undangan (#fMusicUrl)', !!selMusik);
+    if (selMusik) {
+      const nilai = Array.from(selMusik.options).map((o) => o.value);
+      cek('pilihan musik undangan memuat 6 lagu + bawaan + tanpa musik',
+        nilai.length === 8 && nilai.indexOf('') > -1 && nilai.indexOf('off') > -1 &&
+        nilai.filter((v) => /^musik\/.+\.mp3$/.test(v)).length === 6, nilai.length + ' opsi');
+      const invAktif = w.StudioBackend.getInvitation(d.getElementById('activeInvitationSelect').value) || {};
+      cek('lagu undangan yang sedang diedit terpilih di form',
+        selMusik.value === (invAktif.musicUrl || '') ||
+        (d.getElementById('fMusicCustom') || {}).value === (invAktif.musicUrl || ''),
+        selMusik.value + ' / ' + ((d.getElementById('fMusicCustom') || {}).value || '-'));
+    }
+    cek('Studio punya kartu Musik Halaman Depan', !!d.getElementById('card-musikdepan'));
+    const selDepan = d.getElementById('fFrontMusic');
+    cek('pilihan musik halaman depan tersedia', !!selDepan);
+    if (selDepan) {
+      const nilaiDepan = Array.from(selDepan.options).map((o) => o.value);
+      cek('musik halaman depan bisa dipilih/dimatikan (+ 6 lagu)',
+        nilaiDepan.indexOf('off') > -1 && nilaiDepan.filter((v) => /^musik\/.+\.mp3$/.test(v)).length === 6,
+        nilaiDepan.length + ' opsi');
+      cek('nilai terpilih mengikuti pengaturan Studio',
+        selDepan.value === ((w.StudioBackend.getSettings() || {}).frontMusic || 'musik/romantis.mp3'),
+        selDepan.value);
+      selDepan.value = 'musik/jawa.mp3';
+      d.getElementById('saveFrontMusicBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+      await new Promise((r) => setTimeout(r, 150));
+      cek('tombol simpan menyimpan musik halaman depan ke database',
+        w.StudioBackend.getSettings().frontMusic === 'musik/jawa.mp3',
+        w.StudioBackend.getSettings().frontMusic);
+      selDepan.value = 'musik/romantis.mp3';
+      d.getElementById('saveFrontMusicBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+      await new Promise((r) => setTimeout(r, 150));
+    }
+
     cek('tidak ada error JS di Studio', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
     dom.window.close();
@@ -325,6 +378,18 @@ async function ujiKatalog() {
       d.querySelectorAll('#katalogGrid .tema-card.reveal.visible').length + ' kartu');
     const angka = Array.from(d.querySelectorAll('.hero-stats b[data-count]')).map((el) => el.textContent.trim());
     cek('statistik menampilkan angka akhir', angka.join(' | ') === '500+ | 13 Tema | 6 Kategori', angka.join(' | '));
+    const btnDepan = d.getElementById('landingMusicBtn');
+    const audioDepan = d.getElementById('landingMusic');
+    cek('halaman depan punya tombol musik & elemen audio', !!btnDepan && !!audioDepan);
+    cek('lagu halaman depan default musik/romantis.mp3',
+      !!audioDepan && /musik\/romantis\.mp3$/.test(audioDepan.getAttribute('src') || ''),
+      audioDepan ? audioDepan.getAttribute('src') : '-');
+    if (btnDepan) {
+      btnDepan.dispatchEvent(new (d.defaultView.MouseEvent)('click', { bubbles: true }));
+      cek('klik Putar Musik mengubah label menjadi "Hentikan Musik"',
+        d.getElementById('landingMusicLabel').textContent.trim() === 'Hentikan Musik');
+      btnDepan.dispatchEvent(new (d.defaultView.MouseEvent)('click', { bubbles: true }));
+    }
     cek('tidak ada error JS di halaman depan', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
     dom.window.close();

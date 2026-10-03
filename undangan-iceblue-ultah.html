@@ -196,6 +196,45 @@
     box-shadow:0 10px 26px rgba(34,193,94,.45);text-decoration:none;font-size:22px}
   @media(max-width:380px){.cover h1{font-size:34px}.cd-box b{font-size:20px}}
 </style>
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<link rel="canonical" href="https://kartudigital.my.id/undangan-iceblue-ultah.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Birthday Party Kalila Zahra — Undangan Digital Ice Blue",
+  "description": "Pesta ulang tahun ke-8 Kalila Zahra, Minggu 6 Desember 2026, Frosty Garden Cafe Bandung. Tema Ice Blue Party oleh Kartu Digital (kartudigital.my.id).",
+  "startDate": "2026-12-06",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "image": [
+    "https://kartudigital.my.id/foto-iceblue-ultah-cover.jpg"
+  ],
+  "url": "https://kartudigital.my.id/undangan-iceblue-ultah.html",
+  "location": {
+    "@type": "Place",
+    "name": "Frosty Garden Cafe",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Dago Pakar No. 45, Bandung",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Kartu Digital",
+    "url": "https://kartudigital.my.id/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "79000",
+    "priceCurrency": "IDR",
+    "url": "https://kartudigital.my.id/",
+    "availability": "https://schema.org/InStock",
+    "description": "Jasa undangan digital Kartu Digital"
+  }
+}
+</script>
 </head>
 <body class="locked">
 
@@ -316,11 +355,11 @@
       <p style="font-size:13px;color:var(--muted)">Ketuk foto untuk memperbesar</p>
     </div>
     <div class="gal-grid">
-      <div class="gal-item" data-src="foto-iceblue-ultah-cover.jpg" style="background-image:url('foto-iceblue-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-ultah-cover.jpg" style="background-image:url('foto-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-      <div class="gal-item" data-src="foto-khitanan-cover.jpg" style="background-image:url('foto-khitanan-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-iceblue-ultah-cover.jpg" style="background-image:url('foto-iceblue-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-ultah-cover.jpg" style="background-image:url('foto-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-khitanan-cover.jpg" style="background-image:url('foto-khitanan-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
     </div>
   </section>
 
@@ -332,19 +371,19 @@
     </div>
     <form class="glass rsvp-card" id="rsvpForm" style="margin-top:18px">
       <p class="lead">Konfirmasi sebelum <b id="studioRsvpDeadline">30 November 2026</b> supaya goodie bag dan tempat duduk kamu sudah kami siapkan!</p>
-      <input id="rName" type="text" placeholder="Nama kamu &amp; keluarga" required>
-      <select id="rCount">
+      <input aria-label="Nama Anda" id="rName" type="text" placeholder="Nama kamu &amp; keluarga" required>
+      <select aria-label="Jumlah tamu" id="rCount">
         <option value="1">1 Orang</option>
         <option value="2" selected>2 Orang</option>
         <option value="3">3 Orang</option>
         <option value="4">4 Orang</option>
       </select>
-      <div class="pills">
-        <div class="pill active" data-val="Hadir">Hadir</div>
-        <div class="pill" data-val="Tidak Hadir">Tidak Hadir</div>
-        <div class="pill" data-val="Masih Ragu">Masih Ragu</div>
+      <div class="pills" role="group" aria-label="Status kehadiran">
+        <button type="button" class="pill active" data-val="Hadir">Hadir</button>
+        <button type="button" class="pill" data-val="Tidak Hadir">Tidak Hadir</button>
+        <button type="button" class="pill" data-val="Masih Ragu">Masih Ragu</button>
       </div>
-      <textarea id="rsvpMsg" rows="3" placeholder="Tulis ucapan selamat ulang tahun..."></textarea>
+      <textarea aria-label="Ucapan dan doa" id="rsvpMsg" rows="3" placeholder="Tulis ucapan selamat ulang tahun..."></textarea>
       <button type="submit" class="btn-ice" style="width:100%">Kirim Konfirmasi &amp; Ucapan</button>
     </form>
     <div class="rsvp-ok" id="rsvpOk">🎉 <b>Yeay, terima kasih!</b><br>Sampai ketemu di pesta ulang tahun Kalila ya!</div>
@@ -370,7 +409,7 @@
             <div class="num">7788990012</div>
             <div class="an">a.n. Rizky Pratama</div>
           </div>
-          <button type="button" class="copy-mini" data-copy="7788990012">Salin</button>
+          <button type="button" class="copy-mini" data-copy="7788990012" aria-label="Salin nomor rekening">Salin</button>
         </div>
       </div>
       <div class="bank-card">
@@ -380,7 +419,7 @@
             <div class="num">0896 1234 5672</div>
             <div class="an">a.n. Anisa Rahmawati</div>
           </div>
-          <button type="button" class="copy-mini" data-copy="089612345672">Salin</button>
+          <button type="button" class="copy-mini" data-copy="089612345672" aria-label="Salin nomor rekening">Salin</button>
         </div>
       </div>
     </div>
@@ -409,8 +448,8 @@
 <a class="wa-float" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20undangan%20ulang%20tahun%20tema%20Ice%20Blue" target="_blank" rel="noopener" aria-label="Chat WhatsApp">💬</a>
 <button class="music-btn" id="musicBtn" aria-label="Musik latar"><span>♫</span> Musik</button>
 
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" id="lbClose">✕</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
+  <button class="lb-close" id="lbClose" aria-label="Tutup foto">✕</button>
   <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
 </div>
 

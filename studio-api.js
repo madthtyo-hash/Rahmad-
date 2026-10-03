@@ -16,7 +16,9 @@
       brandName: 'Kartu Digital',
       domain: 'kartudigital.my.id',
       adminWhatsapp: '6285196755675',
-      defaultCurrency: 'IDR'
+      defaultCurrency: 'IDR',
+      // Lagu yang diputar di halaman depan (index.html) — bisa diubah dari Studio.
+      frontMusic: 'musik/romantis.mp3'
     },
     invitations: [
       {
@@ -44,7 +46,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sariwangi+Bandung',
         navMode: 'scroll',
         fxMode: 'kelopak',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-rahma-cover.jpg',
           photo1: 'foto-rahma-cover.jpg',
@@ -99,7 +101,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Graha+Saraswati+Yogyakarta',
         navMode: 'scroll',
         fxMode: 'kelopak',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/jawa.mp3',
         photos: {
           cover: 'foto-jawa-cover.jpg',
           photo1: 'foto-jawa-cover.jpg',
@@ -154,7 +156,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Savoy+Homann+Bandung',
         navMode: 'scroll',
         fxMode: 'kilau',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-cover.jpg',
           photo1: 'foto-cover.jpg',
@@ -209,7 +211,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=The+Trans+Luxury+Hotel+Bandung',
         navMode: 'fade',
         fxMode: 'kilau',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-premium-cover.jpg',
           photo1: 'foto-premium-cover.jpg',
@@ -264,7 +266,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bale+Asri+Pusdai+Bandung',
         navMode: 'scroll',
         fxMode: 'bintang',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/khitanan.mp3',
         photos: {
           cover: 'foto-khitanan-cover.jpg',
           photo1: 'foto-khitanan-cover.jpg',
@@ -319,7 +321,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hummingbird+Eatery+Bandung',
         navMode: 'scroll',
         fxMode: 'balon',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/pesta.mp3',
         photos: {
           cover: 'foto-ultah-cover.jpg',
           photo1: 'foto-ultah-cover.jpg',
@@ -374,7 +376,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gatot+Subroto+Jakarta',
         navMode: 'scroll',
         fxMode: 'salju',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-iceblue-cover.jpg',
           photo1: 'foto-iceblue-cover.jpg',
@@ -431,7 +433,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Aula+Al-Ikhlas+Bandung',
         navMode: 'scroll',
         fxMode: 'salju',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/khitanan.mp3',
         photos: {
           cover: 'foto-iceblue-khitanan-cover.jpg',
           photo1: 'foto-iceblue-khitanan-cover.jpg',
@@ -488,7 +490,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Dago+Pakar+Bandung',
         navMode: 'scroll',
         fxMode: 'salju',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/pesta.mp3',
         photos: {
           cover: 'foto-iceblue-ultah-cover.jpg',
           photo1: 'foto-iceblue-ultah-cover.jpg',
@@ -545,7 +547,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Riau+Bandung',
         navMode: 'scroll',
         fxMode: 'bintang',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-midnight-cover.jpg',
           photo1: 'foto-midnight-cover.jpg',
@@ -602,7 +604,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Cihampelas+Bandung',
         navMode: 'scroll',
         fxMode: 'kelopak',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/aqiqah.mp3',
         photos: {
           cover: 'foto-aqiqah-cover.jpg',
           photo1: 'foto-aqiqah-cover.jpg',
@@ -659,7 +661,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Dipatiukur+Bandung',
         navMode: 'scroll',
         fxMode: 'konfeti',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/wisuda.mp3',
         photos: {
           cover: 'foto-wisuda-cover.jpg',
           photo1: 'foto-wisuda-cover.jpg',
@@ -716,7 +718,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sudirman+Jakarta',
         navMode: 'scroll',
         fxMode: 'kilau',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-platinum-cover.jpg',
           photo1: 'foto-platinum-cover.jpg',
@@ -1564,6 +1566,171 @@
     }
   };
 
+  // Dukungan keyboard untuk foto galeri (Enter/Spasi) — berlaku di semua tema.
+  function aktifkanAksesKeyboard() {
+    document.querySelectorAll('.gal-item').forEach(function (el) {
+      if (el.getAttribute('data-kb') === '1') return;
+      el.setAttribute('data-kb', '1');
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+  }
+
+  // Kotak Galeri (lightbox): Escape untuk menutup, Tab terkunci di dalam,
+  // fokus kembali ke foto asal setelah ditutup — berlaku di semua tema.
+  function aktifkanLightboxA11y() {
+    var lb = document.getElementById('lightbox');
+    if (!lb || lb.getAttribute('data-a11y') === '1') return;
+    lb.setAttribute('data-a11y', '1');
+    var fokusSebelumnya = null;
+    var terakhirDibuka = null;
+
+    // Catat foto yang terakhir diklik/fokus agar fokus bisa dikembalikan
+    document.addEventListener('click', function (e) {
+      var item = e.target && e.target.closest ? e.target.closest('.gal-item') : null;
+      if (item) terakhirDibuka = item;
+    }, true);
+    document.addEventListener('focusin', function (e) {
+      var item = e.target && e.target.closest ? e.target.closest('.gal-item') : null;
+      if (item) terakhirDibuka = item;
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('show')) return;
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        e.preventDefault();
+        lb.classList.remove('show');
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      var bisa = Array.prototype.filter.call(
+        lb.querySelectorAll('button, [href], img[tabindex], [tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.offsetParent !== null || el === document.activeElement; }
+      );
+      if (!bisa.length) return;
+      var pertama = bisa[0], terakhir = bisa[bisa.length - 1];
+      if (e.shiftKey && (document.activeElement === pertama || !lb.contains(document.activeElement))) {
+        e.preventDefault(); terakhir.focus();
+      } else if (!e.shiftKey && document.activeElement === terakhir) {
+        e.preventDefault(); pertama.focus();
+      }
+    });
+
+    if (window.MutationObserver) {
+      new MutationObserver(function () {
+        var terbuka = lb.classList.contains('show');
+        if (terbuka) {
+          fokusSebelumnya = terakhirDibuka || document.activeElement;
+          var tutup = lb.querySelector('.lb-close') || lb.querySelector('button');
+          if (tutup) tutup.focus();
+        } else {
+          var kembali = terakhirDibuka || fokusSebelumnya;
+          if (kembali && typeof kembali.focus === 'function') kembali.focus();
+          fokusSebelumnya = null;
+        }
+      }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  // ====== MUSIK LATAR (MP3) — dipilih dari Studio Admin ======
+  // Daftar lagu bawaan yang ikut terunggah bersama website (folder musik/).
+  // Semuanya disintesis sendiri lewat tools/make-music.py → bebas royalti.
+  var MUSIC_FILES = [
+    'musik/romantis.mp3',
+    'musik/khitanan.mp3',
+    'musik/aqiqah.mp3',
+    'musik/wisuda.mp3',
+    'musik/pesta.mp3',
+    'musik/jawa.mp3'
+  ];
+
+  function siapkanTombolMusik() {
+    var btn = document.getElementById('musicBtn');
+    if (btn) return btn;
+    // Tema lama yang belum punya tombol musik (mis. Blush & Emerald) tetap dapat tombol.
+    btn = document.createElement('button');
+    btn.id = 'musicBtn';
+    btn.type = 'button';
+    btn.className = 'music-btn';
+    btn.setAttribute('aria-label', 'Musik latar');
+    btn.innerHTML = '<span>\u266b</span> Musik';
+    document.body.appendChild(btn);
+    return btn;
+  }
+
+  // Atur musik halaman undangan sesuai pilihan di Studio:
+  //   ''     → pakai musik bawaan tema (WebAudio di dalam template)
+  //   'off'  → tanpa musik sama sekali
+  //   lainnya→ putar file MP3/link tersebut
+  function terapkanMusik(inv) {
+    var pilihan = inv && inv.musicUrl ? String(inv.musicUrl).trim() : '';
+    var audio = document.getElementById('studioMusicAudio');
+    if (!audio) {
+      audio = document.createElement('audio');
+      audio.id = 'studioMusicAudio';
+      audio.loop = true;
+      audio.preload = 'none';
+      document.body.appendChild(audio);
+    }
+
+    if (pilihan === 'off') {
+      audio.pause();
+      audio.removeAttribute('src');
+      var bOff = document.getElementById('musicBtn');
+      if (bOff) bOff.style.display = 'none';
+      window.musikMain = function () {};
+      window.musikStop = function () {};
+      return;
+    }
+
+    if (!pilihan) return; // biarkan musik bawaan tema
+
+    audio.src = pilihan;
+    var sedangMain = false;
+    function putar() {
+      try {
+        var janji = audio.play();
+        if (janji && janji.catch) janji.catch(function () {});
+      } catch (e) { /* browser tanpa dukungan audio */ }
+      sedangMain = true;
+      var b = document.getElementById('musicBtn');
+      if (b) b.classList.add('playing');
+    }
+    function henti() {
+      try { audio.pause(); } catch (e) { /* abaikan */ }
+      sedangMain = false;
+      var b = document.getElementById('musicBtn');
+      if (b) b.classList.remove('playing');
+    }
+
+    var btn = siapkanTombolMusik();
+    if (btn.getAttribute('data-mp3') === '1') {
+      // Pemutar sudah terpasang (hidrasi kedua) — cukup perbarui lagunya.
+      btn.setAttribute('data-src', pilihan);
+      return;
+    }
+    // Kloning tombol = melepas semua listener bawaan template,
+    // jadi hanya pemutar MP3 ini yang aktif.
+    var baru = btn.cloneNode(true);
+    baru.setAttribute('data-mp3', '1');
+    baru.style.display = '';
+    btn.parentNode.replaceChild(baru, btn);
+    // Sumber kebenaran = class "playing" pada tombol (tahan hidrasi ganda),
+    // dan hentikan listener lain agar tidak dobel saat diklik.
+    baru.addEventListener('click', function (e) {
+      if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
+      if (baru.classList.contains('playing')) { henti(); } else { putar(); }
+    }, true);
+
+    // Template memanggil musikMain() saat undangan dibuka → arahkan ke MP3.
+    window.musikMain = putar;
+    window.musikStop = henti;
+  }
+
   var StudioBackend = {
     cloud: cloudApi,
     getDb: function () {
@@ -1586,6 +1753,18 @@
       return db.invitations.find(function (i) {
         return i.id === idOrSlug || i.slug === idOrSlug || i.themeFile === idOrSlug;
       }) || db.invitations[0];
+    },
+    getSettings: function () {
+      var db = loadLocalDb();
+      return Object.assign({}, DEFAULT_DB.settings, db.settings || {});
+    },
+    // Simpan sebagian pengaturan (mis. musik halaman depan) ke database Studio.
+    saveSettings: async function (patch) {
+      var db = loadLocalDb();
+      db.settings = Object.assign({}, DEFAULT_DB.settings, db.settings || {}, patch || {});
+      db.updatedAt = new Date().toISOString();
+      await pushToServer(db);
+      return db.settings;
     },
     saveInvitation: async function (inv) {
       var db = loadLocalDb();
@@ -1658,6 +1837,7 @@
       cloudApi.deleteRsvp(rsvpId).catch(function () {});
       return true;
     },
+    musicFiles: MUSIC_FILES,
     compressImage: compressImage,
     formatIndonesianDate: formatIndonesianDate,
     formatDotDate: formatDotDate,
@@ -1769,7 +1949,7 @@
                     '<div class="num">' + (acc.number || '') + '</div>' +
                     '<div class="an">a.n. ' + (acc.holder || '') + '</div>' +
                   '</div>' +
-                  '<button type="button" class="copy-mini" data-copy="' + String(acc.number || '').replace(/\s+/g, '') + '">Salin</button>' +
+                  '<button type="button" class="copy-mini" aria-label="Salin nomor rekening" data-copy="' + String(acc.number || '').replace(/\s+/g, '') + '">Salin</button>' +
                 '</div>';
               amplopList.appendChild(card);
             });
@@ -1834,6 +2014,13 @@
         cloudApi.pull().then(function (res) {
           if (res && res.ok) renderWishList(inv);
         }).catch(function () {});
+
+        // Musik latar sesuai pilihan di Studio
+        terapkanMusik(inv);
+        // Galeri bisa dibuka lewat keyboard
+        aktifkanAksesKeyboard();
+        // Lightbox ramah keyboard (Escape, Tab terkunci, fokus kembali)
+        aktifkanLightboxA11y();
 
         // Hook RSVP Form submission to save into StudioBackend
         var rsvpForm = document.getElementById('rsvpForm');

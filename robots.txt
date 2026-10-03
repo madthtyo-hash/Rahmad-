@@ -1,0 +1,7 @@
+# Kartu Digital — kartudigital.my.id
+User-agent: *
+Allow: /
+Disallow: /studio.html
+Disallow: /data/
+
+Sitemap: https://kartudigital.my.id/sitemap.xml
