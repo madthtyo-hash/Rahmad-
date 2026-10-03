@@ -140,6 +140,28 @@
     .project-list{display:block}
     .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 
+    /* Pemeriksaan kelengkapan undangan */
+    .periksa-list{list-style:none;margin:6px 0 16px;padding:0;display:grid;gap:8px}
+    .periksa-list li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.55;
+      background:var(--cream);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+    .periksa-list li .tanda{flex:none;font-size:14px;line-height:1.4}
+    .periksa-list li.ok{border-color:rgba(30,122,77,.35);background:rgba(30,122,77,.06)}
+    .periksa-list li.kurang{border-color:rgba(191,122,20,.4);background:rgba(191,122,20,.07)}
+    .periksa-list li small{display:block;color:var(--muted);margin-top:2px}
+    .hasil-frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
+      box-shadow:0 10px 26px rgba(0,0,0,.08)}
+    .hasil-frame iframe{width:100%;height:640px;border:0;display:block;background:#fff}
+    @media(max-width:600px){.hasil-frame iframe{height:480px}}
+
+    /* Lencana status pemeriksaan di kartu koleksi */
+    .review-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.2px;
+      padding:4px 10px;border-radius:50px;margin-top:8px}
+    .review-badge.st-disetujui{background:rgba(30,122,77,.12);color:#1e7a4d}
+    .review-badge.st-menunggu{background:rgba(191,122,20,.14);color:#8a5a09}
+    .review-badge.st-revisi{background:rgba(190,45,45,.12);color:#b02a2a}
+    .review-badge.st-draf{background:rgba(0,0,0,.07);color:#5b5b52}
+    .koleksi-ringkas{font-size:13px;color:var(--muted);margin:-6px 0 16px}
+
     /* Koleksi tema dikelompokkan per kategori acara */
     .collection-group{margin-bottom:26px}
     .collection-group:last-child{margin-bottom:0}
@@ -390,6 +412,7 @@
           <div class="stat"><label>Undangan Aktif</label><strong id="statActiveInv">6</strong><small>Siap dibagikan ke tamu</small></div>
           <div class="stat"><label>Total Kunjungan Tamu</label><strong id="statViews">890</strong><small>↑ Live dari semua link</small></div>
           <div class="stat"><label>Konfirmasi RSVP &amp; Doa</label><strong id="statRsvps">6</strong><small id="statPaxText">15 tamu konfirmasi hadir</small></div>
+          <div class="stat"><label>Status Pemeriksaan Admin</label><strong id="statReview">—</strong><small id="statReviewText">Belum diperiksa</small></div>
         </div>
 
         <!-- BAR PILIH UNDANGAN YANG DIEDIT -->
@@ -415,6 +438,7 @@
               <button type="button" role="tab" aria-selected="false" aria-controls="tab-foto" id="tabbtn-foto" data-tab="tab-foto">🖼️ Galeri Foto</button>
               <button type="button" role="tab" aria-selected="false" aria-controls="tab-lokasi" id="tabbtn-lokasi" data-tab="tab-lokasi">📍 Lokasi &amp; Map</button>
               <button type="button" role="tab" aria-selected="false" aria-controls="tab-ekstra" id="tabbtn-ekstra" data-tab="tab-ekstra">⚙️ Fitur Ekstra</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="tab-periksa" id="tabbtn-periksa" data-tab="tab-periksa">✅ Pemeriksaan</button>
             </div>
 
             <!-- ================= TAB: DATA UTAMA ================= -->
@@ -953,6 +977,63 @@
               </div>
             </div>
             </section>
+
+            <!-- ================= TAB: PEMERIKSAAN & HASIL UNDANGAN ================= -->
+            <section role="tabpanel" aria-labelledby="tabbtn-periksa" class="tab-pane" id="tab-periksa">
+
+              <!-- ---- Kartu: Pemeriksaan Kelengkapan ---- -->
+              <div class="panel" id="card-periksa">
+                <h3><span>✅ Pemeriksaan Undangan</span><span class="status" id="periksaSkor">—</span></h3>
+                <p class="sub-desc">Daftar periksa otomatis sebelum undangan dibagikan ke tamu: data acara, foto, rekening, musik, RSVP, dan QR check-in. Periksa ulang setiap kali selesai mengubah data.</p>
+                <ul class="periksa-list" id="periksaList"></ul>
+                <div class="form-footer">
+                  <button type="button" class="btn primary" id="periksaRefreshBtn">↻ Periksa Ulang</button>
+                  <a class="btn" id="periksaOpenLink" href="#" target="_blank" rel="noopener">↗ Buka Undangan</a>
+                  <span class="saved" id="periksaNama">—</span>
+                </div>
+              </div>
+
+              <!-- ---- Kartu: Status Pemeriksaan Admin ---- -->
+              <div class="panel" id="card-review">
+                <h3><span>🧾 Status Pemeriksaan Admin</span><span class="chip">Per Undangan</span></h3>
+                <p class="sub-desc">Tandai undangan ini sudah dicek admin, masih menunggu, atau perlu revisi. Status dipakai untuk pengelompokan koleksi di bawah (Kelompok: Status Pemeriksaan).</p>
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="fReviewStatus">Status Pemeriksaan</label>
+                    <select id="fReviewStatus">
+                      <option value="menunggu">🕒 Menunggu Dicek</option>
+                      <option value="disetujui">✅ Disetujui — siap dibagikan</option>
+                      <option value="revisi">✏️ Perlu Revisi</option>
+                      <option value="draf">📝 Draf / belum dikerjakan</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <label for="fReviewNote">Catatan Admin (opsional)</label>
+                    <textarea id="fReviewNote" rows="3" placeholder="Contoh: minta ganti foto cover, tambah 1 rekening, atau sesuaikan jam resepsi dengan undangan cetak."></textarea>
+                  </div>
+                </div>
+                <div class="form-footer">
+                  <button type="button" class="btn primary" id="saveReviewBtn">💾 Simpan Status Pemeriksaan</button>
+                  <span class="saved" id="reviewMeta">Belum pernah diperiksa</span>
+                </div>
+              </div>
+
+              <!-- ---- Kartu: Hasil Undangan ---- -->
+              <div class="panel" id="card-hasil">
+                <h3><span>📱 Hasil Undangan</span><span class="chip">Pratinjau Langsung</span></h3>
+                <p class="sub-desc">Tampilkan undangan yang sedang diedit langsung di dalam Studio — persis seperti yang dilihat tamu (mode navigasi, efek dekorasi, musik, dan QR check-in ikut terbawa).</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+                  <button type="button" class="btn primary" id="hasilPreviewBtn">▶ Tampilkan Hasil Undangan</button>
+                  <button type="button" class="btn" id="hasilReloadBtn">↻ Muat Ulang</button>
+                  <a class="btn" id="hasilOpenLink" href="#" target="_blank" rel="noopener">↗ Buka di Tab Baru</a>
+                  <a class="btn" id="hasilShareLink" href="#" target="_blank" rel="noopener">🔗 Link untuk Tamu</a>
+                </div>
+                <div class="hasil-frame" id="hasilFrameWrap" style="display:none">
+                  <iframe id="hasilPreviewFrame" title="Pratinjau hasil undangan" loading="lazy"></iframe>
+                </div>
+                <p class="sub-desc" id="hasilInfo" style="margin-top:8px">Belum ditampilkan. Klik “Tampilkan Hasil Undangan”.</p>
+              </div>
+            </section>
           </div>
 
           <!-- ================= LIVE PREVIEW PANEL ================= -->
@@ -998,6 +1079,13 @@
               <h2 style="font-size:22px">Semua Tema Undangan (13 Tema Siap Pakai)</h2>
             </div>
           </div>
+
+          <div class="cat-filter" id="collectionView">
+            <button type="button" class="active" data-view="kategori">🗂️ Kelompok: Kategori</button>
+            <button type="button" data-view="tanggal">📅 Kelompok: Tanggal Acara</button>
+            <button type="button" data-view="status">🧾 Kelompok: Status Pemeriksaan</button>
+          </div>
+          <p class="koleksi-ringkas" id="koleksiRingkas"></p>
 
           <div class="cat-filter" id="collectionFilter">
             <button type="button" class="active" data-cat="all">Semua Tema (13)</button>
@@ -1072,6 +1160,104 @@
           tombolTab[tujuan].focus();
           activateTab(tombolTab[tujuan].getAttribute('data-tab'));
         });
+      });
+
+      // ================= PEMERIKSAAN & HASIL UNDANGAN =================
+      // Gulir halus ke panel editor — aman di browser/jsdom yang belum mendukung opsi
+      function gulirKeEditor() {
+        try { gulirKeEditor(); }
+        catch (e) { try { window.scrollTo(0, 140); } catch (e2) { /* abaikan */ } }
+      }
+
+      function liveHrefUndangan(inv) {
+        return (inv.themeFile || 'undangan-sage.html') +
+          '?id=' + encodeURIComponent(inv.id) +
+          '&mode=' + encodeURIComponent(inv.navMode || 'scroll') +
+          '&fx=' + encodeURIComponent(inv.fxMode || 'kelopak');
+      }
+
+      function renderReviewMeta(inv) {
+        var el = $('reviewMeta');
+        if (!el) return;
+        el.textContent = inv.reviewedAt
+          ? 'Terakhir diperiksa ' + new Date(inv.reviewedAt).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })
+          : 'Belum pernah diperiksa';
+      }
+
+      // Daftar periksa kelengkapan undangan yang sedang diedit
+      function renderPemeriksaan() {
+        var inv = StudioBackend.getInvitation(activeId);
+        if (!inv) return;
+        var hasil = StudioBackend.periksaKelengkapan(inv);
+        var skor = $('periksaSkor');
+        skor.textContent = hasil.lolos + ' / ' + hasil.total + (hasil.siap ? ' \u2713' : '');
+        skor.className = 'status' + (hasil.siap ? '' : ' warn');
+        $('periksaNama').textContent = inv.primaryName || inv.id;
+        $('periksaOpenLink').href = liveHrefUndangan(inv);
+
+        var daftar = $('periksaList');
+        daftar.innerHTML = '';
+        hasil.butir.forEach(function (b) {
+          var li = document.createElement('li');
+          li.className = b.ok ? 'ok' : 'kurang';
+          li.innerHTML = '<span class="tanda" aria-hidden="true">' + (b.ok ? '\u2705' : '\u26a0\ufe0f') + '</span>' +
+            '<span>' + b.label + (b.ok ? '' : (b.saran ? '<small>' + b.saran + '</small>' : '')) + '</span>';
+          daftar.appendChild(li);
+        });
+
+        $('fReviewStatus').value = statusPemeriksaan(inv);
+        $('fReviewNote').value = inv.reviewNote || '';
+        renderReviewMeta(inv);
+
+        var hasilInfo = $('hasilInfo');
+        if (hasilInfo && $('hasilFrameWrap').style.display === 'none') {
+          hasilInfo.textContent = 'Belum ditampilkan. Klik \u201cTampilkan Hasil Undangan\u201d.';
+        }
+        return hasil;
+      }
+
+      // Tampilkan hasil undangan langsung di dalam Studio
+      function muatHasilUndangan() {
+        var inv = StudioBackend.getInvitation(activeId);
+        if (!inv) return;
+        var url = liveHrefUndangan(inv);
+        $('hasilPreviewFrame').src = url;
+        $('hasilFrameWrap').style.display = 'block';
+        $('hasilOpenLink').href = url;
+        $('hasilShareLink').href = url + '&to=' + encodeURIComponent($('shareGuestName').value.trim() || 'Tamu Undangan');
+        $('hasilInfo').textContent = 'Menampilkan: ' + (inv.primaryName || inv.id) + ' \u00b7 ' +
+          (inv.theme || '') + ' \u00b7 mode ' + (inv.navMode || 'scroll') + ' \u00b7 efek ' + (inv.fxMode || 'kelopak');
+      }
+
+      var hasilPreviewBtn = $('hasilPreviewBtn');
+      if (hasilPreviewBtn) hasilPreviewBtn.addEventListener('click', muatHasilUndangan);
+      var hasilReloadBtn = $('hasilReloadBtn');
+      if (hasilReloadBtn) hasilReloadBtn.addEventListener('click', function () {
+        var frame = $('hasilPreviewFrame');
+        if (!frame.getAttribute('src')) { muatHasilUndangan(); return; }
+        frame.src = frame.getAttribute('src');   // paksa muat ulang
+        showToast('\u21bb Hasil undangan dimuat ulang');
+      });
+
+      var periksaRefreshBtn = $('periksaRefreshBtn');
+      if (periksaRefreshBtn) periksaRefreshBtn.addEventListener('click', function () {
+        var hasil = renderPemeriksaan();
+        showToast(hasil && hasil.siap
+          ? '\u2713 Semua ' + hasil.total + ' pemeriksaan lolos \u2014 undangan siap dibagikan'
+          : '\u26a0 ' + (hasil ? (hasil.total - hasil.lolos) : 0) + ' pemeriksaan belum lolos');
+      });
+
+      // Simpan status pemeriksaan admin (disetujui / menunggu / revisi / draf)
+      var saveReviewBtn = $('saveReviewBtn');
+      if (saveReviewBtn) saveReviewBtn.addEventListener('click', async function () {
+        var inv = StudioBackend.getInvitation(activeId);
+        inv.reviewStatus = $('fReviewStatus').value || 'menunggu';
+        inv.reviewNote = $('fReviewNote').value.trim();
+        inv.reviewedAt = new Date().toISOString();
+        await StudioBackend.saveInvitation(inv);
+        renderReviewMeta(inv);
+        renderProjectsCollection();
+        showToast('\u2713 Status pemeriksaan disimpan: ' + labelStatus(inv.reviewStatus));
       });
 
       // Musik halaman depan (pengaturan global Studio)
@@ -1207,6 +1393,13 @@
         $('statRsvps').textContent = rsvps.length;
         $('statPaxText').textContent = totalPax + ' tamu konfirmasi hadir';
 
+        // Ringkasan pemeriksaan admin: disetujui / menunggu / perlu revisi
+        var hitungReview = { disetujui: 0, menunggu: 0, revisi: 0, draf: 0 };
+        invs.forEach(function (i) { hitungReview[statusPemeriksaan(i)] += 1; });
+        $('statReview').textContent = hitungReview.disetujui + ' / ' + invs.length;
+        $('statReviewText').textContent = hitungReview.menunggu + ' menunggu dicek · ' +
+          hitungReview.revisi + ' perlu revisi' + (hitungReview.draf ? ' · ' + hitungReview.draf + ' draf' : '');
+
         var sel = $('activeInvitationSelect');
         sel.innerHTML = '';
         invs.forEach(function (inv) {
@@ -1290,6 +1483,8 @@
 
         updateLivePreview();
         updateShareGenerator();
+        // Sekalian segarkan daftar periksa & status pemeriksaan undangan ini
+        if (typeof renderPemeriksaan === 'function') renderPemeriksaan();
       }
 
       // Render Gallery Thumbnails in Photo Upload Tab
@@ -1509,6 +1704,7 @@
         renderProjectsCollection();
         updateLivePreview();
         updateShareGenerator();
+        renderPemeriksaan();
         showToast('✓ Perubahan disimpan ke Backend Studio');
       }
 
@@ -1533,29 +1729,105 @@
         return inv.category || 'pernikahan';
       }
 
-      // Render Collection Cards — dikelompokkan per kategori acara
+      // ---------- Pengelompokan koleksi: per kategori / tanggal / status ----------
+      var currentCollectionView = 'kategori';
+      var NAMA_BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
+                        'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      var REVIEW_META = [
+        { key: 'revisi',   label: '\u270f\ufe0f Perlu Revisi',              desc: 'Ada yang harus diperbaiki sebelum dibagikan ke tamu.' },
+        { key: 'menunggu', label: '\uD83D\uDD52 Menunggu Dicek',               desc: 'Sudah jadi, belum diperiksa admin.' },
+        { key: 'disetujui', label: '\u2705 Disetujui \u2014 siap dibagikan', desc: 'Sudah dicek admin dan aman untuk dibagikan.' },
+        { key: 'draf',     label: '\uD83D\uDCDD Draf',                         desc: 'Masih dikerjakan / data belum lengkap.' }
+      ];
+
+      function statusPemeriksaan(inv) {
+        var st = (inv && inv.reviewStatus) || 'menunggu';
+        return REVIEW_META.some(function (m) { return m.key === st; }) ? st : 'menunggu';
+      }
+      function labelStatus(id) {
+        var m = REVIEW_META.filter(function (x) { return x.key === id; })[0];
+        return m ? m.label : id;
+      }
+
+      // Kunci + label kelompok tanggal acara (urut kronologis)
+      function tanggalKelompok(inv) {
+        var t = String((inv && inv.eventDate) || '').split('-');
+        if (t.length !== 3 || !t[0]) return { kunci: 'tanpa-tanggal', urut: '9999-99' };
+        return { kunci: t[0] + '-' + t[1], urut: t[0] + '-' + t[1] };
+      }
+      function labelTanggal(kunci) {
+        if (kunci === 'tanpa-tanggal') return '\uD83D\uDCC5 Tanggal belum diisi';
+        var p = kunci.split('-');
+        return '\uD83D\uDCC5 ' + (NAMA_BULAN[Number(p[1]) - 1] || p[1]) + ' ' + p[0];
+      }
+
+      // Kelompok koleksi sesuai tampilan terpilih (kategori / tanggal / status)
+      function kelompokKoleksi(list) {
+        var kelompok = [];
+
+        if (currentCollectionView === 'tanggal') {
+          var petaTanggal = {};
+          list.forEach(function (inv) {
+            var kunci = tanggalKelompok(inv);
+            if (!petaTanggal[kunci.kunci]) {
+              petaTanggal[kunci.kunci] = { key: kunci.kunci, urut: kunci.urut,
+                label: labelTanggal(kunci.kunci), desc: 'Acara pada bulan ini.', anggota: [] };
+            }
+            petaTanggal[kunci.kunci].anggota.push(inv);
+          });
+          kelompok = Object.keys(petaTanggal).map(function (k) { return petaTanggal[k]; })
+            .sort(function (a, b) { return a.urut < b.urut ? -1 : (a.urut > b.urut ? 1 : 0); });
+          return kelompok;
+        }
+
+        if (currentCollectionView === 'status') {
+          REVIEW_META.forEach(function (meta) {
+            var anggota = list.filter(function (inv) { return statusPemeriksaan(inv) === meta.key; });
+            if (anggota.length) kelompok.push({ key: meta.key, label: meta.label, desc: meta.desc, anggota: anggota });
+          });
+          return kelompok;
+        }
+
+        GROUP_META.forEach(function (meta) {
+          if (currentCategoryFilter !== 'all' && currentCategoryFilter !== meta.cat) return;
+          var anggota = list.filter(function (inv) { return kategoriKelompok(inv) === meta.cat; });
+          if (anggota.length) kelompok.push({ key: meta.cat, label: meta.label, desc: meta.desc, anggota: anggota });
+        });
+        return kelompok;
+      }
+
+      // Ringkasan kecil di atas koleksi: jumlah undangan & status pemeriksaan
+      function renderRingkasKoleksi(semua) {
+        var el = $('koleksiRingkas');
+        if (!el) return;
+        var hitung = { revisi: 0, menunggu: 0, disetujui: 0, draf: 0 };
+        semua.forEach(function (inv) { hitung[statusPemeriksaan(inv)] += 1; });
+        el.textContent = semua.length + ' undangan \u00b7 ' + hitung.disetujui + ' disetujui \u00b7 ' +
+          hitung.menunggu + ' menunggu dicek \u00b7 ' + hitung.revisi + ' perlu revisi' +
+          (hitung.draf ? ' \u00b7 ' + hitung.draf + ' draf' : '');
+      }
+
+      // Render Collection Cards — dikelompokkan per kategori, tanggal, atau status
       function renderProjectsCollection() {
         var list = StudioBackend.getInvitations(currentCategoryFilter);
         var grid = $('projectListGrid');
         grid.innerHTML = '';
+        renderRingkasKoleksi(StudioBackend.getInvitations('all'));
 
-        var kelompok = [];
-        GROUP_META.forEach(function (meta) {
-          if (currentCategoryFilter !== 'all' && currentCategoryFilter !== meta.cat) return;
-          var anggota = list.filter(function (inv) { return kategoriKelompok(inv) === meta.cat; });
-          if (anggota.length) kelompok.push({ meta: meta, anggota: anggota });
-        });
+        var kelompok = kelompokKoleksi(list);
 
         kelompok.forEach(function (grup) {
           var wrap = document.createElement('div');
           wrap.className = 'collection-group';
-          wrap.setAttribute('data-cat', grup.meta.cat);
+          wrap.setAttribute('data-cat', grup.key);
+          wrap.setAttribute('data-view', currentCollectionView);
 
           var head = document.createElement('div');
           head.className = 'collection-group-head';
-          head.innerHTML = '<h3>' + grup.meta.label +
+          head.innerHTML = '<h3>' + grup.label +
             ' <span class="count">' + grup.anggota.length + ' Undangan</span></h3>' +
-            '<p>' + grup.meta.desc + '</p>';
+            '<p>' + grup.desc + '</p>';
           wrap.appendChild(head);
 
           var listEl = document.createElement('div');
@@ -1566,7 +1838,7 @@
         });
 
         if (!kelompok.length) {
-          grid.innerHTML = '<p style="color:var(--muted)">Belum ada undangan pada kategori ini. ' +
+          grid.innerHTML = '<p style="color:var(--muted)">Belum ada undangan pada kelompok ini. ' +
             'Buat baru lewat tab Data Utama.</p>';
         }
       }
@@ -1582,6 +1854,11 @@
             : inv.primaryName;
           var liveHref = inv.themeFile + '?id=' + encodeURIComponent(inv.id) + '&mode=' + encodeURIComponent(inv.navMode || 'scroll') + '&fx=' + encodeURIComponent(inv.fxMode || 'kelopak');
 
+          var statusInv = statusPemeriksaan(inv);
+          var hasilCek = StudioBackend.periksaKelengkapan(inv);
+          var catatan = (inv.reviewNote || '').trim();
+          card.setAttribute('data-status', statusInv);
+
           card.innerHTML =
             '<div>' +
               '<div class="project-top">' +
@@ -1591,9 +1868,14 @@
               '<h4>' + titlePair + '</h4>' +
               '<p>' + StudioBackend.formatIndonesianDate(inv.eventDate) + '</p>' +
               '<p style="margin-top:4px;font-weight:600;color:var(--ink)">Tema: ' + inv.theme + '</p>' +
+              '<span class="review-badge st-' + statusInv + '">' + labelStatus(statusInv) + '</span>' +
+              '<p style="margin-top:6px;font-size:12.5px;color:var(--muted)">Kelengkapan: ' + hasilCek.lolos +
+                '/' + hasilCek.total + (hasilCek.siap ? ' • siap dibagikan' : ' • ada yang perlu dilengkapi') + '</p>' +
+              (catatan ? '<p style="margin-top:4px;font-size:12.5px;color:var(--muted)">Catatan: ' + catatan + '</p>' : '') +
             '</div>' +
             '<div class="project-actions">' +
               '<button type="button" class="btn sm primary edit-proj-btn">✎ Edit di Studio</button>' +
+              '<button type="button" class="btn sm cek-proj-btn">✅ Cek &amp; Hasil</button>' +
               '<a class="btn sm" href="' + liveHref + '" target="_blank" rel="noopener">Buka Demo ↗</a>' +
             '</div>';
 
@@ -1601,8 +1883,19 @@
             activeId = inv.id;
             $('activeInvitationSelect').value = activeId;
             loadActiveInvitationToForm();
-            window.scrollTo({ top: 140, behavior: 'smooth' });
+            gulirKeEditor();
             showToast('Mengedit: ' + titlePair);
+          });
+
+          // Tombol Cek: buka tab Pemeriksaan untuk undangan ini
+          card.querySelector('.cek-proj-btn').addEventListener('click', function () {
+            activeId = inv.id;
+            $('activeInvitationSelect').value = activeId;
+            loadActiveInvitationToForm();
+            activateTab('tab-periksa');
+            renderPemeriksaan();
+            gulirKeEditor();
+            showToast('Memeriksa: ' + titlePair);
           });
         }
         return card;
@@ -1858,6 +2151,19 @@
         renderProjectsCollection();
         loadActiveInvitationToForm();
         showToast('↺ Data Studio dikembalikan ke bawaan');
+      });
+
+      // Pemilih pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan
+      document.querySelectorAll('#collectionView button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('#collectionView button').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentCollectionView = btn.getAttribute('data-view') || 'kategori';
+          renderProjectsCollection();
+          var info = { kategori: '6 kategori acara', tanggal: 'urutan bulan acara',
+                       status: 'status pemeriksaan admin' }[currentCollectionView] || '';
+          showToast('\uD83D\uDDC2\ufe0f Koleksi dikelompokkan per ' + info);
+        });
       });
 
       // Collection Category Filter

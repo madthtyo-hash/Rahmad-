@@ -98,6 +98,7 @@ async function buka(url) {
         /fonts\.googleapis|fonts\.gstatic/.test(m)) return;
     // jsdom belum mengimplementasikan pemutaran audio/video — bukan error halaman.
     if (/Not implemented: HTMLMediaElement/i.test(m)) return;
+    if (/Not implemented: Window's scrollTo/i.test(m)) return;   // jsdom belum punya scrollTo beropsi
     errors.push('jsdomError: ' + m);
   });
   const dom = await JSDOM.fromURL(url, {
@@ -354,6 +355,99 @@ async function ujiStudio() {
       d.getElementById('saveFrontMusicBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
       await new Promise((r) => setTimeout(r, 150));
     }
+
+    // ---- Pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan ----
+    const grupKoleksiAwal = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
+    cek('Ringkasan koleksi menampilkan jumlah per status pemeriksaan',
+      /13 undangan \u00b7 \d+ disetujui \u00b7 \d+ menunggu dicek \u00b7 \d+ perlu revisi/.test(
+        d.getElementById('koleksiRingkas').textContent),
+      d.getElementById('koleksiRingkas').textContent.trim());
+    const klikView = (v) => d.querySelector('#collectionView button[data-view="' + v + '"]')
+      .dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+
+    klikView('tanggal');
+    const grupTanggal = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
+    cek('Kelompok tanggal: jumlah kelompok = jumlah bulan acara',
+      grupTanggal.length >= 4 && grupTanggal.every((g) => g.getAttribute('data-view') === 'tanggal'),
+      grupTanggal.map((g) => g.getAttribute('data-cat')).join(', '));
+    cek('Kelompok tanggal berurutan secara kronologis',
+      (() => {
+        const urut = grupTanggal.map((g) => g.getAttribute('data-cat'));
+        return urut.every((k, i) => i === 0 || urut[i - 1] <= k);
+      })(), grupTanggal.map((g) => g.getAttribute('data-cat')).join(' < '));
+    cek('Kelompok tanggal berlabel bulan Indonesia + jumlah undangan',
+      grupTanggal.every((g) => /(Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember) \d{4}|Tanggal belum diisi/.test(
+        g.querySelector('h3').textContent) && /\d+ Undangan/.test(g.querySelector('h3').textContent)),
+      grupTanggal[0] && grupTanggal[0].querySelector('h3').textContent.trim());
+    cek('Semua 13 undangan tetap tampil pada kelompok tanggal',
+      d.querySelectorAll('#projectListGrid article.project').length === 13);
+
+    klikView('status');
+    const grupStatus = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
+    const kunciStatus = grupStatus.map((g) => g.getAttribute('data-cat'));
+    cek('Kelompok status memuat Perlu Revisi, Menunggu Dicek & Disetujui',
+      kunciStatus.indexOf('revisi') > -1 && kunciStatus.indexOf('menunggu') > -1 &&
+      kunciStatus.indexOf('disetujui') > -1, kunciStatus.join(', '));
+    cek('Jumlah undangan per status sesuai data',
+      grupStatus.reduce((n, g) => n + g.querySelectorAll('article.project').length, 0) === 13);
+    cek('Kartu memuat lencana status pemeriksaan',
+      d.querySelectorAll('#projectListGrid .review-badge').length === 13,
+      d.querySelectorAll('#projectListGrid .review-badge').length + ' lencana');
+    cek('Kartu memuat ringkasan kelengkapan (n/12)',
+      Array.from(d.querySelectorAll('#projectListGrid article.project'))
+        .every((k) => /Kelengkapan: \d+\/\d+/.test(k.textContent)));
+
+    klikView('kategori');
+    cek('Kembali ke kelompok kategori → 6 kelompok seperti semula',
+      d.querySelectorAll('#projectListGrid .collection-group').length === grupKoleksiAwal.length &&
+      d.querySelectorAll('#projectListGrid .collection-group[data-cat="pernikahan"]').length === 1);
+
+    // ---- Tab Pemeriksaan: daftar periksa, status admin, pratinjau hasil ----
+    d.querySelector('article.project .cek-proj-btn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 200));
+    cek('Tombol \u201cCek & Hasil\u201d membuka tab Pemeriksaan',
+      (d.querySelector('.editor-tabs [role="tab"][aria-selected="true"]') || {}).id === 'tabbtn-periksa',
+      (d.querySelector('.editor-tabs [role="tab"][aria-selected="true"]') || {}).id);
+    const daftarPeriksa = Array.from(d.querySelectorAll('#periksaList li'));
+    cek('Daftar periksa menjalankan 12 butir pemeriksaan', daftarPeriksa.length === 12, daftarPeriksa.length + ' butir');
+    cek('Butir periksa memakai tanda lolos/kurang',
+      daftarPeriksa.every((li) => li.classList.contains('ok') || li.classList.contains('kurang')));
+    cek('Skor pemeriksaan tampil (n / 12)',
+      /\d+ \/ 12/.test(d.getElementById('periksaSkor').textContent),
+      d.getElementById('periksaSkor').textContent.trim());
+
+    const idDiperiksa = d.getElementById('activeInvitationSelect').value;
+    d.getElementById('fReviewStatus').value = 'revisi';
+    d.getElementById('fReviewNote').value = 'Ganti foto cover utama & tambah 1 rekening.';
+    d.getElementById('saveReviewBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 250));
+    const invDiperiksa = w.StudioBackend.getInvitation(idDiperiksa);
+    cek('Status pemeriksaan admin tersimpan ke undangan',
+      invDiperiksa.reviewStatus === 'revisi' && /foto cover/.test(invDiperiksa.reviewNote) && !!invDiperiksa.reviewedAt,
+      invDiperiksa.reviewStatus + ' \u00b7 ' + invDiperiksa.reviewNote.slice(0, 28));
+    cek('Waktu pemeriksaan tampil di Studio', /Terakhir diperiksa/.test(d.getElementById('reviewMeta').textContent),
+      d.getElementById('reviewMeta').textContent.trim());
+    klikView('status');
+    cek('Kartu pindah ke kelompok Perlu Revisi setelah disimpan',
+      (d.querySelector('#projectListGrid .collection-group[data-cat="revisi"]') || { textContent: '' })
+        .textContent.indexOf(w.StudioBackend.getInvitation(idDiperiksa).primaryName) > -1);
+    klikView('kategori');
+
+    // ---- Pratinjau hasil undangan di Studio ----
+    d.getElementById('hasilPreviewBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 200));
+    const frameHasil = d.getElementById('hasilPreviewFrame');
+    const srcHasil = frameHasil.getAttribute('src') || '';
+    cek('Tombol Tampilkan Hasil Undangan memuat pratinjau di Studio',
+      d.getElementById('hasilFrameWrap').style.display === 'block' && /undangan-[a-z-]+\.html\?id=/.test(srcHasil),
+      srcHasil.slice(0, 60));
+    cek('Pratinjau memakai template undangan yang sedang diedit',
+      srcHasil.indexOf(invDiperiksa.themeFile) === 0, srcHasil.split('?')[0]);
+    cek('Pratinjau membawa mode navigasi & efek dari pengaturan',
+      srcHasil.indexOf('mode=') > -1 && srcHasil.indexOf('fx=') > -1);
+    cek('Info pratinjau menjelaskan apa yang ditampilkan',
+      /Menampilkan:/.test(d.getElementById('hasilInfo').textContent),
+      d.getElementById('hasilInfo').textContent.trim().slice(0, 60));
 
     cek('tidak ada error JS di Studio', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {

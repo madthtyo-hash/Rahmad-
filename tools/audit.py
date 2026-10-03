@@ -228,6 +228,27 @@ api_nav = rd('studio-api.js')
 ok('studio-api.js menerapkan navMode dari Studio') if 'window.setMode(inv.navMode)' in api_nav else bad('studio-api.js tidak menerapkan navMode tersimpan')
 ok('link ?mode= tetap menang atas navMode tersimpan') if 'var modeLink = new URLSearchParams' in api_nav else bad('pemeriksaan ?mode= tidak ada')
 
+print('\n== 8e. Studio: koleksi per kategori/tanggal/status & pemeriksaan admin ==')
+for hook, nama in [('id="collectionView"', 'pemilih pengelompokan koleksi (kategori/tanggal/status)'),
+                   ('data-view="tanggal"', 'opsi kelompok tanggal acara'),
+                   ('data-view="status"', 'opsi kelompok status pemeriksaan'),
+                   ('id="koleksiRingkas"', 'ringkasan koleksi (disetujui/menunggu/revisi)'),
+                   ('id="tab-periksa"', 'tab Pemeriksaan'),
+                   ('id="periksaList"', 'daftar periksa kelengkapan'),
+                   ('id="fReviewStatus"', 'pilihan status pemeriksaan admin'),
+                   ('id="fReviewNote"', 'catatan admin'),
+                   ('id="hasilPreviewFrame"', 'pratinjau hasil undangan (iframe)'),
+                   ('id="hasilPreviewBtn"', 'tombol Tampilkan Hasil Undangan')]:
+    ok(f'{nama} ada') if hook in st else bad(f'{nama} tidak ada')
+for fn in ['function periksaKelengkapan', 'periksaKelengkapan: periksaKelengkapan',
+           'function renderPemeriksaan', 'function muatHasilUndangan', 'function kelompokKoleksi']:
+    ok('studio-api/studio.html: %s' % fn) if (fn in rd('studio-api.js') or fn in st) else bad('%s tidak ditemukan' % fn)
+for sumber, isi in [('studio-api.js', api if False else rd('studio-api.js')), ('data/studio-db.json', rd('data/studio-db.json'))]:
+    kurang = isi.count('reviewStatus')
+    ok('%s memuat reviewStatus (%d undangan)' % (sumber, kurang)) if kurang >= 13 else warn('%s: reviewStatus baru %d' % (sumber, kurang))
+for st_key in ['revisi', 'menunggu', 'disetujui']:
+    ok('DEFAULT_DB memuat status "%s"' % st_key) if "reviewStatus: '%s'" % st_key in rd('studio-api.js') else bad('status "%s" tidak ada di seed bawaan' % st_key)
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')
@@ -302,9 +323,9 @@ st_hilang = sorted(i for i in st_ids_used if i not in st_ids_have)
 ok(f'semua {len(st_ids_used)} id yang dipakai JS studio.html tersedia') if not st_hilang else bad(f'id hilang di studio.html: {st_hilang}')
 tabs = re.findall(r'data-tab="([^"]+)"', st)
 panes = re.findall(r'class="[^"]*tab-pane[^"]*" id="([^"]+)"', st)
-ok(f'{len(tabs)} tab pil: ' + ', '.join(tabs)) if len(tabs) == 5 else bad(f'tab pil: {tabs}')
+ok(f'{len(tabs)} tab pil: ' + ', '.join(tabs)) if len(tabs) == 6 else bad(f'tab pil: {tabs}')
 ok('setiap tab punya panel isi (cocok)') if sorted(tabs) == sorted(panes) else bad(f'tab vs panel beda: {tabs} vs {panes}')
-for nama in ['Data Utama', 'Tema &amp; Visual', 'Galeri Foto', 'Lokasi &amp; Map', 'Fitur Ekstra']:
+for nama in ['Data Utama', 'Tema &amp; Visual', 'Galeri Foto', 'Lokasi &amp; Map', 'Fitur Ekstra', 'Pemeriksaan']:
     ok(f'label tab "{nama}" ada') if nama in st else bad(f'label tab {nama} hilang')
 for cid in ['card-amplop', 'card-rsvp', 'card-share', 'card-storage']:
     ok(f'kartu {cid} ada di tab Fitur Ekstra') if f'id="{cid}"' in st else bad(f'{cid} hilang')

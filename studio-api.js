@@ -28,6 +28,9 @@
         theme: 'Sage Blossom',
         themeFile: 'undangan-sage.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-09-28T09:12:00.000Z',
         status: 'Aktif',
         views: 184,
         title: 'The Wedding Of',
@@ -83,6 +86,9 @@
         theme: 'Jawa Heritage',
         themeFile: 'undangan-jawa.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-09-29T14:05:00.000Z',
         status: 'Aktif',
         views: 142,
         title: 'The Wedding Of',
@@ -138,6 +144,9 @@
         theme: 'Blush & Emerald Floral',
         themeFile: 'undangan-demo.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 96,
         title: 'Undangan Pernikahan',
@@ -193,6 +202,9 @@
         theme: 'Royal Gold Luxury 👑',
         themeFile: 'undangan-premium.html',
         isPremium: true,
+        reviewStatus: 'disetujui',
+        reviewNote: "Klien minta foto cover diganti ke foto pre-wedding.",
+        reviewedAt: '2026-09-30T10:40:00.000Z',
         status: 'Aktif',
         views: 215,
         title: 'Royal Wedding Invitation',
@@ -248,6 +260,9 @@
         theme: 'Al-Fatih Khitanan 🕌',
         themeFile: 'undangan-khitanan.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-09-27T08:20:00.000Z',
         status: 'Aktif',
         views: 119,
         title: 'Walimatul Khitan',
@@ -303,6 +318,9 @@
         theme: 'Sweet Wonder Party 🎂',
         themeFile: 'undangan-ultah.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 134,
         title: '7th Birthday Party',
@@ -358,6 +376,9 @@
         theme: 'Ice Blue Floral ❄',
         themeFile: 'undangan-iceblue.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 76,
         title: 'The Wedding Of',
@@ -415,6 +436,9 @@
         theme: 'Ice Blue Barakah ❄',
         themeFile: 'undangan-iceblue-khitanan.html',
         isPremium: false,
+        reviewStatus: 'revisi',
+        reviewNote: "Tambah 1 rekening lagi & sesuaikan jam resepsi dengan undangan cetak.",
+        reviewedAt: '2026-10-01T13:15:00.000Z',
         status: 'Aktif',
         views: 58,
         title: 'Walimatul Khitan',
@@ -472,6 +496,9 @@
         theme: 'Ice Blue Party 🎂',
         themeFile: 'undangan-iceblue-ultah.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 92,
         title: '8th Birthday Party',
@@ -529,6 +556,9 @@
         theme: 'Midnight Emerald 🌙',
         themeFile: 'undangan-midnight.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-10-01T09:05:00.000Z',
         status: 'Aktif',
         views: 76,
         title: 'The Wedding Of',
@@ -586,6 +616,9 @@
         theme: 'Aqiqah Rahmah 🍼',
         themeFile: 'undangan-aqiqah.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 64,
         title: 'Tasyakuran Aqiqah',
@@ -643,6 +676,9 @@
         theme: 'Grand Graduation 🎓',
         themeFile: 'undangan-wisuda.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "Link peta sudah dites dari HP — aman.",
+        reviewedAt: '2026-10-02T11:30:00.000Z',
         status: 'Aktif',
         views: 58,
         title: 'Undangan Wisuda',
@@ -700,6 +736,9 @@
         theme: 'Platinum Marble 👑',
         themeFile: 'undangan-platinum.html',
         isPremium: true,
+        reviewStatus: 'revisi',
+        reviewNote: "Tamu VIP menunggu daftar kursi gala dinner diisi.",
+        reviewedAt: '2026-10-02T16:45:00.000Z',
         status: 'Aktif',
         views: 121,
         title: 'The Wedding Of',
@@ -1636,6 +1675,53 @@
     }
   }
 
+  // ====== PEMERIKSAAN KELENGKAPAN UNDANGAN (dipakai Studio Admin) ======
+  // Mengembalikan daftar periksa + skor, supaya admin tahu undangan sudah
+  // siap dibagikan atau masih ada yang kurang.
+  function periksaKelengkapan(inv) {
+    inv = inv || {};
+    var foto = inv.photos || {};
+    var galeri = Array.isArray(foto.gallery) ? foto.gallery : [];
+    var rekening = (inv.amplop && Array.isArray(inv.amplop.accounts)) ? inv.amplop.accounts : [];
+    var rekBerisi = rekening.filter(function (r) { return r && String(r.number || '').trim(); });
+    var amplopAktif = !inv.amplop || inv.amplop.enabled !== false;
+    var rsvpAktif = !inv.rsvp || inv.rsvp.enabled !== false;
+    var statusUndangan = inv.status || 'Aktif';
+    var musik = inv.musicUrl === undefined ? '' : String(inv.musicUrl);
+
+    var butir = [
+      { label: 'Nama utama terisi', ok: !!String(inv.primaryName || '').trim(),
+        saran: 'Isi nama mempelai / anak / wisudawan di tab Data Utama.' },
+      { label: 'Tanggal acara terisi', ok: !!inv.eventDate,
+        saran: 'Pilih tanggal acara supaya countdown & kalender benar.' },
+      { label: 'Jam acara terisi', ok: !!(inv.akadTime || inv.resepsiTime),
+        saran: 'Isi jam akad/resepsi.' },
+      { label: 'Lokasi & alamat terisi', ok: !!(inv.venueName && inv.venueAddress),
+        saran: 'Lengkapi nama gedung dan alamatnya.' },
+      { label: 'Tautan Google Maps terisi', ok: !!inv.mapsUrl,
+        saran: 'Tempel link lokasi supaya tamu mudah membuka peta.' },
+      { label: 'Foto cover kustom terisi', ok: !!foto.cover,
+        saran: 'Unggah foto cover di tab Galeri Foto.' },
+      { label: 'Galeri minimal 3 foto', ok: galeri.length >= 3,
+        saran: 'Tambah foto galeri (minimal 3) agar undangan tidak sepi.' },
+      { label: amplopAktif ? 'Rekening amplop digital terisi' : 'Amplop digital dinonaktifkan',
+        ok: amplopAktif ? rekBerisi.length > 0 : true,
+        saran: 'Isi minimal satu rekening/e-wallet berisi nomor.' },
+      { label: musik === 'off' ? 'Musik dinonaktifkan (pilihan admin)' : 'Musik latar terpasang',
+        ok: true,
+        saran: '' },
+      { label: rsvpAktif ? 'RSVP aktif' : 'RSVP dinonaktifkan',
+        ok: rsvpAktif, saran: 'Aktifkan RSVP supaya tamu bisa konfirmasi kehadiran.' },
+      { label: inv.checkin === false ? 'QR check-in nonaktif' : 'QR check-in buku tamu aktif',
+        ok: inv.checkin !== false, saran: 'Nyalakan QR check-in di tab Tema & Visual.' },
+      { label: 'Status undangan: ' + statusUndangan,
+        ok: statusUndangan !== 'Draf', saran: 'Ubah status menjadi Aktif setelah selesai dicek.' }
+    ];
+
+    var lolos = butir.filter(function (b) { return b.ok; }).length;
+    return { lolos: lolos, total: butir.length, siap: lolos === butir.length, butir: butir };
+  }
+
   // ====== QR CHECK-IN BUKU TAMU — berlaku di semua tema ======
   // Kode check-in diturunkan dari id undangan (tetap/sama setiap kali dibuka).
 
@@ -2029,6 +2115,7 @@
         return i.id === idOrSlug || i.slug === idOrSlug || i.themeFile === idOrSlug;
       }) || db.invitations[0];
     },
+    periksaKelengkapan: periksaKelengkapan,
     getSettings: function () {
       var db = loadLocalDb();
       return Object.assign({}, DEFAULT_DB.settings, db.settings || {});

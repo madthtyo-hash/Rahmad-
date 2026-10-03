@@ -111,6 +111,7 @@ async function buka(url, tunggu = 500) {
     if (/Could not load (link|script|img)|Could not parse CSS/i.test(m) &&
         /fonts\.googleapis|fonts\.gstatic/.test(m)) return;
     if (/Not implemented: HTMLMediaElement/i.test(m)) return; // play/pause belum ada di jsdom
+    if (/Not implemented: Window's scrollTo/i.test(m)) return;   // jsdom belum punya scrollTo beropsi
     errors.push('jsdomError: ' + m);
   });
   const dom = await JSDOM.fromURL(url, {
@@ -212,15 +213,28 @@ async function ujiHalaman(file, label, opsi = {}) {
         const tabs = Array.from(d.querySelectorAll('.editor-tabs [role="tab"]'));
         const panels = d.querySelectorAll('[role="tabpanel"]');
         cek('Daftar tab memakai pola ARIA tablist', !!tablist && tablist.getAttribute('role') === 'tablist');
-        cek('Semua 5 tombol tab punya role="tab" + aria-selected', tabs.length === 5 &&
+        cek('Semua 6 tombol tab punya role="tab" + aria-selected', tabs.length === 6 &&
           tabs.every((t) => t.hasAttribute('aria-selected')), tabs.length + ' tombol');
-        cek('Setiap tab punya panel role="tabpanel"', panels.length === 5, panels.length + ' panel');
+        cek('Setiap tab punya panel role="tabpanel"', panels.length === 6, panels.length + ' panel');
         if (tabs[0]) {
           tabs[0].dispatchEvent(new (d.defaultView.KeyboardEvent)('keydown', { key: 'ArrowRight', bubbles: true }));
           cek('Panah kanan memindah tab aktif ke \u201cTema & Visual\u201d',
             (d.querySelector('.editor-tabs [role="tab"][aria-selected="true"]') || {}).id === 'tabbtn-tema',
             (d.querySelector('.editor-tabs [role="tab"][aria-selected="true"]') || {}).id);
         }
+        // Panel Pemeriksaan: daftar periksa & pratinjau hasil harus ramah pembaca layar
+        const daftarPeriksa = Array.from(d.querySelectorAll('#periksaList li'));
+        cek('Daftar periksa kelengkapan terisi', daftarPeriksa.length >= 10, daftarPeriksa.length + ' butir');
+        cek('Setiap butir periksa punya label teks', daftarPeriksa.every((li) => li.textContent.trim().length > 6));
+        const iframeHasil = d.getElementById('hasilPreviewFrame');
+        cek('Pratinjau hasil undangan (iframe) punya judul untuk pembaca layar',
+          !!iframeHasil && iframeHasil.getAttribute('title') === 'Pratinjau hasil undangan');
+        const selStatus = d.getElementById('fReviewStatus');
+        cek('Pilihan status pemeriksaan admin punya label',
+          !!selStatus && !!d.querySelector('label[for="fReviewStatus"]'));
+        const noteAdmin = d.getElementById('fReviewNote');
+        cek('Catatan admin punya label', !!noteAdmin && !!d.querySelector('label[for="fReviewNote"]'));
+
         cek('Tombol bersalin (copy) di daftar undangan punya label', (() => {
           const a = d.querySelectorAll('.copy-mini');
           return a.length === 0 || Array.from(a).every((b) => b.hasAttribute('aria-label'));

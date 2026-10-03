@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-10-03T03:00:00.000Z",
+  "updatedAt": "2026-10-03T09:00:00.000Z",
   "settings": {
     "brandName": "Kartu Digital",
     "domain": "kartudigital.my.id",
@@ -72,7 +72,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-09-28T09:12:00.000Z"
     },
     {
       "id": "jawa-ratri-galih",
@@ -137,7 +140,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-09-29T14:05:00.000Z"
     },
     {
       "id": "emerald-raka-laras",
@@ -202,7 +208,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "premium-alvaro-clara",
@@ -267,7 +276,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": true
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "Klien minta foto cover diganti ke foto pre-wedding.",
+      "reviewedAt": "2026-09-30T10:40:00.000Z"
     },
     {
       "id": "khitan-zidan",
@@ -332,7 +344,10 @@
         "maxGuests": 5,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-09-27T08:20:00.000Z"
     },
     {
       "id": "ultah-kanaya",
@@ -397,7 +412,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "iceblue-adi-lina",
@@ -463,7 +481,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "iceblue-khitanan-alif",
@@ -528,7 +549,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "revisi",
+      "reviewNote": "Tambah 1 rekening lagi & sesuaikan jam resepsi dengan undangan cetak.",
+      "reviewedAt": "2026-10-01T13:15:00.000Z"
     },
     {
       "id": "iceblue-ultah-kalila",
@@ -593,7 +617,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "midnight-dirga-amara",
@@ -658,7 +685,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-10-01T09:05:00.000Z"
     },
     {
       "id": "aqiqah-ghani",
@@ -723,7 +753,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "wisuda-naura",
@@ -788,7 +821,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "Link peta sudah dites dari HP — aman.",
+      "reviewedAt": "2026-10-02T11:30:00.000Z"
     },
     {
       "id": "platinum-revan-kiara",
@@ -853,7 +889,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "revisi",
+      "reviewNote": "Tamu VIP menunggu daftar kursi gala dinner diisi.",
+      "reviewedAt": "2026-10-02T16:45:00.000Z"
     }
   ],
   "rsvps": [
