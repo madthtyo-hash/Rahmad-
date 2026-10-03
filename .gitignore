@@ -4,3 +4,10 @@ __pycache__/
 
 # Supabase lokal
 supabase/.temp/
+
+# Node
+node_modules/
+
+# Kredensial & log WhatsApp (token gateway jangan ikut ter-commit)
+wa-config.json
+data/wa-log.json

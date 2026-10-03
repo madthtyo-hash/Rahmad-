@@ -1,6 +1,6 @@
 -- ============================================================
---  KARTU DIGITAL — DATABASE SUPABASE v5 (Ice Blue 3-in-1)
---  Untuk: undangan Pernikahan, Khitanan, Ulang Tahun anak
+--  KARTU DIGITAL — DATABASE SUPABASE v6 (13 Tema: + Aqiqah & Wisuda)
+--  Untuk: undangan Pernikahan, Khitanan, Aqiqah, Ulang Tahun anak & Wisuda
 --  Cara pakai (pilih salah satu):
 --    A. OTOMATIS via GitHub Integration — file ini sama persis dengan
 --       supabase/migrations/20261003013708_kartu_digital_init.sql,
@@ -10,6 +10,11 @@
 --  ✅ AMAN DIJALANKAN ULANG — kalau Anda sudah pernah menjalankan
 --     versi sebelumnya, cukup jalankan file ini lagi untuk
 --     membereskan semua temuan Security Advisor.
+--
+--  Perubahan v5 → v6 (kategori acara baru):
+--   1. Kolom event_type kini juga menerima `aqiqah` dan `wisuda`
+--      (bagian 2b melebarkan batasannya, aman untuk database lama).
+--   2. Contoh data awal ditambah 2 baris: aqiqah & wisuda.
 --
 --  Perubahan v4 → v5 (perbaikan keamanan):
 --   1. View publik `guests_public` DIHAPUS  → hilang temuan CRITICAL
@@ -33,7 +38,7 @@ create table if not exists invitations (
   id            uuid primary key default uuid_generate_v4(),
   slug          text unique not null,
   external_id   text,                               -- id dari Studio lokal (iceblue-adi-lina, dst)
-  event_type    text not null check (event_type in ('pernikahan','khitanan','ultah')),
+  event_type    text not null check (event_type in ('pernikahan','khitanan','ultah','aqiqah','wisuda')),
   theme         text default 'iceblue',
   theme_file    text,                               -- undangan-iceblue.html
   is_premium    boolean default false,
@@ -59,6 +64,13 @@ create table if not exists invitations (
   created_at    timestamptz default now(),
   updated_at    timestamptz default now()
 );
+
+-- 2b. Pastikan kategori acara terbaru diizinkan (aman untuk DB lama) --
+--  Kalau project Supabase Anda sudah terlanjur dibuat dengan versi lama,
+--  batasan event_type di bawah ini akan diperbarui otomatis.
+alter table invitations drop constraint if exists invitations_event_type_check;
+alter table invitations add constraint invitations_event_type_check
+  check (event_type in ('pernikahan','khitanan','ultah','aqiqah','wisuda'));
 
 -- 3. Tabel tamu undangan (privat) -------------------------------
 create table if not exists guests (
@@ -146,7 +158,7 @@ create policy "public read rsvp"   on rsvp for select using (true);
 drop policy if exists "public insert guests" on guests;
 create policy "public insert guests" on guests for insert with check (true);
 
--- 9. Contoh data awal (3 jenis acara) ---------------------------
+-- 9. Contoh data awal (5 jenis acara) ---------------------------
 insert into invitations
   (slug, external_id, event_type, theme, theme_file, groom_name, bride_name,
    child_name, parents_name, event_date, akad_time, resepsi_time, venue_name, venue_maps)
@@ -162,7 +174,15 @@ values
   ('iceblue-ultah-kalila', 'iceblue-ultah-kalila', 'ultah', 'Ice Blue Party', 'undangan-iceblue-ultah.html',
    null, null, 'Kalila Zahra', 'Putri dari Bapak Rizky Pratama & Ibu Anisa Rahmawati',
    '2026-12-06', '15.00 - 16.30 WIB', '16.30 - 19.00 WIB',
-   'Frosty Garden Cafe', 'https://www.google.com/maps/search/?api=1&query=Dago+Bandung')
+   'Frosty Garden Cafe', 'https://www.google.com/maps/search/?api=1&query=Dago+Bandung'),
+  ('aqiqah-ghani', 'aqiqah-ghani', 'aqiqah', 'Aqiqah Rahmah', 'undangan-aqiqah.html',
+   null, null, 'Muhammad Ghani Alaric', 'Putra dari Bapak Fajar Nugraha & Ibu Salsabila Putri',
+   '2026-11-08', '08.00 - 10.00 WIB', '10.00 - 13.00 WIB',
+   'Masjid Nurul Iman', 'https://www.google.com/maps/search/?api=1&query=Cihampelas+Bandung'),
+  ('wisuda-naura', 'wisuda-naura', 'wisuda', 'Grand Graduation', 'undangan-wisuda.html',
+   null, null, 'Naura Safira, S.Ked', 'Putri dari Bapak Drs. Ahmad Fauzi & Ibu Hj. Lilis Suryani',
+   '2026-12-05', '08.00 - 11.00 WIB', '12.00 - 15.00 WIB',
+   'Graha Sabha Universitas Nusantara', 'https://www.google.com/maps/search/?api=1&query=Dipatiukur+Bandung')
 on conflict (slug) do nothing;
 
 -- 10. OPSIONAL: realtime RSVP (langsung muncul tanpa refresh)

@@ -1,0 +1,18 @@
+{
+  "_petunjuk": [
+    "Salin berkas ini menjadi wa-config.json lalu isi datanya.",
+    "wa-config.json TIDAK ikut ter-commit (berisi token rahasia) — sudah masuk .gitignore.",
+    "Tanpa gateway, Studio tetap bisa kirim lewat tombol 'Link WhatsApp' (wa.me) — gratis, tanpa token.",
+    "Dengan gateway, Studio/Server bisa MENGIRIM OTOMATIS: link undangan massal ke tamu,",
+    "notifikasi RSVP baru ke nomor admin, dan pengingat acara."
+  ],
+  "enabled": false,
+  "provider": "fonnte",
+  "token": "",
+  "apiUrl": "",
+  "adminWhatsapp": "6285196755675",
+  "countryCode": "62",
+  "notifyAdminOnRsvp": true,
+  "templateUndangan": "Halo {tamu}, kami mengundang Anda ke acara {acara} pada {tanggal}.\nUndangan lengkap: {link}",
+  "templateRsvp": "\ud83d\udce9 RSVP BARU\n{acara}\nNama: {tamu}\nStatus: {status}\nJumlah tamu: {jumlah}\nUcapan: {pesan}\nUndangan: {link}"
+}

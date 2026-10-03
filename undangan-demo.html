@@ -203,6 +203,45 @@
   .kd-credit-btns a.kd-wa{background:#22c15e;color:#fff}
   .kd-credit-btns a.kd-pesan{background:var(--green);color:#fff}
 </style>
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<link rel="canonical" href="https://kartudigital.my.id/undangan-demo.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "The Wedding of Raka & Laras — Undangan Digital",
+  "description": "Undangan pernikahan Raka & Laras, 12 Desember 2026, Grand Ballroom Hotel Savoy Bandung. Tema Blush & Emerald Floral oleh Kartu Digital (kartudigital.my.id).",
+  "startDate": "2026-12-12",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "image": [
+    "https://kartudigital.my.id/foto-cover.jpg"
+  ],
+  "url": "https://kartudigital.my.id/undangan-demo.html",
+  "location": {
+    "@type": "Place",
+    "name": "Grand Ballroom Hotel Savoy",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Asia Afrika No. 112, Bandung",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Kartu Digital",
+    "url": "https://kartudigital.my.id/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "79000",
+    "priceCurrency": "IDR",
+    "url": "https://kartudigital.my.id/",
+    "availability": "https://schema.org/InStock",
+    "description": "Jasa undangan digital Kartu Digital"
+  }
+}
+</script>
 </head>
 <body class="locked">
 
@@ -351,9 +390,9 @@
       <div class="divider"><span>✦</span></div>
       <form class="form-card" id="rsvpForm">
         <label for="rName">Nama</label>
-        <input id="rName" type="text" placeholder="Nama kamu" required>
+        <input aria-label="Nama Anda" id="rName" type="text" placeholder="Nama kamu" required>
         <label for="rCount">Jumlah Tamu</label>
-        <select id="rCount"><option>1 orang</option><option>2 orang</option><option>3 orang</option><option>4 orang</option></select>
+        <select aria-label="Jumlah tamu" id="rCount"><option>1 orang</option><option>2 orang</option><option>3 orang</option><option>4 orang</option></select>
         <label for="rAttend">Kehadiran</label>
         <select id="rAttend"><option>Hadir, insya Allah</option><option>Berhalangan hadir</option></select>
         <button type="submit">Kirim Konfirmasi</button>
@@ -428,6 +467,8 @@
 
 </div><!-- /frame -->
 
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/nav-mode.js"></script>
 <script src="studio-api.js"></script>
 <script>
 /* ====== 1. NAMA TAMU DARI URL (?to=Nama+Tamu) & STUDIO ====== */

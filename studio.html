@@ -137,7 +137,58 @@
     .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
     .cat-filter button{border:1px solid var(--line);background:#fff;color:var(--muted);padding:7px 14px;border-radius:50px;font-size:12.5px;font-weight:700}
     .cat-filter button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-    .project-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .project-list{display:block}
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+    /* Koneksi WhatsApp */
+    .wa-mode-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 16px}
+    @media(max-width:700px){.wa-mode-row{grid-template-columns:1fr}}
+    .wa-mode{background:var(--cream);border:1px solid var(--line);border-radius:13px;padding:14px}
+    .wa-mode b{display:block;font-size:14px;margin-bottom:4px}
+    .wa-mode span{font-size:12.5px;color:var(--muted);line-height:1.6}
+    .wa-mode.aktif{border-color:rgba(34,193,94,.5);background:rgba(34,193,94,.07)}
+    .wa-setup{border-top:1px solid var(--line);margin-top:20px;padding-top:16px}
+    .wa-setup > b{display:block;font:700 15px Georgia,serif;margin-bottom:8px}
+    .wa-langkah{margin:0 0 14px 18px;padding:0;font-size:13px;line-height:1.7;color:var(--muted)}
+    .wa-langkah code{background:var(--cream);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:12px}
+    .wa-log-item{font-size:12.5px}
+
+    /* Pemeriksaan kelengkapan undangan */
+    .periksa-list{list-style:none;margin:6px 0 16px;padding:0;display:grid;gap:8px}
+    .periksa-list li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.55;
+      background:var(--cream);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+    .periksa-list li .tanda{flex:none;font-size:14px;line-height:1.4}
+    .periksa-list li.ok{border-color:rgba(30,122,77,.35);background:rgba(30,122,77,.06)}
+    .periksa-list li.kurang{border-color:rgba(191,122,20,.4);background:rgba(191,122,20,.07)}
+    .periksa-list li small{display:block;color:var(--muted);margin-top:2px}
+    .hasil-frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
+      box-shadow:0 10px 26px rgba(0,0,0,.08)}
+    .hasil-frame iframe{width:100%;height:640px;border:0;display:block;background:#fff}
+    @media(max-width:600px){.hasil-frame iframe{height:480px}}
+
+    /* Lencana status pemeriksaan di kartu koleksi */
+    .review-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.2px;
+      padding:4px 10px;border-radius:50px;margin-top:8px}
+    .review-badge.st-disetujui{background:rgba(30,122,77,.12);color:#1e7a4d}
+    .review-badge.st-menunggu{background:rgba(191,122,20,.14);color:#8a5a09}
+    .review-badge.st-revisi{background:rgba(190,45,45,.12);color:#b02a2a}
+    .review-badge.st-draf{background:rgba(0,0,0,.07);color:#5b5b52}
+    .koleksi-ringkas{font-size:13px;color:var(--muted);margin:-6px 0 16px}
+
+    /* Koleksi tema dikelompokkan per kategori acara */
+    .collection-group{margin-bottom:26px}
+    .collection-group:last-child{margin-bottom:0}
+    .collection-group-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+    .collection-group-head h3{margin:0;font-size:16.5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+    .collection-group-head .count{background:var(--gold-soft);border:1px solid #eddfc2;color:#7a5a1f;
+      font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px}
+    .collection-group-head p{margin:0;color:var(--muted);font-size:12.5px;max-width:430px}
+    .collection-group .project{animation:collectionRise .45s ease both}
+    .collection-group .project:nth-child(2){animation-delay:.06s}
+    .collection-group .project:nth-child(3){animation-delay:.12s}
+    @keyframes collectionRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){.collection-group .project{animation:none}}
     .project{padding:18px;box-shadow:none;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
     .project:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
     .project-top{display:flex;justify-content:space-between;align-items:center}
@@ -253,7 +304,7 @@
     .rsvp-item{border-radius:12px}
 
     /* Koleksi tema */
-    .project-list{grid-template-columns:1fr;gap:12px}
+    .project-list,.project-grid{grid-template-columns:1fr;gap:12px}
     .project{border-radius:16px;padding:16px}
     .cat-filter button{white-space:nowrap}
 
@@ -268,7 +319,7 @@
     /* Desktop: tetap rapi memakai kartu yang sama */
     @media(min-width:861px){
       .cards{grid-template-columns:repeat(4,1fr)}
-      .project-list{grid-template-columns:repeat(3,1fr)}
+      .project-list,.project-grid{grid-template-columns:repeat(3,1fr)}
       .top-actions{overflow:visible}
       .topbar{flex-wrap:nowrap}
       .content{padding:26px 26px 130px}
@@ -290,7 +341,7 @@
 </head>
 <body>
   <!-- ================= KUNCI PIN ADMIN ================= -->
-  <div class="pin-lock" id="pinLock" style="display:none">
+  <section class="pin-lock" id="pinLock" style="display:none" role="region" aria-label="Kunci PIN Studio Admin">
     <div class="pin-card">
       <div class="pin-logo">🔐</div>
       <h2>Studio Admin Terkunci</h2>
@@ -300,7 +351,7 @@
       <div class="pin-err" id="pinErr">⚠ PIN salah, silakan coba lagi.</div>
       <div class="pin-hint">PIN bawaan: <b>123456</b> · dapat diubah lewat tombol "Ubah PIN"</div>
     </div>
-  </div>
+  </section>
 
   <div class="app">
     <!-- ================= SIDEBAR ================= -->
@@ -321,7 +372,7 @@
         <button type="button" data-nav="share"><span class="ic">🔗</span> Link Tamu &amp; QR</button>
         <button type="button" data-nav="storage"><span class="ic">☁️</span> Penyimpanan &amp; Cloud</button>
         <div class="nav-sep">Katalog</div>
-        <button type="button" data-nav="koleksi"><span class="ic">▣</span> Koleksi Tema (9)</button>
+        <button type="button" data-nav="koleksi"><span class="ic">▣</span> Koleksi Tema (13)</button>
       </nav>
       <div class="sidebar-box">
         <b>Kategori Tersedia:</b>
@@ -374,6 +425,7 @@
           <div class="stat"><label>Undangan Aktif</label><strong id="statActiveInv">6</strong><small>Siap dibagikan ke tamu</small></div>
           <div class="stat"><label>Total Kunjungan Tamu</label><strong id="statViews">890</strong><small>↑ Live dari semua link</small></div>
           <div class="stat"><label>Konfirmasi RSVP &amp; Doa</label><strong id="statRsvps">6</strong><small id="statPaxText">15 tamu konfirmasi hadir</small></div>
+          <div class="stat"><label>Status Pemeriksaan Admin</label><strong id="statReview">—</strong><small id="statReviewText">Belum diperiksa</small></div>
         </div>
 
         <!-- BAR PILIH UNDANGAN YANG DIEDIT -->
@@ -393,16 +445,17 @@
         <div class="workspace">
           <div>
             <!-- TAB PIL UTAMA -->
-            <div class="editor-tabs" role="tablist">
-              <button type="button" class="active" data-tab="tab-utama">📝 Data Utama</button>
-              <button type="button" data-tab="tab-tema">🎨 Tema &amp; Visual</button>
-              <button type="button" data-tab="tab-foto">🖼️ Galeri Foto</button>
-              <button type="button" data-tab="tab-lokasi">📍 Lokasi &amp; Map</button>
-              <button type="button" data-tab="tab-ekstra">⚙️ Fitur Ekstra</button>
+            <div class="editor-tabs" role="tablist" aria-label="Bagian pengaturan undangan">
+              <button type="button" role="tab" aria-selected="true" aria-controls="tab-utama" id="tabbtn-utama" class="active" data-tab="tab-utama">📝 Data Utama</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="tab-tema" id="tabbtn-tema" data-tab="tab-tema">🎨 Tema &amp; Visual</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="tab-foto" id="tabbtn-foto" data-tab="tab-foto">🖼️ Galeri Foto</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="tab-lokasi" id="tabbtn-lokasi" data-tab="tab-lokasi">📍 Lokasi &amp; Map</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="tab-ekstra" id="tabbtn-ekstra" data-tab="tab-ekstra">⚙️ Fitur Ekstra</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="tab-periksa" id="tabbtn-periksa" data-tab="tab-periksa">✅ Pemeriksaan</button>
             </div>
 
             <!-- ================= TAB: DATA UTAMA ================= -->
-            <section class="panel tab-pane active" id="tab-utama">
+            <section role="tabpanel" aria-labelledby="tabbtn-utama" class="panel tab-pane active" id="tab-utama">
               <h3><span>📝 Informasi Utama</span><span class="chip">Data Acara</span></h3>
               <p class="sub-desc">Pilih kategori acara, lalu isi judul, nama, tanggal, dan kutipan undangan. Detail tema &amp; lokasi ada di tab sebelah.</p>
 
@@ -413,6 +466,8 @@
                     <option value="pernikahan">💍 Tema Pernikahan</option>
                     <option value="khitanan">🕌 Tema Khitanan (Walimatul Khitan)</option>
                     <option value="ultah">🎂 Tema Ulang Tahun (Birthday Party)</option>
+                    <option value="aqiqah">🍼 Tema Aqiqah &amp; Tasyakuran Bayi</option>
+                    <option value="wisuda">🎓 Tema Wisuda &amp; Kelulusan</option>
                     <option value="premium">👑 Tema Premium Eksklusif</option>
                   </select>
                 </div>
@@ -484,8 +539,8 @@
             </section>
 
             <!-- ================= TAB: TEMA & VISUAL ================= -->
-            <section class="panel tab-pane" id="tab-tema">
-              <h3><span>🎨 Tema &amp; Visual</span><span class="chip gold">9 Tema</span></h3>
+            <section role="tabpanel" aria-labelledby="tabbtn-tema" class="panel tab-pane" id="tab-tema">
+              <h3><span>🎨 Tema &amp; Visual</span><span class="chip gold">13 Tema</span></h3>
               <p class="sub-desc">Pilih template tema, mode navigasi tamu, dan animasi dekorasi. Semua tema bisa dilihat di bagian <b>Koleksi Tema</b> paling bawah halaman.</p>
 
               <div class="form-grid">
@@ -496,14 +551,18 @@
                       <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
                       <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
                       <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
-                      <option value="undangan-iceblue.html" data-cat="pernikahan">Ice Blue Floral ❄ (Pernikahan — BARU)</option>
+                      <option value="undangan-iceblue.html" data-cat="pernikahan">Ice Blue Floral ❄ (Pernikahan)</option>
+                      <option value="undangan-midnight.html" data-cat="pernikahan">Midnight Emerald 🌙 (Pernikahan — BARU)</option>
                       <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
-                      <option value="undangan-iceblue-khitanan.html" data-cat="khitanan">Ice Blue Barakah ❄ (Khitanan — BARU)</option>
+                      <option value="undangan-iceblue-khitanan.html" data-cat="khitanan">Ice Blue Barakah ❄ (Khitanan)</option>
                       <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
-                      <option value="undangan-iceblue-ultah.html" data-cat="ultah">Ice Blue Party ❄ (Ulang Tahun — BARU)</option>
+                      <option value="undangan-iceblue-ultah.html" data-cat="ultah">Ice Blue Party ❄ (Ulang Tahun)</option>
+                      <option value="undangan-aqiqah.html" data-cat="aqiqah">Aqiqah Rahmah 🍼 (Aqiqah &amp; Tasyakuran — BARU)</option>
+                      <option value="undangan-wisuda.html" data-cat="wisuda">Grand Graduation 🎓 (Wisuda &amp; Kelulusan — BARU)</option>
                     </optgroup>
                     <optgroup label="Tema Premium 👑">
                       <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
+                      <option value="undangan-platinum.html" data-cat="premium">Platinum Marble 👑 (Premium — BARU)</option>
                     </optgroup>
                   </select>
                 </div>
@@ -526,11 +585,35 @@
                     <option value="kilau">✨ Kilau Emas</option>
                     <option value="salju">❄️ Salju Lembut</option>
                     <option value="bintang">👑 Bintang Islami (Premium)</option>
+                    <option value="konfeti">🎉 Konfeti Wisuda (Tema Baru)</option>
                     <option value="balon">👑 Balon &amp; Hati (Premium)</option>
                     <option value="kupu">👑 Kupu-Kupu (Premium)</option>
                     <option value="daun">👑 Daun Gugur (Premium)</option>
                     <option value="off">✕ Tanpa Animasi</option>
                   </select>
+                </div>
+                <div class="field full">
+                  <label for="fMusicUrl">Musik Latar Undangan</label>
+                  <select id="fMusicUrl">
+                    <option value="">🎵 Bawaan tema (musik otomatis tanpa file)</option>
+                    <option value="musik/romantis.mp3">🌹 Romantis — Pernikahan</option>
+                    <option value="musik/khitanan.mp3">🕌 Lembut Islami — Khitanan</option>
+                    <option value="musik/aqiqah.mp3">🍼 Ninabobo — Aqiqah</option>
+                    <option value="musik/wisuda.mp3">🎓 Prosesi — Wisuda</option>
+                    <option value="musik/pesta.mp3">🎂 Ceria — Ulang Tahun</option>
+                    <option value="musik/jawa.mp3">🩷 Jawa (Pentatonik)</option>
+                    <option value="off">✕ Tanpa musik</option>
+                  </select>
+                  <input id="fMusicCustom" type="text" placeholder="Opsional: tempel link MP3 sendiri (https://... .mp3)">
+                  <small style="display:block;color:var(--muted);margin:-2px 0 10px">Kalau kolom link diisi, yang dipakai adalah link tersebut. Semua lagu bawaan bebas royalti (dibuat sendiri).</small>
+                </div>
+                <div class="field full">
+                  <label for="fCheckin">QR Check-In Buku Tamu</label>
+                  <select id="fCheckin">
+                    <option value="on">✅ Aktif — tamu dapat QR check-in</option>
+                    <option value="off">✕ Nonaktif — tanpa QR check-in</option>
+                  </select>
+                  <small style="display:block;color:var(--muted);margin:-2px 0 10px">Kartu QR muncul otomatis di undangan semua tema. Panitia memindai QR untuk mencatat kehadiran; tamu juga bisa menekan “Tandai Hadir” agar masuk rekap RSVP.</small>
                 </div>
               </div>
 
@@ -544,7 +627,7 @@
             </section>
 
             <!-- ================= TAB 2: UPLOAD FOTO ================= -->
-            <section class="panel tab-pane" id="tab-foto">
+            <section role="tabpanel" aria-labelledby="tabbtn-foto" class="panel tab-pane" id="tab-foto">
               <h3><span>🖼️ Galeri Foto &amp; Media</span><span class="chip">Cover, Profil &amp; 8 Foto</span></h3>
               <p class="sub-desc">Unggah foto dari perangkat (otomatis dikompres agar ringan &amp; cepat dimuat) atau pilih dari foto bawaan.</p>
 
@@ -563,6 +646,10 @@
                     <button type="button" class="btn sm preset-cover" data-src="foto-khitanan-cover.jpg">Preset Khitanan</button>
                     <button type="button" class="btn sm preset-cover" data-src="foto-ultah-cover.jpg">Preset Ultah</button>
                     <button type="button" class="btn sm preset-cover" data-src="foto-premium-cover.jpg">Preset Premium</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-platinum-cover.jpg">Preset Platinum</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-midnight-cover.jpg">Preset Midnight</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-aqiqah-cover.jpg">Preset Aqiqah</button>
+                    <button type="button" class="btn sm preset-cover" data-src="foto-wisuda-cover.jpg">Preset Wisuda</button>
                   </div>
                 </div>
 
@@ -599,7 +686,7 @@
             </section>
 
             <!-- ================= TAB: LOKASI & MAP ================= -->
-            <section class="panel tab-pane" id="tab-lokasi">
+            <section role="tabpanel" aria-labelledby="tabbtn-lokasi" class="panel tab-pane" id="tab-lokasi">
               <h3><span>📍 Lokasi &amp; Map</span><span class="chip">Alamat Acara</span></h3>
               <p class="sub-desc">Nama tempat, alamat lengkap, dan link Google Maps yang dipakai tombol lokasi di halaman undangan.</p>
 
@@ -625,7 +712,7 @@
             </section>
 
             <!-- ================= TAB: FITUR EKSTRA (Amplop · RSVP · Link Tamu · Penyimpanan) ================= -->
-            <section class="tab-pane" id="tab-ekstra">
+            <section role="tabpanel" aria-labelledby="tabbtn-ekstra" class="tab-pane" id="tab-ekstra">
 
             <!-- ---- Kartu: Amplop Digital ---- -->
             <div class="panel" id="card-amplop">
@@ -783,48 +870,125 @@
               </div>
             </div>
 
-            <!-- ---- Kartu: Link Tamu & QR ---- -->
+            <!-- ---- Kartu: Link Undangan & Cara Bagikan ---- -->
             <div class="panel" id="card-share">
-              <h3><span>🔗 Link Tamu &amp; Undangan Personal</span><span class="chip">WhatsApp</span></h3>
-              <p class="sub-desc">Buat link undangan khusus dengan nama tamu di sampul depan (<code>?to=Nama+Tamu</code>) siap kirim ke WhatsApp.</p>
+              <h3><span>🔗 Link Undangan &amp; Cara Bagikan</span><span class="chip">WhatsApp</span></h3>
+              <p class="sub-desc">Cukup <b>satu link untuk semua tamu</b> — tinggal dibagikan ke grup WhatsApp atau dikirim ke banyak nomor sekaligus, tanpa perlu mengisi nama satu per satu. Link khusus per nama tamu tetap tersedia sebagai opsi di bagian bawah.</p>
 
-              <div class="form-grid">
-                <div class="field full">
-                  <label for="shareGuestName">Nama Tamu Undangan</label>
-                  <input id="shareGuestName" value="Bapak Budi Santoso & Keluarga" placeholder="Ketik nama tamu...">
-                </div>
-                <div class="field full">
-                  <label for="shareGeneratedUrl">Link Undangan Personal</label>
-                  <div style="display:flex;gap:8px">
-                    <input id="shareGeneratedUrl" readonly>
-                    <button type="button" class="btn primary" id="copyShareUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
+              <!-- 1) Link utama + pesan serah terima ke pelanggan -->
+              <div>
+                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">📤 Serah Terima ke Pelanggan</h4>
+                <p class="sub-desc">Link bersih (tanpa nama tamu) + pesan siap kirim untuk <b>pelanggan/pemesan</b> setelah undangannya jadi. <b>Link yang sama juga dipakai untuk semua tamu</b>; mode navigasi &amp; efek pilihan Studio otomatis terbawa.</p>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="clientName">Nama Pemesan / Pelanggan</label>
+                    <input id="clientName" placeholder="Mis. Bapak Andi (opsional)">
+                  </div>
+                  <div class="field">
+                    <label for="clientPhone">Nomor WhatsApp Pelanggan</label>
+                    <input id="clientPhone" inputmode="tel" placeholder="Opsional — 08xx (untuk kirim otomatis)">
+                  </div>
+                  <div class="field full">
+                    <label for="clientShortUrl">🔗 Link Pendek (praktis dibagikan ke tamu)</label>
+                    <div style="display:flex;gap:8px">
+                      <input id="clientShortUrl" readonly>
+                      <button type="button" class="btn primary" id="copyClientShortBtn" style="white-space:nowrap">📋 Salin</button>
+                    </div>
+                  </div>
+                  <div class="field full">
+                    <label for="clientShortCustom">Pakai Link Pendek Sendiri (opsional)</label>
+                    <input id="clientShortCustom" placeholder="Tempel link pendek dari layanan lain, mis. bit.ly/… atau s.id/…">
+                  </div>
+                  <div class="field full">
+                    <label for="clientUrl">Link Lengkap (cadangan)</label>
+                    <div style="display:flex;gap:8px">
+                      <input id="clientUrl" readonly>
+                      <button type="button" class="btn primary" id="copyClientUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
+                    </div>
+                  </div>
+                  <div class="field full">
+                    <label for="clientText">Pesan Serah Terima ke Pelanggan</label>
+                    <textarea id="clientText" rows="8"></textarea>
                   </div>
                 </div>
-                <div class="field full">
-                  <label for="shareWaText">Template Pesan Pengantar WhatsApp</label>
-                  <textarea id="shareWaText" rows="5"></textarea>
+
+                <div class="form-footer">
+                  <button type="button" class="btn" id="copyClientTextBtn">📋 Salin Pesan</button>
+                  <a class="btn gold" id="sendClientWaBtn" href="#" target="_blank" rel="noopener">💬 Kirim ke WhatsApp Pelanggan</a>
+                  <button type="button" class="btn primary" id="sendClientGatewayBtn">📤 Kirim Otomatis</button>
                 </div>
+                <p class="sub-desc" id="clientGatewayInfo" style="margin-top:8px"></p>
               </div>
 
-              <div class="form-footer">
-                <button type="button" class="btn" id="copyWaTextBtn">📋 Salin Pesan WA</button>
-                <a class="btn gold" id="sendWaDirectBtn" href="#" target="_blank" rel="noopener">💬 Kirim via WhatsApp Sekarang</a>
-              </div>
-
-              <!-- Generator Nama Tamu Massal -->
+              <!-- 2) Bagikan satu pesan ke banyak tamu sekaligus -->
               <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
-                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">🚀 Generator Nama Tamu Massal</h4>
-                <p class="sub-desc">Tempel (paste) daftar nama tamu sekaligus — satu nama per baris atau dipisah koma. Setiap tamu otomatis mendapat link personal beserta tombol <b>Salin</b> &amp; <b>Kirim WA</b>.</p>
-                <div class="field full">
-                  <label for="bulkGuestNames">Daftar Nama Tamu (bulk copy-paste)</label>
-                  <textarea id="bulkGuestNames" rows="5" placeholder="Bapak Budi Santoso &amp; Keluarga&#10;Ibu Sari Wulandari&#10;Keluarga Besar H. Ahmad&#10;Nadia &amp; Rian"></textarea>
+                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">📢 Bagikan ke Semua Tamu Sekaligus</h4>
+                <p class="sub-desc">Tempel daftar nomor WhatsApp tamu (satu per baris) lalu kirim <b>pesan yang sama</b> ke semuanya — tidak perlu memilih nama satu per satu. Tanpa gateway, tombol WhatsApp membuka aplikasi dengan pesan siap, tinggal pilih penerimanya (bisa banyak sekaligus) atau tempel ke grup.</p>
+
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="broadcastText">Pesan untuk Semua Tamu</label>
+                    <textarea id="broadcastText" rows="7"></textarea>
+                  </div>
+                  <div class="field full">
+                    <label for="broadcastNumbers">Nomor WhatsApp Tamu (satu per baris, boleh disertai nama)</label>
+                    <textarea id="broadcastNumbers" rows="4" placeholder="081234567890&#10;081298765432 — Ibu Sari&#10;+62 813-1111-2222"></textarea>
+                  </div>
                 </div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
-                  <button type="button" class="btn primary" id="bulkGenerateBtn">⚙ Generate Link Massal</button>
-                  <button type="button" class="btn" id="bulkCopyAllBtn">📋 Salin Semua Link</button>
+
+                <div class="form-footer">
+                  <button type="button" class="btn" id="copyBroadcastTextBtn">📋 Salin Pesan</button>
+                  <a class="btn gold" id="broadcastWaBtn" href="#" target="_blank" rel="noopener">💬 Buka WhatsApp (pesan siap)</a>
+                  <button type="button" class="btn primary" id="broadcastSendBtn">📲 Kirim ke Semua Nomor</button>
                 </div>
-                <div id="bulkResultList" class="rsvp-list"></div>
+                <p class="sub-desc" id="broadcastInfo" style="margin-top:8px"></p>
               </div>
+
+              <!-- 3) Opsional: link & pesan dengan nama tiap tamu -->
+              <details id="opsionalTamu" style="border-top:1px solid var(--line);margin-top:20px;padding-top:14px">
+                <summary style="cursor:pointer;font:700 15px Georgia,serif">Opsional — link &amp; pesan dengan nama tiap tamu</summary>
+                <p class="sub-desc" style="margin-top:8px">Pakai bagian ini hanya kalau ingin nama tamu tampil di sampul (<code>?to=Nama+Tamu</code>), mis. untuk tamu VIP. Untuk mengirim ke banyak tamu, cukup pakai satu link di atas.</p>
+
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="shareGuestName">Nama Tamu Undangan</label>
+                    <input id="shareGuestName" value="Bapak Budi Santoso & Keluarga" placeholder="Ketik nama tamu...">
+                  </div>
+                  <div class="field full">
+                    <label for="shareGeneratedUrl">Link Undangan Personal</label>
+                    <div style="display:flex;gap:8px">
+                      <input id="shareGeneratedUrl" readonly>
+                      <button type="button" class="btn primary" id="copyShareUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
+                    </div>
+                  </div>
+                  <div class="field full">
+                    <label for="shareWaText">Pesan Pengantar untuk Tamu Itu</label>
+                    <textarea id="shareWaText" rows="5"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-footer">
+                  <button type="button" class="btn" id="copyWaTextBtn">📋 Salin Pesan WA</button>
+                  <a class="btn gold" id="sendWaDirectBtn" href="#" target="_blank" rel="noopener">💬 Kirim via WhatsApp Sekarang</a>
+                </div>
+
+                <!-- Generator Nama Tamu Massal -->
+                <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+                  <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">🚀 Generator Nama Tamu Massal</h4>
+                  <p class="sub-desc">Tempel (paste) daftar nama tamu sekaligus — satu nama per baris atau dipisah koma. Setiap tamu otomatis mendapat link personal beserta tombol <b>Salin</b> &amp; <b>Kirim WA</b>.</p>
+                  <div class="field full">
+                    <label for="bulkGuestNames">Daftar Nama Tamu (bulk copy-paste)</label>
+                    <textarea id="bulkGuestNames" rows="5" placeholder="Bapak Budi Santoso &amp; Keluarga&#10;Ibu Sari Wulandari&#10;Keluarga Besar H. Ahmad&#10;Nadia &amp; Rian"></textarea>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
+                    <button type="button" class="btn primary" id="bulkGenerateBtn">⚙ Generate Link Massal</button>
+                    <button type="button" class="btn" id="bulkCopyAllBtn">📋 Salin Semua Link</button>
+                    <button type="button" class="btn gold" id="bulkSendAllBtn">📲 Kirim Semua via Gateway</button>
+                  </div>
+                  <div id="bulkResultList" class="rsvp-list"></div>
+                </div>
+              </details>
             </div>
 
             <!-- ---- Kartu: Penyimpanan & Database Online ---- -->
@@ -875,6 +1039,156 @@
                 <span class="saved">Data tidak dikirim ke pihak ketiga — hanya tersimpan di perangkat Anda &amp; Backend Studio milik sendiri.</span>
               </div>
             </div>
+
+            <!-- ---- Kartu: Koneksi WhatsApp ---- -->
+            <div class="panel" id="card-wa">
+              <h3><span>📲 Koneksi WhatsApp</span><span class="status" id="waStatusBadge">Memeriksa…</span></h3>
+              <p class="sub-desc">Kirim undangan lewat WhatsApp dengan dua cara: <b>Link WhatsApp (gratis)</b> — membuka chat dengan pesan &amp; link siap kirim, tanpa token; atau <b>Gateway otomatis</b> (Fonnte / Wablas / Whacenter / Custom) — server yang mengirim, termasuk <b>notifikasi RSVP baru ke nomor Anda</b>.</p>
+
+              <div class="wa-mode-row">
+                <div class="wa-mode" id="waModeLink">
+                  <b>🔗 Link WhatsApp (gratis)</b>
+                  <span>Selalu tersedia tanpa pengaturan apa pun. Klik “Kirim Link Undangan”, chat WhatsApp terbuka dengan pesan yang sudah terisi.</span>
+                </div>
+                <div class="wa-mode" id="waModeGateway">
+                  <b>🚀 Gateway otomatis</b>
+                  <span id="waGatewayInfo">Belum dikonfigurasi.</span>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="waGuestName">Nama Tamu</label>
+                  <input id="waGuestName" placeholder="Bapak Budi Santoso &amp; Keluarga">
+                </div>
+                <div class="field">
+                  <label for="waGuestPhone">Nomor WhatsApp Tamu (untuk gateway)</label>
+                  <input id="waGuestPhone" inputmode="tel" autocomplete="tel" placeholder="08xx / 62xx">
+                </div>
+                <div class="field full">
+                  <label for="waTemplate">Template Pesan Undangan</label>
+                  <textarea id="waTemplate" rows="4"></textarea>
+                  <small style="display:block;color:var(--muted);margin:-2px 0 10px">Kode yang bisa dipakai: <code>{tamu}</code>, <code>{acara}</code>, <code>{tanggal}</code>, <code>{lokasi}</code>, <code>{link}</code>.</small>
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <button type="button" class="btn primary" id="waKirimBtn">💬 Kirim Link Undangan ke Tamu</button>
+                <button type="button" class="btn gold" id="waUjiBtn">🧪 Kirim Pesan Uji ke Admin</button>
+                <span class="saved" id="waHasil">—</span>
+              </div>
+
+              <div class="wa-setup">
+                <b>⚙️ Pengaturan Gateway (opsional)</b>
+                <ol class="wa-langkah">
+                  <li>Daftar di gateway pilihan Anda (contoh: <b>Fonnte</b>, <b>Wablas</b>, atau <b>Whacenter</b>) lalu salin <b>token</b>-nya.</li>
+                  <li>Di server, salin <code>wa-config.example.json</code> menjadi <code>wa-config.json</code>, isi <code>token</code>, <code>provider</code>, lalu ubah <code>"enabled": true</code>.</li>
+                  <li>Jalankan ulang server, lalu tekan <b>Muat Status</b> di bawah. Token tidak pernah dikirim ke browser.</li>
+                </ol>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="waAdminNumber">Nomor WhatsApp Admin (tujuan notifikasi RSVP)</label>
+                    <input id="waAdminNumber" inputmode="tel" placeholder="6285196755675">
+                  </div>
+                  <div class="field">
+                    <label for="waAutoRsvp">Kabar otomatis saat ada RSVP masuk</label>
+                    <select id="waAutoRsvp">
+                      <option value="on">✅ Aktif — notifikasi dikirim ke nomor admin</option>
+                      <option value="off">✕ Nonaktif</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-footer">
+                  <button type="button" class="btn primary" id="waSimpanBtn">💾 Simpan Pengaturan WhatsApp</button>
+                  <button type="button" class="btn" id="waMuatStatusBtn">↻ Muat Status</button>
+                </div>
+                <div id="waRiwayat" class="rsvp-list" style="margin-top:12px"></div>
+              </div>
+            </div>
+
+            <!-- ---- Kartu: Musik Halaman Depan ---- -->
+            <div class="panel" id="card-musikdepan">
+              <h3><span>🎵 Musik Halaman Depan</span><span class="chip">Katalog</span></h3>
+              <p class="sub-desc">Pilih lagu yang diputar di halaman depan (katalog tema) saat pengunjung menekan tombol musik. Tombol “Putar Musik” otomatis muncul di kiri bawah halaman depan.</p>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="fFrontMusic">Lagu Halaman Depan</label>
+                  <select id="fFrontMusic">
+                    <option value="musik/romantis.mp3">🌹 Romantis (bawaan)</option>
+                    <option value="musik/khitanan.mp3">🕌 Lembut Islami</option>
+                    <option value="musik/aqiqah.mp3">🍼 Ninabobo</option>
+                    <option value="musik/wisuda.mp3">🎓 Prosesi Wisuda</option>
+                    <option value="musik/pesta.mp3">🎂 Ceria Pesta</option>
+                    <option value="musik/jawa.mp3">🩷 Jawa (Pentatonik)</option>
+                    <option value="off">✕ Tanpa musik di halaman depan</option>
+                  </select>
+                  <p class="sub-desc" style="margin-top:8px">Lagu yang sama juga bisa dipilih per undangan di tab <b>Tema &amp; Visual → Musik Latar Undangan</b>.</p>
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <button type="button" class="btn primary" id="saveFrontMusicBtn">💾 Simpan Musik Halaman Depan</button>
+                <a class="btn" id="previewFrontMusicBtn" href="index.html" target="_blank" rel="noopener">🔗 Buka Halaman Depan</a>
+              </div>
+            </div>
+            </section>
+
+            <!-- ================= TAB: PEMERIKSAAN & HASIL UNDANGAN ================= -->
+            <section role="tabpanel" aria-labelledby="tabbtn-periksa" class="tab-pane" id="tab-periksa">
+
+              <!-- ---- Kartu: Pemeriksaan Kelengkapan ---- -->
+              <div class="panel" id="card-periksa">
+                <h3><span>✅ Pemeriksaan Undangan</span><span class="status" id="periksaSkor">—</span></h3>
+                <p class="sub-desc">Daftar periksa otomatis sebelum undangan dibagikan ke tamu: data acara, foto, rekening, musik, RSVP, dan QR check-in. Periksa ulang setiap kali selesai mengubah data.</p>
+                <ul class="periksa-list" id="periksaList"></ul>
+                <div class="form-footer">
+                  <button type="button" class="btn primary" id="periksaRefreshBtn">↻ Periksa Ulang</button>
+                  <a class="btn" id="periksaOpenLink" href="#" target="_blank" rel="noopener">↗ Buka Undangan</a>
+                  <span class="saved" id="periksaNama">—</span>
+                </div>
+              </div>
+
+              <!-- ---- Kartu: Status Pemeriksaan Admin ---- -->
+              <div class="panel" id="card-review">
+                <h3><span>🧾 Status Pemeriksaan Admin</span><span class="chip">Per Undangan</span></h3>
+                <p class="sub-desc">Tandai undangan ini sudah dicek admin, masih menunggu, atau perlu revisi. Status dipakai untuk pengelompokan koleksi di bawah (Kelompok: Status Pemeriksaan).</p>
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="fReviewStatus">Status Pemeriksaan</label>
+                    <select id="fReviewStatus">
+                      <option value="menunggu">🕒 Menunggu Dicek</option>
+                      <option value="disetujui">✅ Disetujui — siap dibagikan</option>
+                      <option value="revisi">✏️ Perlu Revisi</option>
+                      <option value="draf">📝 Draf / belum dikerjakan</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <label for="fReviewNote">Catatan Admin (opsional)</label>
+                    <textarea id="fReviewNote" rows="3" placeholder="Contoh: minta ganti foto cover, tambah 1 rekening, atau sesuaikan jam resepsi dengan undangan cetak."></textarea>
+                  </div>
+                </div>
+                <div class="form-footer">
+                  <button type="button" class="btn primary" id="saveReviewBtn">💾 Simpan Status Pemeriksaan</button>
+                  <span class="saved" id="reviewMeta">Belum pernah diperiksa</span>
+                </div>
+              </div>
+
+              <!-- ---- Kartu: Hasil Undangan ---- -->
+              <div class="panel" id="card-hasil">
+                <h3><span>📱 Hasil Undangan</span><span class="chip">Pratinjau Langsung</span></h3>
+                <p class="sub-desc">Tampilkan undangan yang sedang diedit langsung di dalam Studio — persis seperti yang dilihat tamu (mode navigasi, efek dekorasi, musik, dan QR check-in ikut terbawa).</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+                  <button type="button" class="btn primary" id="hasilPreviewBtn">▶ Tampilkan Hasil Undangan</button>
+                  <button type="button" class="btn" id="hasilReloadBtn">↻ Muat Ulang</button>
+                  <a class="btn" id="hasilOpenLink" href="#" target="_blank" rel="noopener">↗ Buka di Tab Baru</a>
+                  <a class="btn" id="hasilShareLink" href="#" target="_blank" rel="noopener">🔗 Link untuk Tamu</a>
+                </div>
+                <div class="hasil-frame" id="hasilFrameWrap" style="display:none">
+                  <iframe id="hasilPreviewFrame" title="Pratinjau hasil undangan" loading="lazy"></iframe>
+                </div>
+                <p class="sub-desc" id="hasilInfo" style="margin-top:8px">Belum ditampilkan. Klik “Tampilkan Hasil Undangan”.</p>
+              </div>
             </section>
           </div>
 
@@ -917,17 +1231,26 @@
         <section class="projects" id="koleksiSection" style="margin-top:30px">
           <div class="heading" style="margin-bottom:14px">
             <div>
-              <div class="eyebrow">Katalog &amp; Koleksi Studio (9 Tema)</div>
-              <h2 style="font-size:22px">Semua Tema Undangan (9 Tema Siap Pakai)</h2>
+              <div class="eyebrow">Katalog &amp; Koleksi Studio (13 Tema)</div>
+              <h2 style="font-size:22px">Semua Tema Undangan (13 Tema Siap Pakai)</h2>
             </div>
           </div>
 
+          <div class="cat-filter" id="collectionView">
+            <button type="button" class="active" data-view="kategori">🗂️ Kelompok: Kategori</button>
+            <button type="button" data-view="tanggal">📅 Kelompok: Tanggal Acara</button>
+            <button type="button" data-view="status">🧾 Kelompok: Status Pemeriksaan</button>
+          </div>
+          <p class="koleksi-ringkas" id="koleksiRingkas"></p>
+
           <div class="cat-filter" id="collectionFilter">
-            <button type="button" class="active" data-cat="all">Semua Tema (9)</button>
-            <button type="button" data-cat="pernikahan">💍 Tema Pernikahan (3)</button>
-            <button type="button" data-cat="khitanan">🕌 Tema Khitanan (1)</button>
-            <button type="button" data-cat="ultah">🎂 Tema Ulang Tahun (1)</button>
-            <button type="button" data-cat="premium">👑 Tema Premium (1)</button>
+            <button type="button" class="active" data-cat="all">Semua Tema (13)</button>
+            <button type="button" data-cat="pernikahan">💍 Tema Pernikahan (5)</button>
+            <button type="button" data-cat="khitanan">🕌 Tema Khitanan (2)</button>
+            <button type="button" data-cat="ultah">🎂 Tema Ulang Tahun (2)</button>
+            <button type="button" data-cat="aqiqah">🍼 Tema Aqiqah (1)</button>
+            <button type="button" data-cat="wisuda">🎓 Tema Wisuda (1)</button>
+            <button type="button" data-cat="premium">👑 Tema Premium (2)</button>
           </div>
 
           <div class="project-list" id="projectListGrid"></div>
@@ -968,18 +1291,306 @@
       // Switch Editor Sub-tabs
       function activateTab(tabId) {
         document.querySelectorAll('.editor-tabs button').forEach(function (b) {
-          b.classList.toggle('active', b.getAttribute('data-tab') === tabId);
+          var aktif = b.getAttribute('data-tab') === tabId;
+          b.classList.toggle('active', aktif);
+          b.setAttribute('aria-selected', aktif ? 'true' : 'false');
+          b.setAttribute('tabindex', aktif ? '0' : '-1');
         });
         document.querySelectorAll('.tab-pane').forEach(function (p) {
           p.classList.toggle('active', p.id === tabId);
         });
       }
 
-      document.querySelectorAll('.editor-tabs button').forEach(function (btn) {
+      var tombolTab = Array.prototype.slice.call(document.querySelectorAll('.editor-tabs button'));
+      tombolTab.forEach(function (btn, i) {
         btn.addEventListener('click', function () {
           activateTab(btn.getAttribute('data-tab'));
         });
+        // Navigasi keyboard antar tab: panah kiri/kanan, Home, End
+        btn.addEventListener('keydown', function (e) {
+          var pindah = { ArrowRight: 1, ArrowLeft: -1, Home: 0, End: tombolTab.length - 1 }[e.key];
+          if (pindah === undefined) return;
+          e.preventDefault();
+          var tujuan = (e.key === 'Home') ? 0 : (e.key === 'End') ? tombolTab.length - 1
+                     : (i + pindah + tombolTab.length) % tombolTab.length;
+          tombolTab[tujuan].focus();
+          activateTab(tombolTab[tujuan].getAttribute('data-tab'));
+        });
       });
+
+      // ================= KONEKSI WHATSAPP =================
+      var waKeadaan = { aktif: false, provider: '-', adminWhatsapp: '', notifyAdminOnRsvp: true };
+
+      var WA_TEMPLATE_BAWAAN = 'Halo {tamu},\n\n' +
+        'Kami mengundang Anda untuk hadir di acara *{acara}* pada {tanggal}.\n' +
+        'Lokasi: {lokasi}\n\n' +
+        'Undangan lengkap (dengan peta, galeri & konfirmasi kehadiran):\n{link}\n\n' +
+        'Merupakan kehormatan bagi kami apabila Anda berkenan hadir. Terima kasih \uD83D\uDE4F';
+
+      function tampilkanStatusWa() {
+        var badge = $('waStatusBadge');
+        var info = $('waGatewayInfo');
+        var kotakGateway = $('waModeGateway');
+        if (!badge) return;
+
+        if (waKeadaan.aktif) {
+          badge.textContent = '\u2705 Terhubung \u00b7 ' + waKeadaan.provider;
+          badge.className = 'status';
+          if (kotakGateway) kotakGateway.classList.add('aktif');
+          info.innerHTML = 'Gateway <b>' + waKeadaan.provider + '</b> siap dipakai' +
+            (waKeadaan.tokenSamar ? ' (token ' + waKeadaan.tokenSamar + ')' : '') +
+            '. Kirim ke tamu tanpa membuka WhatsApp' +
+            (waKeadaan.notifyAdminOnRsvp ? ', dan RSVP baru otomatis dikabari ke admin.' : '.');
+        } else if (waKeadaan.offline) {
+          badge.textContent = '\u26a0 Server tidak terjangkau';
+          badge.className = 'status warn';
+          if (kotakGateway) kotakGateway.classList.remove('aktif');
+          info.textContent = 'Studio dibuka tanpa server (mode file). Tombol Kirim tetap membuka WhatsApp lewat tautan wa.me.';
+        } else {
+          badge.textContent = '\uD83D\uDD17 Mode Link WhatsApp';
+          badge.className = 'status';
+          if (kotakGateway) kotakGateway.classList.remove('aktif');
+          info.innerHTML = 'Belum aktif. Undangan tetap bisa dikirim lewat <b>link wa.me</b>. Untuk kirim otomatis, isi ' +
+            '<code>wa-config.json</code> dengan token gateway lalu tekan Muat Status.';
+        }
+      }
+
+      function renderRiwayatWa(riwayat) {
+        var wrap = $('waRiwayat');
+        if (!wrap) return;
+        if (!riwayat || !riwayat.length) {
+          wrap.innerHTML = '<p style="font-size:12.5px;color:var(--muted);margin:6px 0">Belum ada riwayat pengiriman otomatis.</p>';
+          return;
+        }
+        wrap.innerHTML = '';
+        riwayat.slice(0, 6).forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'rsvp-item wa-log-item';
+          var waktu = r.waktu ? new Date(r.waktu).toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }) : '-';
+          row.innerHTML = '<div><strong>' + (r.ok ? '\u2705 Terkirim' : '\u26a0 Gagal') + '</strong> \u00b7 ' +
+            (r.target || '-') + '<div style="color:var(--muted);font-size:11.5px">' + waktu +
+            (r.keterangan ? ' \u00b7 ' + r.keterangan : '') + '</div></div>';
+          wrap.appendChild(row);
+        });
+      }
+
+      async function muatStatusWa() {
+        if (!(StudioBackend.wa && StudioBackend.wa.status)) return;
+        waKeadaan = await StudioBackend.wa.status();
+        tampilkanStatusWa();
+        var template = waKeadaan.templateUndangan || WA_TEMPLATE_BAWAAN;
+        if ($('waTemplate') && !$('waTemplate').value) $('waTemplate').value = template;
+        if ($('waAdminNumber') && !$('waAdminNumber').value) {
+          $('waAdminNumber').value = waKeadaan.adminWhatsapp || (StudioBackend.getSettings().adminWhatsapp || '');
+        }
+        if ($('waAutoRsvp')) $('waAutoRsvp').value = waKeadaan.notifyAdminOnRsvp === false ? 'off' : 'on';
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+        return waKeadaan;
+      }
+
+      // Rakit data pesan undangan yang sedang diedit
+      function dataPesanWa(namaTamu) {
+        var inv = StudioBackend.getInvitation(activeId);
+        var guest = (namaTamu || '').trim() || 'Tamu Undangan';
+        var pasangan = (inv.secondaryName && !isSingleNameCat(inv.category))
+          ? (inv.primaryName + ' & ' + inv.secondaryName) : inv.primaryName;
+        return {
+          tamu: guest,
+          acara: (inv.title ? inv.title + ' \u2014 ' : '') + pasangan,
+          tanggal: StudioBackend.formatIndonesianDate(inv.eventDate) +
+            ((inv.resepsiTime || inv.akadTime) ? ' pukul ' + (inv.resepsiTime || inv.akadTime) : ''),
+          lokasi: [inv.venueName, inv.venueAddress].filter(Boolean).join(', '),
+          link: buildGuestLink(guest)
+        };
+      }
+
+      // Kirim link undangan: gateway kalau aktif, kalau tidak buka WhatsApp (wa.me)
+      async function kirimLinkWaKeTamu() {
+        var nama = $('waGuestName') ? $('waGuestName').value.trim() : '';
+        var nomor = $('waGuestPhone') ? $('waGuestPhone').value.trim() : '';
+        var template = $('waTemplate').value || WA_TEMPLATE_BAWAAN;
+        var data = dataPesanWa(nama);
+        var pesan = StudioBackend.wa.isiTemplate(template, data);
+
+        if (!waKeadaan.aktif) {
+          window.open(StudioBackend.wa.tautan(nomor, pesan), '_blank', 'noopener');
+          $('waHasil').textContent = 'WhatsApp dibuka \u2014 tinggal tekan kirim';
+          return;
+        }
+        if (!nomor) {
+          showToast('\u26a0 Isi nomor WhatsApp tamu dulu untuk kirim otomatis');
+          $('waGuestPhone').focus();
+          return;
+        }
+        $('waHasil').textContent = 'Mengirim\u2026';
+        var hasil = await StudioBackend.wa.kirim(nomor, pesan, data, template);
+        if (hasil.ok) {
+          $('waHasil').textContent = '\u2705 Terkirim ke ' + hasil.tujuan;
+          showToast('\u2705 Undangan terkirim ke ' + hasil.tujuan);
+        } else {
+          $('waHasil').textContent = '\u26a0 ' + (hasil.error || 'Gagal mengirim');
+          showToast('\u26a0 Gagal kirim otomatis \u2014 membuka WhatsApp sebagai gantinya');
+          window.open(hasil.tautan || StudioBackend.wa.tautan(nomor, pesan), '_blank', 'noopener');
+        }
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+      }
+
+      if ($('waKirimBtn')) {
+        $('waKirimBtn').addEventListener('click', kirimLinkWaKeTamu);
+        $('waMuatStatusBtn').addEventListener('click', async function () {
+          await muatStatusWa();
+          showToast(waKeadaan.aktif ? '\u2705 Gateway WhatsApp terhubung (' + waKeadaan.provider + ')'
+                                    : '\uD83D\uDD17 Mode Link WhatsApp (tanpa token) aktif');
+        });
+        $('waUjiBtn').addEventListener('click', async function () {
+          $('waHasil').textContent = 'Mengirim pesan uji\u2026';
+          var hasil = await StudioBackend.wa.uji();
+          $('waHasil').textContent = hasil.ok
+            ? '\u2705 Pesan uji terkirim ke ' + hasil.tujuan
+            : '\u26a0 ' + (hasil.error || (hasil.hasil && hasil.hasil.error) || 'Gateway belum siap');
+          showToast($('waHasil').textContent);
+          await muatStatusWa();
+        });
+        $('waSimpanBtn').addEventListener('click', async function () {
+          var hasil = await StudioBackend.wa.simpanPengaturan({
+            adminWhatsapp: $('waAdminNumber').value.trim(),
+            notifyAdminOnRsvp: $('waAutoRsvp').value !== 'off',
+            templateUndangan: $('waTemplate').value
+          });
+          if (hasil && hasil.ok) {
+            waKeadaan = Object.assign(waKeadaan, hasil.wa || {});
+            tampilkanStatusWa();
+            showToast('\u2705 Pengaturan WhatsApp disimpan');
+          } else {
+            showToast('\u26a0 Gagal menyimpan: ' + ((hasil && hasil.error) || 'server tidak terjangkau'));
+          }
+        });
+      }
+      muatStatusWa();
+
+      // ================= PEMERIKSAAN & HASIL UNDANGAN =================
+      // Gulir halus ke panel editor — aman di browser/jsdom yang belum mendukung opsi
+      function gulirKeEditor() {
+        try { gulirKeEditor(); }
+        catch (e) { try { window.scrollTo(0, 140); } catch (e2) { /* abaikan */ } }
+      }
+
+      function liveHrefUndangan(inv) {
+        return (inv.themeFile || 'undangan-sage.html') +
+          '?id=' + encodeURIComponent(inv.id) +
+          '&mode=' + encodeURIComponent(inv.navMode || 'scroll') +
+          '&fx=' + encodeURIComponent(inv.fxMode || 'kelopak');
+      }
+
+      function renderReviewMeta(inv) {
+        var el = $('reviewMeta');
+        if (!el) return;
+        el.textContent = inv.reviewedAt
+          ? 'Terakhir diperiksa ' + new Date(inv.reviewedAt).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })
+          : 'Belum pernah diperiksa';
+      }
+
+      // Daftar periksa kelengkapan undangan yang sedang diedit
+      function renderPemeriksaan() {
+        var inv = StudioBackend.getInvitation(activeId);
+        if (!inv) return;
+        var hasil = StudioBackend.periksaKelengkapan(inv);
+        var skor = $('periksaSkor');
+        skor.textContent = hasil.lolos + ' / ' + hasil.total + (hasil.siap ? ' \u2713' : '');
+        skor.className = 'status' + (hasil.siap ? '' : ' warn');
+        $('periksaNama').textContent = inv.primaryName || inv.id;
+        $('periksaOpenLink').href = liveHrefUndangan(inv);
+
+        var daftar = $('periksaList');
+        daftar.innerHTML = '';
+        hasil.butir.forEach(function (b) {
+          var li = document.createElement('li');
+          li.className = b.ok ? 'ok' : 'kurang';
+          li.innerHTML = '<span class="tanda" aria-hidden="true">' + (b.ok ? '\u2705' : '\u26a0\ufe0f') + '</span>' +
+            '<span>' + b.label + (b.ok ? '' : (b.saran ? '<small>' + b.saran + '</small>' : '')) + '</span>';
+          daftar.appendChild(li);
+        });
+
+        $('fReviewStatus').value = statusPemeriksaan(inv);
+        $('fReviewNote').value = inv.reviewNote || '';
+        renderReviewMeta(inv);
+
+        var hasilInfo = $('hasilInfo');
+        if (hasilInfo && $('hasilFrameWrap').style.display === 'none') {
+          hasilInfo.textContent = 'Belum ditampilkan. Klik \u201cTampilkan Hasil Undangan\u201d.';
+        }
+        return hasil;
+      }
+
+      // Tampilkan hasil undangan langsung di dalam Studio
+      function muatHasilUndangan() {
+        var inv = StudioBackend.getInvitation(activeId);
+        if (!inv) return;
+        var url = liveHrefUndangan(inv);
+        $('hasilPreviewFrame').src = url;
+        $('hasilFrameWrap').style.display = 'block';
+        $('hasilOpenLink').href = url;
+        $('hasilShareLink').href = url + '&to=' + encodeURIComponent($('shareGuestName').value.trim() || 'Tamu Undangan');
+        $('hasilInfo').textContent = 'Menampilkan: ' + (inv.primaryName || inv.id) + ' \u00b7 ' +
+          (inv.theme || '') + ' \u00b7 mode ' + (inv.navMode || 'scroll') + ' \u00b7 efek ' + (inv.fxMode || 'kelopak');
+      }
+
+      var hasilPreviewBtn = $('hasilPreviewBtn');
+      if (hasilPreviewBtn) hasilPreviewBtn.addEventListener('click', muatHasilUndangan);
+      var hasilReloadBtn = $('hasilReloadBtn');
+      if (hasilReloadBtn) hasilReloadBtn.addEventListener('click', function () {
+        var frame = $('hasilPreviewFrame');
+        if (!frame.getAttribute('src')) { muatHasilUndangan(); return; }
+        frame.src = frame.getAttribute('src');   // paksa muat ulang
+        showToast('\u21bb Hasil undangan dimuat ulang');
+      });
+
+      var periksaRefreshBtn = $('periksaRefreshBtn');
+      if (periksaRefreshBtn) periksaRefreshBtn.addEventListener('click', function () {
+        var hasil = renderPemeriksaan();
+        showToast(hasil && hasil.siap
+          ? '\u2713 Semua ' + hasil.total + ' pemeriksaan lolos \u2014 undangan siap dibagikan'
+          : '\u26a0 ' + (hasil ? (hasil.total - hasil.lolos) : 0) + ' pemeriksaan belum lolos');
+      });
+
+      // Simpan status pemeriksaan admin (disetujui / menunggu / revisi / draf)
+      var saveReviewBtn = $('saveReviewBtn');
+      if (saveReviewBtn) saveReviewBtn.addEventListener('click', async function () {
+        var inv = StudioBackend.getInvitation(activeId);
+        inv.reviewStatus = $('fReviewStatus').value || 'menunggu';
+        inv.reviewNote = $('fReviewNote').value.trim();
+        inv.reviewedAt = new Date().toISOString();
+        await StudioBackend.saveInvitation(inv);
+        renderReviewMeta(inv);
+        renderProjectsCollection();
+        showToast('\u2713 Status pemeriksaan disimpan: ' + labelStatus(inv.reviewStatus));
+      });
+
+      // Musik halaman depan (pengaturan global Studio)
+      function muatMusikDepan() {
+        var s = {};
+        try { s = StudioBackend.getSettings() || {}; } catch (e) { s = {}; }
+        var pilih = s.frontMusic || 'musik/romantis.mp3';
+        var sel = $('fFrontMusic');
+        if (!sel) return;
+        if (!Array.prototype.some.call(sel.options, function (o) { return o.value === pilih; })) {
+          pilih = 'musik/romantis.mp3';
+        }
+        sel.value = pilih;
+      }
+      muatMusikDepan();
+      var tombolMusikDepan = $('saveFrontMusicBtn');
+      if (tombolMusikDepan) {
+        tombolMusikDepan.addEventListener('click', async function () {
+          var nilai = $('fFrontMusic').value || 'musik/romantis.mp3';
+          try {
+            await StudioBackend.saveSettings({ frontMusic: nilai });
+            showToast(nilai === 'off' ? '\u2713 Musik halaman depan dimatikan' : '\u2713 Musik halaman depan disimpan');
+          } catch (e) {
+            showToast('\u26a0 Gagal menyimpan musik halaman depan');
+          }
+        });
+      }
 
       // Laci menu (drawer) & navigasi
       function closeDrawer() {
@@ -1034,6 +1645,20 @@
           $('lblParents1').textContent = 'Nama Orang Tua / Penyelenggara';
           $('lblFullName2').textContent = 'Subjudul Perayaan';
           $('lblParents2').textContent = 'Dress Code Pesta';
+        } else if (cat === 'aqiqah') {
+          $('lblPrimaryName').textContent = 'Nama Bayi';
+          $('lblSecondaryName').textContent = 'Subjudul (Contoh: Aqiqah & Tasyakuran)';
+          $('lblFullName1').textContent = 'Nama Lengkap Bayi';
+          $('lblParents1').textContent = 'Nama Kedua Orang Tua';
+          $('lblFullName2').textContent = 'Doa / Keterangan Singkat';
+          $('lblParents2').textContent = 'Keluarga Besar Turut Mengundang';
+        } else if (cat === 'wisuda') {
+          $('lblPrimaryName').textContent = 'Nama Wisudawan + Gelar';
+          $('lblSecondaryName').textContent = 'Subjudul (Contoh: Wisuda & Syukuran)';
+          $('lblFullName1').textContent = 'Nama Lengkap Wisudawan';
+          $('lblParents1').textContent = 'Nama Orang Tua / Keluarga';
+          $('lblFullName2').textContent = 'Program Studi / IPK';
+          $('lblParents2').textContent = 'Kampus / Keterangan';
         } else {
           $('lblPrimaryName').textContent = 'Nama Panggilan Mempelai 1';
           $('lblSecondaryName').textContent = 'Nama Panggilan Mempelai 2';
@@ -1044,10 +1669,17 @@
         }
       }
 
+      // Kategori "satu nama" (bukan pasangan mempelai) — dipakai untuk penamaan & label.
+      function isSingleNameCat(cat) {
+        return ['khitanan', 'ultah', 'aqiqah', 'wisuda'].indexOf(cat) > -1;
+      }
+
       function getCategoryLabel(cat, isPremium) {
         if (isPremium || cat === 'premium') return '👑 Tema Premium';
         if (cat === 'khitanan') return '🕌 Tema Khitanan';
         if (cat === 'ultah') return '🎂 Tema Ulang Tahun';
+        if (cat === 'aqiqah') return '🍼 Tema Aqiqah';
+        if (cat === 'wisuda') return '🎓 Tema Wisuda';
         return '💍 Tema Pernikahan';
       }
 
@@ -1067,12 +1699,19 @@
         $('statRsvps').textContent = rsvps.length;
         $('statPaxText').textContent = totalPax + ' tamu konfirmasi hadir';
 
+        // Ringkasan pemeriksaan admin: disetujui / menunggu / perlu revisi
+        var hitungReview = { disetujui: 0, menunggu: 0, revisi: 0, draf: 0 };
+        invs.forEach(function (i) { hitungReview[statusPemeriksaan(i)] += 1; });
+        $('statReview').textContent = hitungReview.disetujui + ' / ' + invs.length;
+        $('statReviewText').textContent = hitungReview.menunggu + ' menunggu dicek · ' +
+          hitungReview.revisi + ' perlu revisi' + (hitungReview.draf ? ' · ' + hitungReview.draf + ' draf' : '');
+
         var sel = $('activeInvitationSelect');
         sel.innerHTML = '';
         invs.forEach(function (inv) {
           var opt = document.createElement('option');
           opt.value = inv.id;
-          var labelName = inv.secondaryName && inv.category !== 'khitanan' && inv.category !== 'ultah'
+          var labelName = inv.secondaryName && !isSingleNameCat(inv.category)
             ? (inv.primaryName + ' & ' + inv.secondaryName)
             : inv.primaryName;
           opt.textContent = labelName + ' — ' + inv.theme;
@@ -1110,7 +1749,24 @@
         $('fMapsUrl').value = inv.mapsUrl || '';
         $('fNavMode').value = inv.navMode || 'scroll';
         $('fFxMode').value = inv.fxMode || 'kelopak';
+        $('fCheckin').value = (inv.checkin === false) ? 'off' : 'on';
+        // Musik: cocokkan dengan daftar lagu bawaan, sisanya dianggap link kustom
+        var daftarMusik = Array.prototype.map.call($('fMusicUrl').options, function (o) { return o.value; });
+        var musikInv = (inv.musicUrl || '').trim();
+        if (daftarMusik.indexOf(musikInv) > -1) {
+          $('fMusicUrl').value = musikInv;
+          $('fMusicCustom').value = '';
+        } else if (musikInv) {
+          $('fMusicUrl').value = '';
+          $('fMusicCustom').value = musikInv;
+        } else {
+          $('fMusicUrl').value = '';
+          $('fMusicCustom').value = '';
+        }
         $('fQuote').value = inv.quote || '';
+        $('clientShortCustom').value = inv.shortUrl || '';
+        $('clientName').value = inv.clientName || '';
+        $('clientPhone').value = inv.clientPhone || '';
 
         // Photos
         var photos = inv.photos || {};
@@ -1136,6 +1792,8 @@
 
         updateLivePreview();
         updateShareGenerator();
+        // Sekalian segarkan daftar periksa & status pemeriksaan undangan ini
+        if (typeof renderPemeriksaan === 'function') renderPemeriksaan();
       }
 
       // Render Gallery Thumbnails in Photo Upload Tab
@@ -1239,7 +1897,7 @@
         var cat = $('fCategory').value;
         var p1 = $('fPrimaryName').value || 'Nama';
         var p2 = $('fSecondaryName').value || '';
-        var displayNames = (p2 && cat !== 'khitanan' && cat !== 'ultah') ? (p1 + ' & ' + p2) : p1;
+        var displayNames = (p2 && !isSingleNameCat(cat)) ? (p1 + ' & ' + p2) : p1;
 
         var themeSelect = $('fThemeFile');
         var themeLabel = themeSelect.options[themeSelect.selectedIndex]
@@ -1287,7 +1945,7 @@
 
         $('shareGeneratedUrl').value = fullUrl;
 
-        var pairName = ($('fSecondaryName').value && $('fCategory').value !== 'khitanan' && $('fCategory').value !== 'ultah')
+        var pairName = ($('fSecondaryName').value && !isSingleNameCat($('fCategory').value))
           ? ($('fPrimaryName').value + ' & ' + $('fSecondaryName').value)
           : $('fPrimaryName').value;
 
@@ -1302,6 +1960,7 @@
 
         $('shareWaText').value = msg;
         $('sendWaDirectBtn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+        if (typeof updateSerahTerima === 'function') updateSerahTerima();
       }
 
       // Collect & Save Current Form State into StudioBackend
@@ -1314,7 +1973,7 @@
           : inv.theme;
 
         inv.category = cat;
-        inv.isPremium = (cat === 'premium' || $('fThemeFile').value === 'undangan-premium.html');
+        inv.isPremium = (cat === 'premium' || $('fThemeFile').value === 'undangan-premium.html' || $('fThemeFile').value === 'undangan-platinum.html');
         inv.themeFile = $('fThemeFile').value;
         inv.theme = themeName;
         inv.title = $('fTitle').value;
@@ -1333,7 +1992,12 @@
         inv.mapsUrl = $('fMapsUrl').value;
         inv.navMode = $('fNavMode').value;
         inv.fxMode = $('fFxMode').value;
+        inv.musicUrl = (($('fMusicCustom') || {}).value || '').trim() || ($('fMusicUrl') || {}).value || '';
+        inv.checkin = ($('fCheckin') || {}).value !== 'off';
         inv.quote = $('fQuote').value;
+        inv.shortUrl = ($('clientShortCustom') || {}).value ? $('clientShortCustom').value.trim() : '';
+        inv.clientName = ($('clientName') || {}).value ? $('clientName').value.trim() : '';
+        inv.clientPhone = ($('clientPhone') || {}).value ? $('clientPhone').value.trim() : '';
 
         inv.amplop = inv.amplop || { accounts: [] };
         inv.amplop.enabled = $('fAmplopEnabled').checked;
@@ -1353,23 +2017,160 @@
         renderProjectsCollection();
         updateLivePreview();
         updateShareGenerator();
+        renderPemeriksaan();
         showToast('✓ Perubahan disimpan ke Backend Studio');
       }
 
-      // Render Collection Cards
+      // Urutan & keterangan kelompok koleksi (samakan dengan katalog di halaman depan)
+      var GROUP_META = [
+        { cat: 'pernikahan', label: '💍 Tema Pernikahan',
+          desc: 'Flora lembut, adat Jawa, hingga malam zamrud.' },
+        { cat: 'khitanan', label: '🕌 Tema Khitanan',
+          desc: 'Walimatul khitan islami dengan rundown acara dan doa.' },
+        { cat: 'aqiqah', label: '🍼 Tema Aqiqah & Tasyakuran Bayi',
+          desc: 'Ayat & doa aqiqah, rundown prosesi, dan kado digital.' },
+        { cat: 'ultah', label: '🎂 Tema Ulang Tahun',
+          desc: 'Pesta ceria: agenda acara, games, dan tiup lilin.' },
+        { cat: 'wisuda', label: '🎓 Tema Wisuda & Kelulusan',
+          desc: 'Profil wisudawan, daftar pencapaian, dan animasi konfeti.' },
+        { cat: 'premium', label: '👑 Tema Premium',
+          desc: 'Edisi eksklusif: QR check-in VIP dan reservasi gala dinner.' }
+      ];
+
+      function kategoriKelompok(inv) {
+        if (inv.isPremium || inv.category === 'premium') return 'premium';
+        return inv.category || 'pernikahan';
+      }
+
+      // ---------- Pengelompokan koleksi: per kategori / tanggal / status ----------
+      var currentCollectionView = 'kategori';
+      var NAMA_BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
+                        'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      var REVIEW_META = [
+        { key: 'revisi',   label: '\u270f\ufe0f Perlu Revisi',              desc: 'Ada yang harus diperbaiki sebelum dibagikan ke tamu.' },
+        { key: 'menunggu', label: '\uD83D\uDD52 Menunggu Dicek',               desc: 'Sudah jadi, belum diperiksa admin.' },
+        { key: 'disetujui', label: '\u2705 Disetujui \u2014 siap dibagikan', desc: 'Sudah dicek admin dan aman untuk dibagikan.' },
+        { key: 'draf',     label: '\uD83D\uDCDD Draf',                         desc: 'Masih dikerjakan / data belum lengkap.' }
+      ];
+
+      function statusPemeriksaan(inv) {
+        var st = (inv && inv.reviewStatus) || 'menunggu';
+        return REVIEW_META.some(function (m) { return m.key === st; }) ? st : 'menunggu';
+      }
+      function labelStatus(id) {
+        var m = REVIEW_META.filter(function (x) { return x.key === id; })[0];
+        return m ? m.label : id;
+      }
+
+      // Kunci + label kelompok tanggal acara (urut kronologis)
+      function tanggalKelompok(inv) {
+        var t = String((inv && inv.eventDate) || '').split('-');
+        if (t.length !== 3 || !t[0]) return { kunci: 'tanpa-tanggal', urut: '9999-99' };
+        return { kunci: t[0] + '-' + t[1], urut: t[0] + '-' + t[1] };
+      }
+      function labelTanggal(kunci) {
+        if (kunci === 'tanpa-tanggal') return '\uD83D\uDCC5 Tanggal belum diisi';
+        var p = kunci.split('-');
+        return '\uD83D\uDCC5 ' + (NAMA_BULAN[Number(p[1]) - 1] || p[1]) + ' ' + p[0];
+      }
+
+      // Kelompok koleksi sesuai tampilan terpilih (kategori / tanggal / status)
+      function kelompokKoleksi(list) {
+        var kelompok = [];
+
+        if (currentCollectionView === 'tanggal') {
+          var petaTanggal = {};
+          list.forEach(function (inv) {
+            var kunci = tanggalKelompok(inv);
+            if (!petaTanggal[kunci.kunci]) {
+              petaTanggal[kunci.kunci] = { key: kunci.kunci, urut: kunci.urut,
+                label: labelTanggal(kunci.kunci), desc: 'Acara pada bulan ini.', anggota: [] };
+            }
+            petaTanggal[kunci.kunci].anggota.push(inv);
+          });
+          kelompok = Object.keys(petaTanggal).map(function (k) { return petaTanggal[k]; })
+            .sort(function (a, b) { return a.urut < b.urut ? -1 : (a.urut > b.urut ? 1 : 0); });
+          return kelompok;
+        }
+
+        if (currentCollectionView === 'status') {
+          REVIEW_META.forEach(function (meta) {
+            var anggota = list.filter(function (inv) { return statusPemeriksaan(inv) === meta.key; });
+            if (anggota.length) kelompok.push({ key: meta.key, label: meta.label, desc: meta.desc, anggota: anggota });
+          });
+          return kelompok;
+        }
+
+        GROUP_META.forEach(function (meta) {
+          if (currentCategoryFilter !== 'all' && currentCategoryFilter !== meta.cat) return;
+          var anggota = list.filter(function (inv) { return kategoriKelompok(inv) === meta.cat; });
+          if (anggota.length) kelompok.push({ key: meta.cat, label: meta.label, desc: meta.desc, anggota: anggota });
+        });
+        return kelompok;
+      }
+
+      // Ringkasan kecil di atas koleksi: jumlah undangan & status pemeriksaan
+      function renderRingkasKoleksi(semua) {
+        var el = $('koleksiRingkas');
+        if (!el) return;
+        var hitung = { revisi: 0, menunggu: 0, disetujui: 0, draf: 0 };
+        semua.forEach(function (inv) { hitung[statusPemeriksaan(inv)] += 1; });
+        el.textContent = semua.length + ' undangan \u00b7 ' + hitung.disetujui + ' disetujui \u00b7 ' +
+          hitung.menunggu + ' menunggu dicek \u00b7 ' + hitung.revisi + ' perlu revisi' +
+          (hitung.draf ? ' \u00b7 ' + hitung.draf + ' draf' : '');
+      }
+
+      // Render Collection Cards — dikelompokkan per kategori, tanggal, atau status
       function renderProjectsCollection() {
         var list = StudioBackend.getInvitations(currentCategoryFilter);
         var grid = $('projectListGrid');
         grid.innerHTML = '';
+        renderRingkasKoleksi(StudioBackend.getInvitations('all'));
 
-        list.forEach(function (inv) {
-          var card = document.createElement('article');
+        var kelompok = kelompokKoleksi(list);
+
+        kelompok.forEach(function (grup) {
+          var wrap = document.createElement('div');
+          wrap.className = 'collection-group';
+          wrap.setAttribute('data-cat', grup.key);
+          wrap.setAttribute('data-view', currentCollectionView);
+
+          var head = document.createElement('div');
+          head.className = 'collection-group-head';
+          head.innerHTML = '<h3>' + grup.label +
+            ' <span class="count">' + grup.anggota.length + ' Undangan</span></h3>' +
+            '<p>' + grup.desc + '</p>';
+          wrap.appendChild(head);
+
+          var listEl = document.createElement('div');
+          listEl.className = 'project-grid';
+          grup.anggota.forEach(function (inv) { listEl.appendChild(buatKartuProyek(inv)); });
+          wrap.appendChild(listEl);
+          grid.appendChild(wrap);
+        });
+
+        if (!kelompok.length) {
+          grid.innerHTML = '<p style="color:var(--muted)">Belum ada undangan pada kelompok ini. ' +
+            'Buat baru lewat tab Data Utama.</p>';
+        }
+      }
+
+      // Satu kartu undangan di koleksi
+      function buatKartuProyek(inv) {
+        var card = document.createElement('article');
+        {
           card.className = 'project';
-          var icon = inv.category === 'khitanan' ? '🕌' : (inv.category === 'ultah' ? '🎂' : (inv.isPremium ? '👑' : '💍'));
-          var titlePair = (inv.secondaryName && inv.category !== 'khitanan' && inv.category !== 'ultah')
+          var icon = inv.category === 'khitanan' ? '🕌' : (inv.category === 'ultah' ? '🎂' : (inv.category === 'aqiqah' ? '🍼' : (inv.category === 'wisuda' ? '🎓' : (inv.isPremium ? '👑' : '💍'))));
+          var titlePair = (inv.secondaryName && !isSingleNameCat(inv.category))
             ? (inv.primaryName + ' & ' + inv.secondaryName)
             : inv.primaryName;
           var liveHref = inv.themeFile + '?id=' + encodeURIComponent(inv.id) + '&mode=' + encodeURIComponent(inv.navMode || 'scroll') + '&fx=' + encodeURIComponent(inv.fxMode || 'kelopak');
+
+          var statusInv = statusPemeriksaan(inv);
+          var hasilCek = StudioBackend.periksaKelengkapan(inv);
+          var catatan = (inv.reviewNote || '').trim();
+          card.setAttribute('data-status', statusInv);
 
           card.innerHTML =
             '<div>' +
@@ -1380,9 +2181,14 @@
               '<h4>' + titlePair + '</h4>' +
               '<p>' + StudioBackend.formatIndonesianDate(inv.eventDate) + '</p>' +
               '<p style="margin-top:4px;font-weight:600;color:var(--ink)">Tema: ' + inv.theme + '</p>' +
+              '<span class="review-badge st-' + statusInv + '">' + labelStatus(statusInv) + '</span>' +
+              '<p style="margin-top:6px;font-size:12.5px;color:var(--muted)">Kelengkapan: ' + hasilCek.lolos +
+                '/' + hasilCek.total + (hasilCek.siap ? ' • siap dibagikan' : ' • ada yang perlu dilengkapi') + '</p>' +
+              (catatan ? '<p style="margin-top:4px;font-size:12.5px;color:var(--muted)">Catatan: ' + catatan + '</p>' : '') +
             '</div>' +
             '<div class="project-actions">' +
               '<button type="button" class="btn sm primary edit-proj-btn">✎ Edit di Studio</button>' +
+              '<button type="button" class="btn sm cek-proj-btn">✅ Cek &amp; Hasil</button>' +
               '<a class="btn sm" href="' + liveHref + '" target="_blank" rel="noopener">Buka Demo ↗</a>' +
             '</div>';
 
@@ -1390,19 +2196,31 @@
             activeId = inv.id;
             $('activeInvitationSelect').value = activeId;
             loadActiveInvitationToForm();
-            window.scrollTo({ top: 140, behavior: 'smooth' });
+            gulirKeEditor();
             showToast('Mengedit: ' + titlePair);
           });
 
-          grid.appendChild(card);
-        });
+          // Tombol Cek: buka tab Pemeriksaan untuk undangan ini
+          card.querySelector('.cek-proj-btn').addEventListener('click', function () {
+            activeId = inv.id;
+            $('activeInvitationSelect').value = activeId;
+            loadActiveInvitationToForm();
+            activateTab('tab-periksa');
+            renderPemeriksaan();
+            gulirKeEditor();
+            showToast('Memeriksa: ' + titlePair);
+          });
+        }
+        return card;
       }
+
 
       // Event Listeners for Form Inputs
       [
         'fCategory', 'fThemeFile', 'fTitle', 'fStatus', 'fPrimaryName', 'fSecondaryName',
         'fFullName1', 'fParents1', 'fFullName2', 'fParents2', 'fEventDate', 'fAkadTime',
         'fResepsiTime', 'fVenueName', 'fVenueAddress', 'fMapsUrl', 'fNavMode', 'fFxMode',
+        'fMusicUrl', 'fMusicCustom', 'fCheckin',
         'fQuote', 'fAmplopEnabled', 'fRsvpEnabled'
       ].forEach(function (id) {
         var el = $(id);
@@ -1414,6 +2232,8 @@
             if (cat === 'khitanan') $('fThemeFile').value = 'undangan-khitanan.html';
             else if (cat === 'ultah') $('fThemeFile').value = 'undangan-ultah.html';
             else if (cat === 'premium') $('fThemeFile').value = 'undangan-premium.html';
+            else if (cat === 'aqiqah') $('fThemeFile').value = 'undangan-aqiqah.html';
+            else if (cat === 'wisuda') $('fThemeFile').value = 'undangan-wisuda.html';
           }
           updateLivePreview();
           updateShareGenerator();
@@ -1578,6 +2398,36 @@
         showToast('✓ Pesan pengantar WhatsApp disalin');
       });
 
+      // Serah Terima ke Pelanggan: salin link/pesan & kirim (WhatsApp atau gateway)
+      $('clientName').addEventListener('input', updateSerahTerima);
+      $('clientPhone').addEventListener('input', updateSerahTerima);
+      $('clientText').addEventListener('input', function () { $('sendClientWaBtn').href = tautanWaPelanggan(); });
+      $('clientShortCustom').addEventListener('input', updateSerahTerima);
+      $('copyClientShortBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('clientShortUrl').value);
+        showToast('\u2713 Link pendek berhasil disalin');
+      });
+      $('copyClientUrlBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('clientUrl').value);
+        showToast('\u2713 Link pelanggan berhasil disalin');
+      });
+      $('copyClientTextBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('clientText').value);
+        showToast('\u2713 Pesan serah terima disalin');
+      });
+      $('sendClientGatewayBtn').addEventListener('click', kirimKePelanggan);
+
+      // Bagikan ke semua tamu sekaligus (satu pesan, banyak nomor)
+      $('broadcastText').addEventListener('input', function () {
+        $('broadcastWaBtn').href = 'https://wa.me/?text=' + encodeURIComponent($('broadcastText').value || '');
+      });
+      $('broadcastNumbers').addEventListener('input', updateBroadcast);
+      $('copyBroadcastTextBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('broadcastText').value || '');
+        showToast('\u2713 Pesan untuk semua tamu disalin');
+      });
+      $('broadcastSendBtn').addEventListener('click', kirimBroadcast);
+
       // New Invitation Button
       $('newInvitationBtn').addEventListener('click', async function () {
         var newId = 'inv-' + Date.now();
@@ -1644,6 +2494,19 @@
         renderProjectsCollection();
         loadActiveInvitationToForm();
         showToast('↺ Data Studio dikembalikan ke bawaan');
+      });
+
+      // Pemilih pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan
+      document.querySelectorAll('#collectionView button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('#collectionView button').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentCollectionView = btn.getAttribute('data-view') || 'kategori';
+          renderProjectsCollection();
+          var info = { kategori: '6 kategori acara', tanggal: 'urutan bulan acara',
+                       status: 'status pemeriksaan admin' }[currentCollectionView] || '';
+          showToast('\uD83D\uDDC2\ufe0f Koleksi dikelompokkan per ' + info);
+        });
       });
 
       // Collection Category Filter
@@ -1724,6 +2587,168 @@
         showToast('🗑 QRIS dihapus');
       });
 
+      // ---------- SERAH TERIMA KE PELANGGAN ----------
+      // Link bersih (tanpa ?to=) + pesan siap kirim untuk pelanggan/pemesan undangan.
+      function judulPesanan(inv) {
+        if (inv.secondaryName && !isSingleNameCat(inv.category)) return inv.primaryName + ' & ' + inv.secondaryName;
+        return inv.primaryName || inv.title || inv.theme || 'Undangan Digital';
+      }
+      // Link pendek: pakai link pendek sendiri kalau diisi, kalau tidak /u/slug.
+      function linkPendek(inv) {
+        var custom = (($('clientShortCustom') || {}).value || inv.shortUrl || '').trim();
+        if (custom) return custom;
+        var slug = String(inv.slug || inv.id || '').trim();
+        if (!slug) return linkPelanggan(inv);
+        var baseOrigin = window.location.origin + window.location.pathname.replace(/studio\.html.*$/, '');
+        return baseOrigin + 'u/' + encodeURIComponent(slug);
+      }
+      // Link yang dipakai di pesan (link pendek; cadangan link lengkap).
+      function linkUntukDibagikan(inv) {
+        try { return linkPendek(inv); } catch (e) { return linkPelanggan(inv); }
+      }
+      function linkPelanggan(inv) {
+        var baseOrigin = window.location.origin + window.location.pathname.replace(/studio\.html.*$/, '');
+        var file = $('fThemeFile').value || inv.themeFile || 'undangan-sage.html';
+        return baseOrigin + file + '?id=' + encodeURIComponent(inv.id);
+      }
+      function waAktif() {
+        return (typeof waKeadaan !== 'undefined') && !!waKeadaan.aktif;
+      }
+      function pesanPelanggan(inv) {
+        var nama = ($('clientName').value || '').trim();
+        var baris = [
+          'Halo ' + (nama || 'Bapak/Ibu') + ' \uD83D\uDC4B',
+          '',
+          'Undangan digital *' + judulPesanan(inv) + '* sudah siap \u2728'
+        ];
+        var tanggal = StudioBackend.formatIndonesianDate(inv.eventDate);
+        if (tanggal) baris.push('\uD83D\uDCC5 ' + tanggal +
+          ((inv.resepsiTime || inv.akadTime) ? ' pukul ' + (inv.resepsiTime || inv.akadTime) : ''));
+        var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
+        if (lokasi) baris.push('\uD83D\uDCCD ' + lokasi);
+        baris = baris.concat([
+          '',
+          'Silakan cek tampilannya dulu di link ini:',
+          linkUntukDibagikan(inv),
+          '',
+          'Kalau sudah sesuai, link di atas siap dibagikan ke para tamu — bisa ditempel ke grup WhatsApp atau dikirim ke banyak nomor sekaligus.',
+          '',
+          'Terima kasih,',
+          'Kartu Digital'
+        ]);
+        return baris.join('\n');
+      }
+      function tautanWaPelanggan() {
+        var nomor = ($('clientPhone').value || '').trim();
+        var bersih = nomor ? StudioBackend.wa.bersihkanNomor(nomor) : '';
+        return 'https://wa.me/' + bersih + '?text=' + encodeURIComponent($('clientText').value || '');
+      }
+      function updateSerahTerima() {
+        if (!$('clientUrl')) return;
+        var inv = StudioBackend.getInvitation(activeId);
+        $('clientUrl').value = linkPelanggan(inv);
+        $('clientShortUrl').value = linkPendek(inv);
+        $('clientText').value = pesanPelanggan(inv);
+        $('sendClientWaBtn').href = tautanWaPelanggan();
+        updateBroadcast();
+        $('clientGatewayInfo').textContent = waAktif()
+          ? 'Gateway WhatsApp aktif \u2014 tombol Kirim Otomatis mengirim langsung tanpa membuka WhatsApp.'
+          : 'Gateway belum aktif \u2014 tombol WhatsApp membuka aplikasi WhatsApp (gratis, tanpa token). Isi nomor pelanggan untuk kirim otomatis via gateway.';
+      }
+      // Pesan yang sama untuk semua tamu (tanpa nama) — cukup satu link.
+      function pesanBroadcast(inv) {
+        var baris = [
+          'Halo Bapak/Ibu/Saudara/i 🙏',
+          '',
+          'Dengan penuh sukacita kami mengundang Anda untuk hadir pada acara *' + judulPesanan(inv) + '*:'
+        ];
+        var tanggal = StudioBackend.formatIndonesianDate(inv.eventDate);
+        if (tanggal) baris.push('📅 ' + tanggal +
+          ((inv.resepsiTime || inv.akadTime) ? ' pukul ' + (inv.resepsiTime || inv.akadTime) : ''));
+        var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
+        if (lokasi) baris.push('📍 ' + lokasi);
+        baris = baris.concat([
+          '',
+          'Undangan lengkapnya (galeri, lokasi, RSVP) bisa dibuka di sini:',
+          linkUntukDibagikan(inv),
+          '',
+          'Kehadiran & doa Anda sangat berarti bagi kami. Terima kasih 🙏'
+        ]);
+        return baris.join('\n');
+      }
+      // Nomor tamu: satu per baris / dipisah koma; nama yang menempel ikut dibersihkan.
+      function nomorBroadcast() {
+        var hasil = [];
+        String($('broadcastNumbers').value || '').split(/[\n,;]+/).forEach(function (b) {
+          var bersih = StudioBackend.wa.bersihkanNomor(b.split(/\s[-–—]\s/)[0]);
+          if (bersih && bersih.length >= 9 && hasil.indexOf(bersih) === -1) hasil.push(bersih);
+        });
+        return hasil;
+      }
+      function updateBroadcast() {
+        if (!$('broadcastText')) return;
+        var inv = StudioBackend.getInvitation(activeId);
+        $('broadcastText').value = pesanBroadcast(inv);
+        $('broadcastWaBtn').href = 'https://wa.me/?text=' + encodeURIComponent($('broadcastText').value);
+        var jumlah = nomorBroadcast().length;
+        var info = waAktif()
+          ? 'Gateway aktif — tombol Kirim ke Semua Nomor mengirim pesan yang sama ke semua nomor (jeda 0,4 detik per pesan).'
+          : 'Gateway belum aktif — tombol WhatsApp membuka aplikasi dengan pesan siap: pilih beberapa penerima sekaligus atau tempel ke grup. Isi nomor + aktifkan gateway untuk kirim otomatis.';
+        $('broadcastInfo').textContent = (jumlah ? jumlah + ' nomor siap dikirim. ' : '') + info;
+      }
+      async function kirimBroadcast() {
+        var pesan = $('broadcastText').value || '';
+        var nomor = nomorBroadcast();
+        if (!waAktif()) {
+          window.open('https://wa.me/?text=' + encodeURIComponent(pesan), '_blank', 'noopener');
+          showToast('\uD83D\uDD17 WhatsApp dibuka \u2014 pilih penerima atau tempel ke grup');
+          return;
+        }
+        if (!nomor.length) {
+          showToast('\u26A0 Tempel minimal satu nomor WhatsApp tamu dulu');
+          $('broadcastNumbers').focus();
+          return;
+        }
+        var tombol = $('broadcastSendBtn');
+        tombol.disabled = true;
+        var berhasil = 0, gagal = 0;
+        for (var i = 0; i < nomor.length; i++) {
+          $('broadcastInfo').textContent = 'Mengirim ' + (i + 1) + '/' + nomor.length + ' \u2192 ' + nomor[i];
+          var hasil = await StudioBackend.wa.kirim(nomor[i], pesan);
+          if (hasil.ok) berhasil++; else gagal++;
+          if (i < nomor.length - 1) await new Promise(function (r) { setTimeout(r, 400); });
+        }
+        tombol.disabled = false;
+        $('broadcastInfo').textContent = '\u2705 Terkirim ke ' + berhasil + ' nomor' + (gagal ? ' \u00b7 \u26A0 ' + gagal + ' gagal' : '');
+        showToast(gagal ? '\u26A0 ' + berhasil + ' terkirim, ' + gagal + ' gagal' : '\u2705 Pesan terkirim ke ' + berhasil + ' tamu');
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+      }
+
+      async function kirimKePelanggan() {
+        var nomor = ($('clientPhone').value || '').trim();
+        var pesan = $('clientText').value || '';
+        if (!waAktif()) {
+          window.open(tautanWaPelanggan(), '_blank', 'noopener');
+          showToast('\uD83D\uDD17 WhatsApp dibuka \u2014 tinggal tekan kirim');
+          return;
+        }
+        if (!nomor) {
+          showToast('\u26A0 Isi nomor WhatsApp pelanggan dulu untuk kirim otomatis');
+          $('clientPhone').focus();
+          return;
+        }
+        $('clientGatewayInfo').textContent = 'Mengirim\u2026';
+        var hasil = await StudioBackend.wa.kirim(nomor, pesan);
+        if (hasil.ok) {
+          $('clientGatewayInfo').textContent = '\u2705 Terkirim ke pelanggan ' + hasil.tujuan;
+          showToast('\u2705 Pesan serah terima terkirim ke pelanggan');
+        } else {
+          $('clientGatewayInfo').textContent = '\u26A0 ' + (hasil.error || 'Gagal mengirim') + ' \u2014 WhatsApp dibuka sebagai gantinya';
+          window.open(hasil.tautan || tautanWaPelanggan(), '_blank', 'noopener');
+        }
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+      }
+
       // ---------- GENERATOR NAMA TAMU MASSAL ----------
       var bulkResults = [];
       function buildGuestLink(guest) {
@@ -1738,7 +2763,7 @@
       }
       function buildGuestMsg(guest, fullUrl) {
         var inv = StudioBackend.getInvitation(activeId);
-        var pairName = (inv.secondaryName && inv.category !== 'khitanan' && inv.category !== 'ultah')
+        var pairName = (inv.secondaryName && !isSingleNameCat(inv.category))
           ? (inv.primaryName + ' & ' + inv.secondaryName) : inv.primaryName;
         return 'Kepada Yth. ' + guest + ',\n\n' +
           'Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara bahagia kami:\n\n' +
@@ -1764,10 +2789,14 @@
             '<div style="min-width:0">' +
               '<strong style="display:block;font-size:13.5px;margin-bottom:2px"></strong>' +
               '<div class="bulk-url" style="font-size:11.5px;color:var(--muted);word-break:break-all"></div>' +
+              '<input class="bulk-phone" inputmode="tel" placeholder="Nomor WA tamu (08xx / 62xx)" ' +
+                'style="margin-top:6px;max-width:240px;font-size:12.5px">' +
+              '<div class="bulk-ket" style="font-size:11.5px;color:var(--muted);margin-top:4px"></div>' +
             '</div>' +
-            '<div style="display:flex;gap:6px;flex:none">' +
+            '<div style="display:flex;gap:6px;flex:none;flex-wrap:wrap;justify-content:flex-end">' +
               '<button type="button" class="btn sm primary bulk-copy">📋 Salin</button>' +
               '<a class="btn sm gold bulk-wa" href="#" target="_blank" rel="noopener">💬 Kirim WA</a>' +
+              '<button type="button" class="btn sm bulk-send">📲 Kirim Otomatis</button>' +
             '</div>';
           row.querySelector('strong').textContent = name;
           row.querySelector('.bulk-url').textContent = url;
@@ -1775,6 +2804,22 @@
           row.querySelector('.bulk-copy').addEventListener('click', function () {
             if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(msg);
             showToast('✓ Link & pesan untuk ' + name + ' disalin');
+          });
+          // Kirim otomatis lewat gateway (kalau aktif) — kalau belum, buka WhatsApp
+          row.querySelector('.bulk-send').addEventListener('click', async function () {
+            var nomor = row.querySelector('.bulk-phone').value.trim();
+            var ket = row.querySelector('.bulk-ket');
+            if (!waKeadaan.aktif) {
+              window.open(StudioBackend.wa.tautan(nomor, msg), '_blank', 'noopener');
+              ket.textContent = 'WhatsApp dibuka \u2014 tinggal tekan kirim';
+              return;
+            }
+            if (!nomor) { ket.textContent = '\u26a0 Isi nomor WA tamu dulu'; return; }
+            ket.textContent = 'Mengirim\u2026';
+            var hasil = await StudioBackend.wa.kirim(nomor, msg, null, null);
+            ket.textContent = hasil.ok ? '\u2705 Terkirim ke ' + hasil.tujuan
+                                       : '\u26a0 ' + (hasil.error || 'Gagal mengirim');
+            if (!hasil.ok) window.open(hasil.tautan, '_blank', 'noopener');
           });
           wrap.appendChild(row);
         });
@@ -1793,6 +2838,35 @@
           }).catch(function () {});
         }
       });
+      $('bulkSendAllBtn').addEventListener('click', async function () {
+        var baris = Array.prototype.slice.call($('bulkResultList').querySelectorAll('.rsvp-item'));
+        if (!baris.length) { showToast('\u26a0 Generate daftar tamu terlebih dahulu'); return; }
+        var siap = baris.filter(function (r) { return r.querySelector('.bulk-phone').value.trim(); });
+        if (!waKeadaan.aktif) {
+          showToast('\uD83D\uDD17 Gateway belum aktif \u2014 tombol Kirim WA per tamu tetap bisa dipakai');
+          return;
+        }
+        if (!siap.length) { showToast('\u26a0 Isi minimal satu nomor WhatsApp tamu'); return; }
+        var berhasil = 0, gagal = 0;
+        $('bulkSendAllBtn').disabled = true;
+        for (var i = 0; i < siap.length; i++) {
+          var r = siap[i];
+          var nama = r.querySelector('strong').textContent;
+          var nomor = r.querySelector('.bulk-phone').value.trim();
+          var ket = r.querySelector('.bulk-ket');
+          var url = r.querySelector('.bulk-url').textContent;
+          var pesan = StudioBackend.wa.isiTemplate($('waTemplate').value || WA_TEMPLATE_BAWAAN,
+            dataPesanWa(nama));
+          ket.textContent = 'Mengirim\u2026';
+          var hasil = await StudioBackend.wa.kirim(nomor, pesan, null, null);
+          ket.textContent = hasil.ok ? '\u2705 Terkirim ke ' + hasil.tujuan : '\u26a0 ' + (hasil.error || 'gagal');
+          if (hasil.ok) berhasil++; else gagal++;
+          await new Promise(function (res) { setTimeout(res, 350); });   // jeda aman antar pesan
+        }
+        $('bulkSendAllBtn').disabled = false;
+        showToast('\u2705 Terkirim ' + berhasil + ' pesan' + (gagal ? ' \u00b7 ' + gagal + ' gagal' : ''));
+      });
+
       $('bulkCopyAllBtn').addEventListener('click', function () {
         if (!bulkResults.length) { showToast('⚠ Generate daftar tamu terlebih dahulu'); return; }
         var all = bulkResults.map(function (r) { return r.name + ' → ' + r.url; }).join('\n');

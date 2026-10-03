@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wedding of Dirga &amp; Amara — 21.11.2026</title>
+<meta name="description" content="Undangan pernikahan Dirga &amp; Amara, Sabtu 21 November 2026, Emerald Hall Bandung. Tema Midnight Emerald oleh Kartu Digital (kartudigital.my.id).">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kartu Digital">
+<meta property="og:title" content="The Wedding of Dirga &amp; Amara — Undangan Digital Midnight Emerald">
+<meta property="og:description" content="Undangan pernikahan Dirga &amp; Amara, Sabtu 21 November 2026, Emerald Hall Bandung. Tema Midnight Emerald oleh Kartu Digital (kartudigital.my.id).">
+<meta property="og:url" content="https://kartudigital.my.id/undangan-midnight.html">
+<meta property="og:image" content="https://kartudigital.my.id/foto-midnight-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Wedding of Dirga &amp; Amara — Undangan Digital Midnight Emerald">
+<meta name="twitter:description" content="Undangan pernikahan Dirga &amp; Amara, 21 November 2026, Emerald Hall Bandung. Tema Midnight Emerald oleh Kartu Digital.">
+<meta name="twitter:image" content="https://kartudigital.my.id/foto-midnight-cover.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e4d3b'/%3E%3Ctext x='32' y='45' font-size='28' text-anchor='middle' fill='%23e5cf9a' font-family='Georgia,serif' font-weight='bold'%3EKD%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://kartudigital.my.id/undangan-midnight.html">
+<!--
+  ============================================
+  TEMA PERNIKAHAN "MIDNIGHT EMERALD 🌙" (BARU)
+  Terintegrasi dengan Backend Studio (studio-api.js)
+  - Mendukung ?to=Nama+Tamu, ?mode=..., ?fx=..., ?id=midnight-dirga-amara
+  - Upload Foto Cover & Galeri dari Studio Admin
+  - Pengaturan Amplop Digital & Pengaturan RSVP otomatis sinkron
+  ============================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#04180f; --deep:#0a2d21; --emerald:#0f5a41; --leaf:#1f9a72; --jade:#7fd6b4;
+    --gold:#d8b263; --gold-soft:#f0dfae; --cream:#f7f3e8; --mist:#e4efe8; --ink:#10241c;
+    --slate:#48605a; --muted:#6c8079; --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#081b14;color:var(--ink);line-height:1.7}
+  body.locked{overflow:hidden}
+  .serif{font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif}
+  .frame{max-width:480px;margin:0 auto;background:linear-gradient(180deg,#fbfaf4,#fff);
+    min-height:100vh;position:relative;overflow:hidden;box-shadow:0 0 50px rgba(4,24,15,.6)}
+  .topline{height:6px;background:linear-gradient(90deg,var(--gold),var(--emerald),var(--gold-soft),var(--emerald),var(--gold))}
+
+  /* ---------- FX: KELIP BINTANG ---------- */
+  #fxLayer{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+  .star{position:absolute;top:-6vh;color:rgba(216,178,99,.85);animation:fall linear infinite}
+  @keyframes fall{
+    0%{transform:translateY(-8vh) translateX(0) rotate(0deg);opacity:0}
+    14%{opacity:.9}
+    80%{opacity:.55}
+    100%{transform:translateY(110vh) translateX(-24px) rotate(160deg);opacity:0}
+  }
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;
+    background:
+      linear-gradient(180deg,rgba(4,24,15,.12) 0%,rgba(4,24,15,.42) 40%,rgba(3,18,12,.9) 80%,rgba(2,12,8,.97) 100%),
+      url('foto-midnight-cover.jpg') center 20%/cover no-repeat,
+      linear-gradient(165deg,#0a2d21,#04170f);
+    transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease}
+  .cover.opened{transform:translateY(-101%);opacity:.5;pointer-events:none}
+  .cover-inner{width:100%;max-width:480px;text-align:center;padding:0 26px 46px;color:#fff}
+  .cover-pill{display:inline-block;background:rgba(216,178,99,.18);backdrop-filter:blur(8px);
+    border:1px solid rgba(216,178,99,.62);color:var(--gold-soft);padding:7px 20px;border-radius:50px;
+    font-size:10.5px;letter-spacing:2.8px;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .cover h1{font-size:44px;font-weight:600;text-shadow:0 6px 22px rgba(2,12,8,.6);line-height:1.06}
+  .cover .amp{color:var(--gold);font-style:italic;font-size:30px}
+  .cover .date{font-size:13px;letter-spacing:4px;margin:12px 0 16px;color:var(--gold-soft)}
+  .cover .to{font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;opacity:.8}
+  .cover .guest{font-size:20px;font-style:italic;margin:3px 0 20px;color:#eafaf2}
+  .open-btn{background:linear-gradient(135deg,var(--gold),#b98f3f);color:#20180a;border:none;
+    padding:15px 34px;border-radius:50px;font-size:14.5px;font-weight:700;letter-spacing:.4px;
+    box-shadow:0 14px 34px rgba(2,12,8,.55);cursor:pointer;transition:transform .18s}
+  .open-btn:active{transform:scale(.96)}
+  .cover-note{margin-top:14px;font-size:11px;opacity:.65}
+
+  /* ---------- UMUM ---------- */
+  section{padding:52px 24px}
+  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--emerald);font-weight:700}
+  .sec-title{font-size:30px;margin:8px 0 6px;color:var(--deep);font-weight:600}
+  .center{text-align:center}
+  .glass{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);
+    border:1px solid var(--mist);border-radius:20px;box-shadow:0 16px 36px rgba(10,45,33,.10)}
+  .card{padding:20px;margin-bottom:14px}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:none}
+  .btn-em{display:inline-block;background:linear-gradient(135deg,var(--emerald),var(--deep));color:#fff;
+    padding:12px 24px;border-radius:50px;font-size:13.5px;font-weight:700;text-decoration:none;
+    box-shadow:0 10px 24px rgba(10,45,33,.32);border:none;cursor:pointer}
+  .btn-gold{display:inline-block;background:linear-gradient(135deg,var(--gold),#b98f3f);color:#20180a;
+    padding:12px 24px;border-radius:50px;font-size:13.5px;font-weight:700;text-decoration:none;
+    box-shadow:0 10px 24px rgba(216,178,99,.35);border:none;cursor:pointer}
+  .divider{display:flex;align-items:center;gap:10px;justify-content:center;margin:16px 0}
+  .divider i{display:block;width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .divider i:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+  .divider span{color:var(--gold);font-size:14px}
+
+  /* ---------- PEMBUKA ---------- */
+  .opening{background:linear-gradient(180deg,#f7fbf8,#fff);text-align:center}
+  .opening .quote{font-size:15.5px;color:var(--slate);max-width:370px;margin:0 auto}
+  .opening .salam{font-size:13.5px;font-weight:700;color:var(--deep);margin-bottom:10px;letter-spacing:1px}
+  .couple{display:flex;flex-direction:column;gap:16px;margin-top:26px}
+  .person{padding:20px 18px}
+  .person .photo{width:112px;height:112px;border-radius:50%;margin:0 auto 14px;background-size:cover;
+    background-position:center;border:3px solid #fff;box-shadow:0 12px 28px rgba(10,45,33,.24);
+    outline:1px solid var(--gold-soft);outline-offset:3px}
+  .person b{display:block;font-size:21px;color:var(--deep);font-weight:600}
+  .person small{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+  .person .role{font-size:10.5px;letter-spacing:2.4px;text-transform:uppercase;color:var(--emerald);font-weight:700}
+  .amp-mid{color:var(--gold);font-size:26px}
+
+  /* ---------- COUNTDOWN ---------- */
+  .countdown{background:linear-gradient(160deg,#04180f,#0a2d21 55%,#0f5a41);color:#fff;text-align:center;position:relative}
+  .countdown .eyebrow{color:var(--gold-soft)}
+  .cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+  .cd-box{background:rgba(216,178,99,.14);border:1px solid rgba(216,178,99,.42);border-radius:16px;padding:14px 4px}
+  .cd-box b{display:block;font-size:24px;font-weight:700;line-height:1;color:var(--gold-soft)}
+  .cd-box small{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;opacity:.85}
+
+  /* ---------- ACARA ---------- */
+  .event-card{padding:20px}
+  .event-card h3{font-size:21px;color:var(--deep);margin-bottom:4px;font-weight:600}
+  .event-card .ic{font-size:22px}
+  .event-card p{font-size:13.5px;color:var(--slate)}
+  .event-meta{font-size:13px;color:var(--muted);margin:8px 0 12px}
+
+  /* ---------- LOVE STORY ---------- */
+  .story{background:linear-gradient(180deg,#f7fbf8,#fff)}
+  .story-item{display:flex;gap:14px;margin-bottom:18px}
+  .story-dot{flex:0 0 42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#eaf5ef,#fff);
+    border:1px solid var(--gold-soft);display:flex;align-items:center;justify-content:center;color:var(--emerald);font-size:16px}
+  .story-item b{font-size:15px;color:var(--deep);font-weight:600}
+  .story-item small{display:block;font-size:11px;color:var(--emerald);font-weight:700;letter-spacing:1.2px}
+  .story-item p{font-size:13.5px;color:var(--slate)}
+
+  /* ---------- GALERI ---------- */
+  .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .gal-item{position:relative;border-radius:16px;overflow:hidden;height:152px;background-size:cover;
+    background-position:center;cursor:pointer;border:2px solid #fff;box-shadow:0 10px 24px rgba(10,45,33,.16)}
+  .gal-item:first-child{grid-column:1/-1;height:212px}
+  .gal-zoom{position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.9);color:var(--deep);
+    font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:50px}
+
+  /* ---------- RSVP ---------- */
+  .rsvp-card{padding:20px}
+  .lead{font-size:13.5px;color:var(--slate);margin-bottom:14px}
+  input,select,textarea{width:100%;border:1px solid var(--mist);background:#fafdfb;border-radius:14px;
+    padding:12px 14px;font-size:14px;color:var(--ink);font-family:inherit;outline:none;margin-bottom:10px}
+  input:focus,select:focus,textarea:focus{border-color:var(--leaf);background:#fff}
+  .pills{display:flex;gap:8px;margin-bottom:10px}
+  .pill{flex:1;text-align:center;padding:11px 8px;border-radius:14px;border:1px solid var(--mist);
+    background:#fafdfb;font-size:13px;font-weight:600;color:var(--slate);cursor:pointer;transition:.15s}
+  .pill.active{background:linear-gradient(135deg,var(--emerald),var(--deep));color:#fff;border-color:var(--emerald)}
+  .rsvp-ok{display:none;background:linear-gradient(160deg,#eaf5ef,#fff);border:1px solid var(--mist);
+    border-radius:16px;padding:18px;text-align:center;font-size:13.5px;color:var(--deep);margin-top:12px}
+  .wish-list{margin-top:16px;display:flex;flex-direction:column;gap:10px;max-height:340px;overflow:auto}
+  .wish{background:#fff;border:1px solid var(--mist);border-left:3px solid var(--gold);border-radius:14px;padding:13px 15px}
+  .wish b{display:block;font-size:13px;color:var(--deep)}
+  .wish p{font-size:13px;color:var(--slate)}
+
+  /* ---------- AMPLOP ---------- */
+  .amplop{background:linear-gradient(180deg,#fff,#f7fbf8)}
+  .bank-card{background:#fff;border:1px solid var(--mist);border-radius:18px;padding:16px;margin-bottom:12px;
+    box-shadow:0 8px 20px rgba(10,45,33,.07)}
+  .bank-row{display:flex;align-items:center;gap:12px}
+  .bank-logo{flex:0 0 auto;background:linear-gradient(135deg,#eaf5ef,#fff);border:1px solid var(--gold-soft);
+    color:var(--deep);font-size:11px;font-weight:800;letter-spacing:1px;padding:9px 12px;border-radius:12px}
+  .bank-info{flex:1;min-width:0}
+  .bank-info .num{font-size:15px;font-weight:700;color:var(--deep);word-break:break-all}
+  .bank-info .an{font-size:12px;color:var(--muted)}
+  .copy-mini{background:var(--emerald);color:#fff;border:none;border-radius:50px;font-size:11.5px;
+    font-weight:700;padding:8px 14px;cursor:pointer;white-space:nowrap}
+  .gift-note{font-size:13px;color:var(--slate);margin-bottom:14px}
+
+  /* ---------- PENUTUP ---------- */
+  .closing{background:
+      linear-gradient(180deg,rgba(4,24,15,.84),rgba(2,12,8,.95)),
+      url('foto-midnight-cover.jpg') center/cover no-repeat;
+    color:#fff;text-align:center;padding:62px 24px 46px}
+  .closing h3{font-size:26px;margin-bottom:6px;font-weight:600;color:var(--gold-soft)}
+  .closing p{font-size:13.5px;color:#dff3e9;max-width:360px;margin:0 auto 8px}
+  .credit{margin-top:26px;font-size:11.5px;color:#cfe8dd}
+  .credit a{color:#fff;font-weight:700;text-decoration:none}
+  .kd-credit{margin-top:16px;letter-spacing:.3px}
+  .kd-credit b{display:block;font-size:11.5px;letter-spacing:1px;margin-bottom:8px;color:#fff}
+  .kd-credit-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .kd-credit-btns a{display:inline-block;padding:9px 15px;border-radius:50px;font-size:11.5px;
+    font-weight:700;text-decoration:none;letter-spacing:.3px}
+  .kd-credit-btns a.kd-wa{background:#22c15e;color:#fff}
+  .kd-credit-btns a.kd-pesan{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.45)}
+
+  .lightbox{position:fixed;inset:0;z-index:120;background:rgba(2,12,8,.95);display:none;
+    align-items:center;justify-content:center;padding:20px}
+  .lightbox.show{display:flex}
+  .lb-img{max-width:100%;max-height:84vh;border-radius:16px;border:2px solid rgba(216,178,99,.5)}
+  .lb-close{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.92);border:none;
+    width:40px;height:40px;border-radius:50%;font-size:17px;font-weight:700;color:var(--deep);cursor:pointer}
+  .music-btn{position:fixed;bottom:18px;right:16px;z-index:110;display:flex;align-items:center;gap:7px;
+    background:linear-gradient(135deg,var(--emerald),var(--deep));color:#fff;border:none;
+    padding:11px 16px;border-radius:50px;font-size:12px;font-weight:700;cursor:pointer;
+    box-shadow:0 10px 26px rgba(2,12,8,.5)}
+  .music-btn.playing{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.06)}}
+  .wa-float{position:fixed;bottom:18px;left:16px;z-index:110;background:#22c15e;color:#fff;
+    width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px rgba(34,193,94,.45);text-decoration:none;font-size:22px}
+  @media(max-width:380px){.cover h1{font-size:35px}.cd-box b{font-size:20px}}
+</style>
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<link rel="canonical" href="https://kartudigital.my.id/undangan-midnight.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "The Wedding of Dirga & Amara — Undangan Digital Midnight Emerald",
+  "description": "Undangan pernikahan Dirga & Amara, Sabtu 21 November 2026, Emerald Hall Bandung. Tema Midnight Emerald oleh Kartu Digital (kartudigital.my.id).",
+  "startDate": "2026-11-21",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "image": [
+    "https://kartudigital.my.id/foto-midnight-cover.jpg"
+  ],
+  "url": "https://kartudigital.my.id/undangan-midnight.html",
+  "location": {
+    "@type": "Place",
+    "name": "Emerald Hall",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Riau No. 88, Bandung",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Kartu Digital",
+    "url": "https://kartudigital.my.id/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "79000",
+    "priceCurrency": "IDR",
+    "url": "https://kartudigital.my.id/",
+    "availability": "https://schema.org/InStock",
+    "description": "Jasa undangan digital Kartu Digital"
+  }
+}
+</script>
+</head>
+<body class="locked">
+
+<div id="fxLayer"></div>
+
+<!-- ================= COVER ================= -->
+<div class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="cover-pill">🌙 <span class="mini" data-studio="title">The Wedding Of</span></div>
+    <h1 class="serif" data-studio="pairTitle">Dirga &amp; Amara</h1>
+    <div class="date" data-studio="dateDot">21 . 11 . 2026</div>
+    <div class="to">Kepada Yth. Bapak / Ibu / Saudara / i</div>
+    <div class="guest" id="guestName">Tamu Undangan</div>
+    <button class="open-btn" id="openBtn">🌿 &nbsp;Buka Undangan</button>
+    <div class="cover-note">Mohon maaf apabila ada kesalahan penulisan nama &amp; gelar</div>
+  </div>
+</div>
+
+<div class="frame">
+  <div class="topline"></div>
+
+  <!-- ================= PEMBUKA ================= -->
+  <section class="opening reveal">
+    <div class="eyebrow">Undangan Pernikahan</div>
+    <h2 class="sec-title serif">Midnight Emerald</h2>
+    <div class="divider"><i></i><span>❖</span><i></i></div>
+    <p class="salam">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
+    <p class="quote" data-studio="quote">"Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami."</p>
+
+    <div class="couple">
+      <div class="person glass">
+        <div class="photo" data-studio-img="photo2" style="background-image:url('foto-cover.jpg')"></div>
+        <div class="role">Mempelai Pria</div>
+        <b data-studio="fullName1">Dirga Mahendra, S.T.</b>
+        <small data-studio="parents1">Putra dari Bapak Hendra Wijaya &amp; Ibu Ratna Kusuma</small>
+      </div>
+      <div class="center amp-mid serif">&amp;</div>
+      <div class="person glass">
+        <div class="photo" data-studio-img="photo1" style="background-image:url('foto-midnight-cover.jpg')"></div>
+        <div class="role">Mempelai Wanita</div>
+        <b data-studio="fullName2">Amara Larasati, S.Psi.</b>
+        <small data-studio="parents2">Putri dari Bapak Surya Atmaja &amp; Ibu Dewi Anggraini</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COUNTDOWN ================= -->
+  <section class="countdown">
+    <div class="eyebrow">Save The Date</div>
+    <h2 class="sec-title serif" style="color:#fff">Menuju Hari Bahagia</h2>
+    <p style="font-size:13.5px;color:#cfe8dd">Sabtu, 21 November 2026 · Bandung</p>
+    <div class="cd-grid">
+      <div class="cd-box"><b id="cdD">00</b><small>Hari</small></div>
+      <div class="cd-box"><b id="cdH">00</b><small>Jam</small></div>
+      <div class="cd-box"><b id="cdM">00</b><small>Menit</small></div>
+      <div class="cd-box"><b id="cdS">00</b><small>Detik</small></div>
+    </div>
+  </section>
+
+  <!-- ================= ACARA ================= -->
+  <section id="acara" class="reveal">
+    <div class="center">
+      <div class="eyebrow">Rangkaian Acara</div>
+      <h2 class="sec-title serif">Waktu &amp; Tempat</h2>
+    </div>
+
+    <div class="glass card event-card">
+      <div class="ic">💍</div>
+      <h3 class="serif">Akad Nikah</h3>
+      <div class="event-meta">
+        <span data-studio="dateFormatted">Sabtu, 21 November 2026</span><br>
+        Pukul <span data-studio="akadTime">08.00 – 10.00 WIB</span>
+      </div>
+      <p><b data-studio="venueName">Emerald Hall</b><br>
+        <span data-studio="venueAddress">Jl. Riau No. 88, Bandung</span></p>
+    </div>
+
+    <div class="glass card event-card">
+      <div class="ic">🥂</div>
+      <h3 class="serif">Resepsi</h3>
+      <div class="event-meta">
+        <span data-studio="dateFormatted">Sabtu, 21 November 2026</span><br>
+        Pukul <span data-studio="resepsiTime">11.00 – 14.00 WIB</span>
+      </div>
+      <p><b data-studio="venueName">Emerald Hall</b><br>
+        <span data-studio="venueAddress">Jl. Riau No. 88, Bandung</span></p>
+      <div style="margin-top:14px">
+        <a class="btn-em" data-studio-href="mapsUrl" href="https://www.google.com/maps/search/?api=1&amp;query=Riau+Bandung" target="_blank" rel="noopener">📍 Lihat Peta Lokasi</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LOVE STORY ================= -->
+  <section id="cerita" class="story reveal">
+    <div class="center">
+      <div class="eyebrow">Love Story</div>
+      <h2 class="sec-title serif">Perjalanan Kami</h2>
+    </div>
+    <div style="margin-top:22px">
+      <div class="story-item">
+        <div class="story-dot">🌱</div>
+        <div><small>2019 · PERTEMUAN</small><b>Pertama Bertemu</b><p>Dipertemukan di sebuah acara kampus — obrolan singkat yang ternyata jadi awal segalanya.</p></div>
+      </div>
+      <div class="story-item">
+        <div class="story-dot">💬</div>
+        <div><small>2021 · PENDEKATAN</small><b>Tumbuh Bersama</b><p>Tiga tahun saling mengenal, saling menguatkan, dan belajar memahami satu sama lain.</p></div>
+      </div>
+      <div class="story-item">
+        <div class="story-dot">💐</div>
+        <div><small>2026 · LAMARAN</small><b>Melamar</b><p>Dengan restu kedua keluarga, kami memutuskan melangkah ke jenjang yang lebih serius.</p></div>
+      </div>
+      <div class="story-item">
+        <div class="story-dot">💍</div>
+        <div><small>21.11.2026 · PERNIKAHAN</small><b>Menikah</b><p>InsyaAllah kami akan mengikat janji suci, dan kami ingin Anda menjadi saksi bahagia kami.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GALERI ================= -->
+  <section id="galeri" class="reveal">
+    <div class="center">
+      <div class="eyebrow">Galeri</div>
+      <h2 class="sec-title serif">Momen Kami</h2>
+      <p style="font-size:13px;color:var(--muted)">Ketuk foto untuk memperbesar</p>
+    </div>
+    <div class="gal-grid">
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-midnight-cover.jpg" style="background-image:url('foto-midnight-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-premium-cover.jpg" style="background-image:url('foto-premium-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+    </div>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section id="rsvpSection" style="background:linear-gradient(180deg,#fff,#f7fbf8)">
+    <div class="center">
+      <div class="eyebrow">RSVP &amp; Ucapan</div>
+      <h2 class="sec-title serif">Konfirmasi Kehadiran</h2>
+    </div>
+    <form class="glass rsvp-card" id="rsvpForm" style="margin-top:18px">
+      <p class="lead">Mohon konfirmasi kehadiran sebelum <b id="studioRsvpDeadline">14 November 2026</b> agar kami dapat mempersiapkan tempat terbaik untuk Anda.</p>
+      <input aria-label="Nama Anda" id="rName" type="text" placeholder="Nama Anda &amp; keluarga" required>
+      <select aria-label="Jumlah tamu" id="rCount">
+        <option value="1">1 Orang</option>
+        <option value="2" selected>2 Orang</option>
+        <option value="3">3 Orang</option>
+        <option value="4">4 Orang</option>
+      </select>
+      <div class="pills" role="group" aria-label="Status kehadiran">
+        <button type="button" class="pill active" data-val="Hadir">Hadir</button>
+        <button type="button" class="pill" data-val="Tidak Hadir">Tidak Hadir</button>
+        <button type="button" class="pill" data-val="Masih Ragu">Masih Ragu</button>
+      </div>
+      <textarea aria-label="Ucapan dan doa" id="rsvpMsg" rows="3" placeholder="Tulis ucapan &amp; doa terbaik untuk kedua mempelai..."></textarea>
+      <button type="submit" class="btn-em" style="width:100%">Kirim Konfirmasi &amp; Ucapan</button>
+    </form>
+    <div class="rsvp-ok" id="rsvpOk">🌿 <b>Terima kasih!</b><br>Konfirmasi dan doa Anda sudah kami terima.</div>
+    <div class="wish-list" id="wishList">
+      <div class="wish"><b>Keluarga Hartono · Hadir</b><p>Barakallahu lakuma wa baraka 'alaikuma. Selamat menempuh hidup baru Dirga &amp; Amara 🤍</p></div>
+      <div class="wish"><b>Citra &amp; Bima · Hadir</b><p>Tema Midnight Emerald-nya elegan banget! Bahagia selalu ya kalian berdua.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= AMPLOP DIGITAL ================= -->
+  <section id="amplopSection" class="amplop">
+    <div class="center">
+      <div class="eyebrow">Amplop Digital</div>
+      <h2 class="sec-title serif">Tanda Kasih</h2>
+    </div>
+    <p class="gift-note center" style="margin-top:12px">Doa dan kehadiran Anda adalah hadiah terindah bagi kami. Namun jika ingin memberi tanda kasih, kami sediakan dengan tulus hati:</p>
+
+    <div id="studioAmplopList">
+      <div class="bank-card">
+        <div class="bank-row">
+          <div class="bank-logo">BCA</div>
+          <div class="bank-info">
+            <div class="num">7788123409</div>
+            <div class="an">a.n. Dirga Mahendra</div>
+          </div>
+          <button type="button" class="copy-mini" data-copy="7788123409" aria-label="Salin nomor rekening">Salin</button>
+        </div>
+      </div>
+      <div class="bank-card">
+        <div class="bank-row">
+          <div class="bank-logo">DANA</div>
+          <div class="bank-info">
+            <div class="num">0813 2211 4455</div>
+            <div class="an">a.n. Amara Larasati</div>
+          </div>
+          <button type="button" class="copy-mini" data-copy="081322114455" aria-label="Salin nomor rekening">Salin</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:6px">
+      <a class="btn-em" id="studioAmplopWa" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20sudah%20kirim%20tanda%20kasih%20untuk%20Dirga%20%26%20Amara" target="_blank" rel="noopener">💬 Konfirmasi Transfer via WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ================= PENUTUP ================= -->
+  <section class="closing">
+    <div class="eyebrow" style="color:#f0dfae">Terima Kasih</div>
+    <h3 class="serif" data-studio="pairTitle">Dirga &amp; Amara</h3>
+    <p>Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+    <div class="credit">Dibuat dengan ❤ oleh <a href="index.html">Kartu Digital</a></div>
+    <div class="kd-credit">
+      <b>Kartu Digital (kartudigital.my.id)</b>
+      <div class="kd-credit-btns">
+        <a class="kd-wa" href="https://wa.me/6285196755675?text=Halo%20Admin%20Kartu%20Digital%2C%20saya%20ingin%20bertanya%20tentang%20undangan%20digital" target="_blank" rel="noopener">💬 Hubungi Admin (0851-9675-5675)</a>
+        <a class="kd-pesan" href="index.html">🌐 Pesan Undangan Digital</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<a class="wa-float" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20undangan%20digital%20tema%20Midnight%20Emerald" target="_blank" rel="noopener" aria-label="Chat WhatsApp">💬</a>
+<button class="music-btn" id="musicBtn" aria-label="Musik latar"><span>♫</span> Musik</button>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
+  <button class="lb-close" id="lbClose" aria-label="Tutup foto">✕</button>
+  <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
+</div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/nav-mode.js"></script>
+<script src="studio-api.js"></script>
+<script>
+  (function(){
+    var to = new URLSearchParams(location.search).get('to');
+    if(to){
+      document.getElementById('guestName').textContent = to;
+      var rName = document.getElementById('rName');
+      if(rName) rName.value = to;
+    }
+    if(window.StudioBackend){
+      window.StudioBackend.hydrateInvitationPage('midnight-dirga-amara');
+    }
+  })();
+
+  document.getElementById('openBtn').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('opened');
+    document.body.classList.remove('locked');
+    musikMain();
+  });
+
+  /* ====== COUNTDOWN ====== */
+  function updateCountdown(){
+    var inv = window.StudioBackend ? window.StudioBackend.getInvitation('midnight-dirga-amara') : null;
+    var targetStr = (inv && inv.eventDate) ? (inv.eventDate + 'T08:00:00+07:00') : '2026-11-21T08:00:00+07:00';
+    var diff = Math.max(0, new Date(targetStr) - new Date());
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('cdD').textContent = pad(Math.floor(diff/864e5));
+    document.getElementById('cdH').textContent = pad(Math.floor(diff/36e5)%24);
+    document.getElementById('cdM').textContent = pad(Math.floor(diff/6e4)%60);
+    document.getElementById('cdS').textContent = pad(Math.floor(diff/1e3)%60);
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  /* ====== RSVP ====== */
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.pill').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+    });
+  });
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('rName').value.trim() || 'Tamu Undangan';
+    var msg = document.getElementById('rsvpMsg').value.trim();
+    var active = document.querySelector('.pill.active');
+    var status = active ? active.getAttribute('data-val') : 'Hadir';
+    if(msg){
+      var el = document.createElement('div');
+      el.className = 'wish';
+      el.innerHTML = '<b></b><p></p>';
+      el.querySelector('b').textContent = name + ' · ' + status;
+      el.querySelector('p').textContent = msg;
+      document.getElementById('wishList').prepend(el);
+    }
+    this.style.display = 'none';
+    document.getElementById('rsvpOk').style.display = 'block';
+  });
+
+  /* ====== SALIN REKENING ====== */
+  document.querySelectorAll('.copy-mini').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = btn.getAttribute('data-copy');
+      if(navigator.clipboard) navigator.clipboard.writeText(txt);
+      var old = btn.textContent; btn.textContent = '✓ Tersalin';
+      setTimeout(function(){ btn.textContent = old; }, 1500);
+    });
+  });
+
+  /* ====== LIGHTBOX ====== */
+  document.querySelectorAll('.gal-item').forEach(function(g){
+    g.addEventListener('click', function(){
+      document.getElementById('lbImg').src = g.getAttribute('data-src');
+      document.getElementById('lightbox').classList.add('show');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){
+    document.getElementById('lightbox').classList.remove('show');
+  });
+
+  /* ====== REVEAL ====== */
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target); } });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(io) io.observe(el); else el.classList.add('visible');
+  });
+
+  /* ====== FX KELIP EMERALD ====== */
+  var fxLayer = document.getElementById('fxLayer');
+  (function buatKelip(){
+    var glif = ['✦','✧','❖','•'];
+    for(var i=0;i<14;i++){
+      var s = document.createElement('span');
+      s.className = 'star';
+      s.textContent = glif[i % glif.length];
+      s.style.left = (Math.random()*94) + '%';
+      s.style.fontSize = (9 + Math.random()*12) + 'px';
+      s.style.animationDuration = (14 + Math.random()*12) + 's';
+      s.style.animationDelay = (Math.random()*14) + 's';
+      fxLayer.appendChild(s);
+    }
+  })();
+
+  /* ====== MUSIK LATAR (WebAudio — arpeggio emerald) ====== */
+  var musicBtn = document.getElementById('musicBtn');
+  var musikOn = false, actx = null, melodiTimer = null;
+  var BEAT = 0.66;
+  var MELODI = [[69,1],[72,1],[76,2],[74,1],[72,1],[69,2],[71,1],[74,1],[78,2],[76,1],[74,1],[71,2]];
+  var BAS = [[45,4],[52,4],[50,4],[45,4],[43,4],[50,4],[48,4],[45,4]];
+  function playNote(midi, t, dur, vol, type){
+    var o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.08);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t + dur + 0.12);
+  }
+  function scheduleSeq(seq, t0, vol, type){
+    var t = t0;
+    seq.forEach(function(n){ playNote(n[0], t, n[1] * BEAT * 0.95, vol, type); t += n[1] * BEAT; });
+    return t;
+  }
+  function melodiLoop(){
+    if(!actx){ actx = new (window.AudioContext || window.webkitAudioContext)(); }
+    var t0 = actx.currentTime + 0.06;
+    var e1 = scheduleSeq(MELODI, t0, 0.07, 'triangle');
+    var e2 = scheduleSeq(BAS, t0, 0.05, 'sine');
+    var total = Math.max(e1, e2) - t0;
+    melodiTimer = setTimeout(function(){ if(musikOn) melodiLoop(); }, total * 1000);
+  }
+  function musikMain(){
+    musikOn = true; musicBtn.classList.add('playing');
+    if(actx && actx.state === 'suspended'){ actx.resume(); if(!melodiTimer) melodiLoop(); }
+    else { melodiLoop(); }
+  }
+  function musikStop(){
+    musikOn = false; musicBtn.classList.remove('playing');
+    if(melodiTimer){ clearTimeout(melodiTimer); melodiTimer = null; }
+    if(actx && actx.state === 'running'){ actx.suspend(); }
+  }
+  musicBtn.addEventListener('click', function(){ if(musikOn){ musikStop(); } else { musikMain(); } });
+</script>
+</body>
+</html>

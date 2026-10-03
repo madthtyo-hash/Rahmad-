@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wisuda Naura Safira, S.Ked — 05.12.2026</title>
+<meta name="description" content="Undangan wisuda &amp; syukuran Naura Safira, S.Ked, Sabtu 5 Desember 2026, Graha Sabha Universitas Nusantara Bandung. Tema Grand Graduation oleh Kartu Digital (kartudigital.my.id).">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kartu Digital">
+<meta property="og:title" content="Wisuda Naura Safira, S.Ked — Undangan Digital Grand Graduation">
+<meta property="og:description" content="Undangan wisuda &amp; syukuran Naura Safira, S.Ked, Sabtu 5 Desember 2026, Graha Sabha Universitas Nusantara Bandung. Tema Grand Graduation oleh Kartu Digital (kartudigital.my.id).">
+<meta property="og:url" content="https://kartudigital.my.id/undangan-wisuda.html">
+<meta property="og:image" content="https://kartudigital.my.id/foto-wisuda-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wisuda Naura Safira, S.Ked — Undangan Digital Grand Graduation">
+<meta name="twitter:description" content="Undangan wisuda Naura Safira, S.Ked, 5 Desember 2026, Graha Sabha Universitas Nusantara Bandung. Tema Grand Graduation oleh Kartu Digital.">
+<meta name="twitter:image" content="https://kartudigital.my.id/foto-wisuda-cover.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e4d3b'/%3E%3Ctext x='32' y='45' font-size='28' text-anchor='middle' fill='%23e5cf9a' font-family='Georgia,serif' font-weight='bold'%3EKD%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://kartudigital.my.id/undangan-wisuda.html">
+<!--
+  ============================================
+  KATEGORI BARU "WISUDA & KELULUSAN 🎓"
+  Terintegrasi dengan Backend Studio (studio-api.js)
+  - Mendukung ?to=Nama+Tamu, ?mode=..., ?fx=..., ?id=wisuda-naura
+  - Upload Foto Cover & Galeri dari Studio Admin
+  - Pengaturan Kado Digital / Amplop & Pengaturan RSVP otomatis sinkron
+  ============================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f2557; --navy-mid:#1b3a7a; --royal:#2b57b5; --sky:#c8d9f7;
+    --gold:#d0a94b; --gold-soft:#f2e2b3; --ivory:#f8f6f0; --mist:#e9eef9;
+    --ink:#141c30; --slate:#4a5773; --muted:#76829c; --white:#fff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#e7ecf8;color:var(--ink);line-height:1.72}
+  body.locked{overflow:hidden}
+  .serif{font-family:"Marcellus",Georgia,"Times New Roman",serif}
+  .frame{max-width:480px;margin:0 auto;background:linear-gradient(180deg,#fbfaf6,#fff);
+    min-height:100vh;position:relative;overflow:hidden;box-shadow:0 0 46px rgba(15,37,87,.28)}
+  .topline{height:7px;background:linear-gradient(90deg,var(--navy),var(--gold),var(--sky),var(--gold),var(--navy))}
+
+  /* ---------- FX: KONFETI ---------- */
+  #fxLayer{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+  .confetti{position:absolute;top:-8vh;animation:fall linear infinite}
+  @keyframes fall{
+    0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0}
+    12%{opacity:.95}
+    82%{opacity:.6}
+    100%{transform:translateY(112vh) translateX(-30px) rotate(320deg);opacity:0}
+  }
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;
+    background:
+      linear-gradient(180deg,rgba(15,37,87,.10) 0%,rgba(15,37,87,.34) 42%,rgba(9,24,58,.88) 82%,rgba(5,15,38,.97) 100%),
+      url('foto-wisuda-cover.jpg') center 20%/cover no-repeat,
+      linear-gradient(165deg,#2b57b5,#0f2557);
+    transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease}
+  .cover.opened{transform:translateY(-101%);opacity:.5;pointer-events:none}
+  .cover-inner{width:100%;max-width:480px;text-align:center;padding:0 26px 44px;color:#fff}
+  .cover-pill{display:inline-block;background:rgba(208,169,75,.2);backdrop-filter:blur(8px);
+    border:1px solid rgba(208,169,75,.7);color:var(--gold-soft);padding:7px 20px;border-radius:50px;
+    font-size:10.5px;letter-spacing:2.6px;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .cover h1{font-size:36px;font-weight:400;text-shadow:0 4px 20px rgba(5,15,38,.55);line-height:1.18}
+  .cover .degree{display:inline-block;background:rgba(255,255,255,.95);color:var(--navy);font-weight:800;
+    font-size:12.5px;padding:6px 18px;border-radius:50px;margin:10px 0 12px}
+  .cover .date{font-size:13.5px;letter-spacing:3.5px;margin:0 0 16px;color:var(--gold-soft)}
+  .cover .to{font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;opacity:.85}
+  .cover .guest{font-size:19px;font-style:italic;margin:3px 0 20px;color:#e6eeff}
+  .open-btn{background:linear-gradient(135deg,var(--gold),#b58f33);color:#20180a;border:none;
+    padding:15px 32px;border-radius:50px;font-size:14.5px;font-weight:800;letter-spacing:.3px;
+    box-shadow:0 14px 34px rgba(5,15,38,.5);cursor:pointer;transition:transform .18s}
+  .open-btn:active{transform:scale(.96)}
+  .cover-note{margin-top:14px;font-size:11px;opacity:.72;font-style:italic}
+
+  section{padding:52px 24px}
+  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--royal);font-weight:800}
+  .sec-title{font-size:26px;margin:8px 0 6px;color:var(--navy)}
+  .center{text-align:center}
+  .glass{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+    border:1px solid var(--mist);border-radius:20px;box-shadow:0 14px 34px rgba(15,37,87,.10)}
+  .card{padding:20px;margin-bottom:14px}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:none}
+  .btn-navy{display:inline-block;background:linear-gradient(135deg,var(--navy-mid),var(--navy));color:#fff;
+    padding:12px 24px;border-radius:50px;font-size:13.5px;font-weight:800;text-decoration:none;
+    box-shadow:0 10px 24px rgba(15,37,87,.3);border:none;cursor:pointer}
+  .btn-gold{display:inline-block;background:linear-gradient(135deg,var(--gold),#b58f33);color:#20180a;
+    padding:12px 24px;border-radius:50px;font-size:13.5px;font-weight:800;text-decoration:none;
+    box-shadow:0 10px 24px rgba(208,169,75,.35);border:none;cursor:pointer}
+  .divider{display:flex;align-items:center;gap:10px;justify-content:center;margin:14px 0}
+  .divider i{display:block;width:46px;height:1px;background:var(--sky)}
+  .divider span{color:var(--gold);font-size:15px}
+
+  .opening{background:linear-gradient(180deg,#f7f9ff,#fff);text-align:center}
+  .opening .quote{font-size:15px;color:var(--slate);max-width:370px;margin:0 auto}
+  .opening .salam{font-size:13.5px;font-weight:800;color:var(--navy);margin-bottom:10px}
+  .grad{margin-top:24px;padding:22px 18px}
+  .grad .photo{width:120px;height:120px;border-radius:50%;margin:0 auto 14px;background-size:cover;
+    background-position:center;border:3px solid #fff;box-shadow:0 12px 28px rgba(15,37,87,.26);
+    outline:1px solid var(--gold-soft);outline-offset:3px}
+  .grad b{display:block;font-size:20px;color:var(--navy)}
+  .grad .degree{display:inline-block;margin:8px 0 10px;background:linear-gradient(135deg,var(--mist),#fff);
+    border:1px solid var(--sky);color:var(--navy-mid);font-size:12px;font-weight:800;padding:5px 16px;border-radius:50px}
+  .grad small{display:block;font-size:12.5px;color:var(--muted)}
+
+  .countdown{background:linear-gradient(160deg,#0b1c45,#1b3a7a 60%,#2b57b5);color:#fff;text-align:center}
+  .countdown .eyebrow{color:var(--gold-soft)}
+  .cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+  .cd-box{background:rgba(255,255,255,.14);border:1px solid rgba(208,169,75,.45);border-radius:16px;padding:14px 4px}
+  .cd-box b{display:block;font-size:24px;font-weight:800;line-height:1}
+  .cd-box small{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;opacity:.85}
+
+  .event-card{padding:20px}
+  .event-card h3{font-size:19px;color:var(--navy);margin-bottom:4px}
+  .event-card .ic{font-size:22px}
+  .event-card p{font-size:13.5px;color:var(--slate)}
+  .event-meta{font-size:13px;color:var(--muted);margin:8px 0 12px}
+
+  .achv{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+  .achv .badge{flex:0 0 74px;font-size:11.5px;font-weight:800;color:var(--navy);
+    background:linear-gradient(135deg,var(--gold-soft),#fff);border:1px solid var(--gold);
+    border-radius:12px;padding:7px 8px;text-align:center}
+  .achv b{font-size:14px;color:var(--navy);display:block}
+  .achv p{font-size:13px;color:var(--slate)}
+
+  .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .gal-item{position:relative;border-radius:16px;overflow:hidden;height:150px;background-size:cover;
+    background-position:center;cursor:pointer;border:2px solid #fff;box-shadow:0 10px 24px rgba(15,37,87,.16)}
+  .gal-item:first-child{grid-column:1/-1;height:212px}
+  .gal-zoom{position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.9);color:var(--navy);
+    font-size:10.5px;font-weight:800;padding:5px 10px;border-radius:50px}
+
+  .rsvp-card{padding:20px}
+  .lead{font-size:13.5px;color:var(--slate);margin-bottom:14px}
+  input,select,textarea{width:100%;border:1px solid var(--mist);background:#fafbff;border-radius:14px;
+    padding:12px 14px;font-size:14px;color:var(--ink);font-family:inherit;outline:none;margin-bottom:10px}
+  input:focus,select:focus,textarea:focus{border-color:var(--royal);background:#fff}
+  .pills{display:flex;gap:8px;margin-bottom:10px}
+  .pill{flex:1;text-align:center;padding:11px 8px;border-radius:14px;border:1px solid var(--mist);
+    background:#fafbff;font-size:13px;font-weight:700;color:var(--slate);cursor:pointer;transition:.15s}
+  .pill.active{background:linear-gradient(135deg,var(--navy-mid),var(--navy));color:#fff;border-color:var(--navy-mid)}
+  .rsvp-ok{display:none;background:linear-gradient(160deg,#eef3ff,#fff);border:1px solid var(--mist);
+    border-radius:16px;padding:18px;text-align:center;font-size:13.5px;color:var(--navy);margin-top:12px}
+  .wish-list{margin-top:16px;display:flex;flex-direction:column;gap:10px;max-height:340px;overflow:auto}
+  .wish{background:#fff;border:1px solid var(--mist);border-left:3px solid var(--gold);border-radius:14px;padding:13px 15px}
+  .wish b{display:block;font-size:13px;color:var(--navy)}
+  .wish p{font-size:13px;color:var(--slate)}
+
+  .amplop{background:linear-gradient(180deg,#fff,#f7f9ff)}
+  .bank-card{background:#fff;border:1px solid var(--mist);border-radius:18px;padding:16px;margin-bottom:12px;
+    box-shadow:0 8px 20px rgba(15,37,87,.08)}
+  .bank-row{display:flex;align-items:center;gap:12px}
+  .bank-logo{flex:0 0 auto;background:linear-gradient(135deg,var(--mist),#fff);border:1px solid var(--sky);
+    color:var(--navy-mid);font-size:11px;font-weight:800;letter-spacing:1px;padding:9px 12px;border-radius:12px}
+  .bank-info{flex:1;min-width:0}
+  .bank-info .num{font-size:15px;font-weight:800;color:var(--navy);word-break:break-all}
+  .bank-info .an{font-size:12px;color:var(--muted)}
+  .copy-mini{background:var(--navy-mid);color:#fff;border:none;border-radius:50px;font-size:11.5px;
+    font-weight:800;padding:8px 14px;cursor:pointer;white-space:nowrap}
+  .gift-note{font-size:13px;color:var(--slate);margin-bottom:14px}
+
+  .closing{background:
+      linear-gradient(180deg,rgba(9,24,58,.86),rgba(5,15,38,.95)),
+      url('foto-wisuda-cover.jpg') center/cover no-repeat;
+    color:#fff;text-align:center;padding:60px 24px 46px}
+  .closing h3{font-size:25px;margin-bottom:6px;color:var(--gold-soft)}
+  .closing p{font-size:13.5px;color:#dbe5fb;max-width:360px;margin:0 auto 8px}
+  .credit{margin-top:26px;font-size:11.5px;color:#dbe5fb}
+  .credit a{color:#fff;font-weight:700;text-decoration:none}
+  .kd-credit{margin-top:16px;letter-spacing:.3px}
+  .kd-credit b{display:block;font-size:11.5px;letter-spacing:1px;margin-bottom:8px;color:#fff}
+  .kd-credit-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .kd-credit-btns a{display:inline-block;padding:9px 15px;border-radius:50px;font-size:11.5px;
+    font-weight:700;text-decoration:none;letter-spacing:.3px}
+  .kd-credit-btns a.kd-wa{background:#22c15e;color:#fff}
+  .kd-credit-btns a.kd-pesan{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.45)}
+
+  .lightbox{position:fixed;inset:0;z-index:120;background:rgba(5,15,38,.95);display:none;
+    align-items:center;justify-content:center;padding:20px}
+  .lightbox.show{display:flex}
+  .lb-img{max-width:100%;max-height:84vh;border-radius:16px;border:2px solid rgba(208,169,75,.55)}
+  .lb-close{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.92);border:none;
+    width:40px;height:40px;border-radius:50%;font-size:17px;font-weight:700;color:var(--navy);cursor:pointer}
+  .music-btn{position:fixed;bottom:18px;right:16px;z-index:110;display:flex;align-items:center;gap:7px;
+    background:linear-gradient(135deg,var(--navy-mid),var(--navy));color:#fff;border:none;
+    padding:11px 16px;border-radius:50px;font-size:12px;font-weight:800;cursor:pointer;
+    box-shadow:0 10px 26px rgba(5,15,38,.45)}
+  .music-btn.playing{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.06)}}
+  .wa-float{position:fixed;bottom:18px;left:16px;z-index:110;background:#22c15e;color:#fff;
+    width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px rgba(34,193,94,.45);text-decoration:none;font-size:22px}
+  @media(max-width:380px){.cover h1{font-size:30px}.cd-box b{font-size:20px}}
+</style>
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<link rel="canonical" href="https://kartudigital.my.id/undangan-wisuda.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Wisuda Naura Safira, S.Ked — Undangan Digital Grand Graduation",
+  "description": "Undangan wisuda & syukuran Naura Safira, S.Ked, Sabtu 5 Desember 2026, Graha Sabha Universitas Nusantara Bandung. Tema Grand Graduation oleh Kartu Digital (kartudigital.my.id).",
+  "startDate": "2026-12-05",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "image": [
+    "https://kartudigital.my.id/foto-wisuda-cover.jpg"
+  ],
+  "url": "https://kartudigital.my.id/undangan-wisuda.html",
+  "location": {
+    "@type": "Place",
+    "name": "Graha Sabha Universitas Nusantara",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Dipatiukur No. 112, Bandung",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Kartu Digital",
+    "url": "https://kartudigital.my.id/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "79000",
+    "priceCurrency": "IDR",
+    "url": "https://kartudigital.my.id/",
+    "availability": "https://schema.org/InStock",
+    "description": "Jasa undangan digital Kartu Digital"
+  }
+}
+</script>
+</head>
+<body class="locked">
+
+<div id="fxLayer"></div>
+
+<!-- ================= COVER ================= -->
+<div class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="cover-pill">🎓 <span class="mini" data-studio="title">Undangan Wisuda</span></div>
+    <h1 class="serif" data-studio="primaryName">Naura Safira, S.Ked</h1>
+    <div class="degree" data-studio="secondaryName">Wisuda &amp; Syukuran</div>
+    <div class="date" data-studio="dateDot">05 . 12 . 2026</div>
+    <div class="to">Kepada Yth. Bapak / Ibu / Saudara / i</div>
+    <div class="guest" id="guestName">Tamu Undangan</div>
+    <button class="open-btn" id="openBtn">🎉 &nbsp;Buka Undangan</button>
+    <div class="cover-note">Terima kasih telah menjadi bagian dari perjalanan ini</div>
+  </div>
+</div>
+
+<div class="frame">
+  <div class="topline"></div>
+
+  <!-- ================= PEMBUKA ================= -->
+  <section class="opening reveal">
+    <div class="eyebrow">Undangan Wisuda</div>
+    <h2 class="sec-title serif">Grand Graduation</h2>
+    <div class="divider"><i></i><span>🎓</span><i></i></div>
+    <p class="salam">Salam hangat untuk keluarga, sahabat &amp; kerabat</p>
+    <p class="quote" data-studio="quote">"Dengan penuh rasa syukur atas terselesaikannya masa studi, kami bermaksud mengundang Anda untuk hadir pada prosesi wisuda dan syukuran kelulusan."</p>
+
+    <div class="grad glass">
+      <div class="photo" data-studio-img="photo1" style="background-image:url('foto-wisuda-cover.jpg')"></div>
+      <div class="eyebrow">Wisudawan</div>
+      <b data-studio="fullName1">Naura Safira, S.Ked</b>
+      <span class="degree" data-studio="fullName2">Sarjana Kedokteran · IPK 3,86</span>
+      <small data-studio="parents1">Putri dari Bapak Drs. Ahmad Fauzi &amp; Ibu Hj. Lilis Suryani</small>
+      <small style="margin-top:8px;color:var(--navy-mid);font-weight:800" data-studio="parents2">Program Studi Pendidikan Dokter · Universitas Nusantara</small>
+    </div>
+  </section>
+
+  <!-- ================= COUNTDOWN ================= -->
+  <section class="countdown">
+    <div class="eyebrow">Save The Date</div>
+    <h2 class="sec-title serif" style="color:#fff">Menuju Hari Wisuda</h2>
+    <p style="font-size:13.5px;color:#dbe5fb">Sabtu, 5 Desember 2026 · Bandung</p>
+    <div class="cd-grid">
+      <div class="cd-box"><b id="cdD">00</b><small>Hari</small></div>
+      <div class="cd-box"><b id="cdH">00</b><small>Jam</small></div>
+      <div class="cd-box"><b id="cdM">00</b><small>Menit</small></div>
+      <div class="cd-box"><b id="cdS">00</b><small>Detik</small></div>
+    </div>
+  </section>
+
+  <!-- ================= ACARA ================= -->
+  <section id="acara" class="reveal">
+    <div class="center">
+      <div class="eyebrow">Rangkaian Acara</div>
+      <h2 class="sec-title serif">Waktu &amp; Tempat</h2>
+    </div>
+
+    <div class="glass card event-card">
+      <div class="ic">🎓</div>
+      <h3 class="serif">Prosesi Wisuda</h3>
+      <div class="event-meta">
+        <span data-studio="dateFormatted">Sabtu, 5 Desember 2026</span><br>
+        Pukul <span data-studio="akadTime">08.00 – 11.00 WIB</span>
+      </div>
+      <p><b data-studio="venueName">Graha Sabha Universitas Nusantara</b><br>
+        <span data-studio="venueAddress">Jl. Dipatiukur No. 112, Bandung</span></p>
+    </div>
+
+    <div class="glass card event-card">
+      <div class="ic">🍽️</div>
+      <h3 class="serif">Syukuran &amp; Ramah Tamah</h3>
+      <div class="event-meta">
+        <span data-studio="dateFormatted">Sabtu, 5 Desember 2026</span><br>
+        Pukul <span data-studio="resepsiTime">12.00 – 15.00 WIB</span>
+      </div>
+      <p><b data-studio="venueName">Kediaman Keluarga Fauzi</b><br>
+        <span data-studio="venueAddress">Jl. Setiabudi No. 45, Bandung</span></p>
+      <div style="margin-top:14px">
+        <a class="btn-navy" data-studio-href="mapsUrl" href="https://www.google.com/maps/search/?api=1&amp;query=Dipatiukur+Bandung" target="_blank" rel="noopener">📍 Lihat Peta Lokasi</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PENCAPAIAN ================= -->
+  <section id="pencapaian" style="background:linear-gradient(180deg,#f7f9ff,#fff)" class="reveal">
+    <div class="center">
+      <div class="eyebrow">Sepanjang Perjalanan</div>
+      <h2 class="sec-title serif">Momen &amp; Pencapaian</h2>
+    </div>
+    <div style="margin-top:22px">
+      <div class="achv">
+        <div class="badge">2021</div>
+        <div><b>Lolos Seleksi Masuk</b><p>Diterima di Program Studi Pendidikan Dokter melalui jalur prestasi akademik.</p></div>
+      </div>
+      <div class="achv">
+        <div class="badge">2023</div>
+        <div><b>Juara 2 Lomba Karya Tulis</b><p>Kompetisi ilmiah tingkat nasional bidang kesehatan masyarakat.</p></div>
+      </div>
+      <div class="achv">
+        <div class="badge">2024</div>
+        <div><b>Praktik Klinik</b><p>Menjalani pendidikan klinik di RSUD Kota Bandung dengan predikat sangat baik.</p></div>
+      </div>
+      <div class="achv">
+        <div class="badge">2026</div>
+        <div><b>Lulus &amp; Wisuda</b><p>Lulus dengan IPK 3,86 dan siap mengabdi untuk masyarakat. Alhamdulillah.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GALERI ================= -->
+  <section id="galeri" class="reveal">
+    <div class="center">
+      <div class="eyebrow">Galeri</div>
+      <h2 class="sec-title serif">Momen Naura</h2>
+      <p style="font-size:13px;color:var(--muted)">Ketuk foto untuk memperbesar</p>
+    </div>
+    <div class="gal-grid">
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-wisuda-cover.jpg" style="background-image:url('foto-wisuda-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-premium-cover.jpg" style="background-image:url('foto-premium-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+      <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-ultah-cover.jpg" style="background-image:url('foto-ultah-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+    </div>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section id="rsvpSection" style="background:linear-gradient(180deg,#fff,#f7f9ff)">
+    <div class="center">
+      <div class="eyebrow">RSVP &amp; Ucapan</div>
+      <h2 class="sec-title serif">Konfirmasi Kehadiran</h2>
+    </div>
+    <form class="glass rsvp-card" id="rsvpForm" style="margin-top:18px">
+      <p class="lead">Mohon konfirmasi kehadiran sebelum <b id="studioRsvpDeadline">28 November 2026</b> agar kami dapat mempersiapkan tempat dan hidangan dengan baik.</p>
+      <input aria-label="Nama Anda" id="rName" type="text" placeholder="Nama Anda &amp; keluarga" required>
+      <select aria-label="Jumlah tamu" id="rCount">
+        <option value="1">1 Orang</option>
+        <option value="2" selected>2 Orang</option>
+        <option value="3">3 Orang</option>
+        <option value="4">4 Orang</option>
+      </select>
+      <div class="pills" role="group" aria-label="Status kehadiran">
+        <button type="button" class="pill active" data-val="Hadir">Hadir</button>
+        <button type="button" class="pill" data-val="Tidak Hadir">Tidak Hadir</button>
+        <button type="button" class="pill" data-val="Masih Ragu">Masih Ragu</button>
+      </div>
+      <textarea aria-label="Ucapan dan doa" id="rsvpMsg" rows="3" placeholder="Tulis ucapan selamat &amp; doa untuk wisudawan..."></textarea>
+      <button type="submit" class="btn-navy" style="width:100%">Kirim Konfirmasi &amp; Ucapan</button>
+    </form>
+    <div class="rsvp-ok" id="rsvpOk">🎓 <b>Terima kasih!</b><br>Konfirmasi dan ucapan Anda sudah kami terima.</div>
+    <div class="wish-list" id="wishList">
+      <div class="wish"><b>Dosen Pembimbing · Hadir</b><p>Selamat Naura! Bangga bisa mendampingi sampai titik ini. Semoga sukses di dunia kedokteran.</p></div>
+      <div class="wish"><b>Teman Seangkatan · Hadir</b><p>Congrats dok! Akhirnya lulus juga. See you di hari wisuda ya 🎉</p></div>
+    </div>
+  </section>
+
+  <!-- ================= AMPLOP DIGITAL ================= -->
+  <section id="amplopSection" class="amplop">
+    <div class="center">
+      <div class="eyebrow">Kado Digital</div>
+      <h2 class="sec-title serif">Tanda Kasih</h2>
+    </div>
+    <p class="gift-note center" style="margin-top:12px">Kehadiran dan doa Anda adalah hadiah terbaik. Namun jika ingin memberi tanda kasih untuk wisudawan, kami sediakan dengan tulus hati:</p>
+
+    <div id="studioAmplopList">
+      <div class="bank-card">
+        <div class="bank-row">
+          <div class="bank-logo">BCA</div>
+          <div class="bank-info">
+            <div class="num">8830912277</div>
+            <div class="an">a.n. Naura Safira</div>
+          </div>
+          <button type="button" class="copy-mini" data-copy="8830912277" aria-label="Salin nomor rekening">Salin</button>
+        </div>
+      </div>
+      <div class="bank-card">
+        <div class="bank-row">
+          <div class="bank-logo">GoPay</div>
+          <div class="bank-info">
+            <div class="num">0813 4455 7788</div>
+            <div class="an">a.n. Naura Safira</div>
+          </div>
+          <button type="button" class="copy-mini" data-copy="081344557788" aria-label="Salin nomor rekening">Salin</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:6px">
+      <a class="btn-navy" id="studioAmplopWa" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20sudah%20kirim%20kado%20untuk%20wisuda%20Naura" target="_blank" rel="noopener">💬 Konfirmasi Kado via WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ================= PENUTUP ================= -->
+  <section class="closing">
+    <div class="eyebrow" style="color:#f2e2b3">Terima Kasih</div>
+    <h3 class="serif" data-studio="primaryName">Naura Safira, S.Ked</h3>
+    <p>Merupakan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu untuk langkah selanjutnya.</p>
+    <div class="credit">Dibuat dengan ❤ oleh <a href="index.html">Kartu Digital</a></div>
+    <div class="kd-credit">
+      <b>Kartu Digital (kartudigital.my.id)</b>
+      <div class="kd-credit-btns">
+        <a class="kd-wa" href="https://wa.me/6285196755675?text=Halo%20Admin%20Kartu%20Digital%2C%20saya%20ingin%20bertanya%20tentang%20undangan%20digital" target="_blank" rel="noopener">💬 Hubungi Admin (0851-9675-5675)</a>
+        <a class="kd-pesan" href="index.html">🌐 Pesan Undangan Digital</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<a class="wa-float" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20undangan%20digital%20tema%20Grand%20Graduation" target="_blank" rel="noopener" aria-label="Chat WhatsApp">💬</a>
+<button class="music-btn" id="musicBtn" aria-label="Musik latar"><span>♫</span> Musik</button>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
+  <button class="lb-close" id="lbClose" aria-label="Tutup foto">✕</button>
+  <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
+</div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/nav-mode.js"></script>
+<script src="studio-api.js"></script>
+<script>
+  (function(){
+    var to = new URLSearchParams(location.search).get('to');
+    if(to){
+      document.getElementById('guestName').textContent = to;
+      var rName = document.getElementById('rName');
+      if(rName) rName.value = to;
+    }
+    if(window.StudioBackend){
+      window.StudioBackend.hydrateInvitationPage('wisuda-naura');
+    }
+  })();
+
+  document.getElementById('openBtn').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('opened');
+    document.body.classList.remove('locked');
+    musikMain();
+  });
+
+  /* ====== COUNTDOWN ====== */
+  function updateCountdown(){
+    var inv = window.StudioBackend ? window.StudioBackend.getInvitation('wisuda-naura') : null;
+    var targetStr = (inv && inv.eventDate) ? (inv.eventDate + 'T08:00:00+07:00') : '2026-12-05T08:00:00+07:00';
+    var diff = Math.max(0, new Date(targetStr) - new Date());
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('cdD').textContent = pad(Math.floor(diff/864e5));
+    document.getElementById('cdH').textContent = pad(Math.floor(diff/36e5)%24);
+    document.getElementById('cdM').textContent = pad(Math.floor(diff/6e4)%60);
+    document.getElementById('cdS').textContent = pad(Math.floor(diff/1e3)%60);
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  /* ====== RSVP ====== */
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.pill').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+    });
+  });
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('rName').value.trim() || 'Tamu Undangan';
+    var msg = document.getElementById('rsvpMsg').value.trim();
+    var active = document.querySelector('.pill.active');
+    var status = active ? active.getAttribute('data-val') : 'Hadir';
+    if(msg){
+      var el = document.createElement('div');
+      el.className = 'wish';
+      el.innerHTML = '<b></b><p></p>';
+      el.querySelector('b').textContent = name + ' · ' + status;
+      el.querySelector('p').textContent = msg;
+      document.getElementById('wishList').prepend(el);
+    }
+    this.style.display = 'none';
+    document.getElementById('rsvpOk').style.display = 'block';
+  });
+
+  /* ====== SALIN REKENING ====== */
+  document.querySelectorAll('.copy-mini').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = btn.getAttribute('data-copy');
+      if(navigator.clipboard) navigator.clipboard.writeText(txt);
+      var old = btn.textContent; btn.textContent = '✓ Tersalin';
+      setTimeout(function(){ btn.textContent = old; }, 1500);
+    });
+  });
+
+  /* ====== LIGHTBOX ====== */
+  document.querySelectorAll('.gal-item').forEach(function(g){
+    g.addEventListener('click', function(){
+      document.getElementById('lbImg').src = g.getAttribute('data-src');
+      document.getElementById('lightbox').classList.add('show');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){
+    document.getElementById('lightbox').classList.remove('show');
+  });
+
+  /* ====== REVEAL ====== */
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target); } });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(io) io.observe(el); else el.classList.add('visible');
+  });
+
+  /* ====== FX KONFETI WISUDA ====== */
+  var fxLayer = document.getElementById('fxLayer');
+  (function buatKonfeti(){
+    var warna = ['#d0a94b','#2b57b5','#f2e2b3','#c8d9f7'];
+    for(var i=0;i<18;i++){
+      var s = document.createElement('span');
+      s.className = 'confetti';
+      s.textContent = '▪';
+      s.style.color = warna[i % warna.length];
+      s.style.left = (Math.random()*94) + '%';
+      s.style.fontSize = (8 + Math.random()*10) + 'px';
+      s.style.animationDuration = (10 + Math.random()*10) + 's';
+      s.style.animationDelay = (Math.random()*12) + 's';
+      fxLayer.appendChild(s);
+    }
+  })();
+
+  /* ====== MUSIK LATAR (WebAudio — prosesi wisuda) ====== */
+  var musicBtn = document.getElementById('musicBtn');
+  var musikOn = false, actx = null, melodiTimer = null;
+  var BEAT = 0.6;
+  var MELODI = [[72,1],[76,1],[79,2],[77,1],[76,1],[72,2],[74,1],[77,1],[81,2],[79,1],[77,1],[74,2]];
+  var BAS = [[48,4],[55,4],[53,4],[48,4],[46,4],[53,4],[50,4],[48,4]];
+  function playNote(midi, t, dur, vol, type){
+    var o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.07);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t + dur + 0.12);
+  }
+  function scheduleSeq(seq, t0, vol, type){
+    var t = t0;
+    seq.forEach(function(n){ playNote(n[0], t, n[1] * BEAT * 0.95, vol, type); t += n[1] * BEAT; });
+    return t;
+  }
+  function melodiLoop(){
+    if(!actx){ actx = new (window.AudioContext || window.webkitAudioContext)(); }
+    var t0 = actx.currentTime + 0.06;
+    var e1 = scheduleSeq(MELODI, t0, 0.07, 'triangle');
+    var e2 = scheduleSeq(BAS, t0, 0.05, 'sine');
+    var total = Math.max(e1, e2) - t0;
+    melodiTimer = setTimeout(function(){ if(musikOn) melodiLoop(); }, total * 1000);
+  }
+  function musikMain(){
+    musikOn = true; musicBtn.classList.add('playing');
+    if(actx && actx.state === 'suspended'){ actx.resume(); if(!melodiTimer) melodiLoop(); }
+    else { melodiLoop(); }
+  }
+  function musikStop(){
+    musikOn = false; musicBtn.classList.remove('playing');
+    if(melodiTimer){ clearTimeout(melodiTimer); melodiTimer = null; }
+    if(actx && actx.state === 'running'){ actx.suspend(); }
+  }
+  musicBtn.addEventListener('click', function(){ if(musikOn){ musikStop(); } else { musikMain(); } });
+</script>
+</body>
+</html>

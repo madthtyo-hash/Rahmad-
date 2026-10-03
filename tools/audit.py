@@ -10,7 +10,7 @@ Memeriksa 9 bagian: syntax JS/JSON, struktur HTML, link lokal, registrasi tema d
 Studio, hook tema baru, katalog, aturan nomor WhatsApp & link Studio, footer/meta,
 serta integrasi Supabase (schema.sql, migrasi, config.toml, panduan).
 """
-import base64, glob, json, os, re, subprocess, sys, tomllib
+import base64, glob, json, os, re, subprocess, sys, tomllib, xml.dom.minidom
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 gagal, peringatan = [], []
@@ -20,12 +20,14 @@ def warn(m): print(f'  ! {m}'); peringatan.append(m)
 
 TEMPLATES = ['undangan-sage.html','undangan-jawa.html','undangan-demo.html','undangan-khitanan.html',
              'undangan-ultah.html','undangan-premium.html','undangan-iceblue.html',
-             'undangan-iceblue-khitanan.html','undangan-iceblue-ultah.html']
-NEW = TEMPLATES[-3:]
+             'undangan-iceblue-khitanan.html','undangan-iceblue-ultah.html',
+             'undangan-midnight.html','undangan-aqiqah.html','undangan-wisuda.html','undangan-platinum.html']
+NEW = TEMPLATES[-4:]
 PAGES = ['index.html','landing.html','studio.html'] + TEMPLATES
 BANNED = ['6281234567890','6282128718485','0812-3456-7890']
 sc = lambda h: re.sub(r'<!--.*?-->', '', h, flags=re.S)
-scripts = lambda h: re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', sc(h), re.S)
+# Hanya blok JavaScript: data terstruktur (application/ld+json) dilewati.
+scripts = lambda h: re.findall(r'<script(?![^>]*\bsrc=)(?![^>]*application/ld\+json)[^>]*>(.*?)</script>', sc(h), re.S)
 rd = lambda f: open(f, encoding='utf-8').read()
 
 print('\n== 1. Syntax: JS & JSON ==')
@@ -74,7 +76,7 @@ print('\n== 4. Registrasi tema di Backend Studio ==')
 db = json.loads(rd('data/studio-db.json')); js = rd('studio-api.js')
 ids_js = re.findall(r"\n        id: '([^']+)',\n        slug: '[^']+',", js)
 ids_json = [i['id'] for i in db['invitations']]
-ok(f'{len(ids_json)} undangan') if len(ids_json) == 9 else bad(f'{len(ids_json)} undangan (harus 9)')
+ok(f'{len(ids_json)} undangan') if len(ids_json) == 13 else bad(f'{len(ids_json)} undangan (harus 13)')
 ok('id undangan JSON == JS') if ids_js == ids_json else bad(f'id beda: {ids_js} vs {ids_json}')
 rj = re.findall(r"^\s+id: '(rsvp-\d+)',$", js, re.M); rj2 = [r['id'] for r in db['rsvps']]
 ij = re.findall(r"^\s+invitationId: '([^']+)',$", js, re.M); ij2 = [r['invitationId'] for r in db['rsvps']]
@@ -108,9 +110,9 @@ idx, land, st = rd('index.html'), rd('landing.html'), rd('studio.html')
 ok('index.html == landing.html') if idx == land else bad('index.html != landing.html')
 for nm, h in [('index.html', idx), ('landing.html', land)]:
     for t in NEW: ok(f'{nm} \u2192 {t}') if t in h else bad(f'{nm}: tidak menautkan {t}')
-    ok(f'{nm}: "9 Tema"') if '9 Tema' in h else bad(f'{nm}: badge bukan 9')
+    ok(f'{nm}: "13 Tema"') if '13 Tema' in h else bad(f'{nm}: badge bukan 13')
 for t in NEW: ok(f'studio.html: opsi {t}') if t in st else bad(f'studio.html: opsi {t} hilang')
-ok('studio.html: "Semua Tema (9)"') if 'Semua Tema (9)' in st else bad('studio.html: jumlah tema bukan 9')
+ok('studio.html: "Semua Tema (13)"') if 'Semua Tema (13)' in st else bad('studio.html: jumlah tema bukan 13')
 
 print('\n== 7. Aturan nomor WA, link Studio, nama lama ==')
 alld = {f: rd(f) for f in PAGES}
@@ -133,6 +135,253 @@ for f in NEW:
            ('favicon', 'rel="icon"' in h or 'rel="shortcut icon"' in h),
            ('wa.me/6285196755675', 'wa.me/6285196755675' in h)]
     [ok(f'{f}: {n}') if c else bad(f'{f}: {n} TIDAK ADA') for n, c in uji]
+
+print('\n== 8b. SEO: sitemap, robots, data terstruktur ==')
+ada_sitemap = os.path.exists('sitemap.xml')
+ada_robots = os.path.exists('robots.txt')
+ok('sitemap.xml tersedia') if ada_sitemap else bad('sitemap.xml TIDAK ADA')
+ok('robots.txt tersedia') if ada_robots else bad('robots.txt TIDAK ADA')
+if ada_sitemap:
+    sm = rd('sitemap.xml')
+    try: xml.dom.minidom.parseString(sm); ok('sitemap.xml XML valid')
+    except Exception as e: bad('sitemap.xml tidak valid: %s' % e)
+    url_sitemap = re.findall(r'<loc>(.*?)</loc>', sm)
+    ok('sitemap memuat 14 URL (beranda + 13 tema)') if len(url_sitemap) == 14 else bad('sitemap memuat %d URL' % len(url_sitemap))
+    kurang = [f for f in TEMPLATES if not any(u.endswith(f) for u in url_sitemap)]
+    ok('semua 13 tema ada di sitemap') if not kurang else bad('tema belum masuk sitemap: %s' % ', '.join(kurang))
+if ada_robots:
+    rb = rd('robots.txt')
+    ok('robots.txt menunjuk sitemap') if 'Sitemap:' in rb and 'sitemap.xml' in rb else bad('robots.txt tanpa baris Sitemap')
+    ok('robots.txt menutup studio admin') if 'Disallow: /studio.html' in rb else bad('robots.txt belum menutup /studio.html')
+for f in ['index.html', 'landing.html']:
+    h = rd(f)
+    m = re.search(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', h, re.S)
+    if not m:
+        bad(f'{f}: data terstruktur JSON-LD tidak ada'); continue
+    try:
+        ld = json.loads(m.group(1))
+        graf = ld.get('@graph', [])
+        tipe = [x.get('@type') for x in graf]
+        datar = [t if isinstance(t, str) else '/'.join(t) for t in tipe]
+        ok(f'{f}: JSON-LD valid ({", ".join(datar)})')
+        ok(f'{f}: memuat LocalBusiness + FAQPage') if any('LocalBusiness' in d for d in datar) and 'FAQPage' in datar else bad(f'{f}: JSON-LD belum memuat LocalBusiness & FAQPage')
+        il = [x for x in graf if x.get('@type') == 'ItemList']
+        ok(f'{f}: ItemList katalog 13 tema') if il and il[0].get('numberOfItems') == 13 and len(il[0].get('itemListElement', [])) == 13 else bad(f'{f}: ItemList katalog tidak lengkap')
+    except Exception as e:
+        bad(f'{f}: JSON-LD tidak bisa dibaca: {e}')
+
+tema_kanonikal = [f for f in TEMPLATES if 'rel="canonical"' not in rd(f)]
+ok('13 tema punya tautan kanonikal') if not tema_kanonikal else bad('tanpa kanonikal: %s' % ', '.join(tema_kanonikal))
+tema_ld, tema_ld_rusak = [], []
+for f in TEMPLATES:
+    m = re.search(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', rd(f), re.S)
+    if not m:
+        tema_ld.append(f); continue
+    try:
+        ld = json.loads(m.group(1))
+        if ld.get('@type') == 'Event' and ld.get('startDate') and (ld.get('location') or {}).get('name'):
+            tema_ld_rusak.append('')  # penanda lolos
+        else:
+            tema_ld_rusak.append(f)
+    except Exception:
+        tema_ld_rusak.append(f)
+ok('13 tema punya JSON-LD Event lengkap') if not tema_ld and not any(tema_ld_rusak) else bad('JSON-LD Event bermasalah: %s' % ', '.join([x for x in tema_ld + tema_ld_rusak if x]))
+
+print('\n== 8c. Fitur nilai jual: QR check-in, kalender, notifikasi WA, paket ==')
+ok('vendor/qrcode.js tersedia (pustaka QR)') if os.path.exists('vendor/qrcode.js') else bad('vendor/qrcode.js TIDAK ADA')
+vendor_ok = re.search(r'QR Code Generator for JavaScript', rd('vendor/qrcode.js')) is not None and 'MIT' in rd('vendor/qrcode.js')
+ok('pustaka QR memuat lisensi MIT') if vendor_ok else bad('header lisensi pustaka QR hilang')
+tema_qr = [f for f in TEMPLATES if 'vendor/qrcode.js' not in rd(f)]
+ok('13 tema memuat vendor/qrcode.js') if not tema_qr else bad('tanpa vendor/qrcode.js: %s' % ', '.join(tema_qr))
+api = rd('studio-api.js')
+for nama, syarat in [('kodeCheckin', 'function kodeCheckin'),
+                     ('terapkanCheckIn', 'function terapkanCheckIn'),
+                     ('terapkanKalender (.ics)', 'function terapkanKalender'),
+                     ('notifikasi RSVP ke WA admin', 'function tampilkanNotifikasiWa')]:
+    ok('studio-api/Studio: %s' % nama) if syarat in api else bad('tidak ditemukan: %s' % syarat)
+studio = rd('studio.html')
+ok('Studio punya opsi QR Check-In') if 'id="fCheckin"' in studio else bad('Studio tanpa opsi QR Check-In')
+ok('Studio menyimpan pilihan QR Check-In') if 'inv.checkin' in studio else bad('Studio tidak menyimpan pilihan QR Check-In')
+for f in ['index.html', 'landing.html']:
+    h = rd(f)
+    ok('%s: paket spesial Aqiqah & Wisuda' % f) if 'paket-spesial' in h and 'Rp69.000' in h else bad('%s: paket spesial Aqiqah/Wisuda tidak ada' % f)
+
+print('\n== 8d. Mode navigasi tamu (Gulir/Snap/Slide + premium) ==')
+nav_ok = os.path.exists('vendor/nav-mode.js')
+ok('vendor/nav-mode.js tersedia (mesin navigasi bersama)') if nav_ok else bad('vendor/nav-mode.js TIDAK ADA')
+if nav_ok:
+    nav = rd('vendor/nav-mode.js')
+    ok('memuat 9 mode navigasi') if all("'%s'" % m in nav for m in ['scroll','snap','slide','fade','flip','zoom','up','cube','blur']) else bad('mode navigasi belum lengkap')
+    ok('setMode membersihkan seluruh kelas mode (bug kelas bocor)') if 'MODES.forEach' in nav and "classList.remove('mode-' + m)" in nav else bad('setMode tidak membersihkan semua kelas mode')
+    ok('menerapkan navMode tersimpan lewat window.setMode') if 'window.setMode = function' in nav else bad('window.setMode tidak ada')
+tanpa_mesin = []
+for f in TEMPLATES:
+    h = rd(f)
+    if 'vendor/nav-mode.js' not in h and 'function setMode(' not in h:
+        tanpa_mesin.append(f)
+ok('13 tema punya mesin navigasi (bawaan atau vendor/nav-mode.js)') if not tanpa_mesin else bad('tanpa mesin navigasi: %s' % ', '.join(tanpa_mesin))
+for f in ['undangan-sage.html', 'undangan-jawa.html']:
+    h = rd(f)
+    pembersih = re.search(r'setMode\(mode\)\{[\s\S]{0,400}?validModes\.forEach', h)
+    ok('%s: setMode membersihkan semua kelas mode' % f) if pembersih else bad('%s: pembersihan kelas mode lama (up/cube/blur) belum lengkap' % f)
+api_nav = rd('studio-api.js')
+ok('studio-api.js menerapkan navMode dari Studio') if 'window.setMode(inv.navMode)' in api_nav else bad('studio-api.js tidak menerapkan navMode tersimpan')
+ok('link ?mode= tetap menang atas navMode tersimpan') if 'var modeLink = new URLSearchParams' in api_nav else bad('pemeriksaan ?mode= tidak ada')
+
+print('\n== 8e. Studio: koleksi per kategori/tanggal/status & pemeriksaan admin ==')
+for hook, nama in [('id="collectionView"', 'pemilih pengelompokan koleksi (kategori/tanggal/status)'),
+                   ('data-view="tanggal"', 'opsi kelompok tanggal acara'),
+                   ('data-view="status"', 'opsi kelompok status pemeriksaan'),
+                   ('id="koleksiRingkas"', 'ringkasan koleksi (disetujui/menunggu/revisi)'),
+                   ('id="tab-periksa"', 'tab Pemeriksaan'),
+                   ('id="periksaList"', 'daftar periksa kelengkapan'),
+                   ('id="fReviewStatus"', 'pilihan status pemeriksaan admin'),
+                   ('id="fReviewNote"', 'catatan admin'),
+                   ('id="hasilPreviewFrame"', 'pratinjau hasil undangan (iframe)'),
+                   ('id="hasilPreviewBtn"', 'tombol Tampilkan Hasil Undangan')]:
+    ok(f'{nama} ada') if hook in st else bad(f'{nama} tidak ada')
+for fn in ['function periksaKelengkapan', 'periksaKelengkapan: periksaKelengkapan',
+           'function renderPemeriksaan', 'function muatHasilUndangan', 'function kelompokKoleksi']:
+    ok('studio-api/studio.html: %s' % fn) if (fn in rd('studio-api.js') or fn in st) else bad('%s tidak ditemukan' % fn)
+for sumber, isi in [('studio-api.js', api if False else rd('studio-api.js')), ('data/studio-db.json', rd('data/studio-db.json'))]:
+    kurang = isi.count('reviewStatus')
+    ok('%s memuat reviewStatus (%d undangan)' % (sumber, kurang)) if kurang >= 13 else warn('%s: reviewStatus baru %d' % (sumber, kurang))
+for st_key in ['revisi', 'menunggu', 'disetujui']:
+    ok('DEFAULT_DB memuat status "%s"' % st_key) if "reviewStatus: '%s'" % st_key in rd('studio-api.js') else bad('status "%s" tidak ada di seed bawaan' % st_key)
+
+print('\n== 8f. Koneksi WhatsApp (gateway opsional + link gratis) ==')
+ok('wa-config.example.json tersedia') if os.path.exists('wa-config.example.json') else bad('wa-config.example.json TIDAK ADA')
+if os.path.exists('wa-config.example.json'):
+    try:
+        contoh = json.loads(rd('wa-config.example.json'))
+        ok('contoh konfigurasi memuat provider/token/admin') if all(k in contoh for k in ['provider', 'token', 'adminWhatsapp']) else bad('contoh konfigurasi kurang lengkap')
+        ok('contoh konfigurasi default nonaktif (aman)') if contoh.get('enabled') is False else warn('contoh konfigurasi tidak diawali enabled:false')
+    except Exception as e:
+        bad('wa-config.example.json tidak bisa dibaca: %s' % e)
+gi = rd('.gitignore')
+ok('wa-config.json tidak ikut ter-commit') if 'wa-config.json' in gi else bad('wa-config.json belum masuk .gitignore')
+ok('log pengiriman WhatsApp diabaikan git') if 'wa-log.json' in gi else warn('data/wa-log.json belum diabaikan')
+srv = rd('server.js')
+for nama, pola in [('normalisasi nomor Indonesia', 'function normalisasiNomor'),
+                   ('gateway Fonnte', "provider === 'fonnte'"),
+                   ('gateway Wablas', "provider === 'wablas'"),
+                   ('gateway Whacenter', "provider === 'whacenter'"),
+                   ('provider custom (apiUrl sendiri)', 'provider "custom" butuh apiUrl'),
+                   ('endpoint status /api/wa', "pathname === '/api/wa' && req.method === 'GET'"),
+                   ('endpoint kirim /api/wa/kirim', "pathname === '/api/wa/kirim'"),
+                   ('endpoint uji /api/wa/uji', "pathname === '/api/wa/uji'"),
+                   ('endpoint pengaturan /api/wa/pengaturan', "pathname === '/api/wa/pengaturan'"),
+                   ('notifikasi RSVP otomatis ke admin', 'notifyAdminOnRsvp'),
+                   ('token disamarkan untuk browser', 'tokenSamar')]:
+    ok('server.js: %s' % nama) if pola in srv else bad('server.js tidak memuat %s' % nama)
+ok('token TIDAK pernah dikirim utuh ke browser') if 'tokenSamar' in srv and 'token: cfg.token' not in srv else bad('periksa pengiriman token ke browser')
+st = rd('studio.html')
+for hook, nama in [('id="card-wa"', 'panel Koneksi WhatsApp'),
+                   ('id="waKirimBtn"', 'tombol kirim link undangan ke tamu'),
+                   ('id="waUjiBtn"', 'tombol uji koneksi'),
+                   ('id="waTemplate"', 'template pesan undangan'),
+                   ('id="waAdminNumber"', 'nomor admin WhatsApp'),
+                   ('id="waAutoRsvp"', 'saklar notifikasi RSVP otomatis'),
+                   ('id="bulkSendAllBtn"', 'tombol kirim massal via gateway'),
+                   ('bulk-phone', 'kolom nomor tamu di generator massal')]:
+    ok('%s ada' % nama) if hook in st else bad('%s tidak ada' % nama)
+api = rd('studio-api.js')
+for pola, nama in [('waApi', 'objek StudioBackend.wa'), ('function waTautan', 'pembuat tautan wa.me'),
+                   ('function waKirim', 'pengirim lewat server'), ('function waBersihkanNomor', 'normalisasi nomor di browser')]:
+    ok('studio-api.js: %s' % nama) if pola in api else bad('studio-api.js tidak memuat %s' % nama)
+
+print('\n== 8g. Dokumen format link undangan ==')
+if os.path.exists('docs/format-link-undangan.md'):
+    dok = rd('docs/format-link-undangan.md')
+    ok('dokumen format link undangan tersedia') if 'https://<domain>/<berkas-tema>.html' in dok else bad('dokumen tidak memuat format dasar')
+    for pola, nama in [('wa.me', 'format link WhatsApp'), ('checkin=KD-XXXXXX', 'format QR check-in'),
+                       ('calendar.google.com', 'format Google Calendar'), ('?id=', 'penjelasan parameter id'),
+                       ('window.location.origin', 'penjelasan asal domain')]:
+        ok('dokumen: %s dijelaskan' % nama) if pola in dok else bad('dokumen tidak menjelaskan %s' % nama)
+    ok('README menautkan dokumen format link') if 'docs/format-link-undangan.md' in rd('README.md') else bad('README belum menautkan dokumen')
+    tema = ['undangan-sage.html', 'undangan-jawa.html', 'undangan-demo.html', 'undangan-iceblue.html',
+            'undangan-midnight.html', 'undangan-khitanan.html', 'undangan-iceblue-khitanan.html',
+            'undangan-ultah.html', 'undangan-iceblue-ultah.html', 'undangan-aqiqah.html',
+            'undangan-wisuda.html', 'undangan-premium.html', 'undangan-platinum.html']
+    kurang = [t for t in tema if t not in dok]
+    ok('dokumen memuat 13 berkas tema') if not kurang else bad('tema belum ada di dokumen: %s' % ', '.join(kurang))
+else:
+    bad('docs/format-link-undangan.md TIDAK ADA')
+
+api = rd('studio-api.js')
+ok('tautanUndanganSaatIni dipakai untuk QR/kalender/RSVP') if api.count('tautanUndanganSaatIni(') >= 4 else bad('helper tautanUndanganSaatIni belum dipakai menyeluruh')
+ok('nomor admin WhatsApp dibaca dari pengaturan Studio') if 'function nomorAdminWa' in api else bad('nomor admin masih dipatok di kode')
+ok('QR check-in memuat id undangan (bukan tema bawaan saja)') if "setAttribute('data-checkin-url'" in api else warn('QR check-in tidak menyimpan tautan untuk diperiksa')
+
+print('\n== 8h. Serah terima pelanggan & penyegaran data tamu ==')
+st = rd('studio.html')
+for hook, nama in [('id="clientUrl"', 'link undangan untuk pelanggan'),
+                   ('id="clientText"', 'pesan serah terima'),
+                   ('id="clientName"', 'nama pemesan'),
+                   ('id="clientPhone"', 'nomor WhatsApp pelanggan'),
+                   ('id="copyClientUrlBtn"', 'tombol salin link pelanggan'),
+                   ('id="sendClientWaBtn"', 'tombol kirim ke WhatsApp pelanggan'),
+                   ('id="sendClientGatewayBtn"', 'tombol kirim otomatis ke pelanggan')]:
+    ok('Blok serah terima: %s ada' % nama) if hook in st else bad('Blok serah terima: %s tidak ada' % nama)
+for fn, nama in [('function linkPelanggan', 'pembuat link pelanggan (bersih, tanpa ?to=)'),
+                 ('function pesanPelanggan', 'pembuat pesan serah terima'),
+                 ('async function kirimKePelanggan', 'pengirim ke pelanggan (gateway/link)')]:
+    ok('%s' % nama) if fn in st else bad('%s tidak ada' % nama)
+ok('Nama & nomor pelanggan ikut tersimpan di database') if 'inv.clientName' in st and 'inv.clientPhone' in st else bad('nama/nomor pelanggan tidak disimpan')
+api = rd('studio-api.js')
+ok('Halaman tamu menyegarkan data terbaru dari server/cloud') if 'function segarkanSaatHydrate' in api else bad('halaman tamu tidak menyegarkan data')
+ok('Efek dekorasi dari Studio diterapkan di link bersih') if 'window.fxSet(fxStudio)' in api else warn('efek dekorasi dari Studio belum diterapkan')
+
+print('\n== 8i. Satu link untuk semua tamu (kirim massal tanpa nama) ==')
+st = rd('studio.html')
+for hook, nama in [('id="broadcastText"', 'pesan untuk semua tamu'),
+                   ('id="broadcastNumbers"', 'daftar nomor WhatsApp tamu'),
+                   ('id="broadcastSendBtn"', 'tombol kirim ke semua nomor'),
+                   ('id="copyBroadcastTextBtn"', 'tombol salin pesan massal'),
+                   ('id="broadcastWaBtn"', 'tombol WhatsApp pesan siap'),
+                   ('id="broadcastInfo"', 'status pengiriman massal'),
+                   ('id="opsionalTamu"', 'bagian opsional link per nama tamu (terlipat)')]:
+    ok('Kirim massal: %s ada' % nama) if hook in st else bad('Kirim massal: %s tidak ada' % nama)
+for fn, nama in [('function pesanBroadcast', 'pembuat pesan satu-untuk-semua'),
+                 ('function nomorBroadcast', 'pembaca & normalisasi daftar nomor'),
+                 ('async function kirimBroadcast', 'pengirim massal satu pesan')]:
+    ok('Kirim massal: %s' % nama) if fn in st else bad('Kirim massal: %s tidak ada' % nama)
+ok('Link per nama tamu tetap ada tapi terlipat (opsional)') if '<summary' in st and 'shareGeneratedUrl' in st else warn('bagian opsional per nama tamu tidak ditemukan')
+
+print('\n== 8j. Link pendek /u/<slug> ==')
+ok('tools/make-short-links.py tersedia') if os.path.exists('tools/make-short-links.py') else bad('pembuat link pendek TIDAK ADA')
+if os.path.exists('tools/make-short-links.py'):
+    skrip = rd('tools/make-short-links.py')
+    ok('halaman pengalih meneruskan ?to=/?mode=/?fx=') if 'location.search' in skrip else bad('parameter tidak diteruskan')
+    ok('halaman pengalih punya canonical + noindex') if 'rel="canonical"' in skrip and 'noindex' in skrip else warn('canonical/noindex tidak ada di templat')
+db = {}
+try:
+    db = json.loads(rd('data/studio-db.json'))
+except Exception as e:
+    bad('data/studio-db.json tidak terbaca: %s' % e)
+invs = db.get('invitations') or []
+kurang, kosong = [], []
+for inv in invs:
+    slug = str(inv.get('slug') or inv.get('id') or '').strip()
+    berkas = os.path.join('u', slug, 'index.html')
+    if not os.path.exists(berkas):
+        kurang.append(slug)
+        continue
+    isi = rd(berkas)
+    if inv.get('themeFile', '') not in isi or ('id=%s' % inv.get('id', '')) not in isi:
+        kosong.append(slug)
+ok('halaman pengalih tersedia untuk %d undangan' % len(invs)) if not kurang else bad('belum ada folder u/: %s' % ', '.join(kurang))
+ok('tiap halaman pengalih menunjuk tema & id undangan yang benar') if not kosong else bad('pengalih salah target: %s' % ', '.join(kosong))
+srv = rd('server.js')
+ok('server.js punya rute /u/<slug> (302)') if 'LINK PENDEK (/u/<slug>)' in srv and 'writeHead(302' in srv else bad('rute link pendek tidak ada')
+ok('slug tak dikenal diberi halaman penjelasan') if 'tidak dikenali' in srv else warn('halaman 404 link pendek tidak ada')
+ok('berkas statis u/<slug>/index.html tetap disajikan') if "indexOf('/u/') === 0" in srv else warn('fallback berkas statis tidak ada')
+st = rd('studio.html')
+ok('Studio menampilkan link pendek') if 'id="clientShortUrl"' in st and 'function linkPendek' in st else bad('link pendek tidak tampil di Studio')
+ok('link pendek sendiri (bit.ly/s.id) bisa dipakai') if 'id="clientShortCustom"' in st else warn('isian link pendek sendiri tidak ada')
+ok('link pendek dipakai di pesan pelanggan & pesan massal') if st.count('linkUntukDibagikan(') >= 2 else bad('pesan belum memakai link pendek')
+ok('robots.txt tidak mengindeks /u/') if 'Disallow: /u/' in rd('robots.txt') else warn('/u/ belum dibatasi di robots.txt')
+ok('npm run short-links tersedia') if 'make-short-links.py' in rd('package.json') else warn('skrip short-links belum ada di package.json')
 
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
@@ -179,6 +428,16 @@ ok('selfTest jujur soal penghapusan RLS') if 'tidak bisa dipastikan dari luar' i
 for hook in ['cloudTestBtn','cloudSelfTestBtn','cloudSelfTestBox','renderSelfTest','cloudPushBtn','cloudPullBtn','cloudStatusText']:
     ok(f'studio.html: {hook}') if hook in st else bad(f'studio.html tidak memuat {hook}')
 ok('tools/check-cloud.js ada (pemeriksa koneksi project asli)') if os.path.exists('tools/check-cloud.js') else warn('tools/check-cloud.js tidak ada')
+if os.path.exists('tools/ui-test.js'):
+    ok('tools/ui-test.js ada (uji UI jsdom)')
+    ui = rd('tools/ui-test.js')
+    ok('uji UI memuat halaman undangan baru') if all(t in ui for t in ['undangan-midnight.html','undangan-aqiqah.html','undangan-wisuda.html','undangan-platinum.html']) else bad('uji UI belum memuat 4 tema baru')
+    ok('uji UI memakai port uji sendiri (tidak bentrok server dev)') if 'UI_TEST_PORT' in ui else warn('uji UI tidak menyediakan UI_TEST_PORT')
+    cek_pkg = json.loads(rd('package.json'))
+    ok('package.json menyediakan skrip test:ui') if 'test:ui' in (cek_pkg.get('scripts') or {}) else warn('package.json belum punya skrip test:ui')
+    ok('jsdom terdaftar sebagai devDependency') if 'jsdom' in (cek_pkg.get('devDependencies') or {}) else warn('jsdom belum terdaftar di devDependencies')
+else:
+    warn('tools/ui-test.js tidak ada (uji UI dilewati)')
 if os.path.exists('tools/check-cloud.js'):
     cc = rd('tools/check-cloud.js')
     ok('check-cloud.js menolak kunci rahasia') if 'sb_secret_' in cc else bad('check-cloud.js tidak memeriksa kunci rahasia')
@@ -198,9 +457,9 @@ st_hilang = sorted(i for i in st_ids_used if i not in st_ids_have)
 ok(f'semua {len(st_ids_used)} id yang dipakai JS studio.html tersedia') if not st_hilang else bad(f'id hilang di studio.html: {st_hilang}')
 tabs = re.findall(r'data-tab="([^"]+)"', st)
 panes = re.findall(r'class="[^"]*tab-pane[^"]*" id="([^"]+)"', st)
-ok(f'{len(tabs)} tab pil: ' + ', '.join(tabs)) if len(tabs) == 5 else bad(f'tab pil: {tabs}')
+ok(f'{len(tabs)} tab pil: ' + ', '.join(tabs)) if len(tabs) == 6 else bad(f'tab pil: {tabs}')
 ok('setiap tab punya panel isi (cocok)') if sorted(tabs) == sorted(panes) else bad(f'tab vs panel beda: {tabs} vs {panes}')
-for nama in ['Data Utama', 'Tema &amp; Visual', 'Galeri Foto', 'Lokasi &amp; Map', 'Fitur Ekstra']:
+for nama in ['Data Utama', 'Tema &amp; Visual', 'Galeri Foto', 'Lokasi &amp; Map', 'Fitur Ekstra', 'Pemeriksaan']:
     ok(f'label tab "{nama}" ada') if nama in st else bad(f'label tab {nama} hilang')
 for cid in ['card-amplop', 'card-rsvp', 'card-share', 'card-storage']:
     ok(f'kartu {cid} ada di tab Fitur Ekstra') if f'id="{cid}"' in st else bad(f'{cid} hilang')

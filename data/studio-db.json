@@ -1,11 +1,12 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-10-03T02:00:00.000Z",
+  "updatedAt": "2026-10-03T09:00:00.000Z",
   "settings": {
     "brandName": "Kartu Digital",
     "domain": "kartudigital.my.id",
     "adminWhatsapp": "6285196755675",
-    "defaultCurrency": "IDR"
+    "defaultCurrency": "IDR",
+    "frontMusic": "musik/romantis.mp3"
   },
   "invitations": [
     {
@@ -33,7 +34,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sariwangi+Bandung",
       "navMode": "scroll",
       "fxMode": "kelopak",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-rahma-cover.jpg",
         "photo1": "foto-rahma-cover.jpg",
@@ -71,7 +72,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-09-28T09:12:00.000Z"
     },
     {
       "id": "jawa-ratri-galih",
@@ -98,7 +102,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Graha+Saraswati+Yogyakarta",
       "navMode": "scroll",
       "fxMode": "kelopak",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/jawa.mp3",
       "photos": {
         "cover": "foto-jawa-cover.jpg",
         "photo1": "foto-jawa-cover.jpg",
@@ -136,7 +140,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-09-29T14:05:00.000Z"
     },
     {
       "id": "emerald-raka-laras",
@@ -163,7 +170,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Savoy+Homann+Bandung",
       "navMode": "scroll",
       "fxMode": "kilau",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-cover.jpg",
         "photo1": "foto-cover.jpg",
@@ -201,7 +208,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "premium-alvaro-clara",
@@ -228,7 +238,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Trans+Luxury+Hotel+Bandung",
       "navMode": "fade",
       "fxMode": "kilau",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-premium-cover.jpg",
         "photo1": "foto-premium-cover.jpg",
@@ -266,7 +276,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": true
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "Klien minta foto cover diganti ke foto pre-wedding.",
+      "reviewedAt": "2026-09-30T10:40:00.000Z"
     },
     {
       "id": "khitan-zidan",
@@ -293,7 +306,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bale+Asri+Pusdai+Bandung",
       "navMode": "scroll",
       "fxMode": "bintang",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/khitanan.mp3",
       "photos": {
         "cover": "foto-khitanan-cover.jpg",
         "photo1": "foto-khitanan-cover.jpg",
@@ -331,7 +344,10 @@
         "maxGuests": 5,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-09-27T08:20:00.000Z"
     },
     {
       "id": "ultah-kanaya",
@@ -358,7 +374,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hummingbird+Eatery+Bandung",
       "navMode": "scroll",
       "fxMode": "balon",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/pesta.mp3",
       "photos": {
         "cover": "foto-ultah-cover.jpg",
         "photo1": "foto-ultah-cover.jpg",
@@ -396,7 +412,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "iceblue-adi-lina",
@@ -423,7 +442,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Gatot+Subroto+Jakarta",
       "navMode": "scroll",
       "fxMode": "salju",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/romantis.mp3",
       "photos": {
         "cover": "foto-iceblue-cover.jpg",
         "photo1": "foto-iceblue-cover.jpg",
@@ -462,7 +481,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
     },
     {
       "id": "iceblue-khitanan-alif",
@@ -489,7 +511,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Aula+Al-Ikhlas+Bandung",
       "navMode": "scroll",
       "fxMode": "salju",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/khitanan.mp3",
       "photos": {
         "cover": "foto-iceblue-khitanan-cover.jpg",
         "photo1": "foto-iceblue-khitanan-cover.jpg",
@@ -527,7 +549,10 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "revisi",
+      "reviewNote": "Tambah 1 rekening lagi & sesuaikan jam resepsi dengan undangan cetak.",
+      "reviewedAt": "2026-10-01T13:15:00.000Z"
     },
     {
       "id": "iceblue-ultah-kalila",
@@ -554,7 +579,7 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dago+Pakar+Bandung",
       "navMode": "scroll",
       "fxMode": "salju",
-      "musicUrl": "musik.mp3",
+      "musicUrl": "musik/pesta.mp3",
       "photos": {
         "cover": "foto-iceblue-ultah-cover.jpg",
         "photo1": "foto-iceblue-ultah-cover.jpg",
@@ -592,7 +617,282 @@
         "maxGuests": 4,
         "allowWishes": true,
         "requirePhone": false
-      }
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
+    },
+    {
+      "id": "midnight-dirga-amara",
+      "slug": "dirga-amara",
+      "category": "pernikahan",
+      "theme": "Midnight Emerald 🌙",
+      "themeFile": "undangan-midnight.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 76,
+      "title": "The Wedding Of",
+      "primaryName": "Dirga",
+      "secondaryName": "Amara",
+      "fullName1": "Dirga Mahendra, S.T.",
+      "parents1": "Putra dari Bapak Hendra Wijaya & Ibu Ratna Kusuma",
+      "fullName2": "Amara Larasati, S.Psi.",
+      "parents2": "Putri dari Bapak Surya Atmaja & Ibu Dewi Anggraini",
+      "quote": "Bersama dalam cinta, menuju ridha-Nya. Kami mengundang Anda untuk menjadi saksi janji suci kami.",
+      "eventDate": "2026-11-21",
+      "akadTime": "08.00 – 10.00 WIB",
+      "resepsiTime": "11.00 – 14.00 WIB",
+      "venueName": "Emerald Hall",
+      "venueAddress": "Jl. Riau No. 88, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Riau+Bandung",
+      "navMode": "scroll",
+      "fxMode": "bintang",
+      "musicUrl": "musik/romantis.mp3",
+      "photos": {
+        "cover": "foto-midnight-cover.jpg",
+        "photo1": "foto-midnight-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-midnight-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-jawa-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Doa dan kehadiran Anda adalah hadiah terindah bagi kami. Namun jika ingin memberi tanda kasih, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "Jl. Riau No. 88, Bandung",
+        "accounts": [
+          {
+            "id": "acc-19",
+            "bank": "BCA",
+            "number": "7788123409",
+            "holder": "Dirga Mahendra"
+          },
+          {
+            "id": "acc-20",
+            "bank": "DANA",
+            "number": "081322114455",
+            "holder": "Amara Larasati"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-14",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "",
+      "reviewedAt": "2026-10-01T09:05:00.000Z"
+    },
+    {
+      "id": "aqiqah-ghani",
+      "slug": "aqiqah-ghani",
+      "category": "aqiqah",
+      "theme": "Aqiqah Rahmah 🍼",
+      "themeFile": "undangan-aqiqah.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 64,
+      "title": "Tasyakuran Aqiqah",
+      "primaryName": "Muhammad Ghani Alaric",
+      "secondaryName": "Aqiqah & Tasyakuran",
+      "fullName1": "Muhammad Ghani Alaric",
+      "parents1": "Putra dari Bapak Fajar Nugraha & Ibu Salsabila Putri",
+      "fullName2": "Aqiqah & Tasyakuran ✨",
+      "parents2": "Turut mengundang: Keluarga Besar H. Sudirman & Keluarga",
+      "quote": "Alhamdulillah, telah lahir buah hati kami. Dengan penuh rasa syukur, kami bermaksud menyelenggarakan tasyakuran aqiqah.",
+      "eventDate": "2026-11-08",
+      "akadTime": "08.00 – 10.00 WIB (Prosesi Aqiqah)",
+      "resepsiTime": "10.00 – 13.00 WIB (Tasyakuran & Ramah Tamah)",
+      "venueName": "Masjid Nurul Iman",
+      "venueAddress": "Jl. Cihampelas No. 120, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cihampelas+Bandung",
+      "navMode": "scroll",
+      "fxMode": "kelopak",
+      "musicUrl": "musik/aqiqah.mp3",
+      "photos": {
+        "cover": "foto-aqiqah-cover.jpg",
+        "photo1": "foto-aqiqah-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-aqiqah-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-khitanan-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran dan doa Anda sudah sangat berarti bagi kami. Namun jika ingin memberi tanda kasih untuk ananda, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "Jl. Cihampelas No. 120, Bandung (Kediaman Keluarga Fajar)",
+        "accounts": [
+          {
+            "id": "acc-21",
+            "bank": "BSI",
+            "number": "7211558809",
+            "holder": "Fajar Nugraha"
+          },
+          {
+            "id": "acc-22",
+            "bank": "GoPay",
+            "number": "085196755675",
+            "holder": "Salsabila Putri"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-01",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      },
+      "reviewStatus": "menunggu",
+      "reviewNote": "",
+      "reviewedAt": ""
+    },
+    {
+      "id": "wisuda-naura",
+      "slug": "wisuda-naura",
+      "category": "wisuda",
+      "theme": "Grand Graduation 🎓",
+      "themeFile": "undangan-wisuda.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 58,
+      "title": "Undangan Wisuda",
+      "primaryName": "Naura Safira, S.Ked",
+      "secondaryName": "Wisuda & Syukuran",
+      "fullName1": "Naura Safira, S.Ked",
+      "parents1": "Putri dari Bapak Drs. Ahmad Fauzi & Ibu Hj. Lilis Suryani",
+      "fullName2": "Sarjana Kedokteran · IPK 3,86",
+      "parents2": "Program Studi Pendidikan Dokter · Universitas Nusantara",
+      "quote": "Dengan penuh rasa syukur atas terselesaikannya masa studi, kami bermaksud mengundang Anda untuk hadir pada prosesi wisuda dan syukuran kelulusan.",
+      "eventDate": "2026-12-05",
+      "akadTime": "08.00 – 11.00 WIB (Prosesi Wisuda)",
+      "resepsiTime": "12.00 – 15.00 WIB (Syukuran & Ramah Tamah)",
+      "venueName": "Graha Sabha Universitas Nusantara",
+      "venueAddress": "Jl. Dipatiukur No. 112, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dipatiukur+Bandung",
+      "navMode": "scroll",
+      "fxMode": "konfeti",
+      "musicUrl": "musik/wisuda.mp3",
+      "photos": {
+        "cover": "foto-wisuda-cover.jpg",
+        "photo1": "foto-wisuda-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-wisuda-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-premium-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran dan doa Anda adalah hadiah terbaik. Namun jika ingin memberi tanda kasih untuk wisudawan, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "Jl. Setiabudi No. 45, Bandung (Kediaman Keluarga Fauzi)",
+        "accounts": [
+          {
+            "id": "acc-23",
+            "bank": "BCA",
+            "number": "8830912277",
+            "holder": "Naura Safira"
+          },
+          {
+            "id": "acc-24",
+            "bank": "GoPay",
+            "number": "081344557788",
+            "holder": "Naura Safira"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-28",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      },
+      "reviewStatus": "disetujui",
+      "reviewNote": "Link peta sudah dites dari HP — aman.",
+      "reviewedAt": "2026-10-02T11:30:00.000Z"
+    },
+    {
+      "id": "platinum-revan-kiara",
+      "slug": "revan-kiara",
+      "category": "premium",
+      "theme": "Platinum Marble 👑",
+      "themeFile": "undangan-platinum.html",
+      "isPremium": true,
+      "status": "Aktif",
+      "views": 121,
+      "title": "The Wedding Of",
+      "primaryName": "Revan",
+      "secondaryName": "Kiara",
+      "fullName1": "Revan Dirgantara, M.B.A.",
+      "parents1": "Putra dari Bapak Ir. Hendarto Dirgantara & Ibu Dra. Sri Wahyuni",
+      "fullName2": "Kiara Anindita, S.Ars.",
+      "parents2": "Putri dari Bapak Dr. Bambang Sutrisno & Ibu Hj. Ratih Purnamasari",
+      "quote": "Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami, dan dengan hormat mengundang Anda pada acara tersebut.",
+      "eventDate": "2026-12-12",
+      "akadTime": "09.00 – 11.00 WIB",
+      "resepsiTime": "18.00 – 21.30 WIB (Gala Dinner)",
+      "venueName": "The Platinum Ballroom",
+      "venueAddress": "Jl. Jend. Sudirman Kav. 52, Jakarta Selatan",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sudirman+Jakarta",
+      "navMode": "scroll",
+      "fxMode": "kilau",
+      "musicUrl": "musik/romantis.mp3",
+      "photos": {
+        "cover": "foto-platinum-cover.jpg",
+        "photo1": "foto-platinum-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-platinum-cover.jpg",
+          "foto-cover.jpg",
+          "foto-premium-cover.jpg",
+          "foto-rahma-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran dan doa Anda adalah hadiah terindah. Namun jika ingin berbagi tanda kasih, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "The Platinum Ballroom, Jl. Jend. Sudirman Kav. 52, Jakarta Selatan",
+        "accounts": [
+          {
+            "id": "acc-25",
+            "bank": "BCA Prioritas",
+            "number": "8890221144",
+            "holder": "Revan Dirgantara"
+          },
+          {
+            "id": "acc-26",
+            "bank": "Mandiri",
+            "number": "1310099887766",
+            "holder": "Kiara Anindita"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-12-05",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      },
+      "reviewStatus": "revisi",
+      "reviewNote": "Tamu VIP menunggu daftar kursi gala dinner diisi.",
+      "reviewedAt": "2026-10-02T16:45:00.000Z"
     }
   ],
   "rsvps": [
@@ -685,6 +985,36 @@
       "phone": "081987654321",
       "message": "Happy 8th Birthday Kalila cantik! Nggak sabar ikut ice cream party-nya 🎂",
       "createdAt": "2026-10-02T12:05:00.000Z"
+    },
+    {
+      "id": "rsvp-10",
+      "invitationId": "midnight-dirga-amara",
+      "name": "Keluarga Hartono",
+      "status": "Hadir",
+      "guests": 3,
+      "phone": "081233445566",
+      "message": "Barakallahu lakuma wa baraka alaikuma. Selamat menempuh hidup baru, Dirga & Amara 🤍",
+      "createdAt": "2026-10-02T13:40:00.000Z"
+    },
+    {
+      "id": "rsvp-11",
+      "invitationId": "aqiqah-ghani",
+      "name": "Teh Nabila & Keluarga",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081900112233",
+      "message": "Selamat atas aqiqah ananda Ghani. Semoga menjadi anak sholeh dan berbakti kepada orang tua.",
+      "createdAt": "2026-10-02T14:15:00.000Z"
+    },
+    {
+      "id": "rsvp-12",
+      "invitationId": "wisuda-naura",
+      "name": "Teman Seangkatan",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081755443322",
+      "message": "Congrats dok! Akhirnya lulus juga. See you di hari wisuda ya 🎉",
+      "createdAt": "2026-10-02T15:05:00.000Z"
     }
   ]
 }

@@ -16,7 +16,9 @@
       brandName: 'Kartu Digital',
       domain: 'kartudigital.my.id',
       adminWhatsapp: '6285196755675',
-      defaultCurrency: 'IDR'
+      defaultCurrency: 'IDR',
+      // Lagu yang diputar di halaman depan (index.html) — bisa diubah dari Studio.
+      frontMusic: 'musik/romantis.mp3'
     },
     invitations: [
       {
@@ -26,6 +28,9 @@
         theme: 'Sage Blossom',
         themeFile: 'undangan-sage.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-09-28T09:12:00.000Z',
         status: 'Aktif',
         views: 184,
         title: 'The Wedding Of',
@@ -44,7 +49,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sariwangi+Bandung',
         navMode: 'scroll',
         fxMode: 'kelopak',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-rahma-cover.jpg',
           photo1: 'foto-rahma-cover.jpg',
@@ -81,6 +86,9 @@
         theme: 'Jawa Heritage',
         themeFile: 'undangan-jawa.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-09-29T14:05:00.000Z',
         status: 'Aktif',
         views: 142,
         title: 'The Wedding Of',
@@ -99,7 +107,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Graha+Saraswati+Yogyakarta',
         navMode: 'scroll',
         fxMode: 'kelopak',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/jawa.mp3',
         photos: {
           cover: 'foto-jawa-cover.jpg',
           photo1: 'foto-jawa-cover.jpg',
@@ -136,6 +144,9 @@
         theme: 'Blush & Emerald Floral',
         themeFile: 'undangan-demo.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 96,
         title: 'Undangan Pernikahan',
@@ -154,7 +165,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Savoy+Homann+Bandung',
         navMode: 'scroll',
         fxMode: 'kilau',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-cover.jpg',
           photo1: 'foto-cover.jpg',
@@ -191,6 +202,9 @@
         theme: 'Royal Gold Luxury 👑',
         themeFile: 'undangan-premium.html',
         isPremium: true,
+        reviewStatus: 'disetujui',
+        reviewNote: "Klien minta foto cover diganti ke foto pre-wedding.",
+        reviewedAt: '2026-09-30T10:40:00.000Z',
         status: 'Aktif',
         views: 215,
         title: 'Royal Wedding Invitation',
@@ -209,7 +223,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=The+Trans+Luxury+Hotel+Bandung',
         navMode: 'fade',
         fxMode: 'kilau',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-premium-cover.jpg',
           photo1: 'foto-premium-cover.jpg',
@@ -246,6 +260,9 @@
         theme: 'Al-Fatih Khitanan 🕌',
         themeFile: 'undangan-khitanan.html',
         isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-09-27T08:20:00.000Z',
         status: 'Aktif',
         views: 119,
         title: 'Walimatul Khitan',
@@ -264,7 +281,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bale+Asri+Pusdai+Bandung',
         navMode: 'scroll',
         fxMode: 'bintang',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/khitanan.mp3',
         photos: {
           cover: 'foto-khitanan-cover.jpg',
           photo1: 'foto-khitanan-cover.jpg',
@@ -301,6 +318,9 @@
         theme: 'Sweet Wonder Party 🎂',
         themeFile: 'undangan-ultah.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 134,
         title: '7th Birthday Party',
@@ -319,7 +339,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hummingbird+Eatery+Bandung',
         navMode: 'scroll',
         fxMode: 'balon',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/pesta.mp3',
         photos: {
           cover: 'foto-ultah-cover.jpg',
           photo1: 'foto-ultah-cover.jpg',
@@ -356,6 +376,9 @@
         theme: 'Ice Blue Floral ❄',
         themeFile: 'undangan-iceblue.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 76,
         title: 'The Wedding Of',
@@ -374,7 +397,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gatot+Subroto+Jakarta',
         navMode: 'scroll',
         fxMode: 'salju',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/romantis.mp3',
         photos: {
           cover: 'foto-iceblue-cover.jpg',
           photo1: 'foto-iceblue-cover.jpg',
@@ -413,6 +436,9 @@
         theme: 'Ice Blue Barakah ❄',
         themeFile: 'undangan-iceblue-khitanan.html',
         isPremium: false,
+        reviewStatus: 'revisi',
+        reviewNote: "Tambah 1 rekening lagi & sesuaikan jam resepsi dengan undangan cetak.",
+        reviewedAt: '2026-10-01T13:15:00.000Z',
         status: 'Aktif',
         views: 58,
         title: 'Walimatul Khitan',
@@ -431,7 +457,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Aula+Al-Ikhlas+Bandung',
         navMode: 'scroll',
         fxMode: 'salju',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/khitanan.mp3',
         photos: {
           cover: 'foto-iceblue-khitanan-cover.jpg',
           photo1: 'foto-iceblue-khitanan-cover.jpg',
@@ -470,6 +496,9 @@
         theme: 'Ice Blue Party 🎂',
         themeFile: 'undangan-iceblue-ultah.html',
         isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
         status: 'Aktif',
         views: 92,
         title: '8th Birthday Party',
@@ -488,7 +517,7 @@
         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Dago+Pakar+Bandung',
         navMode: 'scroll',
         fxMode: 'salju',
-        musicUrl: 'musik.mp3',
+        musicUrl: 'musik/pesta.mp3',
         photos: {
           cover: 'foto-iceblue-ultah-cover.jpg',
           photo1: 'foto-iceblue-ultah-cover.jpg',
@@ -515,6 +544,246 @@
         rsvp: {
           enabled: true,
           deadline: '2026-11-30',
+          maxGuests: 4,
+          allowWishes: true,
+          requirePhone: false
+        }
+      },
+      {
+        id: 'midnight-dirga-amara',
+        slug: 'dirga-amara',
+        category: 'pernikahan',
+        theme: 'Midnight Emerald 🌙',
+        themeFile: 'undangan-midnight.html',
+        isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "",
+        reviewedAt: '2026-10-01T09:05:00.000Z',
+        status: 'Aktif',
+        views: 76,
+        title: 'The Wedding Of',
+        primaryName: 'Dirga',
+        secondaryName: 'Amara',
+        fullName1: 'Dirga Mahendra, S.T.',
+        parents1: 'Putra dari Bapak Hendra Wijaya & Ibu Ratna Kusuma',
+        fullName2: 'Amara Larasati, S.Psi.',
+        parents2: 'Putri dari Bapak Surya Atmaja & Ibu Dewi Anggraini',
+        quote: 'Bersama dalam cinta, menuju ridha-Nya. Kami mengundang Anda untuk menjadi saksi janji suci kami.',
+        eventDate: '2026-11-21',
+        akadTime: '08.00 – 10.00 WIB',
+        resepsiTime: '11.00 – 14.00 WIB',
+        venueName: 'Emerald Hall',
+        venueAddress: 'Jl. Riau No. 88, Bandung',
+        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Riau+Bandung',
+        navMode: 'scroll',
+        fxMode: 'bintang',
+        musicUrl: 'musik/romantis.mp3',
+        photos: {
+          cover: 'foto-midnight-cover.jpg',
+          photo1: 'foto-midnight-cover.jpg',
+          photo2: 'foto-cover.jpg',
+          gallery: ['foto-midnight-cover.jpg', 'foto-cover.jpg', 'foto-rahma-cover.jpg', 'foto-jawa-cover.jpg']
+        },
+        amplop: {
+          enabled: true,
+          note: 'Doa dan kehadiran Anda adalah hadiah terindah bagi kami. Namun jika ingin memberi tanda kasih, kami sediakan dengan tulus hati:',
+          whatsappConfirm: '6285196755675',
+          giftAddress: 'Jl. Riau No. 88, Bandung',
+          accounts: [{
+  id: 'acc-19',
+  bank: 'BCA',
+  number: '7788123409',
+  holder: 'Dirga Mahendra'
+}, {
+  id: 'acc-20',
+  bank: 'DANA',
+  number: '081322114455',
+  holder: 'Amara Larasati'
+}]
+        },
+        rsvp: {
+          enabled: true,
+          deadline: '2026-11-14',
+          maxGuests: 4,
+          allowWishes: true,
+          requirePhone: false
+        }
+      },
+      {
+        id: 'aqiqah-ghani',
+        slug: 'aqiqah-ghani',
+        category: 'aqiqah',
+        theme: 'Aqiqah Rahmah 🍼',
+        themeFile: 'undangan-aqiqah.html',
+        isPremium: false,
+        reviewStatus: 'menunggu',
+        reviewNote: "",
+        reviewedAt: '',
+        status: 'Aktif',
+        views: 64,
+        title: 'Tasyakuran Aqiqah',
+        primaryName: 'Muhammad Ghani Alaric',
+        secondaryName: 'Aqiqah & Tasyakuran',
+        fullName1: 'Muhammad Ghani Alaric',
+        parents1: 'Putra dari Bapak Fajar Nugraha & Ibu Salsabila Putri',
+        fullName2: 'Aqiqah & Tasyakuran ✨',
+        parents2: 'Turut mengundang: Keluarga Besar H. Sudirman & Keluarga',
+        quote: 'Alhamdulillah, telah lahir buah hati kami. Dengan penuh rasa syukur, kami bermaksud menyelenggarakan tasyakuran aqiqah.',
+        eventDate: '2026-11-08',
+        akadTime: '08.00 – 10.00 WIB (Prosesi Aqiqah)',
+        resepsiTime: '10.00 – 13.00 WIB (Tasyakuran & Ramah Tamah)',
+        venueName: 'Masjid Nurul Iman',
+        venueAddress: 'Jl. Cihampelas No. 120, Bandung',
+        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Cihampelas+Bandung',
+        navMode: 'scroll',
+        fxMode: 'kelopak',
+        musicUrl: 'musik/aqiqah.mp3',
+        photos: {
+          cover: 'foto-aqiqah-cover.jpg',
+          photo1: 'foto-aqiqah-cover.jpg',
+          photo2: 'foto-cover.jpg',
+          gallery: ['foto-aqiqah-cover.jpg', 'foto-cover.jpg', 'foto-rahma-cover.jpg', 'foto-khitanan-cover.jpg']
+        },
+        amplop: {
+          enabled: true,
+          note: 'Kehadiran dan doa Anda sudah sangat berarti bagi kami. Namun jika ingin memberi tanda kasih untuk ananda, kami sediakan dengan tulus hati:',
+          whatsappConfirm: '6285196755675',
+          giftAddress: 'Jl. Cihampelas No. 120, Bandung (Kediaman Keluarga Fajar)',
+          accounts: [{
+  id: 'acc-21',
+  bank: 'BSI',
+  number: '7211558809',
+  holder: 'Fajar Nugraha'
+}, {
+  id: 'acc-22',
+  bank: 'GoPay',
+  number: '085196755675',
+  holder: 'Salsabila Putri'
+}]
+        },
+        rsvp: {
+          enabled: true,
+          deadline: '2026-11-01',
+          maxGuests: 4,
+          allowWishes: true,
+          requirePhone: false
+        }
+      },
+      {
+        id: 'wisuda-naura',
+        slug: 'wisuda-naura',
+        category: 'wisuda',
+        theme: 'Grand Graduation 🎓',
+        themeFile: 'undangan-wisuda.html',
+        isPremium: false,
+        reviewStatus: 'disetujui',
+        reviewNote: "Link peta sudah dites dari HP — aman.",
+        reviewedAt: '2026-10-02T11:30:00.000Z',
+        status: 'Aktif',
+        views: 58,
+        title: 'Undangan Wisuda',
+        primaryName: 'Naura Safira, S.Ked',
+        secondaryName: 'Wisuda & Syukuran',
+        fullName1: 'Naura Safira, S.Ked',
+        parents1: 'Putri dari Bapak Drs. Ahmad Fauzi & Ibu Hj. Lilis Suryani',
+        fullName2: 'Sarjana Kedokteran · IPK 3,86',
+        parents2: 'Program Studi Pendidikan Dokter · Universitas Nusantara',
+        quote: 'Dengan penuh rasa syukur atas terselesaikannya masa studi, kami bermaksud mengundang Anda untuk hadir pada prosesi wisuda dan syukuran kelulusan.',
+        eventDate: '2026-12-05',
+        akadTime: '08.00 – 11.00 WIB (Prosesi Wisuda)',
+        resepsiTime: '12.00 – 15.00 WIB (Syukuran & Ramah Tamah)',
+        venueName: 'Graha Sabha Universitas Nusantara',
+        venueAddress: 'Jl. Dipatiukur No. 112, Bandung',
+        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Dipatiukur+Bandung',
+        navMode: 'scroll',
+        fxMode: 'konfeti',
+        musicUrl: 'musik/wisuda.mp3',
+        photos: {
+          cover: 'foto-wisuda-cover.jpg',
+          photo1: 'foto-wisuda-cover.jpg',
+          photo2: 'foto-cover.jpg',
+          gallery: ['foto-wisuda-cover.jpg', 'foto-cover.jpg', 'foto-rahma-cover.jpg', 'foto-premium-cover.jpg']
+        },
+        amplop: {
+          enabled: true,
+          note: 'Kehadiran dan doa Anda adalah hadiah terbaik. Namun jika ingin memberi tanda kasih untuk wisudawan, kami sediakan dengan tulus hati:',
+          whatsappConfirm: '6285196755675',
+          giftAddress: 'Jl. Setiabudi No. 45, Bandung (Kediaman Keluarga Fauzi)',
+          accounts: [{
+  id: 'acc-23',
+  bank: 'BCA',
+  number: '8830912277',
+  holder: 'Naura Safira'
+}, {
+  id: 'acc-24',
+  bank: 'GoPay',
+  number: '081344557788',
+  holder: 'Naura Safira'
+}]
+        },
+        rsvp: {
+          enabled: true,
+          deadline: '2026-11-28',
+          maxGuests: 4,
+          allowWishes: true,
+          requirePhone: false
+        }
+      },
+      {
+        id: 'platinum-revan-kiara',
+        slug: 'revan-kiara',
+        category: 'premium',
+        theme: 'Platinum Marble 👑',
+        themeFile: 'undangan-platinum.html',
+        isPremium: true,
+        reviewStatus: 'revisi',
+        reviewNote: "Tamu VIP menunggu daftar kursi gala dinner diisi.",
+        reviewedAt: '2026-10-02T16:45:00.000Z',
+        status: 'Aktif',
+        views: 121,
+        title: 'The Wedding Of',
+        primaryName: 'Revan',
+        secondaryName: 'Kiara',
+        fullName1: 'Revan Dirgantara, M.B.A.',
+        parents1: 'Putra dari Bapak Ir. Hendarto Dirgantara & Ibu Dra. Sri Wahyuni',
+        fullName2: 'Kiara Anindita, S.Ars.',
+        parents2: 'Putri dari Bapak Dr. Bambang Sutrisno & Ibu Hj. Ratih Purnamasari',
+        quote: 'Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami, dan dengan hormat mengundang Anda pada acara tersebut.',
+        eventDate: '2026-12-12',
+        akadTime: '09.00 – 11.00 WIB',
+        resepsiTime: '18.00 – 21.30 WIB (Gala Dinner)',
+        venueName: 'The Platinum Ballroom',
+        venueAddress: 'Jl. Jend. Sudirman Kav. 52, Jakarta Selatan',
+        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sudirman+Jakarta',
+        navMode: 'scroll',
+        fxMode: 'kilau',
+        musicUrl: 'musik/romantis.mp3',
+        photos: {
+          cover: 'foto-platinum-cover.jpg',
+          photo1: 'foto-platinum-cover.jpg',
+          photo2: 'foto-cover.jpg',
+          gallery: ['foto-platinum-cover.jpg', 'foto-cover.jpg', 'foto-premium-cover.jpg', 'foto-rahma-cover.jpg']
+        },
+        amplop: {
+          enabled: true,
+          note: 'Kehadiran dan doa Anda adalah hadiah terindah. Namun jika ingin berbagi tanda kasih, kami sediakan dengan tulus hati:',
+          whatsappConfirm: '6285196755675',
+          giftAddress: 'The Platinum Ballroom, Jl. Jend. Sudirman Kav. 52, Jakarta Selatan',
+          accounts: [{
+  id: 'acc-25',
+  bank: 'BCA Prioritas',
+  number: '8890221144',
+  holder: 'Revan Dirgantara'
+}, {
+  id: 'acc-26',
+  bank: 'Mandiri',
+  number: '1310099887766',
+  holder: 'Kiara Anindita'
+}]
+        },
+        rsvp: {
+          enabled: true,
+          deadline: '2026-12-05',
           maxGuests: 4,
           allowWishes: true,
           requirePhone: false
@@ -611,6 +880,36 @@
         phone: '081987654321',
         message: 'Happy 8th Birthday Kalila cantik! Nggak sabar ikut ice cream party-nya 🎂',
         createdAt: '2026-10-02T12:05:00.000Z'
+      },
+      {
+        id: 'rsvp-10',
+        invitationId: 'midnight-dirga-amara',
+        name: 'Keluarga Hartono',
+        status: 'Hadir',
+        guests: 3,
+        phone: '081233445566',
+        message: 'Barakallahu lakuma wa baraka alaikuma. Selamat menempuh hidup baru, Dirga & Amara 🤍',
+        createdAt: '2026-10-02T13:40:00.000Z'
+      },
+      {
+        id: 'rsvp-11',
+        invitationId: 'aqiqah-ghani',
+        name: 'Teh Nabila & Keluarga',
+        status: 'Hadir',
+        guests: 2,
+        phone: '081900112233',
+        message: 'Selamat atas aqiqah ananda Ghani. Semoga menjadi anak sholeh dan berbakti kepada orang tua.',
+        createdAt: '2026-10-02T14:15:00.000Z'
+      },
+      {
+        id: 'rsvp-12',
+        invitationId: 'wisuda-naura',
+        name: 'Teman Seangkatan',
+        status: 'Hadir',
+        guests: 2,
+        phone: '081755443322',
+        message: 'Congrats dok! Akhirnya lulus juga. See you di hari wisuda ya 🎉',
+        createdAt: '2026-10-02T15:05:00.000Z'
       }
     ]
   };
@@ -650,6 +949,25 @@
   }
 
   var backendOnline = false;
+  var sudahSyncSaatHydrate = false;
+
+  // Tamu yang membuka link dari perangkat lain belum punya cache Studio — segarkan sekali
+  // dari server/cloud/berkas data, lalu terapkan ulang supaya undangan yang tampil adalah
+  // versi terbaru (mode navigasi, efek, nama, foto, lokasi, dsb).
+  function segarkanSaatHydrate(defaultInvId) {
+    if (sudahSyncSaatHydrate) return;
+    sudahSyncSaatHydrate = true;
+    setTimeout(function () {
+      Promise.resolve()
+        .then(function () { return syncFromServer(); })
+        .then(function (res) {
+          if (res && res.db) {
+            try { StudioBackend.hydrateInvitationPage(defaultInvId); } catch (e) { /* pakai yang sudah tampil */ }
+          }
+        })
+        .catch(function () { /* tetap pakai data yang sudah tampil */ });
+    }, 80);
+  }
 
   async function syncFromServer() {
     // 1. Supabase Cloud (kalau dikonfigurasi) — sumber data terpusat
@@ -1194,7 +1512,7 @@
       }
       var rowsInv = inv.data || [];
       cek(b, 'project Supabase bisa dihubungi', true, rowsInv.length + ' undangan terbaca');
-      var seed = ['iceblue-adi-lina', 'iceblue-khitanan-alif', 'iceblue-ultah-kalila'].filter(function (s) {
+      var seed = ['iceblue-adi-lina', 'iceblue-khitanan-alif', 'iceblue-ultah-kalila', 'aqiqah-ghani', 'wisuda-naura'].filter(function (s) {
         return rowsInv.some(function (r) { return r.slug === s; });
       });
       if (seed.length) cek(b, 'contoh undangan dari schema.sql ada', true, seed.join(', '));
@@ -1306,6 +1624,618 @@
     }
   };
 
+  // Dukungan keyboard untuk foto galeri (Enter/Spasi) — berlaku di semua tema.
+  function aktifkanAksesKeyboard() {
+    document.querySelectorAll('.gal-item').forEach(function (el) {
+      if (el.getAttribute('data-kb') === '1') return;
+      el.setAttribute('data-kb', '1');
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+  }
+
+  // Kotak Galeri (lightbox): Escape untuk menutup, Tab terkunci di dalam,
+  // fokus kembali ke foto asal setelah ditutup — berlaku di semua tema.
+  function aktifkanLightboxA11y() {
+    var lb = document.getElementById('lightbox');
+    if (!lb || lb.getAttribute('data-a11y') === '1') return;
+    lb.setAttribute('data-a11y', '1');
+    var fokusSebelumnya = null;
+    var terakhirDibuka = null;
+
+    // Catat foto yang terakhir diklik/fokus agar fokus bisa dikembalikan
+    document.addEventListener('click', function (e) {
+      var item = e.target && e.target.closest ? e.target.closest('.gal-item') : null;
+      if (item) terakhirDibuka = item;
+    }, true);
+    document.addEventListener('focusin', function (e) {
+      var item = e.target && e.target.closest ? e.target.closest('.gal-item') : null;
+      if (item) terakhirDibuka = item;
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('show')) return;
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        e.preventDefault();
+        lb.classList.remove('show');
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      var bisa = Array.prototype.filter.call(
+        lb.querySelectorAll('button, [href], img[tabindex], [tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.offsetParent !== null || el === document.activeElement; }
+      );
+      if (!bisa.length) return;
+      var pertama = bisa[0], terakhir = bisa[bisa.length - 1];
+      if (e.shiftKey && (document.activeElement === pertama || !lb.contains(document.activeElement))) {
+        e.preventDefault(); terakhir.focus();
+      } else if (!e.shiftKey && document.activeElement === terakhir) {
+        e.preventDefault(); pertama.focus();
+      }
+    });
+
+    if (window.MutationObserver) {
+      new MutationObserver(function () {
+        var terbuka = lb.classList.contains('show');
+        if (terbuka) {
+          fokusSebelumnya = terakhirDibuka || document.activeElement;
+          var tutup = lb.querySelector('.lb-close') || lb.querySelector('button');
+          if (tutup) tutup.focus();
+        } else {
+          var kembali = terakhirDibuka || fokusSebelumnya;
+          if (kembali && typeof kembali.focus === 'function') kembali.focus();
+          fokusSebelumnya = null;
+        }
+      }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  // ====== WHATSAPP: gateway otomatis (opsional) + tautan wa.me (selalu ada) ======
+  // Token gateway HANYA ada di server (wa-config.json) — tidak pernah dikirim ke browser.
+
+  function waBersihkanNomor(nomor) {
+    var n = String(nomor || '').replace(/[^0-9+]/g, '');
+    if (!n) return '';
+    if (n.charAt(0) === '+') n = n.slice(1);
+    if (n.charAt(0) === '0') n = '62' + n.slice(1);
+    else if (n.indexOf('62') !== 0) n = '62' + n;
+    return n;
+  }
+
+  // Link gratis: wa.me dengan pesan siap kirim (nomor kosong = pilih kontak sendiri)
+  function waTautan(nomor, pesan) {
+    var n = waBersihkanNomor(nomor);
+    return 'https://wa.me/' + (n || '') + '?text=' + encodeURIComponent(pesan || '');
+  }
+
+  function waIsiTemplate(template, data) {
+    return String(template || '').replace(/\{(\w+)\}/g, function (m, kunci) {
+      return (data && data[kunci] !== undefined && data[kunci] !== null) ? String(data[kunci]) : '';
+    });
+  }
+
+  // Status gateway (dipanggil Studio saat halaman dibuka)
+  async function waStatus() {
+    try {
+      var r = await fetch('/api/wa');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      var data = await r.json();
+      return data && data.wa ? data.wa : { aktif: false };
+    } catch (e) {
+      return { aktif: false, offline: true, provider: '-', modeGratis: 'link' };
+    }
+  }
+
+  async function waRiwayat() {
+    try {
+      var r = await fetch('/api/wa');
+      if (!r.ok) return [];
+      var data = await r.json();
+      return Array.isArray(data.riwayat) ? data.riwayat : [];
+    } catch (e) { return []; }
+  }
+
+  async function waKirim(target, message, data, template) {
+    var pesan = message || waIsiTemplate(template, data || {});
+    var nomor = waBersihkanNomor(target);
+    try {
+      var r = await fetch('/api/wa/kirim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: nomor, message: pesan })
+      });
+      var hasil = await r.json();
+      return Object.assign({ mode: hasil.ok ? 'gateway' : 'link', pesan: pesan,
+                             tautan: waTautan(nomor, pesan) }, hasil);
+    } catch (e) {
+      // Server tidak bisa dihubungi → tetap bisa dikirim manual lewat WhatsApp
+      return { ok: false, mode: 'link', error: 'Server tidak terjangkau', pesan: pesan,
+               tautan: waTautan(nomor, pesan) };
+    }
+  }
+
+  async function waUji() {
+    try {
+      var r = await fetch('/api/wa/uji', { method: 'POST' });
+      return await r.json();
+    } catch (e) {
+      return { ok: false, error: 'Server tidak terjangkau' };
+    }
+  }
+
+  async function waSimpanPengaturan(patch) {
+    try {
+      var r = await fetch('/api/wa/pengaturan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patch || {})
+      });
+      return await r.json();
+    } catch (e) {
+      return { ok: false, error: 'Server tidak terjangkau' };
+    }
+  }
+
+  var waApi = {
+    status: waStatus,
+    riwayat: waRiwayat,
+    kirim: waKirim,
+    uji: waUji,
+    simpanPengaturan: waSimpanPengaturan,
+    bersihkanNomor: waBersihkanNomor,
+    tautan: waTautan,
+    isiTemplate: waIsiTemplate
+  };
+
+  // ====== PEMERIKSAAN KELENGKAPAN UNDANGAN (dipakai Studio Admin) ======
+  // Mengembalikan daftar periksa + skor, supaya admin tahu undangan sudah
+  // siap dibagikan atau masih ada yang kurang.
+  function periksaKelengkapan(inv) {
+    inv = inv || {};
+    var foto = inv.photos || {};
+    var galeri = Array.isArray(foto.gallery) ? foto.gallery : [];
+    var rekening = (inv.amplop && Array.isArray(inv.amplop.accounts)) ? inv.amplop.accounts : [];
+    var rekBerisi = rekening.filter(function (r) { return r && String(r.number || '').trim(); });
+    var amplopAktif = !inv.amplop || inv.amplop.enabled !== false;
+    var rsvpAktif = !inv.rsvp || inv.rsvp.enabled !== false;
+    var statusUndangan = inv.status || 'Aktif';
+    var musik = inv.musicUrl === undefined ? '' : String(inv.musicUrl);
+
+    var butir = [
+      { label: 'Nama utama terisi', ok: !!String(inv.primaryName || '').trim(),
+        saran: 'Isi nama mempelai / anak / wisudawan di tab Data Utama.' },
+      { label: 'Tanggal acara terisi', ok: !!inv.eventDate,
+        saran: 'Pilih tanggal acara supaya countdown & kalender benar.' },
+      { label: 'Jam acara terisi', ok: !!(inv.akadTime || inv.resepsiTime),
+        saran: 'Isi jam akad/resepsi.' },
+      { label: 'Lokasi & alamat terisi', ok: !!(inv.venueName && inv.venueAddress),
+        saran: 'Lengkapi nama gedung dan alamatnya.' },
+      { label: 'Tautan Google Maps terisi', ok: !!inv.mapsUrl,
+        saran: 'Tempel link lokasi supaya tamu mudah membuka peta.' },
+      { label: 'Foto cover kustom terisi', ok: !!foto.cover,
+        saran: 'Unggah foto cover di tab Galeri Foto.' },
+      { label: 'Galeri minimal 3 foto', ok: galeri.length >= 3,
+        saran: 'Tambah foto galeri (minimal 3) agar undangan tidak sepi.' },
+      { label: amplopAktif ? 'Rekening amplop digital terisi' : 'Amplop digital dinonaktifkan',
+        ok: amplopAktif ? rekBerisi.length > 0 : true,
+        saran: 'Isi minimal satu rekening/e-wallet berisi nomor.' },
+      { label: musik === 'off' ? 'Musik dinonaktifkan (pilihan admin)' : 'Musik latar terpasang',
+        ok: true,
+        saran: '' },
+      { label: rsvpAktif ? 'RSVP aktif' : 'RSVP dinonaktifkan',
+        ok: rsvpAktif, saran: 'Aktifkan RSVP supaya tamu bisa konfirmasi kehadiran.' },
+      { label: inv.checkin === false ? 'QR check-in nonaktif' : 'QR check-in buku tamu aktif',
+        ok: inv.checkin !== false, saran: 'Nyalakan QR check-in di tab Tema & Visual.' },
+      { label: 'Status undangan: ' + statusUndangan,
+        ok: statusUndangan !== 'Draf', saran: 'Ubah status menjadi Aktif setelah selesai dicek.' }
+    ];
+
+    var lolos = butir.filter(function (b) { return b.ok; }).length;
+    return { lolos: lolos, total: butir.length, siap: lolos === butir.length, butir: butir };
+  }
+
+  // ====== QR CHECK-IN BUKU TAMU — berlaku di semua tema ======
+  // Kode check-in diturunkan dari id undangan (tetap/sama setiap kali dibuka).
+
+  function kodeCheckin(inv) {
+    var dasar = String((inv && (inv.id || inv.slug)) || 'undangan');
+    var h = 5381;
+    for (var i = 0; i < dasar.length; i++) h = ((h << 5) + h + dasar.charCodeAt(i)) >>> 0;
+    var angka = String(h % 1000000);
+    while (angka.length < 6) angka = '0' + angka;
+    return 'KD-' + angka;
+  }
+
+  function namaTamuDariUrl() {
+    try {
+      var p = new URLSearchParams(window.location.search);
+      return String(p.get('to') || p.get('tamu') || '').replace(/\+/g, ' ').trim();
+    } catch (e) { return ''; }
+  }
+
+  // Tautan undangan yang sedang dibuka — selalu membawa ?id=<undangan> supaya QR check-in,
+  // tautan kalender, dan notifikasi RSVP mendarat di undangan yang benar (bukan tema bawaan).
+  function tautanUndanganSaatIni(inv, tambahan) {
+    var p = new URLSearchParams();
+    var idInv = inv && (inv.id || inv.slug);
+    if (idInv) p.set('id', idInv);
+    if (tambahan) {
+      Object.keys(tambahan).forEach(function (k) {
+        var v = tambahan[k];
+        if (v !== undefined && v !== null && v !== '') p.set(k, v);
+      });
+    }
+    var q = p.toString();
+    return window.location.origin + window.location.pathname + (q ? '?' + q : '');
+  }
+
+  // Nomor WhatsApp admin: dari pengaturan Studio (Data Utama / panel Koneksi WhatsApp),
+  // dengan nomor bawaan sebagai cadangan.
+  function nomorAdminWa() {
+    try {
+      var set = loadLocalDb().settings || {};
+      var nomor = (set.adminWhatsapp || set.whatsappConfirm || '').toString().replace(/[^0-9]/g, '');
+      if (nomor.indexOf('0') === 0) nomor = '62' + nomor.slice(1);
+      if (nomor.length >= 9) return nomor;
+    } catch (e) { /* pakai bawaan */ }
+    return '6285196755675';
+  }
+
+  function terapkanCheckIn(inv) {
+    if (!inv) return;
+    var lama = document.getElementById('studioCheckin');
+    var aktif = inv.checkin !== false;
+    if (!aktif) { if (lama) lama.parentNode.removeChild(lama); return; }
+
+    var kode = kodeCheckin(inv);
+    var tamu = namaTamuDariUrl() || 'Tamu Undangan';
+
+    // Sudah terpasang → cukup segarkan nama tamu (mis. link ?to=Nama).
+    if (lama && lama.getAttribute('data-inv') === String(inv.id || '')) {
+      var elTamu = lama.querySelector('#studioCheckinGuest');
+      if (elTamu) elTamu.textContent = tamu;
+      return;
+    }
+    if (lama) lama.parentNode.removeChild(lama);
+    if (typeof window.qrcode !== 'function') return;  // pustaka QR belum termuat
+
+    if (window.qrcode.stringToBytesFuncs) {
+      window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs['UTF-8'] || window.qrcode.stringToBytes;
+    }
+
+    var tautan = tautanUndanganSaatIni(inv, { checkin: kode, to: tamu });
+    var qr = window.qrcode(0, 'M');
+    try {
+      qr.addData(tautan);
+      qr.make();
+    } catch (e) { return; }
+
+    var seksi = document.createElement('section');
+    seksi.id = 'studioCheckin';
+    seksi.setAttribute('data-inv', String(inv.id || ''));
+    seksi.setAttribute('data-kode', kode);
+    seksi.setAttribute('data-checkin-url', tautan);
+    seksi.innerHTML =
+      '<div style="max-width:420px;margin:0 auto;text-align:center;background:#fff;border:1px solid rgba(0,0,0,.08);' +
+      'border-radius:18px;padding:24px 20px;box-shadow:0 14px 34px rgba(0,0,0,.10)">' +
+        '<div style="font-size:11px;letter-spacing:2.6px;text-transform:uppercase;opacity:.65">Check-In Tamu</div>' +
+        '<h2 style="font:600 22px/1.25 Georgia,serif;margin:8px 0 6px">QR Check-In Buku Tamu</h2>' +
+        '<p style="font-size:13px;line-height:1.6;opacity:.7;margin:0 0 16px">Tunjukkan QR ini di meja penerima tamu. ' +
+          'Panitia cukup memindai untuk mencatat kehadiran Anda.</p>' +
+        '<div id="studioCheckinQr" role="img" aria-label="Kode QR check-in" style="background:#fff;padding:10px;border-radius:14px;' +
+          'display:inline-block;border:1px solid rgba(0,0,0,.08)"></div>' +
+        '<div id="studioCheckinGuest" style="font-weight:700;margin-top:14px">' + tamu + '</div>' +
+        '<div style="font-size:12.5px;letter-spacing:1.6px;opacity:.7;margin-top:4px">KODE: ' +
+          '<b id="studioCheckinCode">' + kode + '</b></div>' +
+        '<div id="studioCheckinStatus" style="display:none;font-size:12.5px;margin-top:10px"></div>' +
+        '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px">' +
+          '<button type="button" id="studioCheckinCopy" style="cursor:pointer;border:1px solid rgba(0,0,0,.15);' +
+            'background:#fff;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600">\uD83D\uDCCB Salin Kode</button>' +
+          '<button type="button" id="studioCheckinHadir" style="cursor:pointer;border:0;background:#1e7a4d;color:#fff;' +
+            'border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600">\u2705 Tandai Hadir</button>' +
+          '<a id="studioCheckinWa" target="_blank" rel="noopener" style="text-decoration:none;border:1px solid rgba(0,0,0,.15);' +
+            'border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600;color:inherit">\uD83D\uDCAC Kirim ke Admin</a>' +
+        '</div>' +
+        '<p style="font-size:11.5px;opacity:.6;margin:14px 0 0">Kode ini juga tercatat otomatis di rekap RSVP Studio Admin.</p>' +
+      '</div>';
+
+    try {
+      seksi.querySelector('#studioCheckinQr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+    } catch (e) {
+      seksi.querySelector('#studioCheckinQr').innerHTML = '<div style="width:132px;height:132px"></div>';
+    }
+
+    // Titipkan di dekat amplop / RSVP, atau sebelum footer.
+    var jangkar = document.getElementById('studioAmplopList') || document.getElementById('studioRsvpDeadline') ||
+                  document.getElementById('wishList');
+    var seksiInduk = jangkar && jangkar.closest ? jangkar.closest('section') : null;
+    if (!seksiInduk) seksiInduk = document.querySelector('.frame > section:last-of-type') ||
+                                   document.querySelector('section');
+    if (seksiInduk) seksiInduk.appendChild(seksi);   // di dalam bagian → ikut mode per-halaman
+    else document.body.appendChild(seksi);
+
+    var wa = seksi.querySelector('#studioCheckinWa');
+    var pesan = 'Halo Admin Kartu Digital, saya ' + tamu + ' — kode check-in saya ' + kode +
+                ' (' + (inv.title || inv.theme || 'undangan') + ').';
+    if (wa) wa.href = 'https://wa.me/' + nomorAdminWa() + '?text=' + encodeURIComponent(pesan);
+
+    var tombolSalin = seksi.querySelector('#studioCheckinCopy');
+    if (tombolSalin) tombolSalin.addEventListener('click', function () {
+      var status = seksi.querySelector('#studioCheckinStatus');
+      var catat = function (teks) {
+        if (status) { status.style.display = 'block'; status.textContent = teks; }
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(kode).then(function () { catat('\u2713 Kode ' + kode + ' disalin'); },
+                                                  function () { catat('Kode: ' + kode); });
+        } else catat('Kode: ' + kode);
+      } catch (e) { catat('Kode: ' + kode); }
+    });
+
+    var tombolHadir = seksi.querySelector('#studioCheckinHadir');
+    if (tombolHadir) tombolHadir.addEventListener('click', function () {
+      var status = seksi.querySelector('#studioCheckinStatus');
+      if (!window.StudioBackend || !window.StudioBackend.addRsvp) return;
+      Promise.resolve(window.StudioBackend.addRsvp({
+        invitationId: inv.id,
+        name: tamu,
+        status: 'Hadir',
+        guests: 1,
+        message: 'Check-in QR ' + kode
+      })).then(function () {
+        if (status) { status.style.display = 'block'; status.textContent = '\u2713 Kehadiran ' + tamu + ' tercatat di rekap RSVP.'; }
+      }, function () {
+        if (status) { status.style.display = 'block'; status.textContent = '\u26a0 Gagal menyimpan, coba lagi.'; }
+      });
+    });
+
+    // Kalau halaman dibuka dari hasil pindai QR (?checkin=KODE)
+    try {
+      var param = new URLSearchParams(window.location.search);
+      var kodeMasuk = (param.get('checkin') || '').trim().toUpperCase();
+      if (kodeMasuk) {
+        var status = seksi.querySelector('#studioCheckinStatus');
+        status.style.display = 'block';
+        status.innerHTML = (kodeMasuk === kode)
+          ? '\u2713 Kode check-in terverifikasi — selamat datang, ' + tamu + '.'
+          : '\u26a0 Kode tidak dikenali untuk undangan ini.';
+      }
+    } catch (e) { /* abaikan */ }
+  }
+
+  // ====== NOTIFIKASI RSVP KE WHATSAPP ADMIN (satu ketuk oleh tamu) ======
+
+  function tampilkanNotifikasiWa(inv, nama, status, jumlah, pesan) {
+    var form = document.getElementById('rsvpForm');
+    if (!form) return;
+    var isiPesan = [
+      'RSVP baru — ' + (inv.title || inv.theme || 'Undangan Digital'),
+      'Nama: ' + nama,
+      'Status: ' + status,
+      'Jumlah tamu: ' + jumlah,
+      pesan ? 'Ucapan: ' + pesan : '',
+      'Undangan: ' + tautanUndanganSaatIni(inv)
+    ].filter(Boolean).join('\n');
+    var tautan = 'https://wa.me/' + nomorAdminWa() + '?text=' + encodeURIComponent(isiPesan);
+
+    var bar = document.getElementById('studioRsvpWa');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'studioRsvpWa';
+      bar.style.cssText = 'margin:14px 0 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);' +
+        'border-radius:12px;font-size:13px;line-height:1.6;text-align:center';
+      form.parentNode.insertBefore(bar, form.nextSibling);
+    }
+    bar.innerHTML = '\u2705 <b>RSVP tersimpan.</b> Mau sekaligus memberi tahu admin? ' +
+      '<a href="' + tautan + '" target="_blank" rel="noopener" ' +
+      'style="font-weight:700;color:#1e7a4d;text-decoration:underline">\uD83D\uDCAC Kabari lewat WhatsApp</a>';
+    bar.style.display = 'block';
+  }
+
+  // ====== SIMPAN KE KALENDER (.ics & Google Calendar) — semua tema ======
+
+  function jamKe(teks, bawaan) {
+    var m = /(\d{1,2})[:.](\d{2})/.exec(String(teks || ''));
+    if (!m) return bawaan;
+    var j = parseInt(m[1], 10), n = parseInt(m[2], 10);
+    if (isNaN(j) || isNaN(n) || j > 23 || n > 59) return bawaan;
+    return (j < 10 ? '0' : '') + j + ':' + (n < 10 ? '0' : '') + n;
+  }
+
+  function duaAngka(n) { return (n < 10 ? '0' : '') + n; }
+
+  function waktuKalender(inv) {
+    var tanggal = String(inv.eventDate || '').split('-');
+    if (tanggal.length !== 3) return null;
+    var jam = jamKe(inv.resepsiTime || inv.akadTime, '09:00').split(':');
+    var mulai = new Date(Number(tanggal[0]), Number(tanggal[1]) - 1, Number(tanggal[2]),
+                         Number(jam[0]), Number(jam[1]), 0);
+    if (isNaN(mulai.getTime())) return null;
+    var selesai = new Date(mulai.getTime() + 2 * 60 * 60 * 1000);   // durasi 2 jam
+    var fmt = function (d) {
+      return d.getUTCFullYear() + duaAngka(d.getUTCMonth() + 1) + duaAngka(d.getUTCDate()) +
+             'T' + duaAngka(d.getUTCHours()) + duaAngka(d.getUTCMinutes()) + '00Z';
+    };
+    var fmtLokal = function (d) {
+      return d.getFullYear() + duaAngka(d.getMonth() + 1) + duaAngka(d.getDate()) +
+             'T' + duaAngka(d.getHours()) + duaAngka(d.getMinutes()) + '00';
+    };
+    return { mulai: mulai, selesai: selesai, utc: fmt(mulai) + '/' + fmt(selesai),
+             lokal: fmtLokal(mulai) + '/' + fmtLokal(selesai) };
+  }
+
+  function isiKalender(inv) {
+    var judul = inv.title || inv.theme || 'Undangan Digital';
+    if (inv.primaryName) judul = judul + ' — ' + inv.primaryName +
+      (inv.secondaryName ? ' & ' + inv.secondaryName : '');
+    var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
+    var tautan = tautanUndanganSaatIni(inv);
+    return { judul: judul, lokasi: lokasi, tautan: tautan };
+  }
+
+  function berkasIcs(inv, waktu) {
+    var isi = isiKalender(inv);
+    var baris = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Kartu Digital//Undangan Digital//ID',
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:' + (inv.id || 'undangan') + '@kartudigital.my.id',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''),
+      'DTSTART:' + waktu.utc.split('/')[0],
+      'DTEND:' + waktu.utc.split('/')[1],
+      'SUMMARY:' + isi.judul,
+      'LOCATION:' + isi.lokasi,
+      'DESCRIPTION:Undangan digital Kartu Digital — ' + isi.tautan,
+      'URL:' + isi.tautan,
+      'BEGIN:VALARM',
+      'TRIGGER:-P1D',
+      'ACTION:DISPLAY',
+      'DESCRIPTION:Pengingat acara',
+      'END:VALARM',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ];
+    return baris.join('\r\n');
+  }
+
+  function terapkanKalender(inv) {
+    if (!inv || document.getElementById('studioKalender')) return;
+    var waktu = waktuKalender(inv);
+    if (!waktu) return;
+    var isi = isiKalender(inv);
+
+    var bar = document.createElement('div');
+    bar.id = 'studioKalender';
+    bar.style.cssText = 'max-width:520px;margin:22px auto 0;padding:0 16px;text-align:center';
+    bar.innerHTML =
+      '<div style="background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:16px 18px;' +
+        'box-shadow:0 10px 26px rgba(0,0,0,.08)">' +
+        '<div style="font-size:12px;letter-spacing:1.8px;text-transform:uppercase;opacity:.6;margin-bottom:10px">' +
+          'Ingatkan Saya</div>' +
+        '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">' +
+          '<a id="studioKalenderIcs" download="' + (inv.slug || 'undangan') + '.ics" ' +
+            'href="data:text/calendar;charset=utf-8,' + encodeURIComponent(berkasIcs(inv, waktu)) + '" ' +
+            'style="text-decoration:none;background:#1e7a4d;color:#fff;border-radius:999px;padding:10px 18px;' +
+            'font-size:13px;font-weight:700">\uD83D\uDCC5 Simpan ke Kalender (.ics)</a>' +
+          '<a id="studioKalenderGoogle" target="_blank" rel="noopener" ' +
+            'href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+              encodeURIComponent(isi.judul) + '&dates=' + waktu.lokal +
+              '&location=' + encodeURIComponent(isi.lokasi) +
+              '&details=' + encodeURIComponent('Undangan digital: ' + isi.tautan) + '" ' +
+            'style="text-decoration:none;border:1px solid rgba(0,0,0,.16);border-radius:999px;padding:10px 18px;' +
+            'font-size:13px;font-weight:700;color:inherit">\uD83D\uDD17 Google Calendar</a>' +
+        '</div>' +
+      '</div>';
+
+    var jangkar = document.getElementById('cdD') || document.getElementById('studioRsvpDeadline');
+    var seksi = jangkar && jangkar.closest ? jangkar.closest('section') : null;
+    if (!seksi) seksi = document.querySelector('.frame > section');
+    if (seksi) seksi.appendChild(bar);    // di dalam bagian → ikut mode per-halaman
+    else document.body.insertBefore(bar, document.body.firstChild);
+  }
+
+  // ====== MUSIK LATAR (MP3) — dipilih dari Studio Admin ======
+  // Daftar lagu bawaan yang ikut terunggah bersama website (folder musik/).
+  // Semuanya disintesis sendiri lewat tools/make-music.py → bebas royalti.
+  var MUSIC_FILES = [
+    'musik/romantis.mp3',
+    'musik/khitanan.mp3',
+    'musik/aqiqah.mp3',
+    'musik/wisuda.mp3',
+    'musik/pesta.mp3',
+    'musik/jawa.mp3'
+  ];
+
+  function siapkanTombolMusik() {
+    var btn = document.getElementById('musicBtn');
+    if (btn) return btn;
+    // Tema lama yang belum punya tombol musik (mis. Blush & Emerald) tetap dapat tombol.
+    btn = document.createElement('button');
+    btn.id = 'musicBtn';
+    btn.type = 'button';
+    btn.className = 'music-btn';
+    btn.setAttribute('aria-label', 'Musik latar');
+    btn.innerHTML = '<span>\u266b</span> Musik';
+    document.body.appendChild(btn);
+    return btn;
+  }
+
+  // Atur musik halaman undangan sesuai pilihan di Studio:
+  //   ''     → pakai musik bawaan tema (WebAudio di dalam template)
+  //   'off'  → tanpa musik sama sekali
+  //   lainnya→ putar file MP3/link tersebut
+  function terapkanMusik(inv) {
+    var pilihan = inv && inv.musicUrl ? String(inv.musicUrl).trim() : '';
+    var audio = document.getElementById('studioMusicAudio');
+    if (!audio) {
+      audio = document.createElement('audio');
+      audio.id = 'studioMusicAudio';
+      audio.loop = true;
+      audio.preload = 'none';
+      document.body.appendChild(audio);
+    }
+
+    if (pilihan === 'off') {
+      audio.pause();
+      audio.removeAttribute('src');
+      var bOff = document.getElementById('musicBtn');
+      if (bOff) bOff.style.display = 'none';
+      window.musikMain = function () {};
+      window.musikStop = function () {};
+      return;
+    }
+
+    if (!pilihan) return; // biarkan musik bawaan tema
+
+    audio.src = pilihan;
+    var sedangMain = false;
+    function putar() {
+      try {
+        var janji = audio.play();
+        if (janji && janji.catch) janji.catch(function () {});
+      } catch (e) { /* browser tanpa dukungan audio */ }
+      sedangMain = true;
+      var b = document.getElementById('musicBtn');
+      if (b) b.classList.add('playing');
+    }
+    function henti() {
+      try { audio.pause(); } catch (e) { /* abaikan */ }
+      sedangMain = false;
+      var b = document.getElementById('musicBtn');
+      if (b) b.classList.remove('playing');
+    }
+
+    var btn = siapkanTombolMusik();
+    if (btn.getAttribute('data-mp3') === '1') {
+      // Pemutar sudah terpasang (hidrasi kedua) — cukup perbarui lagunya.
+      btn.setAttribute('data-src', pilihan);
+      return;
+    }
+    // Kloning tombol = melepas semua listener bawaan template,
+    // jadi hanya pemutar MP3 ini yang aktif.
+    var baru = btn.cloneNode(true);
+    baru.setAttribute('data-mp3', '1');
+    baru.style.display = '';
+    btn.parentNode.replaceChild(baru, btn);
+    // Sumber kebenaran = class "playing" pada tombol (tahan hidrasi ganda),
+    // dan hentikan listener lain agar tidak dobel saat diklik.
+    baru.addEventListener('click', function (e) {
+      if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
+      if (baru.classList.contains('playing')) { henti(); } else { putar(); }
+    }, true);
+
+    // Template memanggil musikMain() saat undangan dibuka → arahkan ke MP3.
+    window.musikMain = putar;
+    window.musikStop = henti;
+  }
+
   var StudioBackend = {
     cloud: cloudApi,
     getDb: function () {
@@ -1328,6 +2258,20 @@
       return db.invitations.find(function (i) {
         return i.id === idOrSlug || i.slug === idOrSlug || i.themeFile === idOrSlug;
       }) || db.invitations[0];
+    },
+    wa: waApi,
+    periksaKelengkapan: periksaKelengkapan,
+    getSettings: function () {
+      var db = loadLocalDb();
+      return Object.assign({}, DEFAULT_DB.settings, db.settings || {});
+    },
+    // Simpan sebagian pengaturan (mis. musik halaman depan) ke database Studio.
+    saveSettings: async function (patch) {
+      var db = loadLocalDb();
+      db.settings = Object.assign({}, DEFAULT_DB.settings, db.settings || {}, patch || {});
+      db.updatedAt = new Date().toISOString();
+      await pushToServer(db);
+      return db.settings;
     },
     saveInvitation: async function (inv) {
       var db = loadLocalDb();
@@ -1400,7 +2344,10 @@
       cloudApi.deleteRsvp(rsvpId).catch(function () {});
       return true;
     },
+    musicFiles: MUSIC_FILES,
     compressImage: compressImage,
+    tautanUndanganSaatIni: tautanUndanganSaatIni,
+    nomorAdminWa: nomorAdminWa,
     formatIndonesianDate: formatIndonesianDate,
     formatDotDate: formatDotDate,
 
@@ -1412,7 +2359,9 @@
         if (!inv) return;
 
         // 1. Update Title & Cover
-        var pairTitle = inv.secondaryName && inv.category !== 'khitanan' && inv.category !== 'ultah'
+        // Kategori "satu nama" (bukan pasangan): khitanan, ultah, aqiqah, wisuda.
+        var singleNameCat = ['khitanan', 'ultah', 'aqiqah', 'wisuda'].indexOf(inv.category) > -1;
+        var pairTitle = inv.secondaryName && !singleNameCat
           ? (inv.primaryName + ' & ' + inv.secondaryName)
           : inv.primaryName;
         var coverEl = document.getElementById('cover');
@@ -1509,7 +2458,7 @@
                     '<div class="num">' + (acc.number || '') + '</div>' +
                     '<div class="an">a.n. ' + (acc.holder || '') + '</div>' +
                   '</div>' +
-                  '<button type="button" class="copy-mini" data-copy="' + String(acc.number || '').replace(/\s+/g, '') + '">Salin</button>' +
+                  '<button type="button" class="copy-mini" aria-label="Salin nomor rekening" data-copy="' + String(acc.number || '').replace(/\s+/g, '') + '">Salin</button>' +
                 '</div>';
               amplopList.appendChild(card);
             });
@@ -1575,6 +2524,35 @@
           if (res && res.ok) renderWishList(inv);
         }).catch(function () {});
 
+        // Musik latar sesuai pilihan di Studio
+        terapkanMusik(inv);
+        // Galeri bisa dibuka lewat keyboard
+        aktifkanAksesKeyboard();
+        // Lightbox ramah keyboard (Escape, Tab terkunci, fokus kembali)
+        aktifkanLightboxA11y();
+        // Kartu QR check-in buku tamu (semua tema)
+        terapkanCheckIn(inv);
+        // Tombol simpan ke kalender (.ics & Google Calendar)
+        terapkanKalender(inv);
+        // Mode navigasi tamu dari Studio (kalau link tidak menentukan sendiri).
+        // Mesin navigasi ada di dalam tema (Sage/Jawa) atau vendor/nav-mode.js.
+        try {
+          var modeLink = new URLSearchParams(window.location.search).get('mode');
+          if (!modeLink && inv.navMode && typeof window.setMode === 'function') {
+            window.setMode(inv.navMode);
+          }
+        } catch (e) { /* biarkan mode bawaan tema */ }
+        // Efek dekorasi dari Studio ikut berlaku di link bersih (?id= tanpa ?fx=) —
+        // hanya untuk tema yang punya mesin efek (fxSet + daftar FX_TYPES miliknya).
+        try {
+          var fxLink = new URLSearchParams(window.location.search).get('fx');
+          var fxStudio = inv.fxMode;
+          if (!fxLink && fxStudio && typeof window.fxSet === 'function' &&
+              (!window.FX_TYPES || window.FX_TYPES[fxStudio])) {
+            window.fxSet(fxStudio);
+          }
+        } catch (e) { /* biarkan efek bawaan tema */ }
+
         // Hook RSVP Form submission to save into StudioBackend
         var rsvpForm = document.getElementById('rsvpForm');
         if (rsvpForm && !rsvpForm.getAttribute('data-studio-hooked')) {
@@ -1601,11 +2579,16 @@
               guests: guestsVal,
               message: msgVal
             });
+            // Tawarkan kabari admin lewat WhatsApp (satu ketuk, teks sudah terisi)
+            try {
+              tampilkanNotifikasiWa(inv, nameVal, statusVal, guestsVal, msgVal);
+            } catch (e) { /* jangan sampai menghalangi RSVP */ }
           });
         }
       } catch (e) {
         console.warn('StudioBackend hydrate warning:', e);
       }
+      segarkanSaatHydrate(defaultInvId);
     }
   };
 

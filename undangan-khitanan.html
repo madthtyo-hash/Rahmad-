@@ -168,6 +168,45 @@
   .fx-p{position:absolute;top:-40px;display:block;animation:fxDown var(--d) linear forwards}
   @keyframes fxDown{to{transform:translate3d(0,114vh,0) rotate(300deg)}}
 </style>
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<link rel="canonical" href="https://kartudigital.my.id/undangan-khitanan.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Walimatul Khitan M. Zidan Al-Fatih — Undangan Digital",
+  "description": "Undangan Walimatul Khitan ananda M. Zidan Al-Fatih, 15 November 2026, Bale Asri Pusdai Jawa Barat. Tema Al-Fatih Islamic Gold oleh Kartu Digital (kartudigital.my.id).",
+  "startDate": "2026-11-15",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "image": [
+    "https://kartudigital.my.id/foto-khitanan-cover.jpg"
+  ],
+  "url": "https://kartudigital.my.id/undangan-khitanan.html",
+  "location": {
+    "@type": "Place",
+    "name": "Bale Asri Pusdai Jawa Barat",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Diponegoro No. 63, Cihaur Geulis, Bandung",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Kartu Digital",
+    "url": "https://kartudigital.my.id/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "79000",
+    "priceCurrency": "IDR",
+    "url": "https://kartudigital.my.id/",
+    "availability": "https://schema.org/InStock",
+    "description": "Jasa undangan digital Kartu Digital"
+  }
+}
+</script>
 </head>
 <body class="locked">
 
@@ -263,10 +302,10 @@
       <h2 class="sec-title">Galeri Ananda</h2>
       <div class="divider"><span>📸</span></div>
       <div class="gal-grid">
-        <div class="gal-item" data-src="foto-khitanan-cover.jpg" style="background-image:url('foto-khitanan-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-        <div class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-        <div class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
-        <div class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg');background-position:center bottom"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-khitanan-cover.jpg" style="background-image:url('foto-khitanan-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-jawa-cover.jpg" style="background-image:url('foto-jawa-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-rahma-cover.jpg" style="background-image:url('foto-rahma-cover.jpg')"><span class="gal-zoom">🔍 Perbesar</span></div>
+        <div role="button" tabindex="0" aria-label="Perbesar foto" class="gal-item" data-src="foto-cover.jpg" style="background-image:url('foto-cover.jpg');background-position:center bottom"><span class="gal-zoom">🔍 Perbesar</span></div>
       </div>
     </div>
   </section>
@@ -279,8 +318,8 @@
       <div class="divider"><span>🤍</span></div>
       <form class="card rsvp-card" id="rsvpForm">
         <p class="lead">Mohon konfirmasi kehadiran Bapak/Ibu/Saudara/i sebelum <b id="studioRsvpDeadline">10 November 2026</b></p>
-        <input id="rName" type="text" placeholder="Nama lengkap Anda" required>
-        <select id="rCount">
+        <input aria-label="Nama Anda" id="rName" type="text" placeholder="Nama lengkap Anda" required>
+        <select aria-label="Jumlah tamu" id="rCount">
           <option value="1">1 Orang</option>
           <option value="2" selected>2 Orang</option>
           <option value="3">3 Orang</option>
@@ -290,7 +329,7 @@
           <button type="button" class="pill active" data-val="Hadir">✓ Insya Allah Hadir</button>
           <button type="button" class="pill" data-val="Tidak Hadir">✕ Berhalangan</button>
         </div>
-        <textarea id="rsvpMsg" rows="3" placeholder="Tulis doa terbaik untuk ananda..."></textarea>
+        <textarea aria-label="Ucapan dan doa" id="rsvpMsg" rows="3" placeholder="Tulis doa terbaik untuk ananda..."></textarea>
         <button class="full" type="submit">✈ &nbsp;Kirim Konfirmasi &amp; Doa</button>
       </form>
       <div class="rsvp-ok" id="rsvpOk">🎉 <b>Alhamdulillah, Terima Kasih!</b><br>Konfirmasi dan doa restu Bapak/Ibu telah tersimpan di Studio Admin.</div>
@@ -316,7 +355,7 @@
               <div class="num">7123 4567 89</div>
               <div class="an">a.n. H. Ridwan Kamiludin</div>
             </div>
-            <button type="button" class="copy-mini" data-copy="7123456789">Salin</button>
+            <button type="button" class="copy-mini" data-copy="7123456789" aria-label="Salin nomor rekening">Salin</button>
           </div>
         </div>
         <div class="card bank-card">
@@ -326,7 +365,7 @@
               <div class="num">0401 0100 2345 501</div>
               <div class="an">a.n. Hj. Nisa Sabyaniah</div>
             </div>
-            <button type="button" class="copy-mini" data-copy="040101002345501">Salin</button>
+            <button type="button" class="copy-mini" data-copy="040101002345501" aria-label="Salin nomor rekening">Salin</button>
           </div>
         </div>
       </div>
@@ -360,8 +399,8 @@
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" id="lbClose">✕</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
+  <button class="lb-close" id="lbClose" aria-label="Tutup foto">✕</button>
   <img class="lb-img" id="lbImg" src="" alt="Foto Galeri">
 </div>
 
@@ -372,6 +411,8 @@
 </button>
 <div id="fxLayer"></div>
 
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/nav-mode.js"></script>
 <script src="studio-api.js"></script>
 <script>
   (function(){

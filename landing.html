@@ -134,15 +134,19 @@
     font-weight:700;padding:4px 10px;border-radius:50px;letter-spacing:.5px}
   .tema-preview .initial{font-family:Georgia,serif;font-style:italic;font-size:32px;color:rgba(255,255,255,.95);
     text-shadow:0 2px 12px rgba(0,0,0,.35)}
-  .t1{background:linear-gradient(135deg,rgba(30,77,59,.45),rgba(18,53,39,.75)),url('foto-cover.jpg') center/cover}
-  .t2{background:linear-gradient(135deg,rgba(61,43,31,.45),rgba(122,82,48,.75)),url('foto-jawa-cover.jpg') center/cover}
-  .t3{background:linear-gradient(135deg,rgba(78,90,61,.35),rgba(78,90,61,.7)),url('foto-rahma-cover.jpg') center/cover}
-  .t4{background:linear-gradient(135deg,rgba(13,14,18,.35),rgba(43,35,18,.72)),url('foto-premium-cover.jpg') center/cover}
-  .t5{background:linear-gradient(135deg,rgba(13,56,46,.35),rgba(22,91,76,.72)),url('foto-khitanan-cover.jpg') center/cover}
-  .t6{background:linear-gradient(135deg,rgba(217,91,130,.35),rgba(142,42,75,.72)),url('foto-ultah-cover.jpg') center/cover}
-  .t7{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('foto-iceblue-cover.jpg') center/cover}
-  .t8{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('foto-iceblue-khitanan-cover.jpg') center/cover}
-  .t9{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('foto-iceblue-ultah-cover.jpg') center/cover}
+  .t1{background:linear-gradient(135deg,rgba(30,77,59,.45),rgba(18,53,39,.75)),url('thumbs/foto-cover.jpg') center/cover}
+  .t2{background:linear-gradient(135deg,rgba(61,43,31,.45),rgba(122,82,48,.75)),url('thumbs/foto-jawa-cover.jpg') center/cover}
+  .t3{background:linear-gradient(135deg,rgba(78,90,61,.35),rgba(78,90,61,.7)),url('thumbs/foto-rahma-cover.jpg') center/cover}
+  .t4{background:linear-gradient(135deg,rgba(13,14,18,.35),rgba(43,35,18,.72)),url('thumbs/foto-premium-cover.jpg') center/cover}
+  .t5{background:linear-gradient(135deg,rgba(13,56,46,.35),rgba(22,91,76,.72)),url('thumbs/foto-khitanan-cover.jpg') center/cover}
+  .t6{background:linear-gradient(135deg,rgba(217,91,130,.35),rgba(142,42,75,.72)),url('thumbs/foto-ultah-cover.jpg') center/cover}
+  .t7{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('thumbs/foto-iceblue-cover.jpg') center/cover}
+  .t8{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('thumbs/foto-iceblue-khitanan-cover.jpg') center/cover}
+  .t9{background:linear-gradient(135deg,rgba(14,165,233,.38),rgba(3,105,161,.74)),url('thumbs/foto-iceblue-ultah-cover.jpg') center/cover}
+  .t10{background:linear-gradient(135deg,rgba(10,45,33,.42),rgba(4,24,15,.78)),url('thumbs/foto-midnight-cover.jpg') center/cover}
+  .t11{background:linear-gradient(135deg,rgba(63,156,124,.32),rgba(29,74,59,.72)),url('thumbs/foto-aqiqah-cover.jpg') center/cover}
+  .t12{background:linear-gradient(135deg,rgba(27,58,122,.34),rgba(15,37,87,.76)),url('thumbs/foto-wisuda-cover.jpg') center/cover}
+  .t13{background:linear-gradient(135deg,rgba(142,149,163,.26),rgba(23,26,33,.72)),url('thumbs/foto-platinum-cover.jpg') center/cover}
   .tema-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
   .tema-body h3{font-size:17.5px;color:var(--green-dark)}
   .tema-body p{font-size:13px;color:var(--muted);margin:5px 0 14px}
@@ -216,6 +220,121 @@
     box-shadow:0 10px 24px rgba(34,193,94,.45);text-decoration:none;transition:transform .2s}
   .wa-float:hover{transform:scale(1.1)}
 
+  /* ---------- Musik latar halaman depan ---------- */
+  .music-float{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,#1e4d3b,#123527);color:#f0dfae;border:1px solid rgba(229,207,154,.45);
+    padding:12px 18px;border-radius:50px;font-size:12.5px;font-weight:700;letter-spacing:.4px;cursor:pointer;
+    box-shadow:0 12px 26px rgba(18,53,39,.35);transition:transform .2s,box-shadow .2s}
+  .music-float:hover{transform:translateY(-3px);box-shadow:0 18px 32px rgba(18,53,39,.45)}
+  .music-float.playing span.ic{animation:kdPulse 1.5s ease-in-out infinite}
+  .music-float span.ic{font-size:15px}
+  @media(max-width:600px){.music-float{bottom:16px;left:14px;padding:11px 14px;font-size:11.5px}}
+
+
+  /* ============================================================
+     EFEK VISUAL BARU — animasi halus, ramah HP & reduced-motion
+     ============================================================ */
+  @keyframes kdFloat{50%{transform:translateY(-14px)}}
+  @keyframes kdShine{0%{background-position:0% 50%}100%{background-position:220% 50%}}
+  @keyframes kdMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  @keyframes kdPulse{50%{transform:scale(1.08)}}
+  @keyframes kdSweep{0%{left:-120%}100%{left:130%}}
+  @keyframes kdRiseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* Hero: cahaya lembut bergerak + percikan emas */
+  .hero{position:relative}
+  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+  .hero::before{width:360px;height:360px;right:-110px;top:-110px;
+    background:radial-gradient(circle,rgba(202,161,78,.30),rgba(202,161,78,0) 66%);animation:kdFloat 9s ease-in-out infinite}
+  .hero::after{width:300px;height:300px;left:-110px;bottom:-90px;
+    background:radial-gradient(circle,rgba(30,77,59,.20),rgba(30,77,59,0) 68%);animation:kdFloat 12s ease-in-out infinite reverse}
+  .hero-grid{position:relative;z-index:1}
+  .sparkle-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .sparkle{position:absolute;color:rgba(185,141,62,.7);animation:kdFloat 7s ease-in-out infinite}
+
+  /* Judul hero: gradasi emas bergerak */
+  .hero h1 em{font-style:italic;color:var(--gold)}
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    .hero h1 em{background:linear-gradient(90deg,#b98d3e,#f0dfae,#a67c2e,#e8d5a6,#b98d3e);
+      background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;animation:kdShine 7s linear infinite}
+  }
+
+  /* Chip kecil di tampilan awal */
+  .hero-chips{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 18px}
+  .hero-chip{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #ecd9ab;color:#7c5f1e;
+    font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:50px;text-decoration:none;
+    box-shadow:0 8px 18px rgba(166,124,46,.16);transition:transform .2s,box-shadow .2s;animation:kdRiseIn .6s ease both}
+  .hero-chip:hover{transform:translateY(-3px);box-shadow:0 14px 26px rgba(166,124,46,.28)}
+  .hero-chip:nth-child(2){animation-delay:.12s}
+  .pulse-badge{background:linear-gradient(135deg,#e5484d,#a9272c);color:#fff;font-size:10px;font-weight:800;
+    letter-spacing:.7px;padding:3px 8px;border-radius:50px;animation:kdPulse 2s ease-in-out infinite}
+
+  /* Lencana melayang di dekat mockup HP */
+  .phone-wrap{position:relative}
+  .phone-badge{position:absolute;top:14px;right:2px;background:linear-gradient(135deg,#1e4d3b,#123527);color:#f0dfae;
+    font-size:11.5px;font-weight:800;letter-spacing:.4px;padding:9px 15px;border-radius:50px;text-decoration:none;
+    box-shadow:0 14px 28px rgba(18,53,39,.34);animation:kdFloat 6s ease-in-out infinite;z-index:2}
+  .phone-badge b{color:#fff}
+
+  /* Pita berjalan nama tema */
+  .tema-marquee{background:linear-gradient(90deg,#123527,#1e4d3b 20%,#1e4d3b 80%,#123527);overflow:hidden;
+    padding:13px 0;border-top:1px solid rgba(229,207,154,.25);border-bottom:1px solid rgba(229,207,154,.25)}
+  .tema-marquee .track{display:flex;gap:34px;width:max-content;animation:kdMarquee 38s linear infinite}
+  .tema-marquee span{color:#e9dfc4;font-size:13.5px;font-weight:600;white-space:nowrap;letter-spacing:.4px}
+  .tema-marquee span i{color:var(--gold-light);font-style:normal}
+  .tema-marquee:hover .track{animation-play-state:paused}
+
+  /* Muncul saat di-scroll */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  /* Kartu tema: terangkat + kilau menyapu */
+  .tema-card{position:relative;transition:transform .3s ease,box-shadow .3s ease}
+  .tema-card::after{content:"";position:absolute;top:0;bottom:0;left:-120%;width:42%;pointer-events:none;
+    background:linear-gradient(105deg,rgba(255,255,255,0),rgba(255,255,255,.5),rgba(255,255,255,0));transform:skewX(-18deg)}
+  .tema-card:hover{transform:translateY(-7px);box-shadow:0 24px 46px rgba(0,0,0,.32)}
+  .tema-card:hover::after{animation:kdSweep .95s ease}
+  .tema-preview{transition:transform .6s ease}
+  .tema-card:hover .tema-preview{transform:scale(1.06)}
+
+  /* Katalog dikelompokkan per kategori acara */
+  .tema-group{margin-bottom:40px}
+  .tema-group.hide{display:none}
+  .group-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid rgba(229,207,154,.28)}
+  .group-head h3{color:#f6eed9;font-size:21px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .group-head h3 .count{background:rgba(229,207,154,.16);border:1px solid rgba(229,207,154,.42);color:#f0dfae;
+    font-size:11.5px;font-weight:700;letter-spacing:.6px;padding:4px 11px;border-radius:50px}
+  .group-head p{color:#c8d6c3;font-size:13px;max-width:520px}
+  .katalog-count{text-align:center;color:#d8e3d3;font-size:13px;margin:-18px 0 26px}
+  .katalog-count b{color:#f0dfae}
+
+  /* jaga efek hover tetap jalan pada elemen yang sudah muncul */
+  .reveal.visible.feat:hover{transform:translateY(-5px)}
+  .reveal.visible.tema-card:hover{transform:translateY(-7px)}
+  .paket-spesial{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:space-between;
+    margin-top:26px;padding:20px 24px;border-radius:20px;border:1px dashed rgba(185,141,62,.6);
+    background:linear-gradient(135deg,#fffaf0,#fdf3df)}
+  .paket-spesial .ps-icon{font-size:30px;line-height:1;letter-spacing:4px}
+  .paket-spesial .ps-text{flex:1;min-width:240px;display:flex;flex-direction:column;gap:4px}
+  .paket-spesial .ps-text b{color:var(--green-dark);font-size:16px}
+  .paket-spesial .ps-text span{font-size:13.5px;color:var(--muted);line-height:1.6}
+  @media(max-width:600px){.paket-spesial{flex-direction:column;align-items:flex-start;text-align:left}}
+  .price.best.reveal{transform:translateY(28px) scale(1.03)}
+  .price.best.reveal.visible{transform:scale(1.03)}
+  .reveal.visible.hero-chip:hover{transform:translateY(-3px)}
+  .tema-group,.price,.feat{scroll-margin-top:80px}
+
+  /* Hormati preferensi "kurangi animasi" */
+  @media (prefers-reduced-motion: reduce){
+    .hero::before,.hero::after,.sparkle,.pulse-badge,.phone-badge,
+    .tema-marquee .track,.hero-chip,.hero h1 em{animation:none!important}
+    .reveal{opacity:1;transform:none;transition:none}
+    .tema-card:hover{transform:none}
+    .tema-card:hover .tema-preview{transform:none}
+  }
+
   @media(max-width:900px){
     .hero-grid,.studio-banner{grid-template-columns:1fr;text-align:center}
     .hero h1{font-size:33px}
@@ -230,6 +349,190 @@
 </style>
 </head>
 <body>
+
+<!-- ================= DATA TERSTRUKTUR (SEO) ================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "ProfessionalService",
+        "LocalBusiness"
+      ],
+      "@id": "https://kartudigital.my.id/#bisnis",
+      "name": "Kartu Digital",
+      "description": "Jasa undangan digital pernikahan, khitanan, aqiqah, ulang tahun, dan wisuda dengan Studio Admin untuk mengatur foto, amplop digital, dan RSVP.",
+      "url": "https://kartudigital.my.id/",
+      "image": "https://kartudigital.my.id/foto-cover.jpg",
+      "telephone": "+6285196755675",
+      "priceRange": "Rp79.000 - Rp299.000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bandung",
+        "addressRegion": "Jawa Barat",
+        "addressCountry": "ID"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Indonesia"
+      },
+      "openingHours": "Mo-Su 08:00-21:00",
+      "sameAs": [
+        "https://kartudigital.my.id/"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Paket Hemat",
+          "price": "79000",
+          "priceCurrency": "IDR",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Undangan digital 6 bulan"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Paket Premium",
+          "price": "149000",
+          "priceCurrency": "IDR",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Undangan digital + Studio Admin 1 tahun"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Paket Eksklusif",
+          "price": "299000",
+          "priceCurrency": "IDR",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Undangan digital premium + domain sendiri"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://kartudigital.my.id/#katalog",
+      "name": "Katalog 13 Tema Undangan Digital",
+      "numberOfItems": 13,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Sage Blossom — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-sage.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Jawa Heritage — Undangan Pernikahan Adat",
+          "url": "https://kartudigital.my.id/undangan-jawa.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Blush & Emerald Floral — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-demo.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Ice Blue Floral — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-iceblue.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Midnight Emerald — Undangan Pernikahan",
+          "url": "https://kartudigital.my.id/undangan-midnight.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Al-Fatih Islamic Gold — Undangan Khitanan",
+          "url": "https://kartudigital.my.id/undangan-khitanan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Ice Blue Barakah — Undangan Khitanan",
+          "url": "https://kartudigital.my.id/undangan-iceblue-khitanan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Aqiqah Rahmah — Undangan Aqiqah & Tasyakuran Bayi",
+          "url": "https://kartudigital.my.id/undangan-aqiqah.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Sweet Wonder Party — Undangan Ulang Tahun",
+          "url": "https://kartudigital.my.id/undangan-ultah.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Ice Blue Party — Undangan Ulang Tahun",
+          "url": "https://kartudigital.my.id/undangan-iceblue-ultah.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Grand Graduation — Undangan Wisuda & Kelulusan",
+          "url": "https://kartudigital.my.id/undangan-wisuda.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Royal Gold Luxury — Undangan Premium",
+          "url": "https://kartudigital.my.id/undangan-premium.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Platinum Marble — Undangan Premium",
+          "url": "https://kartudigital.my.id/undangan-platinum.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://kartudigital.my.id/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apakah tersedia untuk acara selain pernikahan (Khitanan & Ulang Tahun)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya! Katalog kami dikelompokkan menjadi 6 kategori berisi 13 tema: Pernikahan, Khitanan, Aqiqah & Tasyakuran Bayi, Ulang Tahun, Wisuda & Kelulusan, serta Premium."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Bagaimana cara upload foto dan mengatur amplop digital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Buka Studio Admin, pilih tab Upload Foto untuk mengganti foto sampul/galeri, lalu tab Amplop Digital dan Pengaturan RSVP untuk mengatur rekening dan batas konfirmasi kehadiran."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Berapa lama pengerjaan undangannya?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Melalui Studio Admin perubahan langsung tampil seketika. Jika dibantu tim admin via WhatsApp, pengerjaan selesai dalam 1x24 jam (tersedia layanan express 3 jam)."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <!-- ================= HEADER ================= -->
 <header>
@@ -249,21 +552,28 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="top">
+  <div class="sparkle-layer" id="sparkleLayer" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div>
-      <span class="tag">✦ Pernikahan · Khitanan · Ulang Tahun · Premium</span>
+      <span class="tag">✦ Pernikahan · Khitanan · Aqiqah · Ulang Tahun · Wisuda · Premium</span>
+      <div class="hero-chips">
+        <a class="hero-chip" href="#grup-aqiqah">🍼 <span class="pulse-badge">BARU</span> Tema Aqiqah &amp; Tasyakuran Bayi</a>
+        <a class="hero-chip" href="#grup-wisuda">🎓 <span class="pulse-badge">BARU</span> Tema Wisuda &amp; Kelulusan</a>
+      </div>
       <h1>Undangan Digital <em>Elegan</em> &amp; Lengkap dengan Studio Admin</h1>
-      <p>Satu platform untuk semua momen spesial — Pernikahan, Walimatul Khitan, Ulang Tahun, hingga Royal Exclusive. Dilengkapi Studio Admin untuk upload foto, atur amplop digital, dan pantau RSVP secara real-time.</p>
+      <p>Satu platform untuk semua momen spesial — Pernikahan, Walimatul Khitan, Aqiqah, Ulang Tahun, Wisuda, hingga Royal Exclusive. Dilengkapi Studio Admin untuk upload foto, atur amplop digital, dan pantau RSVP secara real-time.</p>
       <div class="hero-btns">
-        <a class="btn btn-gold" href="#tema">Lihat 9 Tema Live</a>
+        <a class="btn btn-gold" href="#tema">Lihat 13 Tema Live</a>
+        <a class="btn btn-outline" href="#grup-aqiqah">Lihat Tema Baru 🍼🎓</a>
       </div>
       <div class="hero-stats">
-        <div><b>500+</b><small>Klien terbantu</small></div>
-        <div><b>9 Tema</b><small>Pernikahan, Khitan, Ultah &amp; VIP</small></div>
-        <div><b>1×24 jam</b><small>Siap sebar ke tamu</small></div>
+        <div><b data-count="500" data-suffix="+">500+</b><small>Klien terbantu</small></div>
+        <div><b data-count="13" data-suffix=" Tema">13 Tema</b><small>Nikah, Khitan, Aqiqah, Ultah, Wisuda &amp; VIP</small></div>
+        <div><b data-count="6" data-suffix=" Kategori">6 Kategori</b><small>Semua jenis acara dalam satu platform</small></div>
       </div>
     </div>
     <div class="phone-wrap">
+      <a class="phone-badge" href="#tema">✨ <b>4 tema baru</b> siap dipakai</a>
       <div class="phone">
         <div class="screen">
           <div class="mini-label">The Wedding Of</div>
@@ -282,6 +592,11 @@
     </div>
   </div>
 </section>
+
+<!-- ================= PITA TEMA (marquee) ================= -->
+<div class="tema-marquee" aria-hidden="true">
+  <div class="track" id="temaTrack"></div>
+</div>
 
 <!-- ================= KEUNGGULAN & FITUR STUDIO ================= -->
 <section id="keunggulan">
@@ -320,181 +635,310 @@
 <section id="tema" class="tema-section">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag">Katalog Lengkap</span>
+      <span class="tag">Katalog Lengkap · 6 Kategori</span>
       <h2>Pilih Tema Sesuai Acara Spesialmu</h2>
-      <p>Tersedia untuk Pernikahan, Khitanan, Ulang Tahun, dan Edisi Royal Premium. Klik untuk mencoba langsung.</p>
+      <p>Tema dikelompokkan per kategori acara: Pernikahan, Khitanan, Aqiqah, Ulang Tahun, Wisuda, dan Edisi Royal Premium. Klik untuk mencoba langsung.</p>
     </div>
 
     <div class="tema-filter" id="katalogFilter">
-      <button type="button" class="active" data-filter="all">Semua Tema (9)</button>
+      <button type="button" class="active" data-filter="all">Semua Tema (13)</button>
       <button type="button" data-filter="pernikahan">💍 Tema Pernikahan</button>
       <button type="button" data-filter="khitanan">🕌 Tema Khitanan</button>
+      <button type="button" data-filter="aqiqah">🍼 Tema Aqiqah</button>
       <button type="button" data-filter="ultah">🎂 Tema Ulang Tahun</button>
+      <button type="button" data-filter="wisuda">🎓 Tema Wisuda</button>
       <button type="button" data-filter="premium">👑 Tema Premium</button>
     </div>
+    <p class="katalog-count" id="katalogCount">Menampilkan <b>13 tema</b> dari <b>6 kategori</b></p>
 
-    <div class="tema-grid" id="katalogGrid">
-      <!-- 1. Sage Blossom (Pernikahan) -->
-      <div class="tema-card" data-cat="pernikahan">
-        <div class="tema-preview t3">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">Rahma &amp; Dika</span>
-          <span class="tema-badge">💍 Tema Pernikahan</span>
+    <div id="katalogGrid">
+
+      <!-- ==================== GRUP: Tema Pernikahan ==================== -->
+      <div class="tema-group" id="grup-pernikahan" data-cat="pernikahan">
+        <div class="group-head">
+          <h3>💍 Tema Pernikahan <span class="count">5 Tema</span></h3>
+          <p>Nuansa romantis sampai sakral untuk hari bahagia: floral lembut, adat Jawa, hingga malam zamrud.</p>
         </div>
-        <div class="tema-body">
-          <div>
-            <h3>Sage Blossom ⭐ Paling Laris</h3>
-            <p>Nuansa hijau sage lembut &amp; floral romantis, lengkap dengan Love Story, Galeri Lightbox, Dress Code, RSVP, dan Amplop Digital.</p>
+        <div class="tema-grid">
+        <!-- 1. Sage Blossom (Pernikahan) -->
+        <div class="tema-card" data-cat="pernikahan">
+          <div class="tema-preview t3">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Rahma &amp; Dika</span>
+            <span class="tema-badge">💍 Tema Pernikahan</span>
           </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-sage.html" target="_blank" rel="noopener">Lihat Demo →</a>
+          <div class="tema-body">
+            <div>
+              <h3>Sage Blossom ⭐ Paling Laris</h3>
+              <p>Nuansa hijau sage lembut &amp; floral romantis, lengkap dengan Love Story, Galeri Lightbox, Dress Code, RSVP, dan Amplop Digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-sage.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
           </div>
+        </div>
+        <!-- 2. Jawa Heritage (Pernikahan) -->
+        <div class="tema-card" data-cat="pernikahan">
+          <div class="tema-preview t2">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">ꦲꦤ꧀ · Ratri &amp; Galih</span>
+            <span class="tema-badge">💍 Tema Pernikahan Adat</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Jawa Heritage ✨</h3>
+              <p>Nuansa adat Jawa kraton yang sakral dan megah dengan ornamen batik kawung, warna sogan, dan aksen emas.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-jawa.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
+        <!-- 3. Blush & Emerald Floral (Pernikahan) -->
+        <div class="tema-card" data-cat="pernikahan">
+          <div class="tema-preview t1">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Raka &amp; Laras</span>
+            <span class="tema-badge">💍 Tema Pernikahan</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Blush &amp; Emerald Floral</h3>
+              <p>Perpaduan zamrud klasik dan bunga elegan, dilengkapi simpan kalender (.ics), hitung mundur, dan buku tamu.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
+        <!-- 7. Ice Blue Floral (Pernikahan) -->
+        <div class="tema-card" data-cat="pernikahan">
+          <div class="tema-preview t7">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Adi &amp; Lina</span>
+            <span class="tema-badge">❄ Tema Pernikahan</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Ice Blue Floral ❄ Baru</h3>
+              <p>Nuansa biru es yang elegan dengan animasi salju, countdown, love story, galeri lightbox, RSVP &amp; amplop digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-iceblue.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
+        <!-- 10. Midnight Emerald (Pernikahan) -->
+        <div class="tema-card" data-cat="pernikahan">
+          <div class="tema-preview t10">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Dirga &amp; Amara</span>
+            <span class="tema-badge">💍 Tema Pernikahan</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Midnight Emerald 🌙 Baru</h3>
+              <p>Nuansa malam hijau zamrud dengan aksen emas, dilengkapi Love Story, countdown, galeri lightbox, RSVP, dan amplop digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-midnight.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
-      <!-- 2. Jawa Heritage (Pernikahan) -->
-      <div class="tema-card" data-cat="pernikahan">
-        <div class="tema-preview t2">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">ꦲꦤ꧀ · Ratri &amp; Galih</span>
-          <span class="tema-badge">💍 Tema Pernikahan Adat</span>
+
+      <!-- ==================== GRUP: Tema Khitanan ==================== -->
+      <div class="tema-group" id="grup-khitanan" data-cat="khitanan">
+        <div class="group-head">
+          <h3>🕌 Tema Khitanan <span class="count">2 Tema</span></h3>
+          <p>Walimatul khitan bernuansa islami, lengkap dengan rundown acara, doa, dan tanda kasih.</p>
         </div>
-        <div class="tema-body">
-          <div>
-            <h3>Jawa Heritage ✨</h3>
-            <p>Nuansa adat Jawa kraton yang sakral dan megah dengan ornamen batik kawung, warna sogan, dan aksen emas.</p>
+        <div class="tema-grid">
+        <!-- 5. Al-Fatih Islamic Gold (Tema Khitanan) -->
+        <div class="tema-card" data-cat="khitanan">
+          <div class="tema-preview t5">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial" style="color:#f1deb4">🕌 M. Zidan Al-Fatih</span>
+            <span class="tema-badge">🕌 Tema Khitanan</span>
           </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-jawa.html" target="_blank" rel="noopener">Lihat Demo →</a>
+          <div class="tema-body">
+            <div>
+              <h3>Al-Fatih Islamic Gold 🕌</h3>
+              <p>Tema khusus Walimatul Khitan / Tasyakuran Khitan bernuansa Islami zamrud &amp; emas, doa anak sholeh, jadwal pengajian, RSVP, dan tanda kasih.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-khitanan.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
           </div>
+        </div>
+        <!-- 8. Ice Blue Barakah (Khitanan) -->
+        <div class="tema-card" data-cat="khitanan">
+          <div class="tema-preview t8">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">M. Alif Fadhlan</span>
+            <span class="tema-badge">🕌 Tema Khitanan</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Ice Blue Barakah ❄ Baru</h3>
+              <p>Tema walimatul khitan biru es dengan rundown acara, doa &amp; ucapan, galeri foto, RSVP, dan kado digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-iceblue-khitanan.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
-      <!-- 3. Blush & Emerald Floral (Pernikahan) -->
-      <div class="tema-card" data-cat="pernikahan">
-        <div class="tema-preview t1">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">Raka &amp; Laras</span>
-          <span class="tema-badge">💍 Tema Pernikahan</span>
+
+      <!-- ==================== GRUP: Tema Aqiqah ==================== -->
+      <div class="tema-group" id="grup-aqiqah" data-cat="aqiqah">
+        <div class="group-head">
+          <h3>🍼 Tema Aqiqah &amp; Tasyakuran Bayi <span class="count">1 Tema</span></h3>
+          <p>Kategori baru untuk tasyakuran kelahiran: ayat &amp; doa aqiqah, rundown prosesi, dan kado digital.</p>
         </div>
-        <div class="tema-body">
-          <div>
-            <h3>Blush &amp; Emerald Floral</h3>
-            <p>Perpaduan zamrud klasik dan bunga elegan, dilengkapi simpan kalender (.ics), hitung mundur, dan buku tamu.</p>
+        <div class="tema-grid">
+        <!-- 11. Aqiqah Rahmah (Kategori Baru — Aqiqah) -->
+        <div class="tema-card" data-cat="aqiqah">
+          <div class="tema-preview t11">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Muhammad Ghani</span>
+            <span class="tema-badge">🍼 Tema Aqiqah</span>
           </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-demo.html" target="_blank" rel="noopener">Lihat Demo →</a>
+          <div class="tema-body">
+            <div>
+              <h3>Aqiqah Rahmah 🍼 Baru</h3>
+              <p>Kategori baru untuk tasyakuran aqiqah &amp; kelahiran bayi: doa, rundown prosesi, galeri foto, RSVP, dan kado digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-aqiqah.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
           </div>
+        </div>
         </div>
       </div>
 
-      <!-- 4. Royal Gold Luxury (Tema Premium) -->
-      <div class="tema-card" data-cat="premium">
-        <div class="tema-preview t4">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial" style="color:#f5e29c">👑 Alvaro &amp; Clara</span>
-          <span class="tema-badge" style="background:linear-gradient(135deg,#caa14e,#8f681e)">👑 Tema Premium</span>
+
+      <!-- ==================== GRUP: Tema Ulang Tahun ==================== -->
+      <div class="tema-group" id="grup-ultah" data-cat="ultah">
+        <div class="group-head">
+          <h3>🎂 Tema Ulang Tahun <span class="count">2 Tema</span></h3>
+          <p>Pesta ulang tahun anak &amp; remaja yang ceria: agenda acara, games, tiup lilin, dan kado digital.</p>
         </div>
-        <div class="tema-body">
-          <div>
-            <h3>Royal Gold Luxury 👑</h3>
-            <p>Desain eksklusif hitam obsidian &amp; emas kerajaan, dilengkapi QR Check-In Buku Tamu VIP, galeri mewah, dan reservasi Gala Dinner.</p>
+        <div class="tema-grid">
+        <!-- 6. Sweet Wonder Party (Tema Ulang Tahun) -->
+        <div class="tema-card" data-cat="ultah">
+          <div class="tema-preview t6">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">🎂 Kanaya 7th</span>
+            <span class="tema-badge">🎂 Tema Ulang Tahun</span>
           </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-premium.html" target="_blank" rel="noopener">Lihat Demo →</a>
+          <div class="tema-body">
+            <div>
+              <h3>Sweet Wonder Party 🎂</h3>
+              <p>Tema pesta ulang tahun anak &amp; remaja yang ceria dengan warna pastel, jadwal potong kue, dress code, RSVP goodie bag, dan kado digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-ultah.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
           </div>
+        </div>
+        <!-- 9. Ice Blue Party (Ulang Tahun) -->
+        <div class="tema-card" data-cat="ultah">
+          <div class="tema-preview t9">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Kalila Zahra</span>
+            <span class="tema-badge">🎂 Tema Ulang Tahun</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Ice Blue Party ❄ Baru</h3>
+              <p>Tema ulang tahun biru es yang ceria: agenda pesta, ice cream party, games, tiup lilin, RSVP &amp; kado digital.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-iceblue-ultah.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
-      <!-- 5. Al-Fatih Islamic Gold (Tema Khitanan) -->
-      <div class="tema-card" data-cat="khitanan">
-        <div class="tema-preview t5">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial" style="color:#f1deb4">🕌 M. Zidan Al-Fatih</span>
-          <span class="tema-badge">🕌 Tema Khitanan</span>
+
+      <!-- ==================== GRUP: Tema Wisuda ==================== -->
+      <div class="tema-group" id="grup-wisuda" data-cat="wisuda">
+        <div class="group-head">
+          <h3>🎓 Tema Wisuda &amp; Kelulusan <span class="count">1 Tema</span></h3>
+          <p>Kategori baru untuk wisuda: profil wisudawan, daftar pencapaian, dan animasi konfeti.</p>
         </div>
-        <div class="tema-body">
-          <div>
-            <h3>Al-Fatih Islamic Gold 🕌</h3>
-            <p>Tema khusus Walimatul Khitan / Tasyakuran Khitan bernuansa Islami zamrud &amp; emas, doa anak sholeh, jadwal pengajian, RSVP, dan tanda kasih.</p>
+        <div class="tema-grid">
+        <!-- 12. Grand Graduation (Kategori Baru — Wisuda) -->
+        <div class="tema-card" data-cat="wisuda">
+          <div class="tema-preview t12">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial">Naura Safira, S.Ked</span>
+            <span class="tema-badge">🎓 Tema Wisuda</span>
           </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-khitanan.html" target="_blank" rel="noopener">Lihat Demo →</a>
+          <div class="tema-body">
+            <div>
+              <h3>Grand Graduation 🎓 Baru</h3>
+              <p>Kategori baru untuk wisuda &amp; kelulusan: profil wisudawan, pencapaian, galeri, RSVP, kado digital, dan animasi konfeti.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-wisuda.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
           </div>
+        </div>
         </div>
       </div>
 
-      <!-- 6. Sweet Wonder Party (Tema Ulang Tahun) -->
-      <div class="tema-card" data-cat="ultah">
-        <div class="tema-preview t6">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">🎂 Kanaya 7th</span>
-          <span class="tema-badge">🎂 Tema Ulang Tahun</span>
+
+      <!-- ==================== GRUP: Tema Premium ==================== -->
+      <div class="tema-group" id="grup-premium" data-cat="premium">
+        <div class="group-head">
+          <h3>👑 Tema Premium <span class="count">2 Tema</span></h3>
+          <p>Edisi eksklusif dengan QR check-in buku tamu VIP, reservasi gala dinner, dan fasilitas premium.</p>
         </div>
-        <div class="tema-body">
-          <div>
-            <h3>Sweet Wonder Party 🎂</h3>
-            <p>Tema pesta ulang tahun anak &amp; remaja yang ceria dengan warna pastel, jadwal potong kue, dress code, RSVP goodie bag, dan kado digital.</p>
+        <div class="tema-grid">
+        <!-- 4. Royal Gold Luxury (Tema Premium) -->
+        <div class="tema-card" data-cat="premium">
+          <div class="tema-preview t4">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial" style="color:#f5e29c">👑 Alvaro &amp; Clara</span>
+            <span class="tema-badge" style="background:linear-gradient(135deg,#caa14e,#8f681e)">👑 Tema Premium</span>
           </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-ultah.html" target="_blank" rel="noopener">Lihat Demo →</a>
+          <div class="tema-body">
+            <div>
+              <h3>Royal Gold Luxury 👑</h3>
+              <p>Desain eksklusif hitam obsidian &amp; emas kerajaan, dilengkapi QR Check-In Buku Tamu VIP, galeri mewah, dan reservasi Gala Dinner.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-premium.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
           </div>
+        </div>
+        <!-- 13. Platinum Marble (Tema Premium) -->
+        <div class="tema-card" data-cat="premium">
+          <div class="tema-preview t13">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <span class="initial" style="color:#f3e4bd">👑 Revan &amp; Kiara</span>
+            <span class="tema-badge" style="background:linear-gradient(135deg,#c9a96a,#8d7038)">👑 Tema Premium</span>
+          </div>
+          <div class="tema-body">
+            <div>
+              <h3>Platinum Marble 👑 Baru</h3>
+              <p>Premium marmer putih &amp; platinum: VIP Access Pass + QR Check-In, reservasi Gala Dinner, valet, dan galeri mewah.</p>
+            </div>
+            <div class="tema-actions">
+              <a class="demo-link" href="undangan-platinum.html" target="_blank" rel="noopener">Lihat Demo →</a>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
-      <!-- 7. Ice Blue Floral (Pernikahan) -->
-      <div class="tema-card" data-cat="pernikahan">
-        <div class="tema-preview t7">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">Adi &amp; Lina</span>
-          <span class="tema-badge">❄ Tema Pernikahan</span>
-        </div>
-        <div class="tema-body">
-          <div>
-            <h3>Ice Blue Floral ❄ Baru</h3>
-            <p>Nuansa biru es yang elegan dengan animasi salju, countdown, love story, galeri lightbox, RSVP &amp; amplop digital.</p>
-          </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-iceblue.html" target="_blank" rel="noopener">Lihat Demo →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 8. Ice Blue Barakah (Khitanan) -->
-      <div class="tema-card" data-cat="khitanan">
-        <div class="tema-preview t8">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">M. Alif Fadhlan</span>
-          <span class="tema-badge">🕌 Tema Khitanan</span>
-        </div>
-        <div class="tema-body">
-          <div>
-            <h3>Ice Blue Barakah ❄ Baru</h3>
-            <p>Tema walimatul khitan biru es dengan rundown acara, doa &amp; ucapan, galeri foto, RSVP, dan kado digital.</p>
-          </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-iceblue-khitanan.html" target="_blank" rel="noopener">Lihat Demo →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 9. Ice Blue Party (Ulang Tahun) -->
-      <div class="tema-card" data-cat="ultah">
-        <div class="tema-preview t9">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <span class="initial">Kalila Zahra</span>
-          <span class="tema-badge">🎂 Tema Ulang Tahun</span>
-        </div>
-        <div class="tema-body">
-          <div>
-            <h3>Ice Blue Party ❄ Baru</h3>
-            <p>Tema ulang tahun biru es yang ceria: agenda pesta, ice cream party, games, tiup lilin, RSVP &amp; kado digital.</p>
-          </div>
-          <div class="tema-actions">
-            <a class="demo-link" href="undangan-iceblue-ultah.html" target="_blank" rel="noopener">Lihat Demo →</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -512,7 +956,7 @@
           <li>✓ Pengaturan Amplop Digital</li>
           <li>✓ Pengaturan RSVP &amp; Export CSV</li>
           <li>✓ Generator Link Nama Tamu WA</li>
-          <li>✓ 9 Tema Multi-Acara Lengkap</li>
+          <li>✓ 13 Tema Multi-Acara Lengkap</li>
           <li>✓ Preview Real-Time Interaktif</li>
         </ul>
       </div>
@@ -537,7 +981,7 @@
     <div class="sec-head">
       <span class="tag">Investasi</span>
       <h2>Harga Transparan, Sekali Bayar</h2>
-      <p>Tanpa biaya bulanan. Berlaku untuk undangan Pernikahan, Khitanan, maupun Ulang Tahun.</p>
+      <p>Tanpa biaya bulanan. Berlaku untuk semua kategori: Pernikahan, Khitanan, Aqiqah, Ulang Tahun &amp; Wisuda.</p>
     </div>
     <div class="price-grid">
       <div class="price">
@@ -545,7 +989,7 @@
         <div class="amt"><s>Rp129.000</s>Rp79.000</div>
         <div class="per">sekali bayar · aktif 6 bulan</div>
         <ul>
-          <li>Pilihan tema pernikahan / khitan / ultah</li>
+          <li>Pilihan tema pernikahan / khitan / aqiqah / ultah / wisuda</li>
           <li>Detail acara &amp; profil lengkap</li>
           <li>Countdown &amp; Google Maps</li>
           <li>Musik latar otomatis</li>
@@ -576,9 +1020,9 @@
         <div class="amt"><s>Rp450.000</s>Rp299.000</div>
         <div class="per">sekali bayar · support VIP</div>
         <ul>
-          <li>Semua fitur Premium + Tema Royal Gold 👑</li>
+          <li>Semua fitur Premium + tema Royal Gold &amp; Platinum Marble 👑</li>
           <li>Domain sendiri (namakamu.my.id)</li>
-          <li>QR Check-in buku tamu VIP</li>
+          <li>QR Check-in buku tamu (kini di semua tema)</li>
           <li>6 mode navigasi 3D premium 👑</li>
           <li>Animasi premium 👑 (kupu-kupu, balon, bintang)</li>
           <li>Tanpa watermark</li>
@@ -586,6 +1030,16 @@
         </ul>
         <a class="btn btn-outline" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20Paket%20Eksklusif" target="_blank" rel="noopener">Pilih Eksklusif</a>
       </div>
+    </div>
+
+    <!-- Paket spesial kategori baru -->
+    <div class="paket-spesial">
+      <div class="ps-icon" aria-hidden="true">🍼🎓</div>
+      <div class="ps-text">
+        <b>Paket Spesial Aqiqah &amp; Wisuda — Rp69.000</b>
+        <span>Hemat Rp10.000 dari Paket Hemat, khusus tema <b>Aqiqah Rahmah</b> &amp; <b>Grand Graduation</b>. Sudah termasuk musik MP3 pilihan, QR check-in buku tamu, dan tombol Simpan ke Kalender.</span>
+      </div>
+      <a class="btn btn-gold" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20pesan%20Paket%20Spesial%20Aqiqah%20%2F%20Wisuda%20Rp69.000" target="_blank" rel="noopener">Pesan Rp69.000</a>
     </div>
   </div>
 </section>
@@ -598,7 +1052,7 @@
       <h2>Pesan atau Kelola dalam 4 Langkah</h2>
     </div>
     <div class="step-grid">
-      <div class="step"><div class="num">1</div><h3>Pilih Tema Acara</h3><p>Pilih tema Pernikahan, Khitanan, Ulang Tahun, atau Royal Premium.</p></div>
+      <div class="step"><div class="num">1</div><h3>Pilih Tema Acara</h3><p>Pilih tema Pernikahan, Khitanan, Aqiqah, Ulang Tahun, Wisuda, atau Royal Premium.</p></div>
       <div class="step"><div class="num">2</div><h3>Atur di Studio / WA</h3><p>Upload foto, isi detail acara, rekening amplop digital, dan pengaturan RSVP.</p></div>
       <div class="step"><div class="num">3</div><h3>Cek Live Preview</h3><p>Lihat hasil undangan secara real-time dan buat link khusus per nama tamu.</p></div>
       <div class="step"><div class="num">4</div><h3>Sebarkan!</h3><p>Bagikan link ke WhatsApp dan pantau konfirmasi kehadiran tamu dari Studio.</p></div>
@@ -616,7 +1070,7 @@
     <div class="faq-list">
       <details>
         <summary>Apakah tersedia untuk acara selain pernikahan (Khitanan &amp; Ulang Tahun)?</summary>
-        <div class="ans">Ya! Kami menyediakan tema khusus untuk Pernikahan (Sage Blossom, Jawa Heritage, Emerald Floral), Walimatul Khitan (Al-Fatih Islamic Gold), Ulang Tahun (Sweet Wonder Party), serta Tema Premium Eksklusif (Royal Gold Luxury).</div>
+        <div class="ans">Ya! Katalog kami dikelompokkan menjadi 6 kategori berisi 13 tema: <b>Pernikahan</b> (Sage Blossom, Jawa Heritage, Blush &amp; Emerald Floral, Ice Blue Floral, Midnight Emerald), <b>Khitanan</b> (Al-Fatih Islamic Gold, Ice Blue Barakah), <b>Aqiqah &amp; Tasyakuran Bayi</b> (Aqiqah Rahmah), <b>Ulang Tahun</b> (Sweet Wonder Party, Ice Blue Party), <b>Wisuda &amp; Kelulusan</b> (Grand Graduation), serta <b>Premium</b> (Royal Gold Luxury, Platinum Marble).</div>
       </details>
       <details>
         <summary>Bagaimana cara upload foto dan mengatur amplop digital?</summary>
@@ -643,27 +1097,188 @@
 
 <footer>
   <div class="wrap">
-    <b>Kartu Digital (kartudigital.my.id)</b> · Undangan Digital Pernikahan, Khitanan, Ulang Tahun &amp; Premium<br>
+    <b>Kartu Digital (kartudigital.my.id)</b> · Undangan Digital Pernikahan, Khitanan, Aqiqah, Ulang Tahun, Wisuda &amp; Premium<br>
     © 2026 Kartu Digital. Dibuat dengan ❤ di Bandung
   </div>
 </footer>
+
+<button type="button" class="music-float" id="landingMusicBtn" aria-pressed="false" aria-label="Putar atau hentikan musik latar">
+  <span class="ic">♫</span> <span id="landingMusicLabel">Putar Musik</span>
+</button>
+<audio id="landingMusic" loop preload="none" src="musik/romantis.mp3"></audio>
 
 <a class="wa-float" href="https://wa.me/6285196755675?text=Halo%2C%20saya%20mau%20tanya%20undangan%20digital" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
   <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.9-1.4A10 10 0 1012 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.8 1.7.3.2.5.1.7-.1l1.1-1.3c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1z"/></svg>
 </a>
 
 <script>
-  document.querySelectorAll('#katalogFilter button').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('#katalogFilter button').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      var filter = btn.getAttribute('data-filter');
-      document.querySelectorAll('#katalogGrid .tema-card').forEach(function(card){
-        var cat = card.getAttribute('data-cat');
-        card.style.display = (filter === 'all' || cat === filter) ? 'flex' : 'none';
+  /* =====================================================================
+     0) MUSIK LATAR HALAMAN DEPAN  (bisa diganti: ?musik=musik/jawa.mp3)
+     ===================================================================== */
+  (function () {
+    var audio = document.getElementById('landingMusic');
+    var btn = document.getElementById('landingMusicBtn');
+    var label = document.getElementById('landingMusicLabel');
+    if (!audio || !btn) return;
+
+    // hanya izinkan berkas lokal di folder musik/ atau tautan https
+    function sah(nilai) {
+      return /^musik\/[a-z0-9-]+\.mp3$/.test(nilai) || /^https:\/\//.test(nilai);
+    }
+
+    var lagu = new URLSearchParams(location.search).get('musik');
+    if (lagu && sah(lagu)) {
+      audio.src = lagu;                       // uji cepat: index.html?musik=musik/jawa.mp3
+    } else {
+      // Lagu diatur dari Studio Admin (Pengaturan → Musik Halaman Depan)
+      fetch('/api/db').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        var set = (data && data.db && data.db.settings) || {};
+        var pilih = set.frontMusic || 'musik/romantis.mp3';
+        if (pilih === 'off') {
+          btn.style.display = 'none';
+          audio.removeAttribute('src');
+          return;
+        }
+        if (sah(pilih)) audio.src = pilih;
+      }).catch(function () { /* dibuka tanpa server: pakai lagu bawaan */ });
+    }
+
+    var jalan = false;
+    function tampilkan(keadaan) {
+      jalan = keadaan;
+      btn.classList.toggle('playing', keadaan);
+      if (label) label.textContent = keadaan ? 'Hentikan Musik' : 'Putar Musik';
+      btn.setAttribute('aria-pressed', keadaan ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () {
+      if (jalan) { audio.pause(); tampilkan(false); return; }
+      try {
+        var janji = audio.play();
+        if (janji && janji.catch) janji.catch(function () { tampilkan(false); });
+      } catch (e) { /* browser tanpa dukungan audio */ }
+      tampilkan(true);
+    });
+    audio.addEventListener('pause', function () { if (jalan) tampilkan(false); });
+  })();
+
+  /* =====================================================================
+     1) FILTER KATALOG — per kelompok kategori acara
+     ===================================================================== */
+  (function () {
+    var tombol = document.querySelectorAll('#katalogFilter button');
+    var grup = document.querySelectorAll('#katalogGrid .tema-group');
+    var info = document.getElementById('katalogCount');
+
+    function terapkan(filter) {
+      var tema = 0, kategori = 0;
+      grup.forEach(function (g) {
+        var cocok = (filter === 'all' || g.getAttribute('data-cat') === filter);
+        g.classList.toggle('hide', !cocok);
+        if (cocok) {
+          tema += g.querySelectorAll('.tema-card').length;
+          kategori++;
+          // pastikan isi kelompok langsung tampil (kalau belum sempat ter-reveal)
+          g.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+        }
+      });
+      if (info) {
+        info.innerHTML = 'Menampilkan <b>' + tema + ' tema</b> dari <b>' + kategori + ' kategori</b>';
+      }
+    }
+
+    tombol.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        tombol.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        terapkan(btn.getAttribute('data-filter'));
       });
     });
-  });
+
+    // Chip di tampilan awal (tema baru) → sekalian saring katalognya
+    document.querySelectorAll('a[href="#grup-aqiqah"],a[href="#grup-wisuda"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var cat = a.getAttribute('href').replace('#grup-', '');
+        var btn = document.querySelector('#katalogFilter button[data-filter="' + cat + '"]');
+        if (btn) btn.click();
+      });
+    });
+  })();
+
+  /* =====================================================================
+     2) EFEK HALUS — muncul saat di-scroll, angka berhitung, percikan, pita tema
+     ===================================================================== */
+  (function () {
+    var kurangiGerak = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    // 2a. Tandai elemen yang akan muncul saat di-scroll
+    var target = document.querySelectorAll('.sec-head, .feat, .group-head, .step, .studio-banner, .price, .cta-final h2');
+    target.forEach(function (el) { el.classList.add('reveal'); });
+    document.querySelectorAll('#katalogGrid .tema-group .tema-card').forEach(function (k, i) {
+      k.classList.add('reveal');
+      k.style.transitionDelay = ((i % 3) * 100) + 'ms';
+    });
+
+    if (!kurangiGerak && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+    }
+
+    // 2b. Angka statistik berhitung naik saat terlihat
+    function hitung(el) {
+      var akhir = parseInt(el.getAttribute('data-count'), 10) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      if (kurangiGerak) { el.textContent = akhir + suffix; return; }
+      var mulai = performance.now(), durasi = 1200;
+      (function langkah(now) {
+        var t = Math.min(1, (now - mulai) / durasi);
+        el.textContent = Math.round(akhir * (1 - Math.pow(1 - t, 3))) + suffix;
+        if (t < 1) requestAnimationFrame(langkah);
+      })(mulai);
+    }
+    var stats = document.querySelectorAll('.hero-stats b[data-count]');
+    if (!kurangiGerak && 'IntersectionObserver' in window) {
+      var ioStat = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { hitung(en.target); ioStat.unobserve(en.target); } });
+      }, { threshold: 0.4 });
+      stats.forEach(function (el) { ioStat.observe(el); });
+    } else {
+      stats.forEach(function (el) { el.textContent = (el.getAttribute('data-count') || '') + (el.getAttribute('data-suffix') || ''); });
+    }
+
+    // 2c. Percikan emas di tampilan awal
+    var layer = document.getElementById('sparkleLayer');
+    if (layer && !kurangiGerak) {
+      var glif = ['\u2726', '\u2727', '\u2737', '\u2022'];
+      for (var i = 0; i < 14; i++) {
+        var sp = document.createElement('span');
+        sp.className = 'sparkle';
+        sp.textContent = glif[i % glif.length];
+        sp.style.left = (Math.random() * 96) + '%';
+        sp.style.top = (8 + Math.random() * 84) + '%';
+        sp.style.fontSize = (8 + Math.random() * 10) + 'px';
+        sp.style.animationDuration = (5 + Math.random() * 5) + 's';
+        sp.style.animationDelay = (Math.random() * 4) + 's';
+        sp.style.opacity = (0.35 + Math.random() * 0.45).toFixed(2);
+        layer.appendChild(sp);
+      }
+    }
+
+    // 2d. Pita nama tema berjalan (13 tema, digandakan supaya mulus)
+    var track = document.getElementById('temaTrack');
+    if (track) {
+      var tema = ['Sage Blossom', 'Jawa Heritage', 'Blush & Emerald', 'Ice Blue Floral', 'Midnight Emerald',
+                  'Al-Fatih Islamic Gold', 'Ice Blue Barakah', 'Aqiqah Rahmah', 'Sweet Wonder Party',
+                  'Ice Blue Party', 'Grand Graduation', 'Royal Gold Luxury', 'Platinum Marble'];
+      var isi = tema.map(function (t) { return '<span><i>\u2726</i> ' + t + '</span>'; }).join('');
+      track.innerHTML = isi + isi;
+    }
+  })();
 </script>
 </body>
 </html>
