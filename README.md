@@ -31,5 +31,8 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Ulang Tahun & Tema Pr
 - `node tools/test-cloud.js` — menguji lapisan Supabase Cloud (tarik/kirim data, pemetaan RSVP,
   penolakan kunci rahasia, fallback saat offline) memakai jaringan tiruan — aman, tanpa
   menyentuh database sungguhan.
+- `node tools/check-cloud.js` — memeriksa koneksi ke project Supabase **asli** yang sudah diisi
+  di `supabase-config.json`: skema, izin RSVP, privasi daftar tamu (nomor HP), dan sifat
+  read-only undangan. Aman diulang karena tidak menulis data.
 
 Integrasi Supabase opsional dijelaskan lengkap di [`supabase/README.md`](supabase/README.md).

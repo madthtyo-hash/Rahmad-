@@ -32,6 +32,9 @@ print('\n== 1. Syntax: JS & JSON ==')
 for f in ['server.js','studio-api.js']:
     r = subprocess.run(['node','--check',f], capture_output=True, text=True)
     ok(f'{f} OK') if r.returncode == 0 else bad(f'{f}: {r.stderr.strip().splitlines()[-1]}')
+for f in sorted(glob.glob('tools/*.js')):
+    r = subprocess.run(['node','--check',f], capture_output=True, text=True)
+    ok(f'{f} OK') if r.returncode == 0 else bad(f'{f}: {r.stderr.strip().splitlines()[-1]}')
 for f in PAGES:
     tmp = f'/tmp/_audit_{f}.js'
     open(tmp,'w',encoding='utf-8').write('\n;\n'.join(scripts(rd(f))))
@@ -173,8 +176,14 @@ for hook in ['cloudApi','pullFromCloud','pushAllToCloud','pushGuestsToCloud','cl
 ok('tamu tidak dibaca dari browser') if 'guests_public' not in js else bad('studio-api.js masih membaca view guests_public')
 for hook in ['cloudTestBtn','cloudPushBtn','cloudPullBtn','cloudStatusText']:
     ok(f'studio.html: {hook}') if hook in st else bad(f'studio.html tidak memuat {hook}')
+ok('tools/check-cloud.js ada (pemeriksa koneksi project asli)') if os.path.exists('tools/check-cloud.js') else warn('tools/check-cloud.js tidak ada')
+if os.path.exists('tools/check-cloud.js'):
+    cc = rd('tools/check-cloud.js')
+    ok('check-cloud.js menolak kunci rahasia') if 'sb_secret_' in cc else bad('check-cloud.js tidak memeriksa kunci rahasia')
+    ok('check-cloud.js menguji privasi daftar tamu') if 'guests' in cc and 'PRIVAT' in cc else bad('check-cloud.js tidak menguji privasi tamu')
 rmd = rd('supabase/README.md')
 ok('panduan menyebut publishable key') if 'sb_publishable_' in rmd else warn('panduan belum menyebut publishable key')
+ok('panduan memuat pemeriksa koneksi') if 'tools/check-cloud.js' in rmd else warn('panduan belum menyebut tools/check-cloud.js')
 ok('panduan menjelaskan Security Advisor') if 'Security Advisor' in rmd else warn('panduan belum menjelaskan Security Advisor')
 for kata in ['Connect GitHub', 'Deploy to production', 'npx supabase migration new', 'Working directory']:
     ok(f'panduan memuat "{kata}"') if kata in rmd else warn(f'panduan belum memuat "{kata}"')

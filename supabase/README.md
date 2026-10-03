@@ -88,7 +88,48 @@ Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
 4. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
 5. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
 
+### 6. Cek otomatis dari komputer (opsional, disarankan)
+
+Mau bukti lengkap dalam sekali jalan — termasuk memastikan **nomor HP tamu benar-benar tidak
+bisa diunduh** dan **undangan tidak bisa diubah** orang lain? Jalankan:
+
+```bash
+cd /home/user/Rahmad-
+node tools/check-cloud.js
+```
+
+Alat ini menembak project Supabase Anda yang asli dan memeriksa 5 hal: konfigurasi, jangkauan
+server + skema, izin RSVP, privasi daftar tamu, dan sifat read-only undangan.
+**Aman diulang kapan saja** — hanya membaca data, sedangkan uji izin tulis memakai baris
+yang sengaja salah/kolom kosong sehingga **tidak ada satu pun baris yang tersimpan**.
+Keluar dengan kode `1` kalau ada masalah (bisa dipakai di GitHub Actions nanti).
+
+Contoh hasil kalau semuanya beres:
+
+```
+== C. RSVP (tamu boleh kirim & baca ucapan) ==
+  ✓ tabel rsvp bisa dibaca → 5 RSVP terbaru terbaca
+  ✓ tamu boleh mengirim RSVP dari browser → ditolak karena nilai uji (bukan karena izin)
+== D. Daftar tamu (nomor HP) — harus PRIVAT ==
+  ✓ daftar tamu TIDAK bisa dibaca dari browser → ditolak (401) — nomor HP aman
+== RINGKASAN ==
+  ✅ SEMUA SEHAT — Supabase siap dipakai.
+```
+
+### Kalau ada masalah (pemecahan cepat)
+
+| Gejala di `node tools/check-cloud.js` | Artinya | Tindakan |
+|---|---|---|
+| `url & kunci sudah diisi ✗` | config masih kosong | isi langkah 4 di atas |
+| `kunci AMAN untuk dipublikasikan ✗` | kunci `sb_secret_`/`service_role` terpasang | **hapus**, pakai Publishable/anon |
+| `project Supabase bisa dihubungi ✗` → `fetch failed`/`timeout` | URL salah, internet mati, atau project di-pause | cek URL, buka dashboard Supabase (project gratis bisa pause) |
+| `→ Kemungkinan kunci salah/terpotong` (HTTP 401) | kunci salah salin | salin ulang dari **Settings → API Keys** |
+| `→ Kemungkinan tabel belum dibuat` (HTTP 404) | `schema.sql` belum dijalankan | jalankan langkah 2 (Cara A atau B) |
+| `daftar tamu TIDAK bisa dibaca ✓✗` / `BAHAYA` | RLS tidak aktif | jalankan ulang `supabase/schema.sql` |
+| `undangan tidak bisa diubah ✗` | masih ada kebijakan tulis lama | jalankan ulang `supabase/schema.sql` (bagian 7 mencabutnya) |
+
 ---
+
 
 ## Cara kerja singkat
 
