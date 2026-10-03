@@ -107,8 +107,19 @@ Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
 2. Klik tab **Penyimpanan Lokal HP & Backup Folder**.
 3. Klik **🔌 Cek Koneksi** → harus muncul “Supabase terhubung & siap dipakai”.
    (Status akan menampilkan jenis kunci yang dipakai, mis. `kunci: publishable`.)
-4. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
-5. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
+4. **Disarankan:** klik **🧪 Uji Lengkap (5 bagian)**. Hasilnya muncul langsung di bawah tombol,
+   memeriksa: konfigurasi · skema database · izin kirim RSVP · privasi nomor HP tamu ·
+   undangan aman dari perubahan. **Aman diklik berkali-kali** — tidak ada data Anda yang berubah.
+5. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
+6. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
+
+#### Arti tanda pada hasil Uji Lengkap
+
+| Tanda | Arti | Tindakan |
+|---|---|---|
+| ✓ | lulus | — |
+| ✗ | ada masalah (mis. nomor HP tamu terbaca publik) | ikuti saran yang tertulis di baris itu, biasanya jalankan ulang `supabase/schema.sql` |
+| ⚠ | **catatan**: tidak bisa dipastikan dari luar | biasanya soal *penghapusan*. Supabase menjawab “sukses” walau RLS menolak hapus, jadi dari luar tidak bisa dibedakan. Jalankan `supabase/schema.sql` sekali (aman diulang) untuk memastikan izin hapus tetap dicabut |
 
 ### 6. Cek otomatis dari komputer (opsional, disarankan)
 

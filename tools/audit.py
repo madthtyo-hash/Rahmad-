@@ -171,10 +171,12 @@ if mig:
     ok('migrasi byte-identical dengan schema.sql') if rd(mig[-1]) == rd('supabase/schema.sql') else bad('isi migrasi berbeda dari schema.sql')
 ok('supabase/.gitignore ada') if os.path.exists('supabase/.gitignore') else warn('supabase/.gitignore tidak ada')
 
-for hook in ['cloudApi','pullFromCloud','pushAllToCloud','pushGuestsToCloud','cloudKeyInfo','sb_publishable_','read-only']:
+for hook in ['cloudApi','pullFromCloud','pushAllToCloud','pushGuestsToCloud','cloudKeyInfo','sb_publishable_','read-only','selfTest']:
     ok(f'studio-api.js: {hook}') if hook in js else bad(f'studio-api.js tidak memuat {hook}')
 ok('tamu tidak dibaca dari browser') if 'guests_public' not in js else bad('studio-api.js masih membaca view guests_public')
-for hook in ['cloudTestBtn','cloudPushBtn','cloudPullBtn','cloudStatusText']:
+ok('selfTest memakai uji foreign key (tanpa menyimpan data)') if "'23503'" in js else warn('selfTest tidak memakai uji foreign key')
+ok('selfTest jujur soal penghapusan RLS') if 'tidak bisa dipastikan dari luar' in js else warn('selfTest tidak menjelaskan keterbatasan uji hapus')
+for hook in ['cloudTestBtn','cloudSelfTestBtn','cloudSelfTestBox','renderSelfTest','cloudPushBtn','cloudPullBtn','cloudStatusText']:
     ok(f'studio.html: {hook}') if hook in st else bad(f'studio.html tidak memuat {hook}')
 ok('tools/check-cloud.js ada (pemeriksa koneksi project asli)') if os.path.exists('tools/check-cloud.js') else warn('tools/check-cloud.js tidak ada')
 if os.path.exists('tools/check-cloud.js'):

@@ -708,10 +708,12 @@
                 <p class="sub-desc" style="margin:8px 0 10px">Kalau diaktifkan, <b>RSVP &amp; daftar tamu dari HP tamu mana pun langsung tersimpan ke satu database online</b> — jadi Anda bisa memantau konfirmasi tanpa memegang HP tamu. Petunjuk lengkap ada di <code>supabase/README.md</code>.</p>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
                   <button type="button" class="btn" id="cloudTestBtn">🔌 Cek Koneksi</button>
+                  <button type="button" class="btn gold" id="cloudSelfTestBtn">🧪 Uji Lengkap (5 bagian)</button>
                   <button type="button" class="btn primary" id="cloudPushBtn">⬆ Kirim ke Supabase</button>
                   <button type="button" class="btn" id="cloudPullBtn">⬇ Ambil dari Supabase</button>
                 </div>
-                <p class="sub-desc" style="margin-top:8px">“Kirim” menyalin undangan + RSVP dari perangkat ini ke Supabase. “Ambil” menarik RSVP/daftar tamu terbaru dari Supabase ke perangkat ini.</p>
+                <p class="sub-desc" style="margin-top:8px">“Kirim” menyalin undangan + RSVP dari perangkat ini ke Supabase. “Ambil” menarik RSVP/daftar tamu terbaru dari Supabase ke perangkat ini. <b>Uji Lengkap</b> memeriksa 5 hal sekaligus: konfigurasi, skema database, izin kirim RSVP, privasi nomor HP tamu, dan apakah undangan aman dari perubahan — <b>aman diulang</b>, tidak mengubah data Anda.</p>
+                <div id="cloudSelfTestBox" style="display:none;margin-top:10px;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px"></div>
               </div>
 
               <div class="form-grid">
@@ -1678,6 +1680,68 @@
         var res = await StudioBackend.cloud.test();
         if (res.ok) showToast('✓ Supabase terhubung & siap dipakai');
         else showToast('⚠ ' + (res.error || 'Gagal terhubung'));
+        refreshStorageInfo();
+      });
+
+      // ---------- UJI LENGKAP SUPABASE (5 bagian) ----------
+      function renderSelfTest(hasil) {
+        var box = $('cloudSelfTestBox');
+        if (!box || !hasil || !hasil.bagian) return;
+        box.innerHTML = '';
+        // Judul ringkas
+        var judul = document.createElement('div');
+        judul.style.fontWeight = '700';
+        judul.style.marginBottom = '4px';
+        judul.textContent = hasil.ok
+          ? '✅ Semua pemeriksaan penting lulus' + (hasil.catatan ? ' (' + hasil.catatan + ' catatan kecil)' : '')
+          : '⚠ Ada ' + hasil.gagal + ' masalah yang perlu diperbaiki';
+        judul.style.color = hasil.ok ? '#1e7d52' : '#c0392b';
+        box.appendChild(judul);
+        // Daftar hasil per bagian (dibuat lewat DOM supaya teks dari server tidak jadi HTML)
+        hasil.bagian.forEach(function (bagian) {
+          var h = document.createElement('div');
+          h.style.marginTop = '10px';
+          h.style.fontWeight = '700';
+          h.textContent = bagian.judul;
+          box.appendChild(h);
+          bagian.items.forEach(function (item) {
+            var baris = document.createElement('div');
+            baris.style.marginTop = '4px';
+            baris.style.lineHeight = '1.45';
+            var ikon = item.lulus === null ? '⚠' : (item.lulus ? '✓' : '✗');
+            baris.style.color = item.lulus === null ? '#b7791f' : (item.lulus ? '#1e7d52' : '#c0392b');
+            baris.textContent = ikon + ' ' + item.nama;
+            if (item.info) {
+              var ket = document.createElement('span');
+              ket.style.color = 'var(--muted)';
+              ket.textContent = ' → ' + item.info;
+              baris.appendChild(ket);
+            }
+            box.appendChild(baris);
+          });
+        });
+        var catatan = document.createElement('div');
+        catatan.style.marginTop = '10px';
+        catatan.style.color = 'var(--muted)';
+        catatan.textContent = 'Diuji ' + new Date(hasil.diujiPada || Date.now()).toLocaleString('id-ID') +
+          ' · aman diulang kapan saja · data undangan & RSVP Anda tidak diubah.';
+        box.appendChild(catatan);
+        box.style.display = '';
+      }
+      $('cloudSelfTestBtn') && $('cloudSelfTestBtn').addEventListener('click', async function () {
+        var btn = $('cloudSelfTestBtn');
+        btn.disabled = true;
+        btn.textContent = '🧪 Menguji…';
+        showToast('🧪 Menjalankan uji lengkap Supabase…');
+        try {
+          var hasil = await StudioBackend.cloud.selfTest();
+          renderSelfTest(hasil);
+          showToast(hasil.ok ? '✓ Uji lengkap selesai — semua penting lulus' : '⚠ Uji lengkap selesai — ' + hasil.gagal + ' masalah ditemukan');
+        } catch (e) {
+          showToast('⚠ Uji lengkap gagal: ' + ((e && e.message) || e));
+        }
+        btn.disabled = false;
+        btn.textContent = '🧪 Uji Lengkap (5 bagian)';
         refreshStorageInfo();
       });
       $('cloudPushBtn') && $('cloudPushBtn').addEventListener('click', async function () {

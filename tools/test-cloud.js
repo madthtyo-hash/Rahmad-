@@ -21,9 +21,13 @@ function makeEnv(configJson, routes) {
   };
   global.fetch = async (url, opts = {}) => {
     calls.push({ url, method: opts.method || 'GET', headers: opts.headers || {}, body: opts.body ? JSON.parse(opts.body) : null });
-    const resp = (ok, body) => ({ ok, status: ok ? 200 : 403, text: async () => JSON.stringify(body), json: async () => JSON.parse(JSON.stringify(body)) });
+    const resp = (ok, body, status) => ({ ok, status: status || (ok ? 200 : 403), text: async () => JSON.stringify(body), json: async () => JSON.parse(JSON.stringify(body)) });
     if (url.startsWith('supabase-config.json')) return resp(true, configJson);
-    for (const r of routes) if (url.startsWith(r.match)) return resp(r.ok !== false, r.body);
+    for (const r of routes) {
+      if (!url.startsWith(r.match)) continue;
+      if (r.method && r.method !== (opts.method || 'GET')) continue;
+      return resp(r.ok !== false, r.body, r.status);
+    }
     return resp(false, { message: 'Tidak ada rute mock' });
   };
   global.document = { getElementById: () => null, querySelectorAll: () => [], createElement: () => ({ style: {}, setAttribute() {} }) };
@@ -41,8 +45,14 @@ function makeEnv(configJson, routes) {
     { match: 'https://demo.supabase.co/rest/v1/rsvp', ok: true, body: [] }
   ];
 
+  // Dipakai untuk menguji perilaku "belum diisi" secara pasti, apa pun isi file asli.
+  const CFG_KOSONG = { enabled: false, url: '', anonKey: '' };
+  const cfgRepo = JSON.parse(fs.readFileSync(CONFIG, 'utf8'));
+  console.log('\n(Catatan: supabase-config.json di repo = ' +
+    (cfgRepo.enabled && cfgRepo.url ? 'TERISI → ' + cfgRepo.url : 'belum diisi') + ')');
+
   console.log('\n== A. Config default (belum diisi) ==');
-  let env = makeEnv(JSON.parse(fs.readFileSync(CONFIG, 'utf8')), routes);
+  let env = makeEnv(CFG_KOSONG, routes);
   cek('cloud.isConfigured() = false', env.backend.cloud.isConfigured() === false);
   cek('push ditolak dengan pesan jelas', (await env.backend.cloud.push(env.backend.getDb())).ok === false);
   cek('tidak ada request ke Supabase', !env.calls.some(c => c.url.includes('supabase.co')));
@@ -116,6 +126,51 @@ function makeEnv(configJson, routes) {
   const fb = await env.backend.sync();
   cek('jatuh ke REST API Server', fb.mode === 'REST API Server', fb.mode);
   cek('data dari server tetap masuk', env.backend.getDb().invitations.some(i => i.id === 'dari-server'));
+
+  console.log('\n== H. Uji lengkap dari Studio (cloud.selfTest) ==');
+  const cfgAktif = { enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_publishable_OK', tables: {} };
+  const ruteSehat = [
+    { match: 'https://demo.supabase.co/rest/v1/invitations?select=slug,event_type,event_date', body: [
+      { slug: 'iceblue-adi-lina', event_type: 'pernikahan', event_date: '2026-12-14' }] },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp?select=', body: [] },
+    { match: 'https://demo.supabase.co/rest/v1/guests?select=', ok: false, status: 401, body: { code: '42501', message: 'permission denied for table guests' } },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp', method: 'POST', ok: false, status: 409, body: { code: '23503', message: 'insert or update violates foreign key constraint' } },
+    { match: 'https://demo.supabase.co/rest/v1/guests', method: 'POST', ok: false, status: 409, body: { code: '23503', message: 'insert or update violates foreign key constraint' } },
+    { match: 'https://demo.supabase.co/rest/v1/', body: [] }
+  ];
+  env = makeEnv(cfgAktif, ruteSehat);
+  const uji = await env.backend.cloud.selfTest();
+  const itemUji = nama => uji.bagian.reduce((a, b) => a.concat(b.items), []).find(i => i.nama === nama) || null;
+  cek('selfTest selesai & melaporkan 5 bagian', uji.bagian.length === 5, uji.bagian.map(b => b.judul).join(' | '));
+  cek('tanpa item gagal pada setup sehat', uji.gagal === 0, JSON.stringify(uji.bagian.map(b => b.items.filter(i => i.lulus === false).map(i => i.nama))));
+  cek('izin kirim RSVP terverifikasi lewat kode 23503', (itemUji('tamu bisa mengirim RSVP dari browser') || {}).lulus === true);
+  cek('nomor HP tamu dinyatakan aman (ditolak 401/42501)', (itemUji('daftar tamu TIDAK bisa dibaca dari browser') || {}).lulus === true);
+  cek('undangan dinyatakan terkunci dari perubahan', (itemUji('undangan tidak bisa diubah dari browser') || {}).lulus === true);
+  cek('penghapusan dilaporkan sebagai catatan (bukan klaim aman)', (itemUji('RSVP tidak bisa dihapus dari browser') || {}).lulus === null);
+  cek('kunci hanya di header apikey (selfTest)', env.calls.every(c => !c.headers.Authorization && (c.headers.apikey === undefined || c.headers.apikey === 'sb_publishable_OK')));
+
+  console.log('\n-- H2. Kondisi berbahaya harus TERDETEKSI (bukan lulus) --');
+  const ruteBahaya = [
+    { match: 'https://demo.supabase.co/rest/v1/invitations', method: 'PATCH', ok: true, status: 200, body: [{ slug: 'iceblue-adi-lina' }] },
+    { match: 'https://demo.supabase.co/rest/v1/guests?select=', ok: true, status: 200, body: [{ id: 'g1', name: 'Budi', phone: '0812' }] },
+    { match: 'https://demo.supabase.co/rest/v1/invitations?select=slug,event_type,event_date', body: [{ slug: 'iceblue-adi-lina', event_type: 'pernikahan', event_date: '2026-12-14' }] },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp?select=', body: [] },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp', method: 'POST', ok: false, status: 409, body: { code: '23503', message: 'violates foreign key constraint' } },
+    { match: 'https://demo.supabase.co/rest/v1/guests', method: 'POST', ok: false, status: 409, body: { code: '23503', message: 'violates foreign key constraint' } },
+    { match: 'https://demo.supabase.co/rest/v1/', body: [] }
+  ];
+  env = makeEnv(cfgAktif, ruteBahaya);
+  const ujiBahaya = await env.backend.cloud.selfTest();
+  const itemBahaya = nama => ujiBahaya.bagian.reduce((a, b) => a.concat(b.items), []).find(i => i.nama === nama) || null;
+  cek('selfTest GAGAL saat nomor HP tamu terbaca publik', ujiBahaya.ok === false && (itemBahaya('daftar tamu TIDAK bisa dibaca dari browser') || {}).lulus === false);
+  cek('selfTest GAGAL saat undangan bisa diubah publik', (itemBahaya('undangan tidak bisa diubah dari browser') || {}).lulus === false,
+    (itemBahaya('undangan tidak bisa diubah dari browser') || {}).info);
+
+  console.log('\n-- H3. Konfigurasi kosong → uji berhenti dengan pesan jelas --');
+  env = makeEnv(CFG_KOSONG, ruteSehat);
+  const ujiKosong = await env.backend.cloud.selfTest();
+  cek('selfTest menolak berjalan & memberi petunjuk', ujiKosong.ok === false && /supabase-config\.json/.test(JSON.stringify(ujiKosong.bagian)));
+  cek('tidak ada request ke Supabase saat config kosong', !env.calls.some(c => c.url.includes('supabase.co')));
 
   console.log('\n== RINGKASAN ==\nGAGAL: ' + gagal);
   process.exit(gagal ? 1 : 0);
