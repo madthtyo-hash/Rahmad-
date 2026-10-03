@@ -652,6 +652,16 @@
   var backendOnline = false;
 
   async function syncFromServer() {
+    // 1. Supabase Cloud (kalau dikonfigurasi) — sumber data terpusat
+    await loadCloudConfig();
+    if (cloudConfigured()) {
+      var pulled = await pullFromCloud();
+      if (pulled.ok) {
+        backendOnline = true;
+        return { online: true, mode: 'Supabase Cloud', db: pulled.db };
+      }
+    }
+    // 2. REST API Server Node (kalau dijalankan via `node server.js`)
     try {
       var res = await fetch('api/db', { cache: 'no-store' });
       if (res.ok) {
@@ -753,7 +763,356 @@
     });
   }
 
+  /* ============================================================
+     SUPABASE CLOUD (opsional) — lihat supabase/schema.sql
+     Kalau supabase-config.json belum diisi, semua fungsi di bawah
+     otomatis nonaktif dan website tetap jalan seperti biasa.
+     ============================================================ */
+  var CLOUD_CONFIG_URL = 'supabase-config.json';
+  var cloudConfig = null;
+  var cloudOnline = false;
+  var cloudLastSync = null;
+
+  var ATTENDANCE_TO_CLOUD = { 'Hadir': 'hadir', 'Tidak Hadir': 'tidak_hadir', 'Masih Ragu': 'ragu' };
+  var ATTENDANCE_FROM_CLOUD = { 'hadir': 'Hadir', 'tidak_hadir': 'Tidak Hadir', 'ragu': 'Masih Ragu' };
+
+  function cloudConfigured() {
+    return !!(cloudConfig && cloudConfig.url && cloudConfig.anonKey && cloudConfig.enabled !== false);
+  }
+
+  function cloudTable(name) {
+    var custom = cloudConfig && cloudConfig.tables && cloudConfig.tables[name];
+    return custom || name;
+  }
+
+  function cloudHeaders(extra) {
+    var headers = {
+      'apikey': cloudConfig.anonKey,
+      'Authorization': 'Bearer ' + cloudConfig.anonKey,
+      'Accept': 'application/json'
+    };
+    if (extra) {
+      Object.keys(extra).forEach(function (k) { headers[k] = extra[k]; });
+    }
+    return headers;
+  }
+
+  async function loadCloudConfig(force) {
+    if (cloudConfig && !force) return cloudConfig;
+    try {
+      var res = await fetch(CLOUD_CONFIG_URL + (force ? '?v=' + Date.now() : ''), { cache: 'no-store' });
+      cloudConfig = res.ok ? (await res.json()) || {} : {};
+    } catch (e) {
+      cloudConfig = {};
+    }
+    if (cloudConfig.url) cloudConfig.url = String(cloudConfig.url).replace(/\/+$/, '');
+    return cloudConfig;
+  }
+
+  async function cloudRest(path, options) {
+    if (!cloudConfigured()) return { ok: false, error: 'Supabase belum dikonfigurasi' };
+    options = options || {};
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 12000) : null;
+    try {
+      var res = await fetch(cloudConfig.url + '/rest/v1/' + path, {
+        method: options.method || 'GET',
+        headers: cloudHeaders(options.headers),
+        body: options.body ? JSON.stringify(options.body) : undefined,
+        cache: 'no-store',
+        signal: ctrl ? ctrl.signal : undefined
+      });
+      if (timer) clearTimeout(timer);
+      var text = await res.text();
+      var data = null;
+      if (text) {
+        try { data = JSON.parse(text); } catch (e) { data = text; }
+      }
+      cloudOnline = res.ok;
+      if (res.ok) cloudLastSync = new Date().toISOString();
+      return {
+        ok: res.ok,
+        status: res.status,
+        data: data,
+        error: res.ok ? null : ((data && data.message) || ('HTTP ' + res.status))
+      };
+    } catch (e) {
+      if (timer) clearTimeout(timer);
+      cloudOnline = false;
+      var msg = (e && e.name === 'AbortError') ? 'Koneksi ke Supabase timeout' : ((e && e.message) || 'Gagal terhubung ke Supabase');
+      return { ok: false, error: msg };
+    }
+  }
+
+  function invitationToRow(inv) {
+    var isCouple = inv.category === 'pernikahan' || inv.category === 'premium';
+    return {
+      slug: inv.slug || inv.id,
+      external_id: inv.id || inv.slug,
+      event_type: inv.category === 'premium' ? 'pernikahan' : (inv.category || 'pernikahan'),
+      theme: inv.theme || null,
+      theme_file: inv.themeFile || null,
+      is_premium: !!inv.isPremium,
+      status: inv.status || 'Aktif',
+      views: Number(inv.views) || 0,
+      title: inv.title || null,
+      groom_name: isCouple ? (inv.primaryName || null) : null,
+      bride_name: isCouple ? (inv.secondaryName || null) : null,
+      child_name: isCouple ? null : (inv.primaryName || null),
+      parents_name: inv.parents1 || null,
+      quote: inv.quote || null,
+      event_date: inv.eventDate || null,
+      akad_time: inv.akadTime || null,
+      resepsi_time: inv.resepsiTime || null,
+      venue_name: inv.venueName || null,
+      venue_maps: inv.mapsUrl || null,
+      music_url: inv.musicUrl || null,
+      payload: inv
+    };
+  }
+
+  function rowToInvitation(row) {
+    var base = (row.payload && typeof row.payload === 'object' && Object.keys(row.payload).length) ? clone(row.payload) : {};
+    var inv = Object.assign({
+      id: row.external_id || row.slug,
+      slug: row.slug,
+      category: row.event_type,
+      theme: row.theme,
+      themeFile: row.theme_file,
+      isPremium: !!row.is_premium,
+      status: row.status,
+      views: row.views,
+      title: row.title,
+      primaryName: row.groom_name || row.child_name || '',
+      secondaryName: row.bride_name || '',
+      quote: row.quote || '',
+      eventDate: row.event_date,
+      akadTime: row.akad_time,
+      resepsiTime: row.resepsi_time,
+      venueName: row.venue_name,
+      mapsUrl: row.venue_maps,
+      musicUrl: row.music_url,
+      photos: { cover: '', gallery: [] },
+      amplop: { enabled: false, accounts: [] },
+      rsvp: { enabled: true }
+    }, base);
+    if (inv.eventDate && String(inv.eventDate).length > 10) inv.eventDate = String(inv.eventDate).slice(0, 10);
+    return inv;
+  }
+
+  function rsvpToRow(item, slugById) {
+    return {
+      external_id: item.id || ('rsvp-' + Date.now()),
+      invitation_slug: (slugById && slugById[item.invitationId]) || item.invitationId || null,
+      name: item.name || 'Tamu Undangan',
+      attendance: ATTENDANCE_TO_CLOUD[item.status] || 'hadir',
+      pax: Number(item.guests) || 1,
+      phone: item.phone || null,
+      message: item.message || null,
+      created_at: item.createdAt || new Date().toISOString()
+    };
+  }
+
+  function rowToRsvp(row, idBySlug) {
+    return {
+      id: row.external_id || ('rsvp-' + row.id),
+      invitationId: (row.invitation_slug && idBySlug && idBySlug[row.invitation_slug]) || row.invitation_slug || '',
+      name: row.name || 'Tamu Undangan',
+      status: ATTENDANCE_FROM_CLOUD[row.attendance] || 'Hadir',
+      guests: row.pax || 1,
+      phone: row.phone || '',
+      message: row.message || '',
+      createdAt: row.created_at
+    };
+  }
+
+  function slugMaps(db) {
+    var slugById = {};
+    var idBySlug = {};
+    (db.invitations || []).forEach(function (inv) {
+      slugById[inv.id] = inv.slug || inv.id;
+      idBySlug[inv.slug || inv.id] = inv.id;
+      if (inv.id) idBySlug[inv.id] = inv.id;
+    });
+    return { slugById: slugById, idBySlug: idBySlug };
+  }
+
+  async function pullFromCloud() {
+    await loadCloudConfig();
+    if (!cloudConfigured()) return { ok: false, error: 'Supabase belum dikonfigurasi (isi supabase-config.json)' };
+
+    var invRes = await cloudRest(cloudTable('invitations') + '?select=*&order=created_at.asc');
+    if (!invRes.ok) return { ok: false, error: invRes.error };
+
+    var rsvpRes = await cloudRest(cloudTable('rsvp') + '?select=*&order=created_at.desc');
+    var guestRes = await cloudRest(cloudTable('guests') + '_public?select=*&order=created_at.asc');
+
+    var db = loadLocalDb();
+    var maps = slugMaps(db);
+
+    var cloudInvs = (invRes.data || []).map(rowToInvitation).filter(function (inv) {
+      return inv && inv.id && inv.themeFile;
+    });
+    cloudInvs.forEach(function (cInv) {
+      var idx = db.invitations.findIndex(function (i) { return i.id === cInv.id || i.slug === cInv.slug; });
+      if (idx > -1) db.invitations[idx] = Object.assign({}, db.invitations[idx], cInv);
+      else db.invitations.push(cInv);
+    });
+
+    var cloudRsvps = (rsvpRes.ok ? (rsvpRes.data || []) : []).map(function (row) { return rowToRsvp(row, maps.idBySlug); });
+    cloudRsvps.forEach(function (cR) {
+      var idx = db.rsvps.findIndex(function (r) { return r.id === cR.id; });
+      if (idx > -1) db.rsvps[idx] = Object.assign({}, db.rsvps[idx], cR);
+      else db.rsvps.unshift(cR);
+    });
+
+    var cloudGuests = guestRes.ok ? (guestRes.data || []) : [];
+    db.guests = cloudGuests.map(function (g) {
+      return {
+        id: g.slug_personal || g.id,
+        invitationId: g.invitation_slug || '',
+        name: g.name,
+        group: g.group_name || 'keluarga',
+        checkedIn: !!g.checked_in,
+        createdAt: g.created_at
+      };
+    });
+
+    saveLocalDb(db);
+    return {
+      ok: true,
+      invitations: cloudInvs.length,
+      rsvps: cloudRsvps.length,
+      guests: guestRes.ok ? cloudGuests.length : 0,
+      warning: rsvpRes.ok ? null : rsvpRes.error,
+      db: db
+    };
+  }
+
+  async function pushInvitationsToCloud(list) {
+    var rows = list.map(invitationToRow);
+    return cloudRest(cloudTable('invitations') + '?on_conflict=slug', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+      body: rows
+    });
+  }
+
+  async function pushRsvpsToCloud(list, db) {
+    var maps = slugMaps(db || loadLocalDb());
+    var rows = list.map(function (item) { return rsvpToRow(item, maps.slugById); });
+    return cloudRest(cloudTable('rsvp') + '?on_conflict=external_id', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+      body: rows
+    });
+  }
+
+  async function pushGuestsToCloud(list) {
+    if (!list || !list.length) return { ok: true, skipped: true };
+    var rows = list.map(function (g) {
+      return {
+        invitation_slug: g.invitationId || g.slug || null,
+        name: g.name,
+        phone: g.phone || null,
+        group_name: g.group || g.groupName || 'keluarga',
+        slug_personal: g.slugPersonal || g.id || null
+      };
+    });
+    return cloudRest(cloudTable('guests'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: rows
+    });
+  }
+
+  async function pushAllToCloud(db) {
+    await loadCloudConfig();
+    if (!cloudConfigured()) return { ok: false, error: 'Supabase belum dikonfigurasi (isi supabase-config.json)' };
+    db = db || loadLocalDb();
+    var invRes = await pushInvitationsToCloud(db.invitations || []);
+    if (!invRes.ok) return { ok: false, error: invRes.error };
+    var rsvpRes = await pushRsvpsToCloud(db.rsvps || [], db);
+    return {
+      ok: true,
+      invitations: (db.invitations || []).length,
+      rsvps: rsvpRes.ok ? (db.rsvps || []).length : 0,
+      warning: rsvpRes.ok ? null : rsvpRes.error
+    };
+  }
+
+  // Isi daftar ucapan (#wishList) dari data RSVP yang tersimpan
+  function renderWishList(inv) {
+    var wishListEl = document.getElementById('wishList');
+    if (!wishListEl || !inv) return;
+    var savedRsvps = StudioBackend.getRsvps(inv.id);
+    if (!savedRsvps || !savedRsvps.length) return;
+    wishListEl.innerHTML = '';
+    savedRsvps.forEach(function (r) {
+      if (!r.message) return;
+      var w = document.createElement('div');
+      w.className = 'wish';
+      var b = document.createElement('b');
+      b.textContent = r.name + ' · ' + (r.status || 'Hadir');
+      var p = document.createElement('p');
+      p.textContent = r.message;
+      w.appendChild(b);
+      w.appendChild(p);
+      wishListEl.appendChild(w);
+    });
+  }
+
+  var cloudApi = {
+    init: async function (force) {
+      await loadCloudConfig(force);
+      return cloudApi.status();
+    },
+    isConfigured: cloudConfigured,
+    status: function () {
+      return {
+        configured: cloudConfigured(),
+        online: cloudOnline,
+        url: cloudConfig ? (cloudConfig.url || '') : '',
+        lastSync: cloudLastSync
+      };
+    },
+    test: async function () {
+      await loadCloudConfig(true);
+      if (!cloudConfigured()) return { ok: false, error: 'Supabase belum dikonfigurasi (isi supabase-config.json)' };
+      var res = await cloudRest(cloudTable('invitations') + '?select=slug&limit=1');
+      return { ok: res.ok, error: res.error, online: cloudOnline };
+    },
+    pull: pullFromCloud,
+    push: pushAllToCloud,
+    addRsvp: async function (item) {
+      await loadCloudConfig();
+      if (!cloudConfigured()) return { ok: false, skipped: true };
+      return pushRsvpsToCloud([item], loadLocalDb());
+    },
+    addGuests: async function (list) {
+      await loadCloudConfig();
+      if (!cloudConfigured()) return { ok: false, skipped: true };
+      return pushGuestsToCloud(list);
+    },
+    saveInvitation: async function (inv) {
+      await loadCloudConfig();
+      if (!cloudConfigured()) return { ok: false, skipped: true };
+      return pushInvitationsToCloud([inv]);
+    },
+    deleteInvitation: async function (idOrSlug) {
+      await loadCloudConfig();
+      if (!cloudConfigured()) return { ok: false, skipped: true };
+      return cloudRest(cloudTable('invitations') + '?or=(external_id.eq.' + encodeURIComponent(idOrSlug) + ',slug.eq.' + encodeURIComponent(idOrSlug) + ')', { method: 'DELETE' });
+    },
+    deleteRsvp: async function (externalId) {
+      await loadCloudConfig();
+      if (!cloudConfigured()) return { ok: false, skipped: true };
+      return cloudRest(cloudTable('rsvp') + '?external_id=eq.' + encodeURIComponent(externalId), { method: 'DELETE' });
+    }
+  };
+
   var StudioBackend = {
+    cloud: cloudApi,
     getDb: function () {
       return loadLocalDb();
     },
@@ -785,12 +1144,14 @@
         db.invitations.unshift(inv);
       }
       await pushToServer(db);
+      cloudApi.saveInvitation(inv).catch(function () {});
       return inv;
     },
     deleteInvitation: async function (id) {
       var db = loadLocalDb();
       db.invitations = db.invitations.filter(function (i) { return i.id !== id; });
       await pushToServer(db);
+      cloudApi.deleteInvitation(id).catch(function () {});
       return true;
     },
     replaceDb: async function (db) {
@@ -802,7 +1163,8 @@
         updatedAt: new Date().toISOString(),
         settings: db.settings || {},
         invitations: db.invitations,
-        rsvps: Array.isArray(db.rsvps) ? db.rsvps : []
+        rsvps: Array.isArray(db.rsvps) ? db.rsvps : [],
+        guests: Array.isArray(db.guests) ? db.guests : []
       };
       await pushToServer(clean);
       return clean;
@@ -833,12 +1195,14 @@
       };
       db.rsvps.unshift(item);
       await pushToServer(db);
+      await cloudApi.addRsvp(item).catch(function () {});
       return item;
     },
     deleteRsvp: async function (rsvpId) {
       var db = loadLocalDb();
       db.rsvps = db.rsvps.filter(function (r) { return r.id !== rsvpId; });
       await pushToServer(db);
+      cloudApi.deleteRsvp(rsvpId).catch(function () {});
       return true;
     },
     compressImage: compressImage,
@@ -1007,25 +1371,14 @@
         }
 
         // Render saved wishes from StudioBackend
-        var wishListEl = document.getElementById('wishList');
-        if (wishListEl) {
-          var savedRsvps = StudioBackend.getRsvps(inv.id);
-          if (savedRsvps && savedRsvps.length > 0) {
-            wishListEl.innerHTML = '';
-            savedRsvps.forEach(function (r) {
-              if (!r.message) return;
-              var w = document.createElement('div');
-              w.className = 'wish';
-              var b = document.createElement('b');
-              b.textContent = r.name + ' · ' + (r.status || 'Hadir');
-              var p = document.createElement('p');
-              p.textContent = r.message;
-              w.appendChild(b);
-              w.appendChild(p);
-              wishListEl.appendChild(w);
-            });
-          }
-        }
+        renderWishList(inv);
+
+        // Segarkan ucapan/RSVP terbaru dari database online (kalau aktif).
+        // pull() otomatis membaca supabase-config.json; kalau belum diisi,
+        // fungsi ini langsung berhenti tanpa error dan tanpa request tambahan.
+        cloudApi.pull().then(function (res) {
+          if (res && res.ok) renderWishList(inv);
+        }).catch(function () {});
 
         // Hook RSVP Form submission to save into StudioBackend
         var rsvpForm = document.getElementById('rsvpForm');

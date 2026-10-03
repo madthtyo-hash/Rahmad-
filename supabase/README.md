@@ -1,0 +1,109 @@
+# ☁️ Supabase — Database Online Kartu Digital
+
+Folder ini menyiapkan **database online** supaya RSVP & daftar tamu dari HP tamu mana pun
+tersimpan ke satu tempat dan bisa dipantau dari Studio Admin.
+
+> **Opsional 100%.** Selama `supabase-config.json` belum diisi, website tetap jalan seperti
+> sekarang (localStorage + `data/studio-db.json`). Tidak ada error, tidak ada request tambahan.
+
+---
+
+## Kenapa perlu?
+
+| Tanpa Supabase (sekarang) | Dengan Supabase |
+|---|---|
+| RSVP tamu tersimpan di HP tamu itu sendiri | Semua RSVP masuk ke 1 database online |
+| Admin harus lihat RSVP dari HP masing-masing | Admin buka Studio → semua RSVP & tamu terkumpul |
+| Ganti HP = data tamu hilang (kecuali backup manual) | Data aman di cloud |
+
+---
+
+## Langkah pasang (sekali saja, ±5 menit)
+
+### 1. Buat project Supabase
+1. Buka <https://supabase.com> → daftar/masuk → **New project**.
+2. Isi nama project, database password (simpan sendiri), pilih region **Singapore** (paling dekat).
+3. Tunggu ±2 menit sampai project selesai dibuat.
+
+### 2. Jalankan skema database
+1. Di dashboard Supabase → menu **SQL Editor** → **New query**.
+2. Buka file [`schema.sql`](schema.sql) di folder ini, **copy semua isinya**, paste ke SQL Editor.
+3. Klik **Run**. Harus muncul `Success. No rows returned`.
+4. Cek menu **Table Editor** → harus ada tabel `invitations`, `guests`, `rsvp`
+   (plus view `guests_public`).
+
+### 3. Ambil URL & anon key
+1. Menu **Project Settings** → **API**.
+2. Copy **Project URL** (contoh: `https://abcdefgh.supabase.co`).
+3. Copy **anon public** key (tombol `Copy` di bagian *Project API keys*).
+
+> ⚠️ **PENTING:** yang dipakai hanya **anon public**. **JANGAN pernah** pakai/publikasikan
+> **`service_role` key** — itu kunci rahasia penuh dan bisa menghapus seluruh database.
+
+### 4. Isi config di repo ini
+Buka file **`supabase-config.json`** di root repo, isi seperti ini:
+
+```json
+{
+  "enabled": true,
+  "url": "https://abcdefgh.supabase.co",
+  "anonKey": "eyJhbGciOi...anon...",
+  "tables": { "invitations": "invitations", "guests": "guests", "rsvp": "rsvp" },
+  "pullOnLoad": true
+}
+```
+
+Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
+
+### 5. Cek dari Studio
+1. Buka `https://kartudigital.my.id/studio.html`.
+2. Klik tab **Penyimpanan Lokal HP & Backup Folder**.
+3. Klik **🔌 Cek Koneksi** → harus muncul “Supabase terhubung & siap dipakai”.
+4. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
+5. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
+
+---
+
+## Cara kerja singkat
+
+```
+Tamu buka undangan  →  kirim RSVP  →  POST ke Supabase (tabel rsvp)
+                                    ↘ tetap disimpan lokal di HP tamu (cadangan offline)
+Admin buka Studio   →  tarik data  →  GET dari Supabase → tampil di dashboard
+Admin ubah undangan →  simpan      →  PUT api/db (lokal) + upsert ke Supabase
+```
+
+- **Undangan** disimpan lengkap di kolom `payload` (jsonb) — persis format Studio
+  (foto, galeri, amplop, QRIS, RSVP, rundown). Kolom lain hanya salinan ringkas untuk pencarian.
+- **RSVP** memakai `external_id` unik sehingga aman dikirim berulang (tidak dobel).
+- **Tamu** hanya bisa **dibaca** lewat view `guests_public` — **nomor HP tamu tidak ikut terekspos**.
+
+---
+
+## Keamanan (baca ini)
+
+Kunci `anon` bersifat **publik** (memang ditaruh di file yang dipublikasikan) dan dilindungi
+oleh **RLS**. Skema default memberi izin tulis publik supaya Studio (yang hanya dijaga PIN
+di sisi browser) tetap bisa menyimpan data.
+
+Kalau Anda ingin lebih ketat:
+
+1. Jalankan blok **BLOK HARDENING** di bagian bawah `schema.sql`
+   (hapus tanda `--` lalu Run) → semua penulisan hanya untuk user yang login.
+2. Aktifkan **Authentication → Providers → Email** di Supabase, buat 1 akun admin.
+3. Beri tahu saya kalau mau saya tambahkan **layar login admin** di `studio.html`
+   supaya tombol kirim/ambil otomatis memakai sesi login itu.
+
+Catatan kecil lainnya:
+- RSVP publik artinya siapa pun yang tahu URL + anon key bisa mengirim RSVP.
+  Untuk undangan pribadi risikonya kecil; kalau spam jadi masalah, bisa ditambah
+  rate-limit/turnstile (bilang saja kalau mau dibuatkan).
+- `music_url` tidak diisi dari sisi aplikasi karena musik tema sudah dibuat sendiri di
+  dalam file HTML (tanpa file/CDN luar).
+
+---
+
+## Kalau ingin mematikan kembali
+
+Ubah `supabase-config.json` → `"enabled": false` (atau kosongkan `url`).
+Website langsung kembali ke mode lama tanpa error, dan data lokal tetap utuh.
