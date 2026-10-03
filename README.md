@@ -37,6 +37,14 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - `node tools/test-cloud.js` — menguji lapisan Supabase Cloud (tarik/kirim data, pemetaan RSVP,
   penolakan kunci rahasia, fallback saat offline) memakai jaringan tiruan — aman, tanpa
   menyentuh database sungguhan.
+- `node tools/ui-test.js` — uji UI nyata memakai jsdom: memuat halaman undangan sungguhan lalu
+  memeriksa hydrate data Studio (nama di cover, foto, rekening amplop, galeri, batas RSVP, buku
+  ucapan), interaksi tamu (buka undangan, countdown, lightbox, kirim RSVP, salin rekening),
+  kategori & label Studio Admin, serta filter katalog halaman depan. Perlu `npm install` sekali
+  (jsdom sebagai devDependency); server uji dijalankan otomatis di port `3131`
+  (`UI_TEST_PORT=3232` untuk mengganti). Uji ini tidak menyentuh Supabase dan tidak mengubah
+  `data/studio-db.json`.
+- `npm test` — menjalankan ketiga pemeriksa di atas berurutan (audit → cloud → UI).
 - `node tools/check-cloud.js` — memeriksa koneksi ke project Supabase **asli** yang sudah diisi
   di `supabase-config.json`: skema, izin RSVP, privasi daftar tamu (nomor HP), dan sifat
   read-only undangan. Aman diulang karena tidak menulis data.

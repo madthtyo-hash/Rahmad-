@@ -180,6 +180,16 @@ ok('selfTest jujur soal penghapusan RLS') if 'tidak bisa dipastikan dari luar' i
 for hook in ['cloudTestBtn','cloudSelfTestBtn','cloudSelfTestBox','renderSelfTest','cloudPushBtn','cloudPullBtn','cloudStatusText']:
     ok(f'studio.html: {hook}') if hook in st else bad(f'studio.html tidak memuat {hook}')
 ok('tools/check-cloud.js ada (pemeriksa koneksi project asli)') if os.path.exists('tools/check-cloud.js') else warn('tools/check-cloud.js tidak ada')
+if os.path.exists('tools/ui-test.js'):
+    ok('tools/ui-test.js ada (uji UI jsdom)')
+    ui = rd('tools/ui-test.js')
+    ok('uji UI memuat halaman undangan baru') if all(t in ui for t in ['undangan-midnight.html','undangan-aqiqah.html','undangan-wisuda.html','undangan-platinum.html']) else bad('uji UI belum memuat 4 tema baru')
+    ok('uji UI memakai port uji sendiri (tidak bentrok server dev)') if 'UI_TEST_PORT' in ui else warn('uji UI tidak menyediakan UI_TEST_PORT')
+    cek_pkg = json.loads(rd('package.json'))
+    ok('package.json menyediakan skrip test:ui') if 'test:ui' in (cek_pkg.get('scripts') or {}) else warn('package.json belum punya skrip test:ui')
+    ok('jsdom terdaftar sebagai devDependency') if 'jsdom' in (cek_pkg.get('devDependencies') or {}) else warn('jsdom belum terdaftar di devDependencies')
+else:
+    warn('tools/ui-test.js tidak ada (uji UI dilewati)')
 if os.path.exists('tools/check-cloud.js'):
     cc = rd('tools/check-cloud.js')
     ok('check-cloud.js menolak kunci rahasia') if 'sb_secret_' in cc else bad('check-cloud.js tidak memeriksa kunci rahasia')
