@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-10-02T15:00:00.000Z",
+  "updatedAt": "2026-10-03T02:00:00.000Z",
   "settings": {
     "brandName": "Kartu Digital",
     "domain": "kartudigital.my.id",
@@ -190,7 +190,7 @@
           {
             "id": "acc-6",
             "bank": "GoPay",
-            "number": "081234567890",
+            "number": "087890001122",
             "holder": "Laras Ayu Wulandari"
           }
         ]
@@ -397,6 +397,202 @@
         "allowWishes": true,
         "requirePhone": false
       }
+    },
+    {
+      "id": "iceblue-adi-lina",
+      "slug": "iceblue-adi-lina",
+      "category": "pernikahan",
+      "theme": "Ice Blue Floral ❄",
+      "themeFile": "undangan-iceblue.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 76,
+      "title": "The Wedding Of",
+      "primaryName": "Adi",
+      "secondaryName": "Lina",
+      "fullName1": "Adi Fadillah, S.T.",
+      "parents1": "Putra dari Bapak H. Fadillah & Ibu Hj. Nurhayati",
+      "fullName2": "Lina Marlina, S.E.",
+      "parents2": "Putri dari Bapak M. Soleh & Ibu Siti Aminah",
+      "quote": "Dan di antara tanda-tanda kekuasaan-Nya, Dia menciptakan untukmu pasangan dari jenismu sendiri, supaya kamu merasa tenteram dan tenang bersamanya. (Ar-Rum: 21)",
+      "eventDate": "2026-12-14",
+      "akadTime": "08.00 – 10.00 WIB",
+      "resepsiTime": "11.00 – 14.00 WIB",
+      "venueName": "The Ice Blue Hall",
+      "venueAddress": "Jl. Gatot Subroto No. 21, Jakarta Selatan",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Gatot+Subroto+Jakarta",
+      "navMode": "scroll",
+      "fxMode": "salju",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-iceblue-cover.jpg",
+        "photo1": "foto-iceblue-cover.jpg",
+        "photo2": "foto-cover.jpg",
+        "gallery": [
+          "foto-iceblue-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg",
+          "foto-jawa-cover.jpg",
+          "foto-premium-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran dan doa Anda adalah hadiah terindah. Namun jika ingin berbagi tanda kasih, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "Jl. Gatot Subroto No. 21, Jakarta Selatan",
+        "accounts": [
+          {
+            "id": "acc-13",
+            "bank": "BCA",
+            "number": "8830456712",
+            "holder": "Adi Fadillah"
+          },
+          {
+            "id": "acc-14",
+            "bank": "DANA",
+            "number": "089612345670",
+            "holder": "Lina Marlina"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-12-05",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    },
+    {
+      "id": "iceblue-khitanan-alif",
+      "slug": "iceblue-khitanan-alif",
+      "category": "khitanan",
+      "theme": "Ice Blue Barakah ❄",
+      "themeFile": "undangan-iceblue-khitanan.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 58,
+      "title": "Walimatul Khitan",
+      "primaryName": "M. Alif Fadhlan",
+      "secondaryName": "Usia 8 Tahun",
+      "fullName1": "Muhammad Alif Fadhlan",
+      "parents1": "Putra dari Bapak Andri Saputra & Ibu Fitri Handayani",
+      "fullName2": "Usia 8 Tahun",
+      "parents2": "Dress Code: Putih, Biru Langit & Silver",
+      "quote": "Ya Allah, jadikanlah ia anak yang sholeh, berbakti kepada kedua orang tua, dan bermanfaat bagi agama serta bangsanya.",
+      "eventDate": "2026-11-22",
+      "akadTime": "09.00 – 11.00 WIB (Prosesi Khitan & Doa)",
+      "resepsiTime": "11.00 – 14.00 WIB (Syukuran & Makan Bersama)",
+      "venueName": "Aula Al-Ikhlas",
+      "venueAddress": "Jl. Cihampelas No. 88, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Aula+Al-Ikhlas+Bandung",
+      "navMode": "scroll",
+      "fxMode": "salju",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-iceblue-khitanan-cover.jpg",
+        "photo1": "foto-iceblue-khitanan-cover.jpg",
+        "photo2": "foto-khitanan-cover.jpg",
+        "gallery": [
+          "foto-iceblue-khitanan-cover.jpg",
+          "foto-khitanan-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran dan doa Anda adalah hadiah terindah. Namun jika ingin berbagi tanda kasih untuk ananda, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "Jl. Cihampelas No. 88, Bandung",
+        "accounts": [
+          {
+            "id": "acc-15",
+            "bank": "BSI",
+            "number": "7112233445",
+            "holder": "Andri Saputra"
+          },
+          {
+            "id": "acc-16",
+            "bank": "GoPay",
+            "number": "089612345671",
+            "holder": "Fitri Handayani"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-15",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
+    },
+    {
+      "id": "iceblue-ultah-kalila",
+      "slug": "iceblue-ultah-kalila",
+      "category": "ultah",
+      "theme": "Ice Blue Party 🎂",
+      "themeFile": "undangan-iceblue-ultah.html",
+      "isPremium": false,
+      "status": "Aktif",
+      "views": 92,
+      "title": "8th Birthday Party",
+      "primaryName": "Kalila Zahra",
+      "secondaryName": "Turning 8!",
+      "fullName1": "Kalila Zahra Aqila",
+      "parents1": "Putri dari Bapak Rizky Pratama & Ibu Anisa Rahmawati",
+      "fullName2": "Turning 8 Years Old",
+      "parents2": "Dress Code: Ice Blue, White & Silver",
+      "quote": "Yuk datang dan rayakan ulang tahun Kalila yang ke-8! Ada ice cream party, games seru, sulap, tiup lilin, dan goodie bag spesial!",
+      "eventDate": "2026-12-06",
+      "akadTime": "15.00 – 16.30 WIB (Games & Ice Cream Party)",
+      "resepsiTime": "16.30 – 19.00 WIB (Tiup Lilin, Potong Kue & Dinner)",
+      "venueName": "Frosty Garden Cafe",
+      "venueAddress": "Jl. Dago Pakar No. 45, Bandung",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dago+Pakar+Bandung",
+      "navMode": "scroll",
+      "fxMode": "salju",
+      "musicUrl": "musik.mp3",
+      "photos": {
+        "cover": "foto-iceblue-ultah-cover.jpg",
+        "photo1": "foto-iceblue-ultah-cover.jpg",
+        "photo2": "foto-ultah-cover.jpg",
+        "gallery": [
+          "foto-iceblue-ultah-cover.jpg",
+          "foto-ultah-cover.jpg",
+          "foto-cover.jpg",
+          "foto-rahma-cover.jpg"
+        ]
+      },
+      "amplop": {
+        "enabled": true,
+        "note": "Kehadiran dan doa kamu adalah hadiah paling seru! Jika ingin mengirimkan kado atau angpau ulang tahun untuk Kalila, kami sediakan dengan tulus hati:",
+        "whatsappConfirm": "6285196755675",
+        "giftAddress": "Jl. Dago Pakar No. 45, Bandung (Rumah Kalila)",
+        "accounts": [
+          {
+            "id": "acc-17",
+            "bank": "BCA",
+            "number": "7788990012",
+            "holder": "Rizky Pratama"
+          },
+          {
+            "id": "acc-18",
+            "bank": "DANA",
+            "number": "089612345672",
+            "holder": "Anisa Rahmawati"
+          }
+        ]
+      },
+      "rsvp": {
+        "enabled": true,
+        "deadline": "2026-11-30",
+        "maxGuests": 4,
+        "allowWishes": true,
+        "requirePhone": false
+      }
     }
   ],
   "rsvps": [
@@ -459,6 +655,36 @@
       "phone": "081987654321",
       "message": "Happy 7th Birthday Kanaya cantik! Alya nggak sabar datang ke pesta ulang tahunnya 🎂🎈",
       "createdAt": "2026-10-02T10:05:00.000Z"
+    },
+    {
+      "id": "rsvp-7",
+      "invitationId": "iceblue-adi-lina",
+      "name": "Keluarga Bapak Hendra",
+      "status": "Hadir",
+      "guests": 3,
+      "phone": "081900112233",
+      "message": "Barakallah Adi & Lina! Tema Ice Blue-nya elegan banget 🤍",
+      "createdAt": "2026-10-02T11:00:00.000Z"
+    },
+    {
+      "id": "rsvp-8",
+      "invitationId": "iceblue-khitanan-alif",
+      "name": "Ustadz Rahmat & Keluarga",
+      "status": "Hadir",
+      "guests": 4,
+      "phone": "081755667788",
+      "message": "Barakallah ananda Alif, semoga menjadi anak sholeh dan hafal Qur'an.",
+      "createdAt": "2026-10-02T11:30:00.000Z"
+    },
+    {
+      "id": "rsvp-9",
+      "invitationId": "iceblue-ultah-kalila",
+      "name": "Alya & Mama",
+      "status": "Hadir",
+      "guests": 2,
+      "phone": "081987654321",
+      "message": "Happy 8th Birthday Kalila cantik! Nggak sabar ikut ice cream party-nya 🎂",
+      "createdAt": "2026-10-02T12:05:00.000Z"
     }
   ]
 }

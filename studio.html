@@ -210,7 +210,8 @@
         <button type="button" data-nav="amplop"><span class="ic">🎁</span> Amplop Digital</button>
         <button type="button" data-nav="rsvp"><span class="ic">💌</span> Pengaturan RSVP</button>
         <button type="button" data-nav="share"><span class="ic">🔗</span> Sebar Link Tamu</button>
-        <button type="button" data-nav="koleksi"><span class="ic">▣</span> Semua Tema (6)</button>
+        <button type="button" data-nav="storage"><span class="ic">💾</span> Penyimpanan Lokal HP</button>
+        <button type="button" data-nav="koleksi"><span class="ic">▣</span> Semua Tema (9)</button>
       </nav>
       <div class="sidebar-box">
         <b>Kategori Tersedia:</b>
@@ -307,12 +308,19 @@
                 <div class="field">
                   <label for="fThemeFile">Pilih Template Tema</label>
                   <select id="fThemeFile">
-                    <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
-                    <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
-                    <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
-                    <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
-                    <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
-                    <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
+                    <optgroup label="Tema Reguler">
+                      <option value="undangan-sage.html" data-cat="pernikahan">Sage Blossom ⭐ (Pernikahan)</option>
+                      <option value="undangan-jawa.html" data-cat="pernikahan">Jawa Heritage ✨ (Pernikahan Adat)</option>
+                      <option value="undangan-demo.html" data-cat="pernikahan">Blush &amp; Emerald Floral (Pernikahan)</option>
+                      <option value="undangan-iceblue.html" data-cat="pernikahan">Ice Blue Floral ❄ (Pernikahan — BARU)</option>
+                      <option value="undangan-khitanan.html" data-cat="khitanan">Al-Fatih Islamic Gold 🕌 (Tema Khitanan)</option>
+                      <option value="undangan-iceblue-khitanan.html" data-cat="khitanan">Ice Blue Barakah ❄ (Khitanan — BARU)</option>
+                      <option value="undangan-ultah.html" data-cat="ultah">Sweet Wonder Party 🎂 (Tema Ulang Tahun)</option>
+                      <option value="undangan-iceblue-ultah.html" data-cat="ultah">Ice Blue Party ❄ (Ulang Tahun — BARU)</option>
+                    </optgroup>
+                    <optgroup label="Tema Premium 👑">
+                      <option value="undangan-premium.html" data-cat="premium">Royal Gold Luxury 👑 (Tema Premium)</option>
+                    </optgroup>
                   </select>
                 </div>
 
@@ -676,6 +684,53 @@
                 <div id="bulkResultList" class="rsvp-list"></div>
               </div>
             </section>
+
+            <!-- ================= TAB 6: PENYIMPANAN LOKAL HP & BACKUP ================= -->
+            <section class="panel tab-pane" id="tab-storage">
+              <h3><span>Penyimpanan Lokal HP &amp; Backup Folder</span><span style="font-size:12px;color:var(--muted);font-weight:500">Offline Ready</span></h3>
+              <p class="sub-desc">Semua perubahan (foto, QRIS, pengaturan amplop, RSVP, link tamu) otomatis tersimpan di <b>penyimpanan lokal HP</b> Anda. Lakukan <b>backup folder HP</b> secara berkala agar data aman &amp; bisa dipulihkan.</p>
+
+              <div class="rsvp-stats">
+                <div class="rsvp-mini"><b id="storageInvCount">0</b><small>Undangan Tersimpan</small></div>
+                <div class="rsvp-mini"><b id="storageRsvpCount">0</b><small>RSVP Tersimpan</small></div>
+                <div class="rsvp-mini"><b id="storageSize">0 KB</b><small>Ukuran Penyimpanan</small></div>
+              </div>
+
+              <div style="background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px">
+                <strong style="display:block;margin-bottom:6px">📍 Status Penyimpanan Lokal HP</strong>
+                <div style="color:var(--muted)" id="storageModeText">Mode: Cloud LocalSync (localStorage)</div>
+                <div style="color:var(--muted)" id="storageUpdatedText">Terakhir diperbarui: —</div>
+              </div>
+
+              <div style="background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px">
+                <strong style="display:block;margin-bottom:6px">☁️ Database Online (Supabase) — Opsional</strong>
+                <div style="color:var(--muted)" id="cloudStatusText">Status: belum dikonfigurasi — isi <code>supabase-config.json</code></div>
+                <p class="sub-desc" style="margin:8px 0 10px">Kalau diaktifkan, <b>RSVP &amp; daftar tamu dari HP tamu mana pun langsung tersimpan ke satu database online</b> — jadi Anda bisa memantau konfirmasi tanpa memegang HP tamu. Petunjuk lengkap ada di <code>supabase/README.md</code>.</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <button type="button" class="btn" id="cloudTestBtn">🔌 Cek Koneksi</button>
+                  <button type="button" class="btn primary" id="cloudPushBtn">⬆ Kirim ke Supabase</button>
+                  <button type="button" class="btn" id="cloudPullBtn">⬇ Ambil dari Supabase</button>
+                </div>
+                <p class="sub-desc" style="margin-top:8px">“Kirim” menyalin undangan + RSVP dari perangkat ini ke Supabase. “Ambil” menarik RSVP/daftar tamu terbaru dari Supabase ke perangkat ini.</p>
+              </div>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label>Backup &amp; Pemulihan</label>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="button" class="btn primary" id="backupLocalBtn">⬇ Backup ke Folder HP</button>
+                    <label class="btn" for="restoreLocalFile" style="margin:0">📂 Pulihkan dari File Backup</label>
+                    <input type="file" id="restoreLocalFile" accept="application/json,.json" style="display:none">
+                    <button type="button" class="btn" id="refreshStorageBtn">↻ Hitung Ulang</button>
+                  </div>
+                  <p class="sub-desc" style="margin-top:8px">File backup berformat <code>.json</code>. Di browser yang mendukung, Anda bisa langsung memilih folder HP/laptop tujuan; jika tidak, file otomatis masuk ke folder <b>Download</b>.</p>
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <span class="saved">Data tidak dikirim ke pihak ketiga — hanya tersimpan di perangkat Anda &amp; Backend Studio milik sendiri.</span>
+              </div>
+            </section>
           </div>
 
           <!-- ================= LIVE PREVIEW PANEL ================= -->
@@ -717,13 +772,13 @@
         <section class="projects" id="koleksiSection" style="margin-top:30px">
           <div class="heading" style="margin-bottom:14px">
             <div>
-              <div class="eyebrow">Katalog &amp; Koleksi Studio</div>
+              <div class="eyebrow">Katalog &amp; Koleksi Studio (9 Tema)</div>
               <h2 style="font-size:24px">Semua Tema Undangan (Pernikahan, Khitanan, Ulang Tahun &amp; Premium)</h2>
             </div>
           </div>
 
           <div class="cat-filter" id="collectionFilter">
-            <button type="button" class="active" data-cat="all">Semua Tema (6)</button>
+            <button type="button" class="active" data-cat="all">Semua Tema (9)</button>
             <button type="button" data-cat="pernikahan">💍 Tema Pernikahan (3)</button>
             <button type="button" data-cat="khitanan">🕌 Tema Khitanan (1)</button>
             <button type="button" data-cat="ultah">🎂 Tema Ulang Tahun (1)</button>
@@ -785,6 +840,7 @@
           else if (target === 'amplop') { activateTab('tab-amplop'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
           else if (target === 'rsvp') { activateTab('tab-rsvp'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
           else if (target === 'share') { activateTab('tab-share'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
+          else if (target === 'storage') { refreshStorageInfo(); activateTab('tab-storage'); window.scrollTo({ top: 220, behavior: 'smooth' }); }
           else if (target === 'koleksi') {
             $('koleksiSection').scrollIntoView({ behavior: 'smooth' });
           }
@@ -1556,6 +1612,19 @@
           wrap.appendChild(row);
         });
         showToast('✓ ' + names.length + ' link tamu massal berhasil dibuat');
+        // Simpan daftar tamu ke database online (kalau Supabase aktif)
+        if (StudioBackend.cloud && StudioBackend.cloud.isConfigured()) {
+          StudioBackend.cloud.addGuests(bulkResults.map(function (r, idx) {
+            return {
+              invitationId: activeId,
+              name: r.name,
+              group: 'keluarga',
+              slugPersonal: String(r.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || ('tamu-' + (idx + 1))
+            };
+          })).then(function (res) {
+            if (res.ok) showToast('☁️ ' + names.length + ' tamu tersimpan ke database online');
+          }).catch(function () {});
+        }
       });
       $('bulkCopyAllBtn').addEventListener('click', function () {
         if (!bulkResults.length) { showToast('⚠ Generate daftar tamu terlebih dahulu'); return; }
@@ -1564,12 +1633,141 @@
         showToast('✓ Semua link tamu disalin');
       });
 
+      // ---------- PENYIMPANAN LOKAL HP & BACKUP FOLDER HP ----------
+      function formatBytes(bytes) {
+        if (!bytes || bytes < 1024) return (bytes || 0) + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+      function refreshStorageInfo() {
+        var db;
+        try { db = StudioBackend.getDb(); } catch (e) { return; }
+        if (!db) return;
+        var invCount = (db.invitations || []).length;
+        var rsvpCount = (db.rsvps || []).length;
+        $('storageInvCount').textContent = invCount;
+        $('storageRsvpCount').textContent = rsvpCount;
+        $('storageSize').textContent = formatBytes(JSON.stringify(db).length);
+        var online = StudioBackend.isOnline();
+        var cloud = StudioBackend.cloud ? StudioBackend.cloud.status() : { configured: false, online: false };
+        var modeText;
+        if (cloud.configured && online) modeText = 'Supabase Cloud + localStorage HP';
+        else if (cloud.configured) modeText = 'Supabase Cloud (offline — pakai data lokal)';
+        else if (online) modeText = 'REST API Server + localStorage HP';
+        else modeText = 'Cloud LocalSync (localStorage HP)';
+        $('storageModeText').textContent = 'Mode: ' + modeText +
+          ' · ' + invCount + ' undangan · ' + rsvpCount + ' RSVP';
+        $('storageUpdatedText').textContent = 'Terakhir diperbarui: ' +
+          (db.updatedAt ? new Date(db.updatedAt).toLocaleString('id-ID') : '—');
+        if ($('cloudStatusText')) {
+          if (!cloud.configured) {
+            $('cloudStatusText').textContent = 'Status: ' + (cloud.pesan || 'belum dikonfigurasi') + ' (lihat supabase/README.md)';
+          } else {
+            $('cloudStatusText').textContent = 'Status: aktif · ' + (cloud.online ? 'terhubung ✅' : 'belum terhubung ⚠') +
+              ' · ' + cloud.url + ' · kunci: ' + (cloud.keyType || '-') +
+              (cloud.lastSync ? ' · sinkron terakhir ' + new Date(cloud.lastSync).toLocaleTimeString('id-ID') : '');
+          }
+        }
+      }
+      $('refreshStorageBtn').addEventListener('click', function () {
+        refreshStorageInfo();
+        showToast('↻ Data penyimpanan lokal diperbarui');
+      });
+      $('cloudTestBtn') && $('cloudTestBtn').addEventListener('click', async function () {
+        showToast('🔌 Menguji koneksi Supabase…');
+        var res = await StudioBackend.cloud.test();
+        if (res.ok) showToast('✓ Supabase terhubung & siap dipakai');
+        else showToast('⚠ ' + (res.error || 'Gagal terhubung'));
+        refreshStorageInfo();
+      });
+      $('cloudPushBtn') && $('cloudPushBtn').addEventListener('click', async function () {
+        showToast('⬆ Mengirim data ke Supabase…');
+        var res = await StudioBackend.cloud.push(StudioBackend.getDb());
+        if (res.ok) {
+          showToast('✓ Terkirim: ' + res.invitations + ' undangan & ' + res.rsvps + ' RSVP' + (res.warning ? ' (catatan: ' + res.warning + ')' : ''));
+        } else {
+          showToast('⚠ ' + (res.error || 'Gagal mengirim ke Supabase'));
+        }
+        refreshStorageInfo();
+      });
+      $('cloudPullBtn') && $('cloudPullBtn').addEventListener('click', async function () {
+        showToast('⬇ Mengambil data dari Supabase…');
+        var res = await StudioBackend.cloud.pull();
+        if (res.ok) {
+          renderDashboardStats();
+          renderProjectsCollection();
+          renderRsvpList();
+          loadActiveInvitationToForm();
+          showToast('✓ Diambil: ' + res.invitations + ' undangan, ' + res.rsvps + ' RSVP, ' + res.guests + ' tamu' + (res.warning ? ' (catatan: ' + res.warning + ')' : ''));
+        } else {
+          showToast('⚠ ' + (res.error || 'Gagal mengambil dari Supabase'));
+        }
+        refreshStorageInfo();
+      });
+      $('backupLocalBtn').addEventListener('click', async function () {
+        var db = StudioBackend.getDb();
+        var fileName = 'kartu-digital-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+        var blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+        if (window.showSaveFilePicker) {
+          try {
+            var handle = await window.showSaveFilePicker({
+              suggestedName: fileName,
+              types: [{ description: 'Backup Studio Kartu Digital', accept: { 'application/json': ['.json'] } }]
+            });
+            var writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            showToast('✓ Backup tersimpan di folder pilihan Anda');
+            return;
+          } catch (e) {
+            if (e && e.name === 'AbortError') return;
+          }
+        }
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = fileName;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+        showToast('✓ Backup diunduh ke folder Download HP');
+      });
+      $('restoreLocalFile').addEventListener('change', function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = async function () {
+          try {
+            var parsed = JSON.parse(String(reader.result));
+            if (!parsed || !Array.isArray(parsed.invitations)) throw new Error('format');
+            await StudioBackend.replaceDb(parsed);
+            activeId = parsed.invitations[0] ? parsed.invitations[0].id : activeId;
+            renderDashboardStats();
+            renderProjectsCollection();
+            loadActiveInvitationToForm();
+            refreshStorageInfo();
+            showToast('✓ Backup berhasil dipulihkan dari folder HP');
+          } catch (err) {
+            showToast('⚠ File backup tidak valid');
+          }
+          e.target.value = '';
+        };
+        reader.readAsText(file);
+      });
+
       // Initialize & Sync with Backend Studio
       (async function init() {
         var syncRes = await StudioBackend.sync();
+        var cloudState = StudioBackend.cloud ? StudioBackend.cloud.status() : { configured: false };
         if (syncRes && syncRes.online) {
-          $('apiModeBadge').textContent = '⚡ REST API Server Aktif';
-          $('backendStatusText').textContent = 'Backend Server Online';
+          if (syncRes.mode === 'Supabase Cloud') {
+            $('apiModeBadge').textContent = '☁️ Supabase Cloud Aktif';
+            $('backendStatusText').textContent = 'Database Online Terhubung';
+          } else {
+            $('apiModeBadge').textContent = '⚡ REST API Server Aktif';
+            $('backendStatusText').textContent = 'Backend Server Online';
+          }
+        } else if (cloudState.configured) {
+          $('apiModeBadge').textContent = '☁️ Supabase Cloud (offline)';
+          $('backendStatusText').textContent = 'Mode Lokal + Database Online Siap';
         } else {
           $('apiModeBadge').textContent = '⚡ Cloud LocalSync Aktif';
           $('backendStatusText').textContent = 'Backend Studio Ready';
@@ -1579,6 +1777,7 @@
         renderDashboardStats();
         renderProjectsCollection();
         loadActiveInvitationToForm();
+        refreshStorageInfo();
       })();
     })();
   </script>

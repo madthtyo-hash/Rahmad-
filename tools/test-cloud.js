@@ -1,0 +1,122 @@
+/**
+ * Uji lapisan Supabase Cloud di studio-api.js TANPA menyentuh database sungguhan.
+ * Semua permintaan jaringan dipalsukan (mock), jadi aman dijalankan kapan saja.
+ *
+ * Cara pakai:
+ *     cd /home/user/Rahmad-
+ *     node tools/test-cloud.js
+ */
+const fs = require('fs');
+const path = require('path');
+const SRC = path.join(__dirname, '..', 'studio-api.js');
+const CONFIG = path.join(__dirname, '..', 'supabase-config.json');
+
+function makeEnv(configJson, routes) {
+  const calls = [], store = {};
+  global.window = {};
+  global.localStorage = {
+    getItem: k => (k in store ? store[k] : null),
+    setItem: (k, v) => { store[k] = String(v); },
+    removeItem: k => { delete store[k]; }
+  };
+  global.fetch = async (url, opts = {}) => {
+    calls.push({ url, method: opts.method || 'GET', headers: opts.headers || {}, body: opts.body ? JSON.parse(opts.body) : null });
+    const resp = (ok, body) => ({ ok, status: ok ? 200 : 403, text: async () => JSON.stringify(body), json: async () => JSON.parse(JSON.stringify(body)) });
+    if (url.startsWith('supabase-config.json')) return resp(true, configJson);
+    for (const r of routes) if (url.startsWith(r.match)) return resp(r.ok !== false, r.body);
+    return resp(false, { message: 'Tidak ada rute mock' });
+  };
+  global.document = { getElementById: () => null, querySelectorAll: () => [], createElement: () => ({ style: {}, setAttribute() {} }) };
+  global.navigator = {};
+  delete require.cache[require.resolve(SRC)];
+  require(SRC);
+  return { calls, backend: global.window.StudioBackend };
+}
+
+(async () => {
+  let gagal = 0;
+  const cek = (n, c, i = '') => { console.log((c ? '  ✓ ' : '  ✗ ') + n + (i ? ' → ' + i : '')); if (!c) gagal++; };
+  const routes = [
+    { match: 'https://demo.supabase.co/rest/v1/invitations', ok: true, body: [] },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp', ok: true, body: [] }
+  ];
+
+  console.log('\n== A. Config default (belum diisi) ==');
+  let env = makeEnv(JSON.parse(fs.readFileSync(CONFIG, 'utf8')), routes);
+  cek('cloud.isConfigured() = false', env.backend.cloud.isConfigured() === false);
+  cek('push ditolak dengan pesan jelas', (await env.backend.cloud.push(env.backend.getDb())).ok === false);
+  cek('tidak ada request ke Supabase', !env.calls.some(c => c.url.includes('supabase.co')));
+
+  console.log('\n== B. Publishable key diterima, secret ditolak ==');
+  env = makeEnv({ enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_publishable_OK', tables: {} }, routes);
+  await env.backend.cloud.init();
+  cek('publishable dikenali', env.backend.cloud.status().configured === true && env.backend.cloud.status().keyType === 'publishable');
+  const errAsli = console.error; console.error = () => {};
+  const env2 = makeEnv({ enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_secret_JANGAN', tables: {} }, routes);
+  await env2.backend.cloud.init();
+  console.error = errAsli;
+  cek('secret key ditolak + pesan jelas', env2.backend.cloud.status().configured === false && /RAHASIA/.test(env2.backend.cloud.status().pesan));
+  cek('secret key tidak menghubungi Supabase', !env2.calls.some(c => c.url.includes('supabase.co')));
+
+  console.log('\n== C. Tarik data: undangan + RSVP, tamu TIDAK diambil ==');
+  env = makeEnv({ enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_publishable_OK', tables: {} }, [
+    { match: 'https://demo.supabase.co/rest/v1/invitations', body: [
+      { slug: 'cloud-baru', external_id: 'cloud-baru', event_type: 'khitanan', theme_file: 'undangan-iceblue-khitanan.html',
+        child_name: 'Alif', event_date: '2026-11-22',
+        payload: { themeFile: 'undangan-iceblue-khitanan.html', category: 'khitanan', primaryName: 'Alif',
+                   photos: { cover: 'foto-iceblue-khitanan-cover.jpg', gallery: [] },
+                   amplop: { enabled: true, accounts: [] }, rsvp: { enabled: true } } }
+    ] },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp', body: [
+      { id: 'u1', external_id: 'rsvp-901', invitation_slug: 'cloud-baru', name: 'Om Budi', attendance: 'hadir', pax: 2, message: 'Hadir', created_at: '2026-10-03T04:00:00Z' }
+    ] }
+  ]);
+  const pull = await env.backend.cloud.pull();
+  cek('pull berhasil', pull.ok === true, JSON.stringify({ inv: pull.invitations, rsvp: pull.rsvps }));
+  cek('undangan cloud masuk lokal', env.backend.getDb().invitations.some(i => i.id === 'cloud-baru'));
+  cek('RSVP cloud masuk & status dipetakan', env.backend.getDb().rsvps.some(r => r.id === 'rsvp-901' && r.status === 'Hadir'));
+  cek('TIDAK ada request ke tabel tamu', !env.calls.some(c => c.url.includes('guest')));
+  cek('undangan lokal lama tetap ada', env.backend.getDb().invitations.length >= 9);
+
+  console.log('\n== D. Kirim data ke Supabase ==');
+  const push = await env.backend.cloud.push(env.backend.getDb());
+  const invCall = env.calls.filter(c => c.method === 'POST' && c.url.includes('/invitations')).pop();
+  const rsvpCall = env.calls.filter(c => c.method === 'POST' && c.url.includes('/rsvp')).pop();
+  cek('push berhasil', push.ok === true, JSON.stringify({ inv: push.invitations, rsvp: push.rsvps, warn: push.warning }));
+  cek('undangan dikirim dengan on_conflict=slug', !!invCall && invCall.body.length >= 9);
+  cek('kolom ringkas terisi (Adi/2026-12-14)', (() => {
+    const r = invCall.body.find(x => x.slug === 'iceblue-adi-lina');
+    return r && r.groom_name === 'Adi' && r.event_date === '2026-12-14' && r.payload && Array.isArray(r.payload.photos.gallery);
+  })());
+  cek('RSVP memakai nilai SQL & invitation_slug', rsvpCall.body.every(r => ['hadir','tidak_hadir','ragu'].includes(r.attendance) && typeof r.invitation_slug === 'string'));
+
+  console.log('\n== E. Undangan read-only (ditolak cloud) → RSVP tetap terkirim ==');
+  env = makeEnv({ enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_publishable_OK', tables: {} }, [
+    { match: 'https://demo.supabase.co/rest/v1/invitations', ok: false, body: { message: 'violates row-level security policy' } },
+    { match: 'https://demo.supabase.co/rest/v1/rsvp', ok: true, body: [] }
+  ]);
+  const push2 = await env.backend.cloud.push(env.backend.getDb());
+  cek('tetap sukses sebagian', push2.ok === true && push2.rsvps > 0);
+  cek('ada catatan read-only', /read-only/.test(push2.warning || ''), push2.warning);
+
+  console.log('\n== F. RSVP tamu dari halaman undangan ==');
+  env = makeEnv({ enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_publishable_OK', tables: {} }, routes);
+  const item = await env.backend.addRsvp({ invitationId: 'iceblue-adi-lina', name: 'Tamu Uji', status: 'Tidak Hadir', guests: 2, message: 'Maaf' });
+  const post = env.calls.filter(c => c.method === 'POST' && c.url.includes('/rsvp')).pop();
+  cek('RSVP tersimpan lokal', env.backend.getDb().rsvps.some(r => r.id === item.id));
+  cek('RSVP terkirim ke Supabase (tidak_hadir)', !!post && post.body.some(r => r.external_id === item.id && r.attendance === 'tidak_hadir'));
+  cek('kunci hanya di header apikey', post.headers.apikey === 'sb_publishable_OK' && !post.headers.Authorization);
+
+  console.log('\n== G. Supabase mati → fallback REST API Server ==');
+  env = makeEnv({ enabled: true, url: 'https://demo.supabase.co', anonKey: 'sb_publishable_OK', tables: {} }, [
+    { match: 'https://demo.supabase.co/rest/v1/', ok: false, body: { message: 'gagal' } },
+    { match: 'api/db', body: { ok: true, db: { version: '2.0.0',
+      invitations: [{ id: 'dari-server', slug: 'dari-server', themeFile: 'undangan-iceblue.html', category: 'pernikahan', primaryName: 'Server', photos: { gallery: [] } }], rsvps: [] } } }
+  ]);
+  const fb = await env.backend.sync();
+  cek('jatuh ke REST API Server', fb.mode === 'REST API Server', fb.mode);
+  cek('data dari server tetap masuk', env.backend.getDb().invitations.some(i => i.id === 'dari-server'));
+
+  console.log('\n== RINGKASAN ==\nGAGAL: ' + gagal);
+  process.exit(gagal ? 1 : 0);
+})();
