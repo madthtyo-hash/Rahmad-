@@ -776,8 +776,37 @@
   var ATTENDANCE_TO_CLOUD = { 'Hadir': 'hadir', 'Tidak Hadir': 'tidak_hadir', 'Masih Ragu': 'ragu' };
   var ATTENDANCE_FROM_CLOUD = { 'hadir': 'Hadir', 'tidak_hadir': 'Tidak Hadir', 'ragu': 'Masih Ragu' };
 
+  function cloudKey() {
+    if (!cloudConfig) return '';
+    // Terima anon key lama (JWT "eyJ...") maupun Publishable key baru ("sb_publishable_...")
+    return cloudConfig.anonKey || cloudConfig.publishableKey || '';
+  }
+
+  function cloudKeyInfo() {
+    var key = cloudKey();
+    if (!key) return { type: 'kosong' };
+    if (/^sb_secret_/.test(key)) return { type: 'secret', bahaya: true };
+    if (/^sb_publishable_/.test(key)) return { type: 'publishable' };
+    if (/^eyJ/.test(key)) {
+      var role = '';
+      try {
+        var payload = key.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        role = JSON.parse(atob(payload + '==='.slice((payload.length + 3) % 4))).role || '';
+      } catch (e) { role = ''; }
+      return { type: 'jwt-legacy', role: role, bahaya: role === 'service_role' };
+    }
+    return { type: 'tidak dikenal' };
+  }
+
   function cloudConfigured() {
-    return !!(cloudConfig && cloudConfig.url && cloudConfig.anonKey && cloudConfig.enabled !== false);
+    if (!cloudConfig || !cloudConfig.url || !cloudKey()) return false;
+    if (cloudConfig.enabled === false) return false;
+    if (cloudKeyInfo().bahaya) {
+      console.error('Kartu Digital: kunci RAHASIA (secret/service_role) terdeteksi di supabase-config.json. ' +
+        'Kunci itu mem-bypass keamanan database dan TIDAK BOLEH dipublikasikan. Gunakan Publishable/anon key.');
+      return false;
+    }
+    return true;
   }
 
   function cloudTable(name) {
@@ -786,11 +815,16 @@
   }
 
   function cloudHeaders(extra) {
+    var key = cloudKey();
     var headers = {
-      'apikey': cloudConfig.anonKey,
-      'Authorization': 'Bearer ' + cloudConfig.anonKey,
+      'apikey': key,
       'Accept': 'application/json'
     };
+    // Kunci lama (anon/service_role) berbentuk JWT → wajib juga dikirim sebagai Bearer.
+    // Kunci baru (sb_publishable_...) BUKAN JWT → cukup di header apikey.
+    if (/^eyJ[\w-]*\./.test(key)) {
+      headers['Authorization'] = 'Bearer ' + key;
+    }
     if (extra) {
       Object.keys(extra).forEach(function (k) { headers[k] = extra[k]; });
     }
@@ -1069,16 +1103,29 @@
     },
     isConfigured: cloudConfigured,
     status: function () {
+      var info = cloudKeyInfo();
+      var pesan = null;
+      if (!cloudConfig || !cloudConfig.url || !cloudKey()) {
+        pesan = 'Supabase belum dikonfigurasi — isi url & anonKey di supabase-config.json';
+      } else if (cloudConfig.enabled === false) {
+        pesan = 'Supabase dimatikan (enabled:false) di supabase-config.json';
+      } else if (info.bahaya) {
+        pesan = 'Kunci RAHASIA terdeteksi! Ganti dengan Publishable/anon key — jangan pakai sb_secret_ / service_role.';
+      }
       return {
         configured: cloudConfigured(),
         online: cloudOnline,
         url: cloudConfig ? (cloudConfig.url || '') : '',
-        lastSync: cloudLastSync
+        lastSync: cloudLastSync,
+        keyType: info.type,
+        keyRole: info.role || null,
+        pesan: pesan
       };
     },
     test: async function () {
       await loadCloudConfig(true);
-      if (!cloudConfigured()) return { ok: false, error: 'Supabase belum dikonfigurasi (isi supabase-config.json)' };
+      var st = cloudApi.status();
+      if (!st.configured) return { ok: false, error: st.pesan || 'Supabase belum dikonfigurasi (isi supabase-config.json)' };
       var res = await cloudRest(cloudTable('invitations') + '?select=slug&limit=1');
       return { ok: res.ok, error: res.error, online: cloudOnline };
     },

@@ -1661,10 +1661,11 @@
           (db.updatedAt ? new Date(db.updatedAt).toLocaleString('id-ID') : '—');
         if ($('cloudStatusText')) {
           if (!cloud.configured) {
-            $('cloudStatusText').textContent = 'Status: belum dikonfigurasi — isi supabase-config.json (lihat supabase/README.md)';
+            $('cloudStatusText').textContent = 'Status: ' + (cloud.pesan || 'belum dikonfigurasi') + ' (lihat supabase/README.md)';
           } else {
             $('cloudStatusText').textContent = 'Status: aktif · ' + (cloud.online ? 'terhubung ✅' : 'belum terhubung ⚠') +
-              ' · ' + cloud.url + (cloud.lastSync ? ' · sinkron terakhir ' + new Date(cloud.lastSync).toLocaleTimeString('id-ID') : '');
+              ' · ' + cloud.url + ' · kunci: ' + (cloud.keyType || '-') +
+              (cloud.lastSync ? ' · sinkron terakhir ' + new Date(cloud.lastSync).toLocaleTimeString('id-ID') : '');
           }
         }
       }

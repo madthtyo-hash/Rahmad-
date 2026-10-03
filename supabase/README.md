@@ -32,13 +32,16 @@ tersimpan ke satu tempat dan bisa dipantau dari Studio Admin.
 4. Cek menu **Table Editor** → harus ada tabel `invitations`, `guests`, `rsvp`
    (plus view `guests_public`).
 
-### 3. Ambil URL & anon key
-1. Menu **Project Settings** → **API**.
+### 3. Ambil URL & kunci
+1. Menu **Settings** → **API Keys** (project lama: **Settings** → **API**).
 2. Copy **Project URL** (contoh: `https://abcdefgh.supabase.co`).
-3. Copy **anon public** key (tombol `Copy` di bagian *Project API keys*).
+3. Copy **Publishable key** — diawali **`sb_publishable_...`**
+   (project lama: kolom **anon public**, diawali `eyJ...`). Keduanya didukung aplikasi ini.
 
-> ⚠️ **PENTING:** yang dipakai hanya **anon public**. **JANGAN pernah** pakai/publikasikan
-> **`service_role` key** — itu kunci rahasia penuh dan bisa menghapus seluruh database.
+> ⚠️ **PENTING:** yang dipakai hanya **Publishable / anon public**.
+> **JANGAN pernah** memakai/publikasikan **Secret key** (`sb_secret_...`) atau
+> **`service_role`** — itu kunci rahasia penuh yang bisa menghapus seluruh database
+> dan memang dirancang untuk kode server saja, bukan untuk browser.
 
 ### 4. Isi config di repo ini
 Buka file **`supabase-config.json`** di root repo, isi seperti ini:
@@ -59,6 +62,7 @@ Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
 1. Buka `https://kartudigital.my.id/studio.html`.
 2. Klik tab **Penyimpanan Lokal HP & Backup Folder**.
 3. Klik **🔌 Cek Koneksi** → harus muncul “Supabase terhubung & siap dipakai”.
+   (Status akan menampilkan jenis kunci yang dipakai, mis. `kunci: publishable`.)
 4. Klik **⬆ Kirim ke Supabase** untuk memindahkan undangan + RSVP yang sudah ada.
 5. Buka undangan dari HP lain → kirim RSVP → klik **⬇ Ambil dari Supabase** di Studio → RSVP muncul.
 
@@ -85,6 +89,10 @@ Admin ubah undangan →  simpan      →  PUT api/db (lokal) + upsert ke Supabas
 Kunci `anon` bersifat **publik** (memang ditaruh di file yang dipublikasikan) dan dilindungi
 oleh **RLS**. Skema default memberi izin tulis publik supaya Studio (yang hanya dijaga PIN
 di sisi browser) tetap bisa menyimpan data.
+
+Catatan teknis: aplikasi mengirim kunci di header `apikey`. Kunci lama berformat JWT juga
+dikirim di header `Authorization: Bearer`. Kunci berbentuk **`sb_secret_`** otomatis
+**ditolak** oleh aplikasi (fitur keamanan) supaya tidak pernah ikut terpublikasikan.
 
 Kalau Anda ingin lebih ketat:
 
