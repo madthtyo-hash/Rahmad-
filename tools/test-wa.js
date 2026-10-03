@@ -254,6 +254,35 @@ function hapusBerkas(f) { try { fs.unlinkSync(f); } catch (e) {} }
         cek('Kirim Semua via Gateway mengirim ke semua tamu bernomor',
           /Keluarga Massal Satu/.test(pesanMassal) && /Keluarga Massal Dua/.test(pesanMassal),
           diterima.length - sebelumMassal + ' pesan');
+        // Bagikan satu pesan yang sama ke banyak nomor (tanpa nama tamu)
+        cek('Pesan untuk semua tamu memuat link undangan bersih (tanpa ?to=)',
+          /\/undangan-[a-z-]+\.html\?id=[a-z0-9-]+$/.test(d.getElementById('broadcastText').value.split('\n').filter((b) => /undangan-/.test(b))[0] || ''),
+          (d.getElementById('broadcastText').value.split('\n').filter((b) => /undangan-/.test(b))[0] || '-').slice(0, 60));
+        d.getElementById('broadcastNumbers').value = '0851196755675\n0812 3456 7890 - Ibu Sari\ntanpa nomor';
+        d.getElementById('broadcastNumbers').dispatchEvent(new w.Event('input', { bubbles: true }));
+        cek('Daftar nomor dibaca & dinormalkan (nama ikut dibersihkan)',
+          /2 nomor siap dikirim/.test(d.getElementById('broadcastInfo').textContent),
+          d.getElementById('broadcastInfo').textContent.slice(0, 44));
+        cek('Pratinjau pesan broadcast punya tombol WhatsApp gratis',
+          (d.getElementById('broadcastWaBtn').getAttribute('href') || '').indexOf('https://wa.me/?text=') === 0);
+
+        const sebelumBroadcast = diterima.length;
+        d.getElementById('broadcastSendBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+        await new Promise((r) => setTimeout(r, 2000));
+        const nomorBroadcast = diterima.slice(sebelumBroadcast)
+          .map((x) => (String(x.body).match(/"?target"?(?:%22)?\s*[:=]\s*"?([0-9]+)/) || [])[1]).filter(Boolean);
+        cek('Kirim ke Semua Nomor mengirim pesan yang sama ke tiap nomor',
+          nomorBroadcast.length === 2 && nomorBroadcast.every((n) => n.length >= 11),
+          nomorBroadcast.join(', '));
+        const pesanBroadcast = diterima.slice(sebelumBroadcast)
+          .map((x) => decodeURIComponent(String(x.body).replace(/\+/g, ' '))).join(' ');
+        cek('Pesan broadcast identik untuk semua nomor (tanpa nama tamu)',
+          !/Bapak Studio/.test(pesanBroadcast) && /Bapak\/Ibu\/Saudara\/i/.test(pesanBroadcast),
+          pesanBroadcast.replace(/\s+/g, ' ').slice(0, 60));
+        cek('Ringkasan pengiriman massal ditampilkan di Studio',
+          /Terkirim ke 2 nomor/.test(d.getElementById('broadcastInfo').textContent),
+          d.getElementById('broadcastInfo').textContent.slice(0, 40));
+
         cek('Tidak ada error JS di Studio', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
       } finally {
         dom.window.close();

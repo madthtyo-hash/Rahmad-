@@ -76,7 +76,7 @@ berawalan domain itu. Kolom `settings.domain` di `data/studio-db.json` hanya cat
 > yang dibagikan sebaiknya selalu menyertakan `?id=` — tanpa `id`, halaman jatuh ke undangan
 > bawaan tema tersebut.
 
-## 5. Link yang dikirim ke pelanggan (pemesan)
+## 5. Link yang dikirim ke pelanggan & ke semua tamu (satu link)
 
 Yang dikirim ke **pelanggan** bukan link bertamu, melainkan **link bersih** — tanpa `to=`,
 karena nama tamu baru diisi saat link itu dibagikan ke tamu:
@@ -87,20 +87,51 @@ https://kartudigital.my.id/undangan-wisuda.html?id=wisuda-naura
 
 Bedanya dengan link tamu:
 
-| | Link pelanggan | Link tamu |
+| | Link satu-untuk-semua (utama) | Link per nama tamu (opsional) |
 |---|---|---|
 | Bentuk | `…html?id=<id>` | `…html?id=<id>&to=<nama-tamu>&mode=…&fx=…` |
-| Untuk siapa | pemesan (untuk dicek & disetujui) | satu tamu tertentu |
+| Untuk siapa | pemesan + **semua tamu** (grup, broadcast) | satu tamu tertentu saja |
 | Nama di sampul | "Tamu Undangan" (netral) | nama tamu itu |
-| Dipakai berapa kali | sekali per pesanan (bisa dipakai berkali-kali) | sekali per tamu |
+| Cara kirim | sekali bagikan ke grup / banyak nomor sekaligus | satu per satu (pilih nama dulu) |
 
-Di Studio, buka tab **Fitur Ekstra → kartu 🔗 Link Tamu & Undangan Personal → blok 📤 Serah Terima ke Pelanggan**.
-Isi nama pemesan + nomor WhatsApp-nya (opsional, tersimpan di database), lalu:
+Link ini dipakai untuk dua hal sekaligus: **dikirim ke pelanggan** (untuk dicek & disetujui) dan
+**dibagikan ke semua tamu** (grup WhatsApp, status, atau kirim ke banyak nomor) — jadi tidak perlu
+membuat link satu per satu per tamu.
+
+Di Studio, buka tab **Fitur Ekstra → kartu 🔗 Link Undangan & Cara Bagikan**:
+
+**a. 📤 Serah Terima ke Pelanggan** — isi nama pemesan + nomor WhatsApp-nya (opsional, tersimpan di database), lalu:
 
 - **📋 Salin Link** → link bersih di atas, siap dikirim/di-WhatsApp ke pelanggan;
-- **📋 Salin Pesan** → pesan serah terima siap pakai (sudah berisi judul acara, tanggal, lokasi, dan link);
+- **📋 Salin Pesan** → pesan serah terima siap pakai (judul acara, tanggal, lokasi, dan link);
 - **💬 Kirim ke WhatsApp Pelanggan** → membuka WhatsApp ke nomor pelanggan (kalau nomornya diisi) atau daftar kontak;
 - **📤 Kirim Otomatis** → lewat gateway WhatsApp kalau `wa-config.json` sudah aktif.
+
+**b. 📢 Bagikan ke Semua Tamu Sekaligus** — satu pesan yang sama untuk semua tamu, tanpa memilih nama:
+
+- **Pesan untuk Semua Tamu** (bisa diedit) — contoh isinya:
+
+  ```
+  Halo Bapak/Ibu/Saudara/i 🙏
+
+  Dengan penuh sukacita kami mengundang Anda untuk hadir pada acara *Rahma & Dika*:
+  📅 Senin, 12 Oktober 2026 pukul 11.00 – 15.00 WIB
+  📍 Gedung Serbaguna Sariwangi, Bandung
+
+  Undangan lengkapnya (galeri, lokasi, RSVP) bisa dibuka di sini:
+  https://kartudigital.my.id/undangan-sage.html?id=sage-rahma-dika
+
+  Kehadiran & doa Anda sangat berarti bagi kami. Terima kasih 🙏
+  ```
+
+- **Nomor WhatsApp Tamu** — tempel banyak nomor sekaligus (satu per baris, boleh disertai nama; otomatis dinormalkan ke format `62`).
+- **📋 Salin Pesan** → tempel ke grup WhatsApp atau status.
+- **💬 Buka WhatsApp (pesan siap)** → gratis; pilih beberapa penerima sekaligus atau tempel ke grup.
+- **📲 Kirim ke Semua Nomor** → lewat gateway, pesan yang sama dikirim ke semua nomor (jeda 0,4 detik per pesan) dengan ringkasan berapa yang berhasil.
+
+**c. Opsional — link & pesan dengan nama tiap tamu.** Bagian ini terlipat di bawah dan hanya perlu dipakai
+kalau nama tamu memang harus tampil di sampul (`?to=Nama+Tamu`), mis. untuk tamu VIP. Untuk kirim ke banyak
+tamu, cukup gunakan satu link di poin (a) dan (b).
 
 Isi pesan yang dihasilkan Studio:
 
@@ -114,8 +145,7 @@ Undangan digital *Naura Salsabila* sudah siap ✨
 Silakan cek tampilannya dulu di link ini:
 https://kartudigital.my.id/undangan-wisuda.html?id=wisuda-naura
 
-Kalau sudah sesuai, link di atas siap dibagikan ke para tamu.
-Mau sekalian dibuatkan link dengan nama tiap tamu (nama muncul otomatis di sampul)? Cukup balas daftar namanya ya 🙏
+Kalau sudah sesuai, link di atas siap dibagikan ke para tamu — bisa ditempel ke grup WhatsApp atau dikirim ke banyak nomor sekaligus.
 
 Terima kasih,
 Kartu Digital

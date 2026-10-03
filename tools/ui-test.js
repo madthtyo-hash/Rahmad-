@@ -518,6 +518,29 @@ async function ujiStudio() {
     d.getElementById('clientName').dispatchEvent(new w.Event('input', { bubbles: true }));
     d.getElementById('clientPhone').dispatchEvent(new w.Event('input', { bubbles: true }));
 
+    // ---- Satu link untuk semua tamu + kirim massal tanpa nama ----
+    cek('Blok Bagikan ke Semua Tamu tersedia',
+      !!d.getElementById('broadcastText') && !!d.getElementById('broadcastNumbers') && !!d.getElementById('broadcastSendBtn'));
+    const linkBroadcast = (d.getElementById('broadcastText').value.split('\n').filter((b) => /undangan-/.test(b))[0] || '');
+    cek('Pesan untuk semua tamu memakai satu link tanpa nama tamu',
+      /\/undangan-[a-z-]+\.html\?id=[a-z0-9-]+$/.test(linkBroadcast),
+      linkBroadcast.replace(/^https?:\/\/[^/]+/, ''));
+    cek('Pesan utama tidak lagi meminta nama per tamu',
+      d.getElementById('broadcastText').value.indexOf('nama tiap tamu') === -1 &&
+      d.getElementById('clientText').value.indexOf('nama tiap tamu') === -1);
+    cek('Link per nama tamu tetap tersedia sebagai opsi terlipat',
+      !!d.getElementById('opsionalTamu') && !!d.getElementById('shareGeneratedUrl') &&
+      !!d.getElementById('bulkResultList'));
+    d.getElementById('broadcastNumbers').value = '0812 3456 7890 - Ibu Sari\n081298765432';
+    d.getElementById('broadcastNumbers').dispatchEvent(new w.Event('input', { bubbles: true }));
+    cek('Jumlah nomor siap kirim dihitung otomatis',
+      /2 nomor siap dikirim/.test(d.getElementById('broadcastInfo').textContent),
+      d.getElementById('broadcastInfo').textContent.slice(0, 42));
+    cek('Tanpa gateway, tombol WhatsApp memakai pesan siap (bisa pilih banyak penerima)',
+      (d.getElementById('broadcastWaBtn').getAttribute('href') || '').indexOf('https://wa.me/?text=') === 0);
+    d.getElementById('broadcastNumbers').value = '';
+    d.getElementById('broadcastNumbers').dispatchEvent(new w.Event('input', { bubbles: true }));
+
     // ---- Pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan ----
     const grupKoleksiAwal = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
     cek('Ringkasan koleksi menampilkan jumlah per status pemeriksaan',

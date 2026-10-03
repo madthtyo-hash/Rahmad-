@@ -332,6 +332,22 @@ api = rd('studio-api.js')
 ok('Halaman tamu menyegarkan data terbaru dari server/cloud') if 'function segarkanSaatHydrate' in api else bad('halaman tamu tidak menyegarkan data')
 ok('Efek dekorasi dari Studio diterapkan di link bersih') if 'window.fxSet(fxStudio)' in api else warn('efek dekorasi dari Studio belum diterapkan')
 
+print('\n== 8i. Satu link untuk semua tamu (kirim massal tanpa nama) ==')
+st = rd('studio.html')
+for hook, nama in [('id="broadcastText"', 'pesan untuk semua tamu'),
+                   ('id="broadcastNumbers"', 'daftar nomor WhatsApp tamu'),
+                   ('id="broadcastSendBtn"', 'tombol kirim ke semua nomor'),
+                   ('id="copyBroadcastTextBtn"', 'tombol salin pesan massal'),
+                   ('id="broadcastWaBtn"', 'tombol WhatsApp pesan siap'),
+                   ('id="broadcastInfo"', 'status pengiriman massal'),
+                   ('id="opsionalTamu"', 'bagian opsional link per nama tamu (terlipat)')]:
+    ok('Kirim massal: %s ada' % nama) if hook in st else bad('Kirim massal: %s tidak ada' % nama)
+for fn, nama in [('function pesanBroadcast', 'pembuat pesan satu-untuk-semua'),
+                 ('function nomorBroadcast', 'pembaca & normalisasi daftar nomor'),
+                 ('async function kirimBroadcast', 'pengirim massal satu pesan')]:
+    ok('Kirim massal: %s' % nama) if fn in st else bad('Kirim massal: %s tidak ada' % nama)
+ok('Link per nama tamu tetap ada tapi terlipat (opsional)') if '<summary' in st and 'shareGeneratedUrl' in st else warn('bagian opsional per nama tamu tidak ditemukan')
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')

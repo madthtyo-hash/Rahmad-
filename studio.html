@@ -870,54 +870,15 @@
               </div>
             </div>
 
-            <!-- ---- Kartu: Link Tamu & QR ---- -->
+            <!-- ---- Kartu: Link Undangan & Cara Bagikan ---- -->
             <div class="panel" id="card-share">
-              <h3><span>🔗 Link Tamu &amp; Undangan Personal</span><span class="chip">WhatsApp</span></h3>
-              <p class="sub-desc">Buat link undangan khusus dengan nama tamu di sampul depan (<code>?to=Nama+Tamu</code>) siap kirim ke WhatsApp.</p>
+              <h3><span>🔗 Link Undangan &amp; Cara Bagikan</span><span class="chip">WhatsApp</span></h3>
+              <p class="sub-desc">Cukup <b>satu link untuk semua tamu</b> — tinggal dibagikan ke grup WhatsApp atau dikirim ke banyak nomor sekaligus, tanpa perlu mengisi nama satu per satu. Link khusus per nama tamu tetap tersedia sebagai opsi di bagian bawah.</p>
 
-              <div class="form-grid">
-                <div class="field full">
-                  <label for="shareGuestName">Nama Tamu Undangan</label>
-                  <input id="shareGuestName" value="Bapak Budi Santoso & Keluarga" placeholder="Ketik nama tamu...">
-                </div>
-                <div class="field full">
-                  <label for="shareGeneratedUrl">Link Undangan Personal</label>
-                  <div style="display:flex;gap:8px">
-                    <input id="shareGeneratedUrl" readonly>
-                    <button type="button" class="btn primary" id="copyShareUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
-                  </div>
-                </div>
-                <div class="field full">
-                  <label for="shareWaText">Template Pesan Pengantar WhatsApp</label>
-                  <textarea id="shareWaText" rows="5"></textarea>
-                </div>
-              </div>
-
-              <div class="form-footer">
-                <button type="button" class="btn" id="copyWaTextBtn">📋 Salin Pesan WA</button>
-                <a class="btn gold" id="sendWaDirectBtn" href="#" target="_blank" rel="noopener">💬 Kirim via WhatsApp Sekarang</a>
-              </div>
-
-              <!-- Generator Nama Tamu Massal -->
-              <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
-                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">🚀 Generator Nama Tamu Massal</h4>
-                <p class="sub-desc">Tempel (paste) daftar nama tamu sekaligus — satu nama per baris atau dipisah koma. Setiap tamu otomatis mendapat link personal beserta tombol <b>Salin</b> &amp; <b>Kirim WA</b>.</p>
-                <div class="field full">
-                  <label for="bulkGuestNames">Daftar Nama Tamu (bulk copy-paste)</label>
-                  <textarea id="bulkGuestNames" rows="5" placeholder="Bapak Budi Santoso &amp; Keluarga&#10;Ibu Sari Wulandari&#10;Keluarga Besar H. Ahmad&#10;Nadia &amp; Rian"></textarea>
-                </div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
-                  <button type="button" class="btn primary" id="bulkGenerateBtn">⚙ Generate Link Massal</button>
-                  <button type="button" class="btn" id="bulkCopyAllBtn">📋 Salin Semua Link</button>
-                  <button type="button" class="btn gold" id="bulkSendAllBtn">📲 Kirim Semua via Gateway</button>
-                </div>
-                <div id="bulkResultList" class="rsvp-list"></div>
-              </div>
-
-              <!-- Serah terima ke pelanggan: link bersih + pesan siap kirim -->
-              <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
-                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">\uD83D\uDCE4 Serah Terima ke Pelanggan</h4>
-                <p class="sub-desc">Link bersih (tanpa nama tamu) + pesan siap kirim untuk <b>pelanggan/pemesan</b> setelah undangannya jadi. Link ini juga yang mereka bagikan ke para tamu — mode navigasi &amp; efek yang dipilih di Studio otomatis terbawa.</p>
+              <!-- 1) Link utama + pesan serah terima ke pelanggan -->
+              <div>
+                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">📤 Serah Terima ke Pelanggan</h4>
+                <p class="sub-desc">Link bersih (tanpa nama tamu) + pesan siap kirim untuk <b>pelanggan/pemesan</b> setelah undangannya jadi. <b>Link yang sama juga dipakai untuk semua tamu</b>; mode navigasi &amp; efek pilihan Studio otomatis terbawa.</p>
 
                 <div class="form-grid">
                   <div class="field">
@@ -926,28 +887,97 @@
                   </div>
                   <div class="field">
                     <label for="clientPhone">Nomor WhatsApp Pelanggan</label>
-                    <input id="clientPhone" inputmode="tel" placeholder="Opsional \u2014 08xx (untuk kirim otomatis)">
+                    <input id="clientPhone" inputmode="tel" placeholder="Opsional — 08xx (untuk kirim otomatis)">
                   </div>
                   <div class="field full">
-                    <label for="clientUrl">Link Undangan untuk Pelanggan</label>
+                    <label for="clientUrl">Link Undangan (untuk pelanggan &amp; semua tamu)</label>
                     <div style="display:flex;gap:8px">
                       <input id="clientUrl" readonly>
-                      <button type="button" class="btn primary" id="copyClientUrlBtn" style="white-space:nowrap">\uD83D\uDCCB Salin Link</button>
+                      <button type="button" class="btn primary" id="copyClientUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
                     </div>
                   </div>
                   <div class="field full">
-                    <label for="clientText">Pesan Serah Terima</label>
+                    <label for="clientText">Pesan Serah Terima ke Pelanggan</label>
                     <textarea id="clientText" rows="8"></textarea>
                   </div>
                 </div>
 
                 <div class="form-footer">
-                  <button type="button" class="btn" id="copyClientTextBtn">\uD83D\uDCCB Salin Pesan</button>
-                  <a class="btn gold" id="sendClientWaBtn" href="#" target="_blank" rel="noopener">\uD83D\uDCAC Kirim ke WhatsApp Pelanggan</a>
-                  <button type="button" class="btn primary" id="sendClientGatewayBtn">\uD83D\uDCE4 Kirim Otomatis</button>
+                  <button type="button" class="btn" id="copyClientTextBtn">📋 Salin Pesan</button>
+                  <a class="btn gold" id="sendClientWaBtn" href="#" target="_blank" rel="noopener">💬 Kirim ke WhatsApp Pelanggan</a>
+                  <button type="button" class="btn primary" id="sendClientGatewayBtn">📤 Kirim Otomatis</button>
                 </div>
                 <p class="sub-desc" id="clientGatewayInfo" style="margin-top:8px"></p>
               </div>
+
+              <!-- 2) Bagikan satu pesan ke banyak tamu sekaligus -->
+              <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">📢 Bagikan ke Semua Tamu Sekaligus</h4>
+                <p class="sub-desc">Tempel daftar nomor WhatsApp tamu (satu per baris) lalu kirim <b>pesan yang sama</b> ke semuanya — tidak perlu memilih nama satu per satu. Tanpa gateway, tombol WhatsApp membuka aplikasi dengan pesan siap, tinggal pilih penerimanya (bisa banyak sekaligus) atau tempel ke grup.</p>
+
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="broadcastText">Pesan untuk Semua Tamu</label>
+                    <textarea id="broadcastText" rows="7"></textarea>
+                  </div>
+                  <div class="field full">
+                    <label for="broadcastNumbers">Nomor WhatsApp Tamu (satu per baris, boleh disertai nama)</label>
+                    <textarea id="broadcastNumbers" rows="4" placeholder="081234567890&#10;081298765432 — Ibu Sari&#10;+62 813-1111-2222"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-footer">
+                  <button type="button" class="btn" id="copyBroadcastTextBtn">📋 Salin Pesan</button>
+                  <a class="btn gold" id="broadcastWaBtn" href="#" target="_blank" rel="noopener">💬 Buka WhatsApp (pesan siap)</a>
+                  <button type="button" class="btn primary" id="broadcastSendBtn">📲 Kirim ke Semua Nomor</button>
+                </div>
+                <p class="sub-desc" id="broadcastInfo" style="margin-top:8px"></p>
+              </div>
+
+              <!-- 3) Opsional: link & pesan dengan nama tiap tamu -->
+              <details id="opsionalTamu" style="border-top:1px solid var(--line);margin-top:20px;padding-top:14px">
+                <summary style="cursor:pointer;font:700 15px Georgia,serif">Opsional — link &amp; pesan dengan nama tiap tamu</summary>
+                <p class="sub-desc" style="margin-top:8px">Pakai bagian ini hanya kalau ingin nama tamu tampil di sampul (<code>?to=Nama+Tamu</code>), mis. untuk tamu VIP. Untuk mengirim ke banyak tamu, cukup pakai satu link di atas.</p>
+
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="shareGuestName">Nama Tamu Undangan</label>
+                    <input id="shareGuestName" value="Bapak Budi Santoso & Keluarga" placeholder="Ketik nama tamu...">
+                  </div>
+                  <div class="field full">
+                    <label for="shareGeneratedUrl">Link Undangan Personal</label>
+                    <div style="display:flex;gap:8px">
+                      <input id="shareGeneratedUrl" readonly>
+                      <button type="button" class="btn primary" id="copyShareUrlBtn" style="white-space:nowrap">📋 Salin Link</button>
+                    </div>
+                  </div>
+                  <div class="field full">
+                    <label for="shareWaText">Pesan Pengantar untuk Tamu Itu</label>
+                    <textarea id="shareWaText" rows="5"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-footer">
+                  <button type="button" class="btn" id="copyWaTextBtn">📋 Salin Pesan WA</button>
+                  <a class="btn gold" id="sendWaDirectBtn" href="#" target="_blank" rel="noopener">💬 Kirim via WhatsApp Sekarang</a>
+                </div>
+
+                <!-- Generator Nama Tamu Massal -->
+                <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+                  <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">🚀 Generator Nama Tamu Massal</h4>
+                  <p class="sub-desc">Tempel (paste) daftar nama tamu sekaligus — satu nama per baris atau dipisah koma. Setiap tamu otomatis mendapat link personal beserta tombol <b>Salin</b> &amp; <b>Kirim WA</b>.</p>
+                  <div class="field full">
+                    <label for="bulkGuestNames">Daftar Nama Tamu (bulk copy-paste)</label>
+                    <textarea id="bulkGuestNames" rows="5" placeholder="Bapak Budi Santoso &amp; Keluarga&#10;Ibu Sari Wulandari&#10;Keluarga Besar H. Ahmad&#10;Nadia &amp; Rian"></textarea>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
+                    <button type="button" class="btn primary" id="bulkGenerateBtn">⚙ Generate Link Massal</button>
+                    <button type="button" class="btn" id="bulkCopyAllBtn">📋 Salin Semua Link</button>
+                    <button type="button" class="btn gold" id="bulkSendAllBtn">📲 Kirim Semua via Gateway</button>
+                  </div>
+                  <div id="bulkResultList" class="rsvp-list"></div>
+                </div>
+              </details>
             </div>
 
             <!-- ---- Kartu: Penyimpanan & Database Online ---- -->
@@ -2369,6 +2399,17 @@
       });
       $('sendClientGatewayBtn').addEventListener('click', kirimKePelanggan);
 
+      // Bagikan ke semua tamu sekaligus (satu pesan, banyak nomor)
+      $('broadcastText').addEventListener('input', function () {
+        $('broadcastWaBtn').href = 'https://wa.me/?text=' + encodeURIComponent($('broadcastText').value || '');
+      });
+      $('broadcastNumbers').addEventListener('input', updateBroadcast);
+      $('copyBroadcastTextBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('broadcastText').value || '');
+        showToast('\u2713 Pesan untuk semua tamu disalin');
+      });
+      $('broadcastSendBtn').addEventListener('click', kirimBroadcast);
+
       // New Invitation Button
       $('newInvitationBtn').addEventListener('click', async function () {
         var newId = 'inv-' + Date.now();
@@ -2559,8 +2600,7 @@
           'Silakan cek tampilannya dulu di link ini:',
           linkPelanggan(inv),
           '',
-          'Kalau sudah sesuai, link di atas siap dibagikan ke para tamu.',
-          'Mau sekalian dibuatkan link dengan nama tiap tamu (nama muncul otomatis di sampul)? Cukup balas daftar namanya ya \uD83D\uDE4F',
+          'Kalau sudah sesuai, link di atas siap dibagikan ke para tamu — bisa ditempel ke grup WhatsApp atau dikirim ke banyak nomor sekaligus.',
           '',
           'Terima kasih,',
           'Kartu Digital'
@@ -2578,10 +2618,80 @@
         $('clientUrl').value = linkPelanggan(inv);
         $('clientText').value = pesanPelanggan(inv);
         $('sendClientWaBtn').href = tautanWaPelanggan();
+        updateBroadcast();
         $('clientGatewayInfo').textContent = waAktif()
           ? 'Gateway WhatsApp aktif \u2014 tombol Kirim Otomatis mengirim langsung tanpa membuka WhatsApp.'
           : 'Gateway belum aktif \u2014 tombol WhatsApp membuka aplikasi WhatsApp (gratis, tanpa token). Isi nomor pelanggan untuk kirim otomatis via gateway.';
       }
+      // Pesan yang sama untuk semua tamu (tanpa nama) — cukup satu link.
+      function pesanBroadcast(inv) {
+        var baris = [
+          'Halo Bapak/Ibu/Saudara/i 🙏',
+          '',
+          'Dengan penuh sukacita kami mengundang Anda untuk hadir pada acara *' + judulPesanan(inv) + '*:'
+        ];
+        var tanggal = StudioBackend.formatIndonesianDate(inv.eventDate);
+        if (tanggal) baris.push('📅 ' + tanggal +
+          ((inv.resepsiTime || inv.akadTime) ? ' pukul ' + (inv.resepsiTime || inv.akadTime) : ''));
+        var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
+        if (lokasi) baris.push('📍 ' + lokasi);
+        baris = baris.concat([
+          '',
+          'Undangan lengkapnya (galeri, lokasi, RSVP) bisa dibuka di sini:',
+          linkPelanggan(inv),
+          '',
+          'Kehadiran & doa Anda sangat berarti bagi kami. Terima kasih 🙏'
+        ]);
+        return baris.join('\n');
+      }
+      // Nomor tamu: satu per baris / dipisah koma; nama yang menempel ikut dibersihkan.
+      function nomorBroadcast() {
+        var hasil = [];
+        String($('broadcastNumbers').value || '').split(/[\n,;]+/).forEach(function (b) {
+          var bersih = StudioBackend.wa.bersihkanNomor(b.split(/\s[-–—]\s/)[0]);
+          if (bersih && bersih.length >= 9 && hasil.indexOf(bersih) === -1) hasil.push(bersih);
+        });
+        return hasil;
+      }
+      function updateBroadcast() {
+        if (!$('broadcastText')) return;
+        var inv = StudioBackend.getInvitation(activeId);
+        $('broadcastText').value = pesanBroadcast(inv);
+        $('broadcastWaBtn').href = 'https://wa.me/?text=' + encodeURIComponent($('broadcastText').value);
+        var jumlah = nomorBroadcast().length;
+        var info = waAktif()
+          ? 'Gateway aktif — tombol Kirim ke Semua Nomor mengirim pesan yang sama ke semua nomor (jeda 0,4 detik per pesan).'
+          : 'Gateway belum aktif — tombol WhatsApp membuka aplikasi dengan pesan siap: pilih beberapa penerima sekaligus atau tempel ke grup. Isi nomor + aktifkan gateway untuk kirim otomatis.';
+        $('broadcastInfo').textContent = (jumlah ? jumlah + ' nomor siap dikirim. ' : '') + info;
+      }
+      async function kirimBroadcast() {
+        var pesan = $('broadcastText').value || '';
+        var nomor = nomorBroadcast();
+        if (!waAktif()) {
+          window.open('https://wa.me/?text=' + encodeURIComponent(pesan), '_blank', 'noopener');
+          showToast('\uD83D\uDD17 WhatsApp dibuka \u2014 pilih penerima atau tempel ke grup');
+          return;
+        }
+        if (!nomor.length) {
+          showToast('\u26A0 Tempel minimal satu nomor WhatsApp tamu dulu');
+          $('broadcastNumbers').focus();
+          return;
+        }
+        var tombol = $('broadcastSendBtn');
+        tombol.disabled = true;
+        var berhasil = 0, gagal = 0;
+        for (var i = 0; i < nomor.length; i++) {
+          $('broadcastInfo').textContent = 'Mengirim ' + (i + 1) + '/' + nomor.length + ' \u2192 ' + nomor[i];
+          var hasil = await StudioBackend.wa.kirim(nomor[i], pesan);
+          if (hasil.ok) berhasil++; else gagal++;
+          if (i < nomor.length - 1) await new Promise(function (r) { setTimeout(r, 400); });
+        }
+        tombol.disabled = false;
+        $('broadcastInfo').textContent = '\u2705 Terkirim ke ' + berhasil + ' nomor' + (gagal ? ' \u00b7 \u26A0 ' + gagal + ' gagal' : '');
+        showToast(gagal ? '\u26A0 ' + berhasil + ' terkirim, ' + gagal + ' gagal' : '\u2705 Pesan terkirim ke ' + berhasil + ' tamu');
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+      }
+
       async function kirimKePelanggan() {
         var nomor = ($('clientPhone').value || '').trim();
         var pesan = $('clientText').value || '';

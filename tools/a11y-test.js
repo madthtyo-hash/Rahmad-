@@ -253,6 +253,9 @@ async function ujiHalaman(file, label, opsi = {}) {
         const fieldWa = ['waGuestName', 'waGuestPhone', 'waTemplate', 'waAdminNumber', 'waAutoRsvp'];
         cek('Isian panel WhatsApp punya label pembaca layar',
           fieldWa.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldWa.join(', '));
+        const fieldBroadcast = ['broadcastText', 'broadcastNumbers'];
+        cek('Isian blok Bagikan ke Semua Tamu punya label',
+          fieldBroadcast.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldBroadcast.join(', '));
         const fieldPelanggan = ['clientName', 'clientPhone', 'clientUrl', 'clientText'];
         cek('Isian blok Serah Terima ke Pelanggan punya label',
           fieldPelanggan.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldPelanggan.join(', '));
