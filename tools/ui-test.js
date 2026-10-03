@@ -39,8 +39,8 @@ try {
 }
 
 const ROOT = path.dirname(__dirname);
-const PORT = Number(process.env.UI_TEST_PORT || 3131);
-const BASE = 'http://127.0.0.1:' + PORT;
+let PORT = Number(process.env.UI_TEST_PORT || 3131);
+let BASE = 'http://127.0.0.1:' + PORT;
 
 let lulus = 0, gagal = 0;
 const ok = (m) => { lulus++; console.log('  \u2713 ' + m); };
@@ -51,6 +51,17 @@ function cek(m, cond, extra) {
 }
 
 // ---------- server uji ----------
+// Port bisa masih dipakai sisa proses uji sebelumnya: cari port bebas berikutnya.
+async function portBebas(port) {
+  const net = require('net');
+  return new Promise((resolve) => {
+    const uji = net.createServer();
+    uji.once('error', () => resolve(false));
+    uji.once('listening', () => uji.close(() => resolve(true)));
+    uji.listen(port, '127.0.0.1');
+  });
+}
+
 async function tungguServer(ms) {
   const batas = Date.now() + ms;
   while (Date.now() < batas) {
@@ -80,11 +91,21 @@ function stubWindow(window) {
     resume() {} suspend() {}
   };
   // Tiruan jaringan offline: halaman tetap jalan, tidak ada data yang ditulis.
-  window.fetch = () => Promise.resolve({
-    ok: false, status: 0,
-    json: () => Promise.resolve({}),
-    text: () => Promise.resolve('')
-  });
+  // Pengecualian: pembacaan status WhatsApp (GET /api/wa) diteruskan ke server uji
+  // supaya panel Koneksi WhatsApp bisa diuji seperti di browser sungguhan.
+  window.fetch = (u, o) => {
+    const url = String(u);
+    const metode = (o && o.method) || 'GET';
+    if (metode === 'GET' && /\/api\/wa$/.test(url)) {
+      const dasar = (typeof BASE === 'string') ? BASE : '';
+      return fetch(dasar + '/api/wa');
+    }
+    return Promise.resolve({
+      ok: false, status: 0,
+      json: () => Promise.resolve({}),
+      text: () => Promise.resolve('')
+    });
+  };
   window.requestAnimationFrame = (cb) => setTimeout(() => cb(Date.now()), 16);
 }
 
@@ -356,6 +377,30 @@ async function ujiStudio() {
       await new Promise((r) => setTimeout(r, 150));
     }
 
+    // ---- Koneksi WhatsApp ----
+    cek('Studio punya panel Koneksi WhatsApp', !!d.getElementById('card-wa'));
+    const badgeWa = d.getElementById('waStatusBadge');
+    cek('Status WhatsApp terbaca dari server (mode link / terhubung)',
+      !!badgeWa && /(Terhubung|Mode Link WhatsApp|Server tidak terjangkau)/.test(badgeWa.textContent),
+      badgeWa ? badgeWa.textContent.trim() : '-');
+    cek('Panel menjelaskan dua cara kirim (link gratis & gateway)',
+      !!d.getElementById('waModeLink') && !!d.getElementById('waModeGateway'));
+    cek('Form kirim ke tamu punya nama & nomor',
+      !!d.getElementById('waGuestName') && !!d.getElementById('waGuestPhone'));
+    cek('Template pesan WhatsApp terisi kode {tamu}/{link}',
+      /\{tamu\}/.test(d.getElementById('waTemplate').value) && /\{link\}/.test(d.getElementById('waTemplate').value));
+    cek('Nomor admin WhatsApp terisi dari server/pengaturan',
+      /^62/.test(d.getElementById('waAdminNumber').value), d.getElementById('waAdminNumber').value);
+    cek('Saklar notifikasi RSVP tersedia', ['on', 'off'].includes(d.getElementById('waAutoRsvp').value),
+      d.getElementById('waAutoRsvp').value);
+    cek('Tombol uji, muat status & simpan pengaturan tersedia',
+      !!d.getElementById('waUjiBtn') && !!d.getElementById('waMuatStatusBtn') && !!d.getElementById('waSimpanBtn'));
+    const waLangsung = w.StudioBackend.wa.tautan('0812-3456-7890', 'Halo {tamu}');
+    cek('Tautan wa.me dibentuk dengan nomor 62 & pesan ter-encode',
+      waLangsung.indexOf('https://wa.me/6281234567890?text=') === 0, waLangsung.slice(0, 46));
+    cek('Template WhatsApp mengisi kode {tamu}/{link}',
+      w.StudioBackend.wa.isiTemplate('Hai {tamu} — {link}', { tamu: 'Budi', link: 'https://a.b' }) === 'Hai Budi — https://a.b');
+
     // ---- Pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan ----
     const grupKoleksiAwal = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
     cek('Ringkasan koleksi menampilkan jumlah per status pemeriksaan',
@@ -448,6 +493,18 @@ async function ujiStudio() {
     cek('Info pratinjau menjelaskan apa yang ditampilkan',
       /Menampilkan:/.test(d.getElementById('hasilInfo').textContent),
       d.getElementById('hasilInfo').textContent.trim().slice(0, 60));
+
+    // ---- Generator tamu massal: kolom nomor + kirim otomatis ----
+    d.getElementById('bulkGuestNames').value = 'Tamu Uji Satu\nTamu Uji Dua';
+    d.getElementById('bulkGenerateBtn').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 250));
+    const barisBulk = Array.from(d.querySelectorAll('#bulkResultList .rsvp-item'));
+    cek('Generator massal membuat baris untuk tiap tamu', barisBulk.length === 2, barisBulk.length + ' baris');
+    cek('Tiap baris punya kolom nomor WhatsApp',
+      barisBulk.every((r) => !!r.querySelector('.bulk-phone')));
+    cek('Tiap baris punya tombol Kirim Otomatis + link Kirim WA',
+      barisBulk.every((r) => !!r.querySelector('.bulk-send') && !!r.querySelector('.bulk-wa')));
+    cek('Tombol Kirim Semua via Gateway tersedia', !!d.getElementById('bulkSendAllBtn'));
 
     cek('tidak ada error JS di Studio', errors.length === 0, errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
@@ -637,6 +694,9 @@ async function ujiNavigasi() {
 }
 
 (async () => {
+  for (let i = 0; i < 6; i++) {
+    if (await portBebas(PORT + i)) { PORT += i; BASE = 'http://127.0.0.1:' + PORT; break; }
+  }
   const server = spawn(process.execPath, ['server.js'], {
     cwd: ROOT,
     env: Object.assign({}, process.env, { PORT: String(PORT) }),

@@ -46,8 +46,8 @@ try {
 }
 
 const ROOT = path.dirname(__dirname);
-const PORT = Number(process.env.A11Y_TEST_PORT || 3232);
-const BASE = 'http://127.0.0.1:' + PORT;
+let PORT = Number(process.env.A11Y_TEST_PORT || 3232);
+let BASE = 'http://127.0.0.1:' + PORT;
 
 // Halaman tema yang punya pemutar musik & galeri (semua tema di katalog).
 const TEMA = [
@@ -67,6 +67,17 @@ function cek(m, cond, extra) {
 }
 
 // ---------- server uji ----------
+// Port bisa masih dipakai sisa proses uji sebelumnya: cari port bebas berikutnya.
+async function portBebas(port) {
+  const net = require('net');
+  return new Promise((resolve) => {
+    const uji = net.createServer();
+    uji.once('error', () => resolve(false));
+    uji.once('listening', () => uji.close(() => resolve(true)));
+    uji.listen(port, '127.0.0.1');
+  });
+}
+
 async function tungguServer(ms) {
   const batas = Date.now() + ms;
   while (Date.now() < batas) {
@@ -161,6 +172,9 @@ async function ujiHalaman(file, label, opsi = {}) {
 
 // ---------- jalur utama ----------
 (async () => {
+  for (let i = 0; i < 6; i++) {
+    if (await portBebas(PORT + i)) { PORT += i; BASE = 'http://127.0.0.1:' + PORT; break; }
+  }
   const server = spawn(process.execPath, ['server.js'], {
     cwd: ROOT,
     env: Object.assign({}, process.env, { PORT: String(PORT) }),
@@ -234,6 +248,14 @@ async function ujiHalaman(file, label, opsi = {}) {
           !!selStatus && !!d.querySelector('label[for="fReviewStatus"]'));
         const noteAdmin = d.getElementById('fReviewNote');
         cek('Catatan admin punya label', !!noteAdmin && !!d.querySelector('label[for="fReviewNote"]'));
+
+        // Panel WhatsApp: semua isian harus punya label untuk pembaca layar
+        const fieldWa = ['waGuestName', 'waGuestPhone', 'waTemplate', 'waAdminNumber', 'waAutoRsvp'];
+        cek('Isian panel WhatsApp punya label pembaca layar',
+          fieldWa.every((id) => !!d.querySelector('label[for="' + id + '"]')), fieldWa.join(', '));
+        const statusWa = d.getElementById('waStatusBadge');
+        cek('Status koneksi WhatsApp tampil sebagai teks',
+          !!statusWa && statusWa.textContent.trim().length > 5, statusWa ? statusWa.textContent.trim() : '-');
 
         cek('Tombol bersalin (copy) di daftar undangan punya label', (() => {
           const a = d.querySelectorAll('.copy-mini');

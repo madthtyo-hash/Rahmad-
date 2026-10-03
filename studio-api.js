@@ -1675,6 +1675,103 @@
     }
   }
 
+  // ====== WHATSAPP: gateway otomatis (opsional) + tautan wa.me (selalu ada) ======
+  // Token gateway HANYA ada di server (wa-config.json) — tidak pernah dikirim ke browser.
+
+  function waBersihkanNomor(nomor) {
+    var n = String(nomor || '').replace(/[^0-9+]/g, '');
+    if (!n) return '';
+    if (n.charAt(0) === '+') n = n.slice(1);
+    if (n.charAt(0) === '0') n = '62' + n.slice(1);
+    else if (n.indexOf('62') !== 0) n = '62' + n;
+    return n;
+  }
+
+  // Link gratis: wa.me dengan pesan siap kirim (nomor kosong = pilih kontak sendiri)
+  function waTautan(nomor, pesan) {
+    var n = waBersihkanNomor(nomor);
+    return 'https://wa.me/' + (n || '') + '?text=' + encodeURIComponent(pesan || '');
+  }
+
+  function waIsiTemplate(template, data) {
+    return String(template || '').replace(/\{(\w+)\}/g, function (m, kunci) {
+      return (data && data[kunci] !== undefined && data[kunci] !== null) ? String(data[kunci]) : '';
+    });
+  }
+
+  // Status gateway (dipanggil Studio saat halaman dibuka)
+  async function waStatus() {
+    try {
+      var r = await fetch('/api/wa');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      var data = await r.json();
+      return data && data.wa ? data.wa : { aktif: false };
+    } catch (e) {
+      return { aktif: false, offline: true, provider: '-', modeGratis: 'link' };
+    }
+  }
+
+  async function waRiwayat() {
+    try {
+      var r = await fetch('/api/wa');
+      if (!r.ok) return [];
+      var data = await r.json();
+      return Array.isArray(data.riwayat) ? data.riwayat : [];
+    } catch (e) { return []; }
+  }
+
+  async function waKirim(target, message, data, template) {
+    var pesan = message || waIsiTemplate(template, data || {});
+    var nomor = waBersihkanNomor(target);
+    try {
+      var r = await fetch('/api/wa/kirim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: nomor, message: pesan })
+      });
+      var hasil = await r.json();
+      return Object.assign({ mode: hasil.ok ? 'gateway' : 'link', pesan: pesan,
+                             tautan: waTautan(nomor, pesan) }, hasil);
+    } catch (e) {
+      // Server tidak bisa dihubungi → tetap bisa dikirim manual lewat WhatsApp
+      return { ok: false, mode: 'link', error: 'Server tidak terjangkau', pesan: pesan,
+               tautan: waTautan(nomor, pesan) };
+    }
+  }
+
+  async function waUji() {
+    try {
+      var r = await fetch('/api/wa/uji', { method: 'POST' });
+      return await r.json();
+    } catch (e) {
+      return { ok: false, error: 'Server tidak terjangkau' };
+    }
+  }
+
+  async function waSimpanPengaturan(patch) {
+    try {
+      var r = await fetch('/api/wa/pengaturan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patch || {})
+      });
+      return await r.json();
+    } catch (e) {
+      return { ok: false, error: 'Server tidak terjangkau' };
+    }
+  }
+
+  var waApi = {
+    status: waStatus,
+    riwayat: waRiwayat,
+    kirim: waKirim,
+    uji: waUji,
+    simpanPengaturan: waSimpanPengaturan,
+    bersihkanNomor: waBersihkanNomor,
+    tautan: waTautan,
+    isiTemplate: waIsiTemplate
+  };
+
   // ====== PEMERIKSAAN KELENGKAPAN UNDANGAN (dipakai Studio Admin) ======
   // Mengembalikan daftar periksa + skor, supaya admin tahu undangan sudah
   // siap dibagikan atau masih ada yang kurang.
@@ -2115,6 +2212,7 @@
         return i.id === idOrSlug || i.slug === idOrSlug || i.themeFile === idOrSlug;
       }) || db.invitations[0];
     },
+    wa: waApi,
     periksaKelengkapan: periksaKelengkapan,
     getSettings: function () {
       var db = loadLocalDb();

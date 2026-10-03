@@ -140,6 +140,19 @@
     .project-list{display:block}
     .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 
+    /* Koneksi WhatsApp */
+    .wa-mode-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 16px}
+    @media(max-width:700px){.wa-mode-row{grid-template-columns:1fr}}
+    .wa-mode{background:var(--cream);border:1px solid var(--line);border-radius:13px;padding:14px}
+    .wa-mode b{display:block;font-size:14px;margin-bottom:4px}
+    .wa-mode span{font-size:12.5px;color:var(--muted);line-height:1.6}
+    .wa-mode.aktif{border-color:rgba(34,193,94,.5);background:rgba(34,193,94,.07)}
+    .wa-setup{border-top:1px solid var(--line);margin-top:20px;padding-top:16px}
+    .wa-setup > b{display:block;font:700 15px Georgia,serif;margin-bottom:8px}
+    .wa-langkah{margin:0 0 14px 18px;padding:0;font-size:13px;line-height:1.7;color:var(--muted)}
+    .wa-langkah code{background:var(--cream);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:12px}
+    .wa-log-item{font-size:12.5px}
+
     /* Pemeriksaan kelengkapan undangan */
     .periksa-list{list-style:none;margin:6px 0 16px;padding:0;display:grid;gap:8px}
     .periksa-list li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.55;
@@ -896,6 +909,7 @@
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
                   <button type="button" class="btn primary" id="bulkGenerateBtn">⚙ Generate Link Massal</button>
                   <button type="button" class="btn" id="bulkCopyAllBtn">📋 Salin Semua Link</button>
+                  <button type="button" class="btn gold" id="bulkSendAllBtn">📲 Kirim Semua via Gateway</button>
                 </div>
                 <div id="bulkResultList" class="rsvp-list"></div>
               </div>
@@ -947,6 +961,72 @@
 
               <div class="form-footer">
                 <span class="saved">Data tidak dikirim ke pihak ketiga — hanya tersimpan di perangkat Anda &amp; Backend Studio milik sendiri.</span>
+              </div>
+            </div>
+
+            <!-- ---- Kartu: Koneksi WhatsApp ---- -->
+            <div class="panel" id="card-wa">
+              <h3><span>📲 Koneksi WhatsApp</span><span class="status" id="waStatusBadge">Memeriksa…</span></h3>
+              <p class="sub-desc">Kirim undangan lewat WhatsApp dengan dua cara: <b>Link WhatsApp (gratis)</b> — membuka chat dengan pesan &amp; link siap kirim, tanpa token; atau <b>Gateway otomatis</b> (Fonnte / Wablas / Whacenter / Custom) — server yang mengirim, termasuk <b>notifikasi RSVP baru ke nomor Anda</b>.</p>
+
+              <div class="wa-mode-row">
+                <div class="wa-mode" id="waModeLink">
+                  <b>🔗 Link WhatsApp (gratis)</b>
+                  <span>Selalu tersedia tanpa pengaturan apa pun. Klik “Kirim Link Undangan”, chat WhatsApp terbuka dengan pesan yang sudah terisi.</span>
+                </div>
+                <div class="wa-mode" id="waModeGateway">
+                  <b>🚀 Gateway otomatis</b>
+                  <span id="waGatewayInfo">Belum dikonfigurasi.</span>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="waGuestName">Nama Tamu</label>
+                  <input id="waGuestName" placeholder="Bapak Budi Santoso &amp; Keluarga">
+                </div>
+                <div class="field">
+                  <label for="waGuestPhone">Nomor WhatsApp Tamu (untuk gateway)</label>
+                  <input id="waGuestPhone" inputmode="tel" autocomplete="tel" placeholder="08xx / 62xx">
+                </div>
+                <div class="field full">
+                  <label for="waTemplate">Template Pesan Undangan</label>
+                  <textarea id="waTemplate" rows="4"></textarea>
+                  <small style="display:block;color:var(--muted);margin:-2px 0 10px">Kode yang bisa dipakai: <code>{tamu}</code>, <code>{acara}</code>, <code>{tanggal}</code>, <code>{lokasi}</code>, <code>{link}</code>.</small>
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <button type="button" class="btn primary" id="waKirimBtn">💬 Kirim Link Undangan ke Tamu</button>
+                <button type="button" class="btn gold" id="waUjiBtn">🧪 Kirim Pesan Uji ke Admin</button>
+                <span class="saved" id="waHasil">—</span>
+              </div>
+
+              <div class="wa-setup">
+                <b>⚙️ Pengaturan Gateway (opsional)</b>
+                <ol class="wa-langkah">
+                  <li>Daftar di gateway pilihan Anda (contoh: <b>Fonnte</b>, <b>Wablas</b>, atau <b>Whacenter</b>) lalu salin <b>token</b>-nya.</li>
+                  <li>Di server, salin <code>wa-config.example.json</code> menjadi <code>wa-config.json</code>, isi <code>token</code>, <code>provider</code>, lalu ubah <code>"enabled": true</code>.</li>
+                  <li>Jalankan ulang server, lalu tekan <b>Muat Status</b> di bawah. Token tidak pernah dikirim ke browser.</li>
+                </ol>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="waAdminNumber">Nomor WhatsApp Admin (tujuan notifikasi RSVP)</label>
+                    <input id="waAdminNumber" inputmode="tel" placeholder="6285196755675">
+                  </div>
+                  <div class="field">
+                    <label for="waAutoRsvp">Kabar otomatis saat ada RSVP masuk</label>
+                    <select id="waAutoRsvp">
+                      <option value="on">✅ Aktif — notifikasi dikirim ke nomor admin</option>
+                      <option value="off">✕ Nonaktif</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-footer">
+                  <button type="button" class="btn primary" id="waSimpanBtn">💾 Simpan Pengaturan WhatsApp</button>
+                  <button type="button" class="btn" id="waMuatStatusBtn">↻ Muat Status</button>
+                </div>
+                <div id="waRiwayat" class="rsvp-list" style="margin-top:12px"></div>
               </div>
             </div>
 
@@ -1161,6 +1241,156 @@
           activateTab(tombolTab[tujuan].getAttribute('data-tab'));
         });
       });
+
+      // ================= KONEKSI WHATSAPP =================
+      var waKeadaan = { aktif: false, provider: '-', adminWhatsapp: '', notifyAdminOnRsvp: true };
+
+      var WA_TEMPLATE_BAWAAN = 'Halo {tamu},\n\n' +
+        'Kami mengundang Anda untuk hadir di acara *{acara}* pada {tanggal}.\n' +
+        'Lokasi: {lokasi}\n\n' +
+        'Undangan lengkap (dengan peta, galeri & konfirmasi kehadiran):\n{link}\n\n' +
+        'Merupakan kehormatan bagi kami apabila Anda berkenan hadir. Terima kasih \uD83D\uDE4F';
+
+      function tampilkanStatusWa() {
+        var badge = $('waStatusBadge');
+        var info = $('waGatewayInfo');
+        var kotakGateway = $('waModeGateway');
+        if (!badge) return;
+
+        if (waKeadaan.aktif) {
+          badge.textContent = '\u2705 Terhubung \u00b7 ' + waKeadaan.provider;
+          badge.className = 'status';
+          if (kotakGateway) kotakGateway.classList.add('aktif');
+          info.innerHTML = 'Gateway <b>' + waKeadaan.provider + '</b> siap dipakai' +
+            (waKeadaan.tokenSamar ? ' (token ' + waKeadaan.tokenSamar + ')' : '') +
+            '. Kirim ke tamu tanpa membuka WhatsApp' +
+            (waKeadaan.notifyAdminOnRsvp ? ', dan RSVP baru otomatis dikabari ke admin.' : '.');
+        } else if (waKeadaan.offline) {
+          badge.textContent = '\u26a0 Server tidak terjangkau';
+          badge.className = 'status warn';
+          if (kotakGateway) kotakGateway.classList.remove('aktif');
+          info.textContent = 'Studio dibuka tanpa server (mode file). Tombol Kirim tetap membuka WhatsApp lewat tautan wa.me.';
+        } else {
+          badge.textContent = '\uD83D\uDD17 Mode Link WhatsApp';
+          badge.className = 'status';
+          if (kotakGateway) kotakGateway.classList.remove('aktif');
+          info.innerHTML = 'Belum aktif. Undangan tetap bisa dikirim lewat <b>link wa.me</b>. Untuk kirim otomatis, isi ' +
+            '<code>wa-config.json</code> dengan token gateway lalu tekan Muat Status.';
+        }
+      }
+
+      function renderRiwayatWa(riwayat) {
+        var wrap = $('waRiwayat');
+        if (!wrap) return;
+        if (!riwayat || !riwayat.length) {
+          wrap.innerHTML = '<p style="font-size:12.5px;color:var(--muted);margin:6px 0">Belum ada riwayat pengiriman otomatis.</p>';
+          return;
+        }
+        wrap.innerHTML = '';
+        riwayat.slice(0, 6).forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'rsvp-item wa-log-item';
+          var waktu = r.waktu ? new Date(r.waktu).toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }) : '-';
+          row.innerHTML = '<div><strong>' + (r.ok ? '\u2705 Terkirim' : '\u26a0 Gagal') + '</strong> \u00b7 ' +
+            (r.target || '-') + '<div style="color:var(--muted);font-size:11.5px">' + waktu +
+            (r.keterangan ? ' \u00b7 ' + r.keterangan : '') + '</div></div>';
+          wrap.appendChild(row);
+        });
+      }
+
+      async function muatStatusWa() {
+        if (!(StudioBackend.wa && StudioBackend.wa.status)) return;
+        waKeadaan = await StudioBackend.wa.status();
+        tampilkanStatusWa();
+        var template = waKeadaan.templateUndangan || WA_TEMPLATE_BAWAAN;
+        if ($('waTemplate') && !$('waTemplate').value) $('waTemplate').value = template;
+        if ($('waAdminNumber') && !$('waAdminNumber').value) {
+          $('waAdminNumber').value = waKeadaan.adminWhatsapp || (StudioBackend.getSettings().adminWhatsapp || '');
+        }
+        if ($('waAutoRsvp')) $('waAutoRsvp').value = waKeadaan.notifyAdminOnRsvp === false ? 'off' : 'on';
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+        return waKeadaan;
+      }
+
+      // Rakit data pesan undangan yang sedang diedit
+      function dataPesanWa(namaTamu) {
+        var inv = StudioBackend.getInvitation(activeId);
+        var guest = (namaTamu || '').trim() || 'Tamu Undangan';
+        var pasangan = (inv.secondaryName && !isSingleNameCat(inv.category))
+          ? (inv.primaryName + ' & ' + inv.secondaryName) : inv.primaryName;
+        return {
+          tamu: guest,
+          acara: (inv.title ? inv.title + ' \u2014 ' : '') + pasangan,
+          tanggal: StudioBackend.formatIndonesianDate(inv.eventDate) +
+            ((inv.resepsiTime || inv.akadTime) ? ' pukul ' + (inv.resepsiTime || inv.akadTime) : ''),
+          lokasi: [inv.venueName, inv.venueAddress].filter(Boolean).join(', '),
+          link: buildGuestLink(guest)
+        };
+      }
+
+      // Kirim link undangan: gateway kalau aktif, kalau tidak buka WhatsApp (wa.me)
+      async function kirimLinkWaKeTamu() {
+        var nama = $('waGuestName') ? $('waGuestName').value.trim() : '';
+        var nomor = $('waGuestPhone') ? $('waGuestPhone').value.trim() : '';
+        var template = $('waTemplate').value || WA_TEMPLATE_BAWAAN;
+        var data = dataPesanWa(nama);
+        var pesan = StudioBackend.wa.isiTemplate(template, data);
+
+        if (!waKeadaan.aktif) {
+          window.open(StudioBackend.wa.tautan(nomor, pesan), '_blank', 'noopener');
+          $('waHasil').textContent = 'WhatsApp dibuka \u2014 tinggal tekan kirim';
+          return;
+        }
+        if (!nomor) {
+          showToast('\u26a0 Isi nomor WhatsApp tamu dulu untuk kirim otomatis');
+          $('waGuestPhone').focus();
+          return;
+        }
+        $('waHasil').textContent = 'Mengirim\u2026';
+        var hasil = await StudioBackend.wa.kirim(nomor, pesan, data, template);
+        if (hasil.ok) {
+          $('waHasil').textContent = '\u2705 Terkirim ke ' + hasil.tujuan;
+          showToast('\u2705 Undangan terkirim ke ' + hasil.tujuan);
+        } else {
+          $('waHasil').textContent = '\u26a0 ' + (hasil.error || 'Gagal mengirim');
+          showToast('\u26a0 Gagal kirim otomatis \u2014 membuka WhatsApp sebagai gantinya');
+          window.open(hasil.tautan || StudioBackend.wa.tautan(nomor, pesan), '_blank', 'noopener');
+        }
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+      }
+
+      if ($('waKirimBtn')) {
+        $('waKirimBtn').addEventListener('click', kirimLinkWaKeTamu);
+        $('waMuatStatusBtn').addEventListener('click', async function () {
+          await muatStatusWa();
+          showToast(waKeadaan.aktif ? '\u2705 Gateway WhatsApp terhubung (' + waKeadaan.provider + ')'
+                                    : '\uD83D\uDD17 Mode Link WhatsApp (tanpa token) aktif');
+        });
+        $('waUjiBtn').addEventListener('click', async function () {
+          $('waHasil').textContent = 'Mengirim pesan uji\u2026';
+          var hasil = await StudioBackend.wa.uji();
+          $('waHasil').textContent = hasil.ok
+            ? '\u2705 Pesan uji terkirim ke ' + hasil.tujuan
+            : '\u26a0 ' + (hasil.error || (hasil.hasil && hasil.hasil.error) || 'Gateway belum siap');
+          showToast($('waHasil').textContent);
+          await muatStatusWa();
+        });
+        $('waSimpanBtn').addEventListener('click', async function () {
+          var hasil = await StudioBackend.wa.simpanPengaturan({
+            adminWhatsapp: $('waAdminNumber').value.trim(),
+            notifyAdminOnRsvp: $('waAutoRsvp').value !== 'off',
+            templateUndangan: $('waTemplate').value
+          });
+          if (hasil && hasil.ok) {
+            waKeadaan = Object.assign(waKeadaan, hasil.wa || {});
+            tampilkanStatusWa();
+            showToast('\u2705 Pengaturan WhatsApp disimpan');
+          } else {
+            showToast('\u26a0 Gagal menyimpan: ' + ((hasil && hasil.error) || 'server tidak terjangkau'));
+          }
+        });
+      }
+      muatStatusWa();
 
       // ================= PEMERIKSAAN & HASIL UNDANGAN =================
       // Gulir halus ke panel editor — aman di browser/jsdom yang belum mendukung opsi
@@ -2284,10 +2514,14 @@
             '<div style="min-width:0">' +
               '<strong style="display:block;font-size:13.5px;margin-bottom:2px"></strong>' +
               '<div class="bulk-url" style="font-size:11.5px;color:var(--muted);word-break:break-all"></div>' +
+              '<input class="bulk-phone" inputmode="tel" placeholder="Nomor WA tamu (08xx / 62xx)" ' +
+                'style="margin-top:6px;max-width:240px;font-size:12.5px">' +
+              '<div class="bulk-ket" style="font-size:11.5px;color:var(--muted);margin-top:4px"></div>' +
             '</div>' +
-            '<div style="display:flex;gap:6px;flex:none">' +
+            '<div style="display:flex;gap:6px;flex:none;flex-wrap:wrap;justify-content:flex-end">' +
               '<button type="button" class="btn sm primary bulk-copy">📋 Salin</button>' +
               '<a class="btn sm gold bulk-wa" href="#" target="_blank" rel="noopener">💬 Kirim WA</a>' +
+              '<button type="button" class="btn sm bulk-send">📲 Kirim Otomatis</button>' +
             '</div>';
           row.querySelector('strong').textContent = name;
           row.querySelector('.bulk-url').textContent = url;
@@ -2295,6 +2529,22 @@
           row.querySelector('.bulk-copy').addEventListener('click', function () {
             if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(msg);
             showToast('✓ Link & pesan untuk ' + name + ' disalin');
+          });
+          // Kirim otomatis lewat gateway (kalau aktif) — kalau belum, buka WhatsApp
+          row.querySelector('.bulk-send').addEventListener('click', async function () {
+            var nomor = row.querySelector('.bulk-phone').value.trim();
+            var ket = row.querySelector('.bulk-ket');
+            if (!waKeadaan.aktif) {
+              window.open(StudioBackend.wa.tautan(nomor, msg), '_blank', 'noopener');
+              ket.textContent = 'WhatsApp dibuka \u2014 tinggal tekan kirim';
+              return;
+            }
+            if (!nomor) { ket.textContent = '\u26a0 Isi nomor WA tamu dulu'; return; }
+            ket.textContent = 'Mengirim\u2026';
+            var hasil = await StudioBackend.wa.kirim(nomor, msg, null, null);
+            ket.textContent = hasil.ok ? '\u2705 Terkirim ke ' + hasil.tujuan
+                                       : '\u26a0 ' + (hasil.error || 'Gagal mengirim');
+            if (!hasil.ok) window.open(hasil.tautan, '_blank', 'noopener');
           });
           wrap.appendChild(row);
         });
@@ -2313,6 +2563,35 @@
           }).catch(function () {});
         }
       });
+      $('bulkSendAllBtn').addEventListener('click', async function () {
+        var baris = Array.prototype.slice.call($('bulkResultList').querySelectorAll('.rsvp-item'));
+        if (!baris.length) { showToast('\u26a0 Generate daftar tamu terlebih dahulu'); return; }
+        var siap = baris.filter(function (r) { return r.querySelector('.bulk-phone').value.trim(); });
+        if (!waKeadaan.aktif) {
+          showToast('\uD83D\uDD17 Gateway belum aktif \u2014 tombol Kirim WA per tamu tetap bisa dipakai');
+          return;
+        }
+        if (!siap.length) { showToast('\u26a0 Isi minimal satu nomor WhatsApp tamu'); return; }
+        var berhasil = 0, gagal = 0;
+        $('bulkSendAllBtn').disabled = true;
+        for (var i = 0; i < siap.length; i++) {
+          var r = siap[i];
+          var nama = r.querySelector('strong').textContent;
+          var nomor = r.querySelector('.bulk-phone').value.trim();
+          var ket = r.querySelector('.bulk-ket');
+          var url = r.querySelector('.bulk-url').textContent;
+          var pesan = StudioBackend.wa.isiTemplate($('waTemplate').value || WA_TEMPLATE_BAWAAN,
+            dataPesanWa(nama));
+          ket.textContent = 'Mengirim\u2026';
+          var hasil = await StudioBackend.wa.kirim(nomor, pesan, null, null);
+          ket.textContent = hasil.ok ? '\u2705 Terkirim ke ' + hasil.tujuan : '\u26a0 ' + (hasil.error || 'gagal');
+          if (hasil.ok) berhasil++; else gagal++;
+          await new Promise(function (res) { setTimeout(res, 350); });   // jeda aman antar pesan
+        }
+        $('bulkSendAllBtn').disabled = false;
+        showToast('\u2705 Terkirim ' + berhasil + ' pesan' + (gagal ? ' \u00b7 ' + gagal + ' gagal' : ''));
+      });
+
       $('bulkCopyAllBtn').addEventListener('click', function () {
         if (!bulkResults.length) { showToast('⚠ Generate daftar tamu terlebih dahulu'); return; }
         var all = bulkResults.map(function (r) { return r.name + ' → ' + r.url; }).join('\n');

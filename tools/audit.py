@@ -249,6 +249,47 @@ for sumber, isi in [('studio-api.js', api if False else rd('studio-api.js')), ('
 for st_key in ['revisi', 'menunggu', 'disetujui']:
     ok('DEFAULT_DB memuat status "%s"' % st_key) if "reviewStatus: '%s'" % st_key in rd('studio-api.js') else bad('status "%s" tidak ada di seed bawaan' % st_key)
 
+print('\n== 8f. Koneksi WhatsApp (gateway opsional + link gratis) ==')
+ok('wa-config.example.json tersedia') if os.path.exists('wa-config.example.json') else bad('wa-config.example.json TIDAK ADA')
+if os.path.exists('wa-config.example.json'):
+    try:
+        contoh = json.loads(rd('wa-config.example.json'))
+        ok('contoh konfigurasi memuat provider/token/admin') if all(k in contoh for k in ['provider', 'token', 'adminWhatsapp']) else bad('contoh konfigurasi kurang lengkap')
+        ok('contoh konfigurasi default nonaktif (aman)') if contoh.get('enabled') is False else warn('contoh konfigurasi tidak diawali enabled:false')
+    except Exception as e:
+        bad('wa-config.example.json tidak bisa dibaca: %s' % e)
+gi = rd('.gitignore')
+ok('wa-config.json tidak ikut ter-commit') if 'wa-config.json' in gi else bad('wa-config.json belum masuk .gitignore')
+ok('log pengiriman WhatsApp diabaikan git') if 'wa-log.json' in gi else warn('data/wa-log.json belum diabaikan')
+srv = rd('server.js')
+for nama, pola in [('normalisasi nomor Indonesia', 'function normalisasiNomor'),
+                   ('gateway Fonnte', "provider === 'fonnte'"),
+                   ('gateway Wablas', "provider === 'wablas'"),
+                   ('gateway Whacenter', "provider === 'whacenter'"),
+                   ('provider custom (apiUrl sendiri)', 'provider "custom" butuh apiUrl'),
+                   ('endpoint status /api/wa', "pathname === '/api/wa' && req.method === 'GET'"),
+                   ('endpoint kirim /api/wa/kirim', "pathname === '/api/wa/kirim'"),
+                   ('endpoint uji /api/wa/uji', "pathname === '/api/wa/uji'"),
+                   ('endpoint pengaturan /api/wa/pengaturan', "pathname === '/api/wa/pengaturan'"),
+                   ('notifikasi RSVP otomatis ke admin', 'notifyAdminOnRsvp'),
+                   ('token disamarkan untuk browser', 'tokenSamar')]:
+    ok('server.js: %s' % nama) if pola in srv else bad('server.js tidak memuat %s' % nama)
+ok('token TIDAK pernah dikirim utuh ke browser') if 'tokenSamar' in srv and 'token: cfg.token' not in srv else bad('periksa pengiriman token ke browser')
+st = rd('studio.html')
+for hook, nama in [('id="card-wa"', 'panel Koneksi WhatsApp'),
+                   ('id="waKirimBtn"', 'tombol kirim link undangan ke tamu'),
+                   ('id="waUjiBtn"', 'tombol uji koneksi'),
+                   ('id="waTemplate"', 'template pesan undangan'),
+                   ('id="waAdminNumber"', 'nomor admin WhatsApp'),
+                   ('id="waAutoRsvp"', 'saklar notifikasi RSVP otomatis'),
+                   ('id="bulkSendAllBtn"', 'tombol kirim massal via gateway'),
+                   ('bulk-phone', 'kolom nomor tamu di generator massal')]:
+    ok('%s ada' % nama) if hook in st else bad('%s tidak ada' % nama)
+api = rd('studio-api.js')
+for pola, nama in [('waApi', 'objek StudioBackend.wa'), ('function waTautan', 'pembuat tautan wa.me'),
+                   ('function waKirim', 'pengirim lewat server'), ('function waBersihkanNomor', 'normalisasi nomor di browser')]:
+    ok('studio-api.js: %s' % nama) if pola in api else bad('studio-api.js tidak memuat %s' % nama)
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')

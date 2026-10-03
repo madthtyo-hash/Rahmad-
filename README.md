@@ -36,6 +36,10 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - **Pengaturan RSVP**: Pengaturan batas waktu konfirmasi, kuota tamu, rekap kehadiran real-time, buku tamu ucapan & doa, serta Export CSV.
   Setelah tamu mengirim RSVP, muncul tawaran satu ketuk **"Kabari lewat WhatsApp"** ke admin (teks sudah terisi nama, status, jumlah tamu, dan ucapan).
 - **QR Check-In Buku Tamu 🎫 (semua tema)**: kartu QR asli (pustaka MIT di `vendor/qrcode.js`, hasilnya sudah diuji cocok dengan pembaca QR) berisi tautan check-in + kode unik `KD-XXXXXX` per undangan. Panitia memindai QR untuk mencatat kehadiran, dan tamu bisa menekan **Tandai Hadir** agar langsung masuk rekap RSVP. Bisa dinyalakan/dimatikan per undangan di tab **Tema & Visual → QR Check-In Buku Tamu**.
+- **Koneksi WhatsApp 📲 (di Studio Admin, tab Fitur Ekstra)**: dua cara kirim, pilih sesuai kebutuhan.
+  - **Mode Link WhatsApp — gratis & selalu siap, tanpa token.** Studio membuat tautan `wa.me` berisi pesan undangan yang sudah terisi (nama tamu, acara, tanggal, lokasi, link undangan), lalu membuka WhatsApp/Web WhatsApp. Ada tombol **Kirim WA** di tiap baris tamu pada generator tamu massal.
+  - **Mode Gateway otomatis — opsional.** Salin `wa-config.example.json` → `wa-config.json`, isi `token` + provider (**Fonnte** (default), **Wablas**, **Whacenter**, atau **custom** dengan `apiUrl` sendiri), lalu set `"enabled": true` dan mulai ulang server. Setelah itu Studio bisa mengirim **langsung tanpa membuka tab WhatsApp** — tombol **Kirim Semua via Gateway** mengirim ke semua tamu yang sudah diisi nomornya (jeda 350 ms tiap pesan), tombol **Uji Koneksi** mengirim pesan uji ke nomor admin, dan **RSVP baru otomatis dikabarkan ke nomor admin** (bisa dimatikan). Kolom pengaturan: nomor admin, saklar notifikasi RSVP, provider/API URL/token, kode negara (default `62`), dan template pesan (kode `{tamu} {acara} {tanggal} {lokasi} {link}`).
+  - **Aman**: `wa-config.json` dan `data/wa-log.json` masuk `.gitignore` (tidak pernah ikut ter-commit/push), token hanya tersimpan di server dan ke browser hanya dikirim versi samar (`••••1234`), dan bila gateway nonaktif/gagal kirim, Studio otomatis jatuh ke mode link **gratis** supaya undangan tetap terkirim.
 - **Simpan ke Kalender 📅 (semua tema)**: tombol `.ics` (Google/Apple/Outlook Calendar) + tautan **Google Calendar**, otomatis dari tanggal, jam resepsi, lokasi, dan judul undangan.
 
 ## Paket Harga
@@ -46,6 +50,7 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 ## Pemeriksa & Uji (untuk pengembang)
 
 - `python3 tools/audit.py` — memeriksa 9 bagian: syntax JS/JSON, struktur HTML, link lokal,
+  koneksi WhatsApp (contoh konfigurasi, `.gitignore`, endpoint, penyamaran token, panel Studio),
   registrasi tema di Studio, hook tema baru, katalog, aturan nomor WhatsApp & link Studio,
   footer/meta, serta skema & migrasi Supabase.
 - `node tools/test-cloud.js` — menguji lapisan Supabase Cloud (tarik/kirim data, pemetaan RSVP,
@@ -61,13 +66,21 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
   (jsdom sebagai devDependency); server uji dijalankan otomatis di port `3131`
   (`UI_TEST_PORT=3232` untuk mengganti). Uji ini tidak menyentuh Supabase dan tidak mengubah
   `data/studio-db.json`.
+- `node tools/test-wa.js` — uji integrasi WhatsApp **tanpa jaringan sungguhan**: menyalakan server uji
+  di port `3471` (+ gateway tiruan di `3472`) dengan database, log, dan konfigurasi sementara
+  (`STUDIO_DB`/`WA_LOG`/`WA_CONFIG` di folder `tmp/`), lalu memeriksa 26 hal: mode link tetap jalan saat
+  gateway mati, penolakan kirim dengan pesan jelas, penyamaran token, normalisasi nomor `08xx` → `62xx`,
+  pengiriman lewat gateway (header `Authorization`), riwayat pengiriman, notifikasi RSVP otomatis beserta
+  saklarnya, penyimpanan pengaturan tanpa menghapus token, sampai panel WhatsApp & tombol kirim massal di
+  Studio (jsdom). Tidak menyentuh `wa-config.json` maupun `data/studio-db.json`.
 - `node tools/a11y-test.js` — uji aksesibilitas otomatis (axe-core): halaman depan, Studio Admin,
   dan ke-13 halaman tema diperiksa pelanggaran berisiko *serious/critical* (nama tombol, label
   form, peran ARIA), ditambah cek perilaku keyboard: tab editor Studio (panah kiri/kanan), kotak
   Galeri (`role="dialog"`, Escape, fokus terkunci & kembali ke foto asal), pilihan kehadiran RSVP,
   dan tombol musik. Perlu `npm install` (axe-core sebagai devDependency); port uji `3232`
   (`A11Y_TEST_PORT=3333` untuk mengganti).
-- `npm test` — menjalankan pemeriksa berurutan: audit → cloud → UI → aksesibilitas.
+- `npm test` — menjalankan pemeriksa berurutan: audit → cloud → WhatsApp → UI → aksesibilitas.
+  (`npm run test:wa` untuk menjalankan uji WhatsApp saja.)
 - `python3 tools/make-thumbs.py` — membuat ulang 13 thumbnail katalog di `thumbs/` (butuh ImageMagick).
 - `python3 tools/make-music.py` — membuat ulang 6 lagu MP3 bebas royalti di `musik/` (butuh `pip install lameenc`).
 - `node tools/check-cloud.js` — memeriksa koneksi ke project Supabase **asli** yang sudah diisi
