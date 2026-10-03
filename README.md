@@ -25,6 +25,9 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - **Tema Premium Eksklusif**:
   - `undangan-premium.html` — Royal Gold Luxury 👑 (dengan QR Check-In Buku Tamu VIP)
   - `undangan-platinum.html` — Platinum Marble 👑 **(BARU: VIP Access Pass + QR Check-In, reservasi Gala Dinner & fasilitas VIP)**
+- **Mode Navigasi Tamu 🧭 (9 mode, semua tema)**: Gulir normal, Snap per bagian, Slide horizontal, dan 6 efek premium (Fade sinematik, Buku 3D flip, Zoom halus, Naik, Kubus 3D, Blur). Pilih per undangan di tab **Tema & Visual → Mode Navigasi Tamu**, atau kunci lewat link `undangan-*.html?mode=cube`. Mode tersimpan di Studio ikut terbaca otomatis saat tamu membuka undangan (`?mode=` pada link tetap menang).
+  - Sage Blossom & Jawa Heritage memakai mesin navigasi bawaan di halamannya.
+  - 11 tema lain memakai mesin bersama [`vendor/nav-mode.js`](vendor/nav-mode.js) — tombol panah, titik bagian, geser/swipe, dan panah keyboard otomatis tersedia di mode per-halaman.
 - **Musik Latar MP3 🎵**: 6 lagu bebas royalti di `musik/` (Romantis, Lembut Islami, Ninabobo, Prosesi Wisuda, Ceria Pesta, Jawa Pentatonik). Pilih per undangan di tab **Tema & Visual → Musik Latar Undangan** (atau tempel link MP3 sendiri / "tanpa musik"), dan pilih lagu halaman depan di tab **Fitur Ekstra → Musik Halaman Depan**. Tombol musik muncul otomatis di undangan maupun di halaman depan.
 - **Upload Foto**: Upload foto cover, foto profil, dan multi-foto galeri lightbox dengan kompresi otomatis.
 - **Pengaturan Amplop Digital**: Kelola multi-rekening bank & e-wallet (BCA, Mandiri, BRI, BNI, BSI, DANA, GoPay, OVO), tombol salin rekening, dan konfirmasi WhatsApp (`6285196755675`).
@@ -50,7 +53,8 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
   memeriksa hydrate data Studio (nama di cover, foto, rekening amplop, galeri, batas RSVP, buku
   ucapan), interaksi tamu (buka undangan, countdown, lightbox, kirim RSVP, salin rekening),
   pemutar musik MP3 per undangan & halaman depan, kategori & label Studio Admin, koleksi yang
-  dikelompokkan per kategori, serta filter katalog halaman depan. Perlu `npm install` sekali
+  dikelompokkan per kategori, filter katalog halaman depan, serta **mode navigasi tamu di 13 tema**
+  (mode dari link & dari Studio, panah/titik/geser, dan pembersihan kelas mode saat berganti mode). Perlu `npm install` sekali
   (jsdom sebagai devDependency); server uji dijalankan otomatis di port `3131`
   (`UI_TEST_PORT=3232` untuk mengganti). Uji ini tidak menyentuh Supabase dan tidak mengubah
   `data/studio-db.json`.

@@ -1723,7 +1723,9 @@
     var jangkar = document.getElementById('studioAmplopList') || document.getElementById('studioRsvpDeadline') ||
                   document.getElementById('wishList');
     var seksiInduk = jangkar && jangkar.closest ? jangkar.closest('section') : null;
-    if (seksiInduk && seksiInduk.parentNode) seksiInduk.parentNode.insertBefore(seksi, seksiInduk.nextSibling);
+    if (!seksiInduk) seksiInduk = document.querySelector('.frame > section:last-of-type') ||
+                                   document.querySelector('section');
+    if (seksiInduk) seksiInduk.appendChild(seksi);   // di dalam bagian → ikut mode per-halaman
     else document.body.appendChild(seksi);
 
     var wa = seksi.querySelector('#studioCheckinWa');
@@ -1904,7 +1906,8 @@
 
     var jangkar = document.getElementById('cdD') || document.getElementById('studioRsvpDeadline');
     var seksi = jangkar && jangkar.closest ? jangkar.closest('section') : null;
-    if (seksi && seksi.parentNode) seksi.parentNode.insertBefore(bar, seksi.nextSibling);
+    if (!seksi) seksi = document.querySelector('.frame > section');
+    if (seksi) seksi.appendChild(bar);    // di dalam bagian → ikut mode per-halaman
     else document.body.insertBefore(bar, document.body.firstChild);
   }
 
@@ -2297,6 +2300,14 @@
         terapkanCheckIn(inv);
         // Tombol simpan ke kalender (.ics & Google Calendar)
         terapkanKalender(inv);
+        // Mode navigasi tamu dari Studio (kalau link tidak menentukan sendiri).
+        // Mesin navigasi ada di dalam tema (Sage/Jawa) atau vendor/nav-mode.js.
+        try {
+          var modeLink = new URLSearchParams(window.location.search).get('mode');
+          if (!modeLink && inv.navMode && typeof window.setMode === 'function') {
+            window.setMode(inv.navMode);
+          }
+        } catch (e) { /* biarkan mode bawaan tema */ }
 
         // Hook RSVP Form submission to save into StudioBackend
         var rsvpForm = document.getElementById('rsvpForm');

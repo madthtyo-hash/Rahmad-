@@ -448,6 +448,100 @@ async function ujiKatalog() {
   }
 }
 
+// ---------- D. Mode navigasi tamu (Gulir / Snap / Slide / premium) ----------
+async function ujiNavigasi() {
+  console.log('\n== D. Mode navigasi tamu: 13 tema, kelas mode bersih ==');
+  const TEMA = [
+    'undangan-sage.html', 'undangan-jawa.html', 'undangan-demo.html', 'undangan-iceblue.html',
+    'undangan-midnight.html', 'undangan-khitanan.html', 'undangan-iceblue-khitanan.html',
+    'undangan-aqiqah.html', 'undangan-ultah.html', 'undangan-iceblue-ultah.html',
+    'undangan-wisuda.html', 'undangan-premium.html', 'undangan-platinum.html'
+  ];
+  const kelasMode = (d) => Array.from(d.body.classList).filter((c) => c.indexOf('mode-') === 0)
+    .map((c) => c.replace('mode-', '')).sort().join(',');
+
+  for (const file of TEMA) {
+    const singkat = file.replace('undangan-', '').replace('.html', '');
+    const { dom, w, d, errors } = await buka(BASE + '/' + file + '?mode=cube');
+    try {
+      // 1. Link ?mode= harus dihormati di semua tema
+      cek(singkat + ': ?mode=cube → kelas body mode-cube + pager',
+        kelasMode(d) === 'cube' && d.body.classList.contains('pager'), kelasMode(d) || '(kosong)');
+      cek(singkat + ': mode per-halaman menampilkan tepat 1 bagian aktif',
+        d.querySelectorAll('.frame > section.active').length === 1,
+        d.querySelectorAll('.frame > section.active').length + ' bagian');
+      cek(singkat + ': tombol panah kiri/kanan tersedia dalam mode per-halaman',
+        d.querySelectorAll('.kd-nav-arrow, .slide-arrow').length === 2);
+      cek(singkat + ': titik navigasi sejumlah bagian undangan',
+        d.querySelectorAll('.kd-nav-dots button, .dots i').length ===
+        d.querySelectorAll('.frame > section').length,
+        d.querySelectorAll('.kd-nav-dots button, .dots i').length + ' titik');
+
+      // 2. Klik panah berikutnya benar-benar berpindah bagian
+      const panah = d.querySelector('.kd-nav-next, .arrow-right');
+      const sebelum = Array.prototype.indexOf.call(d.querySelectorAll('.frame > section'),
+        d.querySelector('.frame > section.active'));
+      panah.dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+      const sesudah = Array.prototype.indexOf.call(d.querySelectorAll('.frame > section'),
+        d.querySelector('.frame > section.active'));
+      cek(singkat + ': tombol panah pindah ke bagian berikutnya', sesudah === sebelum + 1,
+        sebelum + ' → ' + sesudah);
+
+      // 3a. Strip kredit yang tadinya di luar bagian harus ikut terlihat di mode per-halaman
+      const stripKandidat = Array.from(d.querySelectorAll('.footstrip, .kd-credit'))
+        .filter((el) => el.querySelector('a, button'));
+      if (stripKandidat.length) {
+        cek(singkat + ': strip kredit ikut masuk ke bagian di mode per-halaman',
+          stripKandidat.every((el) => !!el.closest('.frame > section')));
+      }
+
+      // 3. REGRESI BUG: pindah ke gulir harus melepas SEMUA kelas mode (dulu up/cube/blur bocor)
+      const ganti = w.setMode || (w.StudioBackend && w.StudioBackend.setMode);
+      cek(singkat + ': fungsi setMode tersedia untuk ganti mode', typeof ganti === 'function');
+      if (typeof ganti === 'function') {
+        ganti('scroll');
+        cek(singkat + ': setMode("scroll") hanya menyisakan mode-scroll',
+          kelasMode(d) === 'scroll', kelasMode(d));
+        cek(singkat + ': keluar dari mode per-halaman (pager dilepas)',
+          !d.body.classList.contains('pager'));
+        cek(singkat + ': tanpa sisa bagian aktif saat gulir normal',
+          d.querySelectorAll('.frame > section.active').length === 0);
+        ganti('slide');
+        cek(singkat + ': pindah ke slide → mode-slide saja (tanpa sisa mode-scroll)',
+          kelasMode(d) === 'slide', kelasMode(d));
+        ganti('scroll');
+        if (stripKandidat.length) {
+          cek(singkat + ': strip kredit dikembalikan saat gulir normal (tanpa sisa penanda)',
+            stripKandidat.every((el) => !el.__kdAsal && !!el.closest('.frame')));
+          const footstripPulang = d.querySelectorAll('.frame > .footstrip').length;
+          if (d.querySelector('.footstrip')) {
+            cek(singkat + ': footer strip kembali jadi anak langsung .frame', footstripPulang > 0,
+              footstripPulang + ' footer di luar bagian');
+          }
+        }
+      }
+      cek(singkat + ': tidak ada error JS di mode navigasi', errors.length === 0,
+        errors.slice(0, 2).join(' | ') || 'bersih');
+    } finally {
+      dom.window.close();
+    }
+  }
+
+  // 4. Snap & mode tersimpan dari Studio
+  const sn = await buka(BASE + '/undangan-wisuda.html?mode=snap');
+  try {
+    cek('mode snap menandai <html> dengan kelas snap', sn.d.documentElement.classList.contains('snap'));
+    cek('mode snap tidak memakai tata letak per-halaman', !sn.d.body.classList.contains('pager'));
+  } finally { sn.dom.window.close(); }
+
+  const simpan = await buka(BASE + '/undangan-premium.html');
+  try {
+    const invNav = simpan.w.StudioBackend.getInvitation('premium-alvaro-clara').navMode;
+    cek('navMode tersimpan di Studio diterapkan tanpa ?mode= di link',
+      kelasMode(simpan.d) === invNav, 'DB: ' + invNav + ' · halaman: ' + (kelasMode(simpan.d) || '-'));
+  } finally { simpan.dom.window.close(); }
+}
+
 (async () => {
   const server = spawn(process.execPath, ['server.js'], {
     cwd: ROOT,
@@ -482,6 +576,7 @@ async function ujiKatalog() {
     for (const [file, id] of daftar) await ujiUndangan(dbMap, file, id, berpasangan);
     await ujiStudio();
     await ujiKatalog();
+    await ujiNavigasi();
 
     console.log('\n== RINGKASAN ==');
     console.log('LULUS : ' + lulus);

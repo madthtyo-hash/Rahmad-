@@ -260,6 +260,20 @@ async function ujiHalaman(file, label, opsi = {}) {
           cek(file + ': setiap tombol salin rekening punya nama',
             salin.length > 0 && salin.every((b) => b.getAttribute('aria-label') || b.textContent.trim()),
             salin.length + ' tombol');
+          // Titik navigasi mode per-halaman harus punya nama untuk pembaca layar
+          const titik = Array.from(d.querySelectorAll('.kd-nav-dots button, .dots i'));
+          if (titik.length) {
+            cek(file + ': titik navigasi bagian punya nama',
+              titik.every((t) => t.tagName === 'BUTTON' && !!t.getAttribute('aria-label')) ||
+              titik.every((t) => !!t.getAttribute('aria-label')),
+              titik.length + ' titik');
+          }
+          const panah = Array.from(d.querySelectorAll('.kd-nav-arrow, .slide-arrow'));
+          if (panah.length) {
+            cek(file + ': tombol panah navigasi punya nama',
+              panah.every((b) => !!b.getAttribute('aria-label')), panah.length + ' tombol');
+          }
+
           // QR check-in & tombol kalender harus bisa dipakai pembaca layar
           const checkin = d.getElementById('studioCheckin');
           if (checkin) {

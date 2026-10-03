@@ -832,21 +832,53 @@ function isPager(){
 // buat indikator titik sesuai jumlah bagian
 slideSecs.forEach(function(_, i){
   var d = document.createElement('i');
+  // Titik navigasi bisa diklik, disentuh, dan dijangkau keyboard/pembaca layar
+  d.setAttribute('role', 'button');
+  d.setAttribute('tabindex', '0');
+  d.setAttribute('aria-label', 'Bagian ' + (i + 1) + ' dari ' + slideSecs.length);
   d.addEventListener('click', function(){ goSlide(i); });
+  d.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); goSlide(i); }
+  });
   dotsWrap.appendChild(d);
 });
 
+// Strip kredit di luar bagian ikut pindah ke bagian terakhir di mode per-halaman.
+var stripDipindah = [];
+function rapikanStrip(pager){
+  var frame = document.querySelector('.frame');
+  if(!frame) return;
+  if(pager){
+    var terakhir = slideSecs[slideSecs.length - 1];
+    Array.prototype.slice.call(frame.children).forEach(function(el){
+      if(el.tagName === 'SECTION' || !el.querySelector('a, button')) return;
+      if(!el.__kdAsal){ el.__kdAsal = { parent: el.parentNode, next: el.nextSibling }; stripDipindah.push(el); }
+      if(el.parentNode !== terakhir) terakhir.appendChild(el);
+    });
+  } else if(stripDipindah.length){
+    stripDipindah.forEach(function(el){
+      if(!el.__kdAsal) return;
+      el.__kdAsal.parent.insertBefore(el, el.__kdAsal.next);
+      delete el.__kdAsal;
+    });
+    stripDipindah = [];
+  }
+}
+
 function setMode(mode){
-  ['scroll','snap','slide','fade','flip','zoom'].forEach(function(m){
+  // Bersihkan seluruh kelas mode (termasuk up/cube/blur) supaya tidak bocor
+  validModes.forEach(function(m){
     bodyEl.classList.remove('mode-' + m);
   });
   bodyEl.classList.add('mode-' + mode);
   document.documentElement.classList.toggle('snap', mode === 'snap');
+  window.kdNavMode = mode;
   document.querySelectorAll('.mode-bar button').forEach(function(b){
     b.classList.toggle('on', b.getAttribute('data-mode') === mode);
   });
   var pager = pagerModes.indexOf(mode) > -1;
   bodyEl.classList.toggle('pager', pager);
+  rapikanStrip(pager);
   if(pager){ goSlide(currentSlide); }
   else{ slideSecs.forEach(function(s){ s.classList.remove('active'); }); }
 }

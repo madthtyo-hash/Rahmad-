@@ -206,6 +206,28 @@ for f in ['index.html', 'landing.html']:
     h = rd(f)
     ok('%s: paket spesial Aqiqah & Wisuda' % f) if 'paket-spesial' in h and 'Rp69.000' in h else bad('%s: paket spesial Aqiqah/Wisuda tidak ada' % f)
 
+print('\n== 8d. Mode navigasi tamu (Gulir/Snap/Slide + premium) ==')
+nav_ok = os.path.exists('vendor/nav-mode.js')
+ok('vendor/nav-mode.js tersedia (mesin navigasi bersama)') if nav_ok else bad('vendor/nav-mode.js TIDAK ADA')
+if nav_ok:
+    nav = rd('vendor/nav-mode.js')
+    ok('memuat 9 mode navigasi') if all("'%s'" % m in nav for m in ['scroll','snap','slide','fade','flip','zoom','up','cube','blur']) else bad('mode navigasi belum lengkap')
+    ok('setMode membersihkan seluruh kelas mode (bug kelas bocor)') if 'MODES.forEach' in nav and "classList.remove('mode-' + m)" in nav else bad('setMode tidak membersihkan semua kelas mode')
+    ok('menerapkan navMode tersimpan lewat window.setMode') if 'window.setMode = function' in nav else bad('window.setMode tidak ada')
+tanpa_mesin = []
+for f in TEMPLATES:
+    h = rd(f)
+    if 'vendor/nav-mode.js' not in h and 'function setMode(' not in h:
+        tanpa_mesin.append(f)
+ok('13 tema punya mesin navigasi (bawaan atau vendor/nav-mode.js)') if not tanpa_mesin else bad('tanpa mesin navigasi: %s' % ', '.join(tanpa_mesin))
+for f in ['undangan-sage.html', 'undangan-jawa.html']:
+    h = rd(f)
+    pembersih = re.search(r'setMode\(mode\)\{[\s\S]{0,400}?validModes\.forEach', h)
+    ok('%s: setMode membersihkan semua kelas mode' % f) if pembersih else bad('%s: pembersihan kelas mode lama (up/cube/blur) belum lengkap' % f)
+api_nav = rd('studio-api.js')
+ok('studio-api.js menerapkan navMode dari Studio') if 'window.setMode(inv.navMode)' in api_nav else bad('studio-api.js tidak menerapkan navMode tersimpan')
+ok('link ?mode= tetap menang atas navMode tersimpan') if 'var modeLink = new URLSearchParams' in api_nav else bad('pemeriksaan ?mode= tidak ada')
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')
