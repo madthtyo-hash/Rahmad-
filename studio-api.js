@@ -979,7 +979,9 @@
     if (!invRes.ok) return { ok: false, error: invRes.error };
 
     var rsvpRes = await cloudRest(cloudTable('rsvp') + '?select=*&order=created_at.desc');
-    var guestRes = await cloudRest(cloudTable('guests') + '_public?select=*&order=created_at.asc');
+    // Catatan: daftar tamu (tabel guests) sengaja TIDAK dibaca dari browser.
+    // Tabel itu hanya bisa ditambah dari Studio; isinya (termasuk nomor HP) tetap privat
+    // supaya tidak bisa diunduh siapa pun yang punya kunci publik.
 
     var db = loadLocalDb();
     var maps = slugMaps(db);
@@ -1000,24 +1002,14 @@
       else db.rsvps.unshift(cR);
     });
 
-    var cloudGuests = guestRes.ok ? (guestRes.data || []) : [];
-    db.guests = cloudGuests.map(function (g) {
-      return {
-        id: g.slug_personal || g.id,
-        invitationId: g.invitation_slug || '',
-        name: g.name,
-        group: g.group_name || 'keluarga',
-        checkedIn: !!g.checked_in,
-        createdAt: g.created_at
-      };
-    });
+    var cloudGuests = [];
 
     saveLocalDb(db);
     return {
       ok: true,
       invitations: cloudInvs.length,
       rsvps: cloudRsvps.length,
-      guests: guestRes.ok ? cloudGuests.length : 0,
+      guests: cloudGuests.length,
       warning: rsvpRes.ok ? null : rsvpRes.error,
       db: db
     };
@@ -1064,14 +1056,20 @@
     await loadCloudConfig();
     if (!cloudConfigured()) return { ok: false, error: 'Supabase belum dikonfigurasi (isi supabase-config.json)' };
     db = db || loadLocalDb();
+    // Undangan bersifat read-only di cloud (kebijakan keamanan) — kalau ditolak,
+    // RSVP & tamu tetap dikirim dan pengguna diberi catatan, bukan error total.
     var invRes = await pushInvitationsToCloud(db.invitations || []);
-    if (!invRes.ok) return { ok: false, error: invRes.error };
     var rsvpRes = await pushRsvpsToCloud(db.rsvps || [], db);
+    var notes = [];
+    if (!invRes.ok) notes.push('undangan tidak ikut terkirim (cloud read-only): ' + (invRes.error || 'ditolak'));
+    if (!rsvpRes.ok) notes.push('RSVP gagal: ' + (rsvpRes.error || 'ditolak'));
+    var sukses = rsvpRes.ok || invRes.ok;
     return {
-      ok: true,
-      invitations: (db.invitations || []).length,
+      ok: sukses,
+      invitations: invRes.ok ? (db.invitations || []).length : 0,
       rsvps: rsvpRes.ok ? (db.rsvps || []).length : 0,
-      warning: rsvpRes.ok ? null : rsvpRes.error
+      warning: notes.length ? notes.join(' · ') : null,
+      error: sukses ? null : (rsvpRes.error || invRes.error)
     };
   }
 

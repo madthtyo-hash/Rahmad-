@@ -71,41 +71,61 @@ Commit + push. Selesai — tidak perlu ubah file HTML apa pun.
 ## Cara kerja singkat
 
 ```
-Tamu buka undangan  →  kirim RSVP  →  POST ke Supabase (tabel rsvp)
+Tamu buka undangan  →  kirim RSVP  →  POST ke Supabase (tabel rsvp, hanya boleh TAMBAH)
                                     ↘ tetap disimpan lokal di HP tamu (cadangan offline)
 Admin buka Studio   →  tarik data  →  GET dari Supabase → tampil di dashboard
 Admin ubah undangan →  simpan      →  PUT api/db (lokal) + upsert ke Supabase
+Daftar tamu massal  →  kirim       →  INSERT ke tabel guests (hanya menambah, isi tetap privat)
 ```
 
-- **Undangan** disimpan lengkap di kolom `payload` (jsonb) — persis format Studio
-  (foto, galeri, amplop, QRIS, RSVP, rundown). Kolom lain hanya salinan ringkas untuk pencarian.
+- **Undangan** dibaca dari Supabase (termasuk contoh 3 tema yang dibuat saat menjalankan
+  `schema.sql`). Di cloud, undangan bersifat **read-only** dari browser — jadi tidak ada
+  pihak yang bisa mengubah/menghapus undangan Anda, tapi juga artinya tombol Kirim tidak
+  ikut mengunggah undangan (cukup tampilkan peringatan halus, RSVP & tamu tetap terkirim).
 - **RSVP** memakai `external_id` unik sehingga aman dikirim berulang (tidak dobel).
-- **Tamu** hanya bisa **dibaca** lewat view `guests_public` — **nomor HP tamu tidak ikut terekspos**.
+- **Tamu** hanya bisa **ditambah**, tidak bisa dibaca dari browser — jadi **nomor HP tamu
+  tidak mungkin diunduh siapa pun**, walau punya kunci publik.
 
 ---
 
 ## Keamanan (baca ini)
 
-Kunci `anon` bersifat **publik** (memang ditaruh di file yang dipublikasikan) dan dilindungi
-oleh **RLS**. Skema default memberi izin tulis publik supaya Studio (yang hanya dijaga PIN
-di sisi browser) tetap bisa menyimpan data.
+### Arti temuan Supabase Security Advisor
+
+Setelah menjalankan `schema.sql` versi **v5**, sebagian besar temuan sudah hilang sendiri
+(file ini aman dijalankan ulang). Sisa peringatan yang muncul **memang disengaja**:
+
+| Temuan | Status | Penjelasan |
+|---|---|---|
+| Security Definer View (`guests_public`) | ✅ hilang di v5 | view publiknya sudah dihapus |
+| Function Search Path Mutable (`kd_touch_updated_at`) | ✅ hilang di v5 | fungsi diberi `search_path` tetap |
+| RLS Policy Always True — `invitations` (baca) | ⚠️ disengaja | undangan memang harus bisa dilihat semua tamu |
+| RLS Policy Always True — `rsvp` (tambah & baca) | ⚠️ disengaja | tamu harus bisa kirim & melihat ucapan |
+| RLS Policy Always True — `guests` (tambah) | ⚠️ disengaja | Studio perlu menambah tamu dari generator massal |
+
+Yang **tidak** lagi boleh dilakukan publik (sudah dicabut di v5): mengubah/menghapus
+undangan, menghapus RSVP, dan mengubah/menghapus/membaca daftar tamu.
+
+### Catatan kunci
+
+Kunci **publishable/anon** memang publik dan dilindungi **RLS**.
 
 Catatan teknis: aplikasi mengirim kunci di header `apikey`. Kunci lama berformat JWT juga
 dikirim di header `Authorization: Bearer`. Kunci berbentuk **`sb_secret_`** otomatis
 **ditolak** oleh aplikasi (fitur keamanan) supaya tidak pernah ikut terpublikasikan.
 
-Kalau Anda ingin lebih ketat:
+Kalau Anda ingin lebih ketat lagi (mis. agar tidak ada yang bisa menambah tamu sembarangan):
 
-1. Jalankan blok **BLOK HARDENING** di bagian bawah `schema.sql`
-   (hapus tanda `--` lalu Run) → semua penulisan hanya untuk user yang login.
-2. Aktifkan **Authentication → Providers → Email** di Supabase, buat 1 akun admin.
+1. Aktifkan **Authentication → Providers → Email** di Supabase, buat 1 akun admin.
+2. Jalankan blok **BLOK HARDENING** di bagian bawah `schema.sql` (hapus tanda `--` lalu Run)
+   → semua penulisan hanya untuk user yang login.
 3. Beri tahu saya kalau mau saya tambahkan **layar login admin** di `studio.html`
    supaya tombol kirim/ambil otomatis memakai sesi login itu.
 
 Catatan kecil lainnya:
-- RSVP publik artinya siapa pun yang tahu URL + anon key bisa mengirim RSVP.
-  Untuk undangan pribadi risikonya kecil; kalau spam jadi masalah, bisa ditambah
-  rate-limit/turnstile (bilang saja kalau mau dibuatkan).
+- RSVP & tamu tetap boleh ditambah publik (memang begitu cara kerja undangan digital).
+  Risikonya hanya spam; kalau nanti jadi masalah, bisa ditambah rate-limit/turnstile
+  (bilang saja kalau mau dibuatkan).
 - `music_url` tidak diisi dari sisi aplikasi karena musik tema sudah dibuat sendiri di
   dalam file HTML (tanpa file/CDN luar).
 
