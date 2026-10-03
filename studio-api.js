@@ -1838,6 +1838,34 @@
     } catch (e) { return ''; }
   }
 
+  // Tautan undangan yang sedang dibuka — selalu membawa ?id=<undangan> supaya QR check-in,
+  // tautan kalender, dan notifikasi RSVP mendarat di undangan yang benar (bukan tema bawaan).
+  function tautanUndanganSaatIni(inv, tambahan) {
+    var p = new URLSearchParams();
+    var idInv = inv && (inv.id || inv.slug);
+    if (idInv) p.set('id', idInv);
+    if (tambahan) {
+      Object.keys(tambahan).forEach(function (k) {
+        var v = tambahan[k];
+        if (v !== undefined && v !== null && v !== '') p.set(k, v);
+      });
+    }
+    var q = p.toString();
+    return window.location.origin + window.location.pathname + (q ? '?' + q : '');
+  }
+
+  // Nomor WhatsApp admin: dari pengaturan Studio (Data Utama / panel Koneksi WhatsApp),
+  // dengan nomor bawaan sebagai cadangan.
+  function nomorAdminWa() {
+    try {
+      var set = loadLocalDb().settings || {};
+      var nomor = (set.adminWhatsapp || set.whatsappConfirm || '').toString().replace(/[^0-9]/g, '');
+      if (nomor.indexOf('0') === 0) nomor = '62' + nomor.slice(1);
+      if (nomor.length >= 9) return nomor;
+    } catch (e) { /* pakai bawaan */ }
+    return '6285196755675';
+  }
+
   function terapkanCheckIn(inv) {
     if (!inv) return;
     var lama = document.getElementById('studioCheckin');
@@ -1860,8 +1888,7 @@
       window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs['UTF-8'] || window.qrcode.stringToBytes;
     }
 
-    var dasar = window.location.origin + window.location.pathname;
-    var tautan = dasar + '?checkin=' + encodeURIComponent(kode) + '&to=' + encodeURIComponent(tamu);
+    var tautan = tautanUndanganSaatIni(inv, { checkin: kode, to: tamu });
     var qr = window.qrcode(0, 'M');
     try {
       qr.addData(tautan);
@@ -1872,6 +1899,7 @@
     seksi.id = 'studioCheckin';
     seksi.setAttribute('data-inv', String(inv.id || ''));
     seksi.setAttribute('data-kode', kode);
+    seksi.setAttribute('data-checkin-url', tautan);
     seksi.innerHTML =
       '<div style="max-width:420px;margin:0 auto;text-align:center;background:#fff;border:1px solid rgba(0,0,0,.08);' +
       'border-radius:18px;padding:24px 20px;box-shadow:0 14px 34px rgba(0,0,0,.10)">' +
@@ -1914,7 +1942,7 @@
     var wa = seksi.querySelector('#studioCheckinWa');
     var pesan = 'Halo Admin Kartu Digital, saya ' + tamu + ' — kode check-in saya ' + kode +
                 ' (' + (inv.title || inv.theme || 'undangan') + ').';
-    if (wa) wa.href = 'https://wa.me/6285196755675?text=' + encodeURIComponent(pesan);
+    if (wa) wa.href = 'https://wa.me/' + nomorAdminWa() + '?text=' + encodeURIComponent(pesan);
 
     var tombolSalin = seksi.querySelector('#studioCheckinCopy');
     if (tombolSalin) tombolSalin.addEventListener('click', function () {
@@ -1972,9 +2000,9 @@
       'Status: ' + status,
       'Jumlah tamu: ' + jumlah,
       pesan ? 'Ucapan: ' + pesan : '',
-      'Undangan: ' + window.location.origin + window.location.pathname
+      'Undangan: ' + tautanUndanganSaatIni(inv)
     ].filter(Boolean).join('\n');
-    var tautan = 'https://wa.me/6285196755675?text=' + encodeURIComponent(isiPesan);
+    var tautan = 'https://wa.me/' + nomorAdminWa() + '?text=' + encodeURIComponent(isiPesan);
 
     var bar = document.getElementById('studioRsvpWa');
     if (!bar) {
@@ -2027,7 +2055,7 @@
     if (inv.primaryName) judul = judul + ' — ' + inv.primaryName +
       (inv.secondaryName ? ' & ' + inv.secondaryName : '');
     var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
-    var tautan = window.location.origin + window.location.pathname;
+    var tautan = tautanUndanganSaatIni(inv);
     return { judul: judul, lokasi: lokasi, tautan: tautan };
   }
 
@@ -2299,6 +2327,8 @@
     },
     musicFiles: MUSIC_FILES,
     compressImage: compressImage,
+    tautanUndanganSaatIni: tautanUndanganSaatIni,
+    nomorAdminWa: nomorAdminWa,
     formatIndonesianDate: formatIndonesianDate,
     formatDotDate: formatDotDate,
 

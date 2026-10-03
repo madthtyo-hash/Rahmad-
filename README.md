@@ -42,6 +42,16 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
   - **Aman**: `wa-config.json` dan `data/wa-log.json` masuk `.gitignore` (tidak pernah ikut ter-commit/push), token hanya tersimpan di server dan ke browser hanya dikirim versi samar (`••••1234`), dan bila gateway nonaktif/gagal kirim, Studio otomatis jatuh ke mode link **gratis** supaya undangan tetap terkirim.
 - **Simpan ke Kalender 📅 (semua tema)**: tombol `.ics` (Google/Apple/Outlook Calendar) + tautan **Google Calendar**, otomatis dari tanggal, jam resepsi, lokasi, dan judul undangan.
 
+## Format Link Undangan (keluaran domain)
+
+Bentuk tautan yang dibuat Studio Admin: **`https://<domain>/<tema>.html?id=<id-undangan>&to=<nama-tamu>&mode=<navigasi>&fx=<animasi>`**
+— mis. `https://kartudigital.my.id/undangan-sage.html?id=sage-rahma-dika&to=Bapak+Budi&mode=scroll&fx=kelopak`.
+Domain mengikuti tempat Studio dibuka (`window.location.origin` + path), jadi pindah domain atau
+pasang di subfolder **link ikut menyesuaikan sendiri**; tanpa `?id=` halaman memakai undangan bawaan tema.
+Daftar lengkap parameter (`id`, `to`/`tamu`, `mode`, `fx`, `checkin`), 13 berkas tema + ID bawaannya,
+serta format link WhatsApp (`wa.me`), QR check-in, `.ics`/Google Calendar, dan notifikasi RSVP admin ada di
+[`docs/format-link-undangan.md`](docs/format-link-undangan.md).
+
 ## Paket Harga
 
 - **Hemat Rp79.000** (6 bulan), **Premium Rp149.000** (1 tahun + Studio Admin), **Eksklusif Rp299.000** (domain sendiri + tema Royal/Platinum).

@@ -290,6 +290,29 @@ for pola, nama in [('waApi', 'objek StudioBackend.wa'), ('function waTautan', 'p
                    ('function waKirim', 'pengirim lewat server'), ('function waBersihkanNomor', 'normalisasi nomor di browser')]:
     ok('studio-api.js: %s' % nama) if pola in api else bad('studio-api.js tidak memuat %s' % nama)
 
+print('\n== 8g. Dokumen format link undangan ==')
+if os.path.exists('docs/format-link-undangan.md'):
+    dok = rd('docs/format-link-undangan.md')
+    ok('dokumen format link undangan tersedia') if 'https://<domain>/<berkas-tema>.html' in dok else bad('dokumen tidak memuat format dasar')
+    for pola, nama in [('wa.me', 'format link WhatsApp'), ('checkin=KD-XXXXXX', 'format QR check-in'),
+                       ('calendar.google.com', 'format Google Calendar'), ('?id=', 'penjelasan parameter id'),
+                       ('window.location.origin', 'penjelasan asal domain')]:
+        ok('dokumen: %s dijelaskan' % nama) if pola in dok else bad('dokumen tidak menjelaskan %s' % nama)
+    ok('README menautkan dokumen format link') if 'docs/format-link-undangan.md' in rd('README.md') else bad('README belum menautkan dokumen')
+    tema = ['undangan-sage.html', 'undangan-jawa.html', 'undangan-demo.html', 'undangan-iceblue.html',
+            'undangan-midnight.html', 'undangan-khitanan.html', 'undangan-iceblue-khitanan.html',
+            'undangan-ultah.html', 'undangan-iceblue-ultah.html', 'undangan-aqiqah.html',
+            'undangan-wisuda.html', 'undangan-premium.html', 'undangan-platinum.html']
+    kurang = [t for t in tema if t not in dok]
+    ok('dokumen memuat 13 berkas tema') if not kurang else bad('tema belum ada di dokumen: %s' % ', '.join(kurang))
+else:
+    bad('docs/format-link-undangan.md TIDAK ADA')
+
+api = rd('studio-api.js')
+ok('tautanUndanganSaatIni dipakai untuk QR/kalender/RSVP') if api.count('tautanUndanganSaatIni(') >= 4 else bad('helper tautanUndanganSaatIni belum dipakai menyeluruh')
+ok('nomor admin WhatsApp dibaca dari pengaturan Studio') if 'function nomorAdminWa' in api else bad('nomor admin masih dipatok di kode')
+ok('QR check-in memuat id undangan (bukan tema bawaan saja)') if "setAttribute('data-checkin-url'" in api else warn('QR check-in tidak menyimpan tautan untuk diperiksa')
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')

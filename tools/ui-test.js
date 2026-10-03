@@ -189,6 +189,11 @@ async function ujiUndangan(dbMap, file, invId, berpasangan) {
     if (checkin) {
       const qrSvg = checkin.querySelector('#studioCheckinQr svg');
       cek('QR check-in dirender sebagai gambar QR asli', !!qrSvg && qrSvg.innerHTML.length > 200);
+      const tautanQr = decodeURIComponent(checkin.getAttribute('data-checkin-url') || '');
+      cek('QR check-in memuat id undangan di tautannya',
+        /undangan-[a-z-]+\.html\?[^#]*id=/.test(tautanQr), tautanQr.replace(/^https?:\/\/[^/]+/, '').slice(0, 60));
+      cek('QR check-in memuat kode check-in & nama tamu',
+        /checkin=KD-\d{6}/.test(tautanQr) && /[?&]to=/.test(tautanQr));
       cek('kode check-in berformat KD-XXXXXX',
         /^KD-\d{6}$/.test(checkin.querySelector('#studioCheckinCode').textContent.trim()),
         checkin.querySelector('#studioCheckinCode').textContent.trim());
@@ -213,6 +218,18 @@ async function ujiUndangan(dbMap, file, invId, berpasangan) {
     cek('tautan Google Calendar tersedia',
       !!d.getElementById('studioKalenderGoogle') &&
       /calendar\.google\.com/.test(d.getElementById('studioKalenderGoogle').getAttribute('href') || ''));
+    const hrefGoogle = decodeURIComponent(d.getElementById('studioKalenderGoogle') ?
+      d.getElementById('studioKalenderGoogle').getAttribute('href') || '' : '');
+    cek('tautan Google Calendar memuat id undangan (bukan tema bawaan)',
+      /[?&]id=.+/.test(hrefGoogle.replace(/^.*details=/, '')), hrefGoogle.slice(-52));
+    if (ics) {
+      const tautanIcs = decodeURIComponent(ics.getAttribute('href') || '');
+      cek('berkas .ics memuat tautan undangan ber-id',
+        /URL:https?:\/\/[^\r\n]+[?&]id=/.test(tautanIcs),
+        (tautanIcs.match(/URL:[^\r\n]+/) || ['-'])[0].slice(0, 58));
+    }
+    cek('nomor admin WhatsApp dibaca dari pengaturan Studio',
+      /^62\d{8,}$/.test(w.StudioBackend.nomorAdminWa()), w.StudioBackend.nomorAdminWa());
 
     const wishes = d.querySelectorAll('#wishList .wish');
     cek('buku ucapan terisi dari RSVP tersimpan', wishes.length >= 1, wishes.length + ' ucapan');
@@ -251,6 +268,11 @@ async function ujiUndangan(dbMap, file, invId, berpasangan) {
       !!barWa && !!barWa.querySelector('a') &&
       /wa\.me\/6285196755675/.test(barWa.querySelector('a').getAttribute('href') || ''),
       barWa ? barWa.textContent.trim().slice(0, 45) : 'tidak ada');
+    const pesanAdmin = decodeURIComponent(barWa && barWa.querySelector('a') ?
+      barWa.querySelector('a').getAttribute('href') || '' : '');
+    cek('pesan ke admin memuat tautan undangan yang benar (dengan ?id=)',
+      /Undangan: https?:\/\/\S+[?&]id=/.test(pesanAdmin),
+      (pesanAdmin.match(/Undangan: \S+/) || ['-'])[0].slice(0, 62));
     cek('tidak ada error JS saat halaman dipakai', errors.length === 0,
       errors.slice(0, 2).join(' | ') || 'bersih');
   } finally {
@@ -395,6 +417,16 @@ async function ujiStudio() {
       d.getElementById('waAutoRsvp').value);
     cek('Tombol uji, muat status & simpan pengaturan tersedia',
       !!d.getElementById('waUjiBtn') && !!d.getElementById('waMuatStatusBtn') && !!d.getElementById('waSimpanBtn'));
+    cek('helper tautanUndanganSaatIni tersedia untuk uji format',
+      typeof w.StudioBackend.tautanUndanganSaatIni === 'function');
+    const tautanStudio = w.StudioBackend.tautanUndanganSaatIni({ id: 'sage-rahma-dika' }, { to: 'Bapak Budi' });
+    cek('format tautan: <domain>/<halaman>.html?id=…&to=…',
+      /^https?:\/\/[^?#]+\/[^?#]+\.html\?id=sage-rahma-dika&to=Bapak\+Budi$/.test(tautanStudio),
+      tautanStudio.replace(/^https?:\/\/[^/]+/, '').slice(0, 56));
+    const tautanModeFx = w.StudioBackend.tautanUndanganSaatIni({ id: 'sage-rahma-dika' }, { mode: 'cube', fx: 'salju' });
+    cek('tautan mendukung parameter mode & fx',
+      /[?&]mode=cube/.test(tautanModeFx) && /[?&]fx=salju/.test(tautanModeFx),
+      tautanModeFx.replace(/^https?:\/\/[^/]+/, '').slice(0, 56));
     const waLangsung = w.StudioBackend.wa.tautan('0812-3456-7890', 'Halo {tamu}');
     cek('Tautan wa.me dibentuk dengan nomor 62 & pesan ter-encode',
       waLangsung.indexOf('https://wa.me/6281234567890?text=') === 0, waLangsung.slice(0, 46));
