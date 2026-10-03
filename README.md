@@ -1,24 +1,30 @@
 # Kartu Digital (kartudigital.my.id)
 
-Platform Undangan Digital Elegan — Pernikahan, Khitanan, Ulang Tahun & Tema Premium.
+Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, Wisuda & Tema Premium.
 
 ## Fitur Utama & Pembaruan Terbaru
-- **Studio Admin (`studio.html`)**: Tampilan baru mobile-first yang tetap rapi di desktop — laci menu (☰), bilah atas, hero, **tab pil: Data Utama · Tema & Visual · Galeri Foto · Lokasi & Map · Fitur Ekstra**, kartu-kartu rapi, sakelar on/off, serta **bilah aksi bawah** (Simpan Perubahan & Bagikan Link Tamu). Semua fitur lama tetap ada: live preview, 9 tema, amplop digital, RSVP, dan generator link tamu WhatsApp (`?to=Nama+Tamu`).
+- **Studio Admin (`studio.html`)**: Tampilan baru mobile-first yang tetap rapi di desktop — laci menu (☰), bilah atas, hero, **tab pil: Data Utama · Tema & Visual · Galeri Foto · Lokasi & Map · Fitur Ekstra**, kartu-kartu rapi, sakelar on/off, serta **bilah aksi bawah** (Simpan Perubahan & Bagikan Link Tamu). Semua fitur lama tetap ada: live preview, 13 tema, amplop digital, RSVP, dan generator link tamu WhatsApp (`?to=Nama+Tamu`).
 - **Backend Studio (`server.js`, `studio-api.js`, `data/studio-db.json`)**: Mesin sinkronisasi data REST API (`/api/*`) sekaligus Cloud LocalSync untuk GitHub Pages (`kartudigital.my.id`).
 - **Database Online Opsional (`supabase/`, `supabase-config.json`)**: Integrasi Supabase — RSVP & daftar tamu dari HP tamu mana pun tersimpan ke satu database online, lengkap dengan skema SQL, RLS, dan panduan pasang di [`supabase/README.md`](supabase/README.md). Nonaktif secara default (tanpa `url`/`anonKey` website tetap jalan seperti biasa). Di Studio tersedia tombol **🧪 Uji Lengkap (5 bagian)** — memeriksa konfigurasi, skema, izin RSVP, privasi nomor HP tamu, dan keamanan undangan, tanpa mengubah data.
 - **Tema Pernikahan**:
   - `undangan-sage.html` — Sage Blossom ⭐
   - `undangan-jawa.html` — Jawa Heritage ✨
   - `undangan-demo.html` — Blush & Emerald Floral
-  - `undangan-iceblue.html` — Ice Blue Floral ❄ (BARU: animasi salju, countdown, love story, galeri lightbox)
+  - `undangan-iceblue.html` — Ice Blue Floral ❄ (animasi salju, countdown, love story, galeri lightbox)
+  - `undangan-midnight.html` — Midnight Emerald 🌙 **(BARU: love story, ornamen emas, FX kelip bintang)**
 - **Tema Khitanan**:
   - `undangan-khitanan.html` — Al-Fatih Islamic Gold 🕌
-  - `undangan-iceblue-khitanan.html` — Ice Blue Barakah ❄ (BARU: rundown acara + doa & ucapan)
+  - `undangan-iceblue-khitanan.html` — Ice Blue Barakah ❄ (rundown acara + doa & ucapan)
+- **Kategori Baru — Tema Aqiqah & Tasyakuran Bayi 🍼**:
+  - `undangan-aqiqah.html` — Aqiqah Rahmah 🍼 **(BARU: ayat & doa aqiqah, rundown prosesi, kado digital)**
+- **Kategori Baru — Tema Wisuda & Kelulusan 🎓**:
+  - `undangan-wisuda.html` — Grand Graduation 🎓 **(BARU: profil wisudawan, pencapaian, animasi konfeti)**
 - **Tema Ulang Tahun**:
   - `undangan-ultah.html` — Sweet Wonder Party 🎂
-  - `undangan-iceblue-ultah.html` — Ice Blue Party ❄ (BARU: agenda pesta, games & ice cream party)
+  - `undangan-iceblue-ultah.html` — Ice Blue Party ❄ (agenda pesta, games & ice cream party)
 - **Tema Premium Eksklusif**:
   - `undangan-premium.html` — Royal Gold Luxury 👑 (dengan QR Check-In Buku Tamu VIP)
+  - `undangan-platinum.html` — Platinum Marble 👑 **(BARU: VIP Access Pass + QR Check-In, reservasi Gala Dinner & fasilitas VIP)**
 - **Upload Foto**: Upload foto cover, foto profil, dan multi-foto galeri lightbox dengan kompresi otomatis.
 - **Pengaturan Amplop Digital**: Kelola multi-rekening bank & e-wallet (BCA, Mandiri, BRI, BNI, BSI, DANA, GoPay, OVO), tombol salin rekening, dan konfirmasi WhatsApp (`6285196755675`).
 - **Pengaturan RSVP**: Pengaturan batas waktu konfirmasi, kuota tamu, rekap kehadiran real-time, buku tamu ucapan & doa, serta Export CSV.

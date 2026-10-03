@@ -20,8 +20,9 @@ def warn(m): print(f'  ! {m}'); peringatan.append(m)
 
 TEMPLATES = ['undangan-sage.html','undangan-jawa.html','undangan-demo.html','undangan-khitanan.html',
              'undangan-ultah.html','undangan-premium.html','undangan-iceblue.html',
-             'undangan-iceblue-khitanan.html','undangan-iceblue-ultah.html']
-NEW = TEMPLATES[-3:]
+             'undangan-iceblue-khitanan.html','undangan-iceblue-ultah.html',
+             'undangan-midnight.html','undangan-aqiqah.html','undangan-wisuda.html','undangan-platinum.html']
+NEW = TEMPLATES[-4:]
 PAGES = ['index.html','landing.html','studio.html'] + TEMPLATES
 BANNED = ['6281234567890','6282128718485','0812-3456-7890']
 sc = lambda h: re.sub(r'<!--.*?-->', '', h, flags=re.S)
@@ -74,7 +75,7 @@ print('\n== 4. Registrasi tema di Backend Studio ==')
 db = json.loads(rd('data/studio-db.json')); js = rd('studio-api.js')
 ids_js = re.findall(r"\n        id: '([^']+)',\n        slug: '[^']+',", js)
 ids_json = [i['id'] for i in db['invitations']]
-ok(f'{len(ids_json)} undangan') if len(ids_json) == 9 else bad(f'{len(ids_json)} undangan (harus 9)')
+ok(f'{len(ids_json)} undangan') if len(ids_json) == 13 else bad(f'{len(ids_json)} undangan (harus 13)')
 ok('id undangan JSON == JS') if ids_js == ids_json else bad(f'id beda: {ids_js} vs {ids_json}')
 rj = re.findall(r"^\s+id: '(rsvp-\d+)',$", js, re.M); rj2 = [r['id'] for r in db['rsvps']]
 ij = re.findall(r"^\s+invitationId: '([^']+)',$", js, re.M); ij2 = [r['invitationId'] for r in db['rsvps']]
@@ -108,9 +109,9 @@ idx, land, st = rd('index.html'), rd('landing.html'), rd('studio.html')
 ok('index.html == landing.html') if idx == land else bad('index.html != landing.html')
 for nm, h in [('index.html', idx), ('landing.html', land)]:
     for t in NEW: ok(f'{nm} \u2192 {t}') if t in h else bad(f'{nm}: tidak menautkan {t}')
-    ok(f'{nm}: "9 Tema"') if '9 Tema' in h else bad(f'{nm}: badge bukan 9')
+    ok(f'{nm}: "13 Tema"') if '13 Tema' in h else bad(f'{nm}: badge bukan 13')
 for t in NEW: ok(f'studio.html: opsi {t}') if t in st else bad(f'studio.html: opsi {t} hilang')
-ok('studio.html: "Semua Tema (9)"') if 'Semua Tema (9)' in st else bad('studio.html: jumlah tema bukan 9')
+ok('studio.html: "Semua Tema (13)"') if 'Semua Tema (13)' in st else bad('studio.html: jumlah tema bukan 13')
 
 print('\n== 7. Aturan nomor WA, link Studio, nama lama ==')
 alld = {f: rd(f) for f in PAGES}

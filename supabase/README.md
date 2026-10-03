@@ -174,8 +174,8 @@ Admin ubah undangan →  simpan      →  PUT api/db (lokal) + upsert ke Supabas
 Daftar tamu massal  →  kirim       →  INSERT ke tabel guests (hanya menambah, isi tetap privat)
 ```
 
-- **Undangan** dibaca dari Supabase (termasuk contoh 3 tema yang dibuat saat menjalankan
-  `schema.sql`). Di cloud, undangan bersifat **read-only** dari browser — jadi tidak ada
+- **Undangan** dibaca dari Supabase (termasuk contoh 5 undangan — pernikahan, khitanan, ulang
+  tahun, aqiqah, dan wisuda — yang dibuat saat menjalankan `schema.sql`). Di cloud, undangan bersifat **read-only** dari browser — jadi tidak ada
   pihak yang bisa mengubah/menghapus undangan Anda, tapi juga artinya tombol Kirim tidak
   ikut mengunggah undangan (cukup tampilkan peringatan halus, RSVP & tamu tetap terkirim).
 - **RSVP** memakai `external_id` unik sehingga aman dikirim berulang (tidak dobel).
@@ -197,13 +197,19 @@ npx supabase migration new nama_perubahannya   # membuat file kosong ber-timesta
 Kalau memakai **Cara B (paste manual)**, cukup tulis perubahannya di SQL Editor
 (lalu rapikan `schema.sql` di repo supaya tetap sinkron).
 
+> **Catatan versi tema (v6):** `supabase/schema.sql` dan migrasi init di repo ini sengaja
+> dijaga **identik** (diperiksa otomatis oleh `tools/audit.py`). Kalau project Supabase Anda
+> sudah pernah dibuat dengan versi lama, cukup **jalankan ulang `schema.sql`** di SQL Editor —
+> file ini aman diulang dan akan melebarkan kategori `event_type` supaya tema **Aqiqah** dan
+> **Wisuda** bisa ikut tersinkron ke cloud, tanpa menghapus data yang sudah ada.
+
 ---
 
 ## Keamanan (baca ini)
 
 ### Arti temuan Supabase Security Advisor
 
-Setelah menjalankan `schema.sql` versi **v5**, sebagian besar temuan sudah hilang sendiri
+Setelah menjalankan `schema.sql` versi **v6**, sebagian besar temuan sudah hilang sendiri
 (file ini aman dijalankan ulang). Sisa peringatan yang muncul **memang disengaja**:
 
 | Temuan | Status | Penjelasan |

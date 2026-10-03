@@ -127,9 +127,9 @@ function tipeKunci(k) {
     }
     return selesai();
   }
-  const seed = ['iceblue-adi-lina', 'iceblue-khitanan-alif', 'iceblue-ultah-kalila'];
+  const seed = ['iceblue-adi-lina', 'iceblue-khitanan-alif', 'iceblue-ultah-kalila', 'aqiqah-ghani', 'wisuda-naura'];
   const adaSeed = seed.filter(s => inv.data.some(i => i.slug === s));
-  if (adaSeed.length) cek('contoh 3 undangan dari schema.sql ada', true, adaSeed.join(', '));
+  if (adaSeed.length) cek('contoh undangan dari schema.sql ada', true, adaSeed.join(', '));
   else hati('contoh undangan tidak ditemukan (bukan masalah kalau sudah Anda hapus/ganti)');
   const kolom = inv.data[0] || {};
   const kolomLengkap = 'event_type' in kolom && 'event_date' in kolom;
