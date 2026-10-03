@@ -9,10 +9,13 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Ulang Tahun & Tema Pr
   - `undangan-sage.html` — Sage Blossom ⭐
   - `undangan-jawa.html` — Jawa Heritage ✨
   - `undangan-demo.html` — Blush & Emerald Floral
+  - `undangan-iceblue.html` — Ice Blue Floral ❄ (BARU: animasi salju, countdown, love story, galeri lightbox)
 - **Tema Khitanan**:
   - `undangan-khitanan.html` — Al-Fatih Islamic Gold 🕌
+  - `undangan-iceblue-khitanan.html` — Ice Blue Barakah ❄ (BARU: rundown acara + doa & ucapan)
 - **Tema Ulang Tahun**:
   - `undangan-ultah.html` — Sweet Wonder Party 🎂
+  - `undangan-iceblue-ultah.html` — Ice Blue Party ❄ (BARU: agenda pesta, games & ice cream party)
 - **Tema Premium Eksklusif**:
   - `undangan-premium.html` — Royal Gold Luxury 👑 (dengan QR Check-In Buku Tamu VIP)
 - **Upload Foto**: Upload foto cover, foto profil, dan multi-foto galeri lightbox dengan kompresi otomatis.
