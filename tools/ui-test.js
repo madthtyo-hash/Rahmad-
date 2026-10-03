@@ -138,6 +138,64 @@ async function buka(url) {
   return { dom, w: dom.window, d: dom.window.document, errors };
 }
 
+// Tamu dari perangkat lain: halaman harus menarik data terbaru Studio sekali saat dibuka.
+async function ujiSegarkanDataTamu(daftar) {
+  console.log('\n== E. Undangan tamu menyegarkan data terbaru dari Studio ==');
+  const salinan = JSON.parse(JSON.stringify(daftar));
+  const target = salinan.filter((i) => i.id === 'midnight-dirga-amara')[0];
+  target.venueName = 'GEDUNG SINKRON UJI';
+  target.navMode = 'slide';
+
+  const vc = new VirtualConsole();
+  const errors = [];
+  vc.on('jsdomError', (e) => {
+    const m = String((e && e.message) || '');
+    if (/Could not load (link|script|img)|Could not parse CSS/i.test(m)) return;
+    if (/Not implemented: (HTMLMediaElement|Window's scrollTo)/i.test(m)) return;
+    errors.push(m);
+  });
+  const dom = await JSDOM.fromURL(BASE + '/undangan-midnight.html?id=midnight-dirga-amara', {
+    runScripts: 'dangerously',
+    resources: 'usable',
+    pretendToBeVisual: true,
+    virtualConsole: vc,
+    beforeParse(window) {
+      stubWindow(window);
+      window.fetch = (u) => {
+        const url = String(u);
+        if (/supabase-config\.json$/.test(url)) {
+          return Promise.resolve({ ok: false, status: 404, json: async () => ({}), text: async () => '' });
+        }
+        if (/api\/db$/.test(url)) {
+          return Promise.resolve({
+            ok: true, status: 200, text: async () => '',
+            json: async () => ({ ok: true, db: { invitations: salinan, rsvps: [] } })
+          });
+        }
+        return Promise.resolve({ ok: false, status: 404, json: async () => ({}), text: async () => '' });
+      };
+    }
+  });
+  const d = dom.window.document, w = dom.window;
+  try {
+    await new Promise((r) => setTimeout(r, 1600));
+    cek('tamu menerima data terbaru dari server (bukan data bawaan)',
+      d.body.textContent.indexOf('GEDUNG SINKRON UJI') > -1,
+      'teks lokasi versi server ditemukan: ' + (d.body.textContent.indexOf('GEDUNG SINKRON UJI') > -1));
+    cek('mode navigasi dari data terbaru ikut diterapkan',
+      d.body.classList.contains('mode-slide'), ' kelas: ' + (d.body.className.slice(0, 30) || '-'));
+    cek('kartu QR check-in tidak tergandakan setelah penyegaran',
+      d.querySelectorAll('#studioCheckin').length === 1,
+      d.querySelectorAll('#studioCheckin').length + ' kartu');
+    cek('buku ucapan & form RSVP tetap satu (tidak terduplikasi)',
+      d.querySelectorAll('#rsvpForm').length === 1);
+    cek('tidak ada error JS saat penyegaran data', errors.length === 0,
+      errors.slice(0, 2).join(' | ') || 'bersih');
+  } finally {
+    dom.window.close();
+  }
+}
+
 // ---------- uji ----------
 async function ujiUndangan(dbMap, file, invId, berpasangan) {
   console.log('\n\u2014 ' + file);
@@ -432,6 +490,33 @@ async function ujiStudio() {
       waLangsung.indexOf('https://wa.me/6281234567890?text=') === 0, waLangsung.slice(0, 46));
     cek('Template WhatsApp mengisi kode {tamu}/{link}',
       w.StudioBackend.wa.isiTemplate('Hai {tamu} — {link}', { tamu: 'Budi', link: 'https://a.b' }) === 'Hai Budi — https://a.b');
+
+    // ---- Serah terima ke pelanggan ----
+    cek('Studio punya blok Serah Terima ke Pelanggan',
+      !!d.getElementById('clientUrl') && !!d.getElementById('clientText') && !!d.getElementById('clientPhone'));
+    cek('Link pelanggan berbentuk <domain>/<tema>.html?id=… (tanpa nama tamu)',
+      /^https?:\/\/[^?#]+\/undangan-[a-z-]+\.html\?id=[a-z0-9-]+$/.test(d.getElementById('clientUrl').value),
+      d.getElementById('clientUrl').value.replace(/^https?:\/\/[^/]+/, ''));
+    cek('Pesan serah terima memuat kabar siap + link undangan',
+      /sudah siap/.test(d.getElementById('clientText').value) &&
+      d.getElementById('clientText').value.indexOf(d.getElementById('clientUrl').value) > -1);
+    d.getElementById('clientName').value = 'Bapak Andi';
+    d.getElementById('clientName').dispatchEvent(new w.Event('input', { bubbles: true }));
+    cek('Nama pemesan masuk ke sapaan pesan',
+      d.getElementById('clientText').value.indexOf('Halo Bapak Andi') === 0,
+      d.getElementById('clientText').value.split('\n')[0]);
+    d.getElementById('clientPhone').value = '0812-9999-8888';
+    d.getElementById('clientPhone').dispatchEvent(new w.Event('input', { bubbles: true }));
+    cek('Tombol WhatsApp pelanggan memakai nomor pelanggan (dinormalkan ke 62)',
+      (d.getElementById('sendClientWaBtn').getAttribute('href') || '').indexOf('https://wa.me/6281299998888?text=') === 0,
+      decodeURIComponent(d.getElementById('sendClientWaBtn').getAttribute('href') || '').slice(0, 34));
+    cek('Tombol Kirim Otomatis + info gateway tersedia untuk pelanggan',
+      !!d.getElementById('sendClientGatewayBtn') && d.getElementById('clientGatewayInfo').textContent.length > 20,
+      d.getElementById('clientGatewayInfo').textContent.slice(0, 44));
+    d.getElementById('clientName').value = '';
+    d.getElementById('clientPhone').value = '';
+    d.getElementById('clientName').dispatchEvent(new w.Event('input', { bubbles: true }));
+    d.getElementById('clientPhone').dispatchEvent(new w.Event('input', { bubbles: true }));
 
     // ---- Pengelompokan koleksi: kategori / tanggal acara / status pemeriksaan ----
     const grupKoleksiAwal = Array.from(d.querySelectorAll('#projectListGrid .collection-group'));
@@ -763,6 +848,7 @@ async function ujiNavigasi() {
     await ujiStudio();
     await ujiKatalog();
     await ujiNavigasi();
+    await ujiSegarkanDataTamu(db.db.invitations);
 
     console.log('\n== RINGKASAN ==');
     console.log('LULUS : ' + lulus);

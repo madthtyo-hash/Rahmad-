@@ -949,6 +949,25 @@
   }
 
   var backendOnline = false;
+  var sudahSyncSaatHydrate = false;
+
+  // Tamu yang membuka link dari perangkat lain belum punya cache Studio — segarkan sekali
+  // dari server/cloud/berkas data, lalu terapkan ulang supaya undangan yang tampil adalah
+  // versi terbaru (mode navigasi, efek, nama, foto, lokasi, dsb).
+  function segarkanSaatHydrate(defaultInvId) {
+    if (sudahSyncSaatHydrate) return;
+    sudahSyncSaatHydrate = true;
+    setTimeout(function () {
+      Promise.resolve()
+        .then(function () { return syncFromServer(); })
+        .then(function (res) {
+          if (res && res.db) {
+            try { StudioBackend.hydrateInvitationPage(defaultInvId); } catch (e) { /* pakai yang sudah tampil */ }
+          }
+        })
+        .catch(function () { /* tetap pakai data yang sudah tampil */ });
+    }, 80);
+  }
 
   async function syncFromServer() {
     // 1. Supabase Cloud (kalau dikonfigurasi) — sumber data terpusat
@@ -2523,6 +2542,16 @@
             window.setMode(inv.navMode);
           }
         } catch (e) { /* biarkan mode bawaan tema */ }
+        // Efek dekorasi dari Studio ikut berlaku di link bersih (?id= tanpa ?fx=) —
+        // hanya untuk tema yang punya mesin efek (fxSet + daftar FX_TYPES miliknya).
+        try {
+          var fxLink = new URLSearchParams(window.location.search).get('fx');
+          var fxStudio = inv.fxMode;
+          if (!fxLink && fxStudio && typeof window.fxSet === 'function' &&
+              (!window.FX_TYPES || window.FX_TYPES[fxStudio])) {
+            window.fxSet(fxStudio);
+          }
+        } catch (e) { /* biarkan efek bawaan tema */ }
 
         // Hook RSVP Form submission to save into StudioBackend
         var rsvpForm = document.getElementById('rsvpForm');
@@ -2559,6 +2588,7 @@
       } catch (e) {
         console.warn('StudioBackend hydrate warning:', e);
       }
+      segarkanSaatHydrate(defaultInvId);
     }
   };
 

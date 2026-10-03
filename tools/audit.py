@@ -313,6 +313,25 @@ ok('tautanUndanganSaatIni dipakai untuk QR/kalender/RSVP') if api.count('tautanU
 ok('nomor admin WhatsApp dibaca dari pengaturan Studio') if 'function nomorAdminWa' in api else bad('nomor admin masih dipatok di kode')
 ok('QR check-in memuat id undangan (bukan tema bawaan saja)') if "setAttribute('data-checkin-url'" in api else warn('QR check-in tidak menyimpan tautan untuk diperiksa')
 
+print('\n== 8h. Serah terima pelanggan & penyegaran data tamu ==')
+st = rd('studio.html')
+for hook, nama in [('id="clientUrl"', 'link undangan untuk pelanggan'),
+                   ('id="clientText"', 'pesan serah terima'),
+                   ('id="clientName"', 'nama pemesan'),
+                   ('id="clientPhone"', 'nomor WhatsApp pelanggan'),
+                   ('id="copyClientUrlBtn"', 'tombol salin link pelanggan'),
+                   ('id="sendClientWaBtn"', 'tombol kirim ke WhatsApp pelanggan'),
+                   ('id="sendClientGatewayBtn"', 'tombol kirim otomatis ke pelanggan')]:
+    ok('Blok serah terima: %s ada' % nama) if hook in st else bad('Blok serah terima: %s tidak ada' % nama)
+for fn, nama in [('function linkPelanggan', 'pembuat link pelanggan (bersih, tanpa ?to=)'),
+                 ('function pesanPelanggan', 'pembuat pesan serah terima'),
+                 ('async function kirimKePelanggan', 'pengirim ke pelanggan (gateway/link)')]:
+    ok('%s' % nama) if fn in st else bad('%s tidak ada' % nama)
+ok('Nama & nomor pelanggan ikut tersimpan di database') if 'inv.clientName' in st and 'inv.clientPhone' in st else bad('nama/nomor pelanggan tidak disimpan')
+api = rd('studio-api.js')
+ok('Halaman tamu menyegarkan data terbaru dari server/cloud') if 'function segarkanSaatHydrate' in api else bad('halaman tamu tidak menyegarkan data')
+ok('Efek dekorasi dari Studio diterapkan di link bersih') if 'window.fxSet(fxStudio)' in api else warn('efek dekorasi dari Studio belum diterapkan')
+
 print('\n== 9. Supabase: skema, migrasi, integrasi GitHub ==')
 cfg = json.loads(rd('supabase-config.json'))
 kunci = str(cfg.get('anonKey') or cfg.get('publishableKey') or '')

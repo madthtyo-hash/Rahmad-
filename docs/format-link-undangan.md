@@ -76,7 +76,60 @@ berawalan domain itu. Kolom `settings.domain` di `data/studio-db.json` hanya cat
 > yang dibagikan sebaiknya selalu menyertakan `?id=` — tanpa `id`, halaman jatuh ke undangan
 > bawaan tema tersebut.
 
-## 5. Keluaran lain (bukan halaman undangan)
+## 5. Link yang dikirim ke pelanggan (pemesan)
+
+Yang dikirim ke **pelanggan** bukan link bertamu, melainkan **link bersih** — tanpa `to=`,
+karena nama tamu baru diisi saat link itu dibagikan ke tamu:
+
+```
+https://kartudigital.my.id/undangan-wisuda.html?id=wisuda-naura
+```
+
+Bedanya dengan link tamu:
+
+| | Link pelanggan | Link tamu |
+|---|---|---|
+| Bentuk | `…html?id=<id>` | `…html?id=<id>&to=<nama-tamu>&mode=…&fx=…` |
+| Untuk siapa | pemesan (untuk dicek & disetujui) | satu tamu tertentu |
+| Nama di sampul | "Tamu Undangan" (netral) | nama tamu itu |
+| Dipakai berapa kali | sekali per pesanan (bisa dipakai berkali-kali) | sekali per tamu |
+
+Di Studio, buka tab **Fitur Ekstra → kartu 🔗 Link Tamu & Undangan Personal → blok 📤 Serah Terima ke Pelanggan**.
+Isi nama pemesan + nomor WhatsApp-nya (opsional, tersimpan di database), lalu:
+
+- **📋 Salin Link** → link bersih di atas, siap dikirim/di-WhatsApp ke pelanggan;
+- **📋 Salin Pesan** → pesan serah terima siap pakai (sudah berisi judul acara, tanggal, lokasi, dan link);
+- **💬 Kirim ke WhatsApp Pelanggan** → membuka WhatsApp ke nomor pelanggan (kalau nomornya diisi) atau daftar kontak;
+- **📤 Kirim Otomatis** → lewat gateway WhatsApp kalau `wa-config.json` sudah aktif.
+
+Isi pesan yang dihasilkan Studio:
+
+```
+Halo Bapak Andi 👋
+
+Undangan digital *Naura Salsabila* sudah siap ✨
+📅 Sabtu, 5 Desember 2026 pukul 10.00 WIB
+📍 Auditorium Kampus Merdeka, Bandung
+
+Silakan cek tampilannya dulu di link ini:
+https://kartudigital.my.id/undangan-wisuda.html?id=wisuda-naura
+
+Kalau sudah sesuai, link di atas siap dibagikan ke para tamu.
+Mau sekalian dibuatkan link dengan nama tiap tamu (nama muncul otomatis di sampul)? Cukup balas daftar namanya ya 🙏
+
+Terima kasih,
+Kartu Digital
+```
+
+**Penting — link bersih tetap tampil terbaru.** Saat dibuka, halaman undangan menarik data
+terbaru dari server Studio / Supabase / berkas `data/studio-db.json` (sekali, otomatis), lalu
+menerapkan ulang setelan undangan itu — jadi pelanggan dan tamu melihat versi terakhir
+(nama, foto, lokasi, mode navigasi, dan efek dekorasi) walau membukanya dari perangkat lain.
+Setelan efek dekorasi berlaku di tema yang punya mesin efek (Sage Blossom & Jawa Heritage);
+11 tema lain memakai efek khasnya masing-masing. Kalau ada `?mode=`/`?fx=` di link, nilai di
+link selalu menang atas setelan Studio.
+
+## 6. Keluaran lain (bukan halaman undangan)
 
 | Keluaran | Format | Dibuat di |
 |---|---|---|
@@ -91,7 +144,7 @@ berawalan domain itu. Kolom `settings.domain` di `data/studio-db.json` hanya cat
 Nomor admin pada dua keluaran WhatsApp di atas diambil dari **pengaturan Studio**
 (`settings.adminWhatsapp`); kalau belum diisi, dipakai nomor bawaan `6285196755675`.
 
-## 6. Contoh lengkap alur
+## 7. Contoh lengkap alur
 
 ```
 Studio  →  Bagikan Link Tamu
@@ -106,7 +159,7 @@ https://kartudigital.my.id/undangan-wisuda.html?id=wisuda-naura&checkin=KD-50734
 Panitia memindai QR  →  kehadiran tercatat di rekap RSVP Studio
 ```
 
-## 7. Uji cepat
+## 8. Uji cepat
 
 ```bash
 # 1) Pastikan halaman & database menjawab

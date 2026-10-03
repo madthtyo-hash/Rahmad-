@@ -913,6 +913,41 @@
                 </div>
                 <div id="bulkResultList" class="rsvp-list"></div>
               </div>
+
+              <!-- Serah terima ke pelanggan: link bersih + pesan siap kirim -->
+              <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+                <h4 style="margin:0 0 6px;font:700 15px Georgia,serif">\uD83D\uDCE4 Serah Terima ke Pelanggan</h4>
+                <p class="sub-desc">Link bersih (tanpa nama tamu) + pesan siap kirim untuk <b>pelanggan/pemesan</b> setelah undangannya jadi. Link ini juga yang mereka bagikan ke para tamu — mode navigasi &amp; efek yang dipilih di Studio otomatis terbawa.</p>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="clientName">Nama Pemesan / Pelanggan</label>
+                    <input id="clientName" placeholder="Mis. Bapak Andi (opsional)">
+                  </div>
+                  <div class="field">
+                    <label for="clientPhone">Nomor WhatsApp Pelanggan</label>
+                    <input id="clientPhone" inputmode="tel" placeholder="Opsional \u2014 08xx (untuk kirim otomatis)">
+                  </div>
+                  <div class="field full">
+                    <label for="clientUrl">Link Undangan untuk Pelanggan</label>
+                    <div style="display:flex;gap:8px">
+                      <input id="clientUrl" readonly>
+                      <button type="button" class="btn primary" id="copyClientUrlBtn" style="white-space:nowrap">\uD83D\uDCCB Salin Link</button>
+                    </div>
+                  </div>
+                  <div class="field full">
+                    <label for="clientText">Pesan Serah Terima</label>
+                    <textarea id="clientText" rows="8"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-footer">
+                  <button type="button" class="btn" id="copyClientTextBtn">\uD83D\uDCCB Salin Pesan</button>
+                  <a class="btn gold" id="sendClientWaBtn" href="#" target="_blank" rel="noopener">\uD83D\uDCAC Kirim ke WhatsApp Pelanggan</a>
+                  <button type="button" class="btn primary" id="sendClientGatewayBtn">\uD83D\uDCE4 Kirim Otomatis</button>
+                </div>
+                <p class="sub-desc" id="clientGatewayInfo" style="margin-top:8px"></p>
+              </div>
             </div>
 
             <!-- ---- Kartu: Penyimpanan & Database Online ---- -->
@@ -1688,6 +1723,8 @@
           $('fMusicCustom').value = '';
         }
         $('fQuote').value = inv.quote || '';
+        $('clientName').value = inv.clientName || '';
+        $('clientPhone').value = inv.clientPhone || '';
 
         // Photos
         var photos = inv.photos || {};
@@ -1881,6 +1918,7 @@
 
         $('shareWaText').value = msg;
         $('sendWaDirectBtn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+        if (typeof updateSerahTerima === 'function') updateSerahTerima();
       }
 
       // Collect & Save Current Form State into StudioBackend
@@ -1915,6 +1953,8 @@
         inv.musicUrl = (($('fMusicCustom') || {}).value || '').trim() || ($('fMusicUrl') || {}).value || '';
         inv.checkin = ($('fCheckin') || {}).value !== 'off';
         inv.quote = $('fQuote').value;
+        inv.clientName = ($('clientName') || {}).value ? $('clientName').value.trim() : '';
+        inv.clientPhone = ($('clientPhone') || {}).value ? $('clientPhone').value.trim() : '';
 
         inv.amplop = inv.amplop || { accounts: [] };
         inv.amplop.enabled = $('fAmplopEnabled').checked;
@@ -2315,6 +2355,20 @@
         showToast('✓ Pesan pengantar WhatsApp disalin');
       });
 
+      // Serah Terima ke Pelanggan: salin link/pesan & kirim (WhatsApp atau gateway)
+      $('clientName').addEventListener('input', updateSerahTerima);
+      $('clientPhone').addEventListener('input', updateSerahTerima);
+      $('clientText').addEventListener('input', function () { $('sendClientWaBtn').href = tautanWaPelanggan(); });
+      $('copyClientUrlBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('clientUrl').value);
+        showToast('\u2713 Link pelanggan berhasil disalin');
+      });
+      $('copyClientTextBtn').addEventListener('click', function () {
+        navigator.clipboard.writeText($('clientText').value);
+        showToast('\u2713 Pesan serah terima disalin');
+      });
+      $('sendClientGatewayBtn').addEventListener('click', kirimKePelanggan);
+
       // New Invitation Button
       $('newInvitationBtn').addEventListener('click', async function () {
         var newId = 'inv-' + Date.now();
@@ -2473,6 +2527,85 @@
         renderQris(inv);
         showToast('🗑 QRIS dihapus');
       });
+
+      // ---------- SERAH TERIMA KE PELANGGAN ----------
+      // Link bersih (tanpa ?to=) + pesan siap kirim untuk pelanggan/pemesan undangan.
+      function judulPesanan(inv) {
+        if (inv.secondaryName && !isSingleNameCat(inv.category)) return inv.primaryName + ' & ' + inv.secondaryName;
+        return inv.primaryName || inv.title || inv.theme || 'Undangan Digital';
+      }
+      function linkPelanggan(inv) {
+        var baseOrigin = window.location.origin + window.location.pathname.replace(/studio\.html.*$/, '');
+        var file = $('fThemeFile').value || inv.themeFile || 'undangan-sage.html';
+        return baseOrigin + file + '?id=' + encodeURIComponent(inv.id);
+      }
+      function waAktif() {
+        return (typeof waKeadaan !== 'undefined') && !!waKeadaan.aktif;
+      }
+      function pesanPelanggan(inv) {
+        var nama = ($('clientName').value || '').trim();
+        var baris = [
+          'Halo ' + (nama || 'Bapak/Ibu') + ' \uD83D\uDC4B',
+          '',
+          'Undangan digital *' + judulPesanan(inv) + '* sudah siap \u2728'
+        ];
+        var tanggal = StudioBackend.formatIndonesianDate(inv.eventDate);
+        if (tanggal) baris.push('\uD83D\uDCC5 ' + tanggal +
+          ((inv.resepsiTime || inv.akadTime) ? ' pukul ' + (inv.resepsiTime || inv.akadTime) : ''));
+        var lokasi = [inv.venueName, inv.venueAddress].filter(Boolean).join(', ');
+        if (lokasi) baris.push('\uD83D\uDCCD ' + lokasi);
+        baris = baris.concat([
+          '',
+          'Silakan cek tampilannya dulu di link ini:',
+          linkPelanggan(inv),
+          '',
+          'Kalau sudah sesuai, link di atas siap dibagikan ke para tamu.',
+          'Mau sekalian dibuatkan link dengan nama tiap tamu (nama muncul otomatis di sampul)? Cukup balas daftar namanya ya \uD83D\uDE4F',
+          '',
+          'Terima kasih,',
+          'Kartu Digital'
+        ]);
+        return baris.join('\n');
+      }
+      function tautanWaPelanggan() {
+        var nomor = ($('clientPhone').value || '').trim();
+        var bersih = nomor ? StudioBackend.wa.bersihkanNomor(nomor) : '';
+        return 'https://wa.me/' + bersih + '?text=' + encodeURIComponent($('clientText').value || '');
+      }
+      function updateSerahTerima() {
+        if (!$('clientUrl')) return;
+        var inv = StudioBackend.getInvitation(activeId);
+        $('clientUrl').value = linkPelanggan(inv);
+        $('clientText').value = pesanPelanggan(inv);
+        $('sendClientWaBtn').href = tautanWaPelanggan();
+        $('clientGatewayInfo').textContent = waAktif()
+          ? 'Gateway WhatsApp aktif \u2014 tombol Kirim Otomatis mengirim langsung tanpa membuka WhatsApp.'
+          : 'Gateway belum aktif \u2014 tombol WhatsApp membuka aplikasi WhatsApp (gratis, tanpa token). Isi nomor pelanggan untuk kirim otomatis via gateway.';
+      }
+      async function kirimKePelanggan() {
+        var nomor = ($('clientPhone').value || '').trim();
+        var pesan = $('clientText').value || '';
+        if (!waAktif()) {
+          window.open(tautanWaPelanggan(), '_blank', 'noopener');
+          showToast('\uD83D\uDD17 WhatsApp dibuka \u2014 tinggal tekan kirim');
+          return;
+        }
+        if (!nomor) {
+          showToast('\u26A0 Isi nomor WhatsApp pelanggan dulu untuk kirim otomatis');
+          $('clientPhone').focus();
+          return;
+        }
+        $('clientGatewayInfo').textContent = 'Mengirim\u2026';
+        var hasil = await StudioBackend.wa.kirim(nomor, pesan);
+        if (hasil.ok) {
+          $('clientGatewayInfo').textContent = '\u2705 Terkirim ke pelanggan ' + hasil.tujuan;
+          showToast('\u2705 Pesan serah terima terkirim ke pelanggan');
+        } else {
+          $('clientGatewayInfo').textContent = '\u26A0 ' + (hasil.error || 'Gagal mengirim') + ' \u2014 WhatsApp dibuka sebagai gantinya';
+          window.open(hasil.tautan || tautanWaPelanggan(), '_blank', 'noopener');
+        }
+        renderRiwayatWa(await StudioBackend.wa.riwayat());
+      }
 
       // ---------- GENERATOR NAMA TAMU MASSAL ----------
       var bulkResults = [];

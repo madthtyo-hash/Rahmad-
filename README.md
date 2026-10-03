@@ -36,6 +36,7 @@ Platform Undangan Digital Elegan — Pernikahan, Khitanan, Aqiqah, Ulang Tahun, 
 - **Pengaturan RSVP**: Pengaturan batas waktu konfirmasi, kuota tamu, rekap kehadiran real-time, buku tamu ucapan & doa, serta Export CSV.
   Setelah tamu mengirim RSVP, muncul tawaran satu ketuk **"Kabari lewat WhatsApp"** ke admin (teks sudah terisi nama, status, jumlah tamu, dan ucapan).
 - **QR Check-In Buku Tamu 🎫 (semua tema)**: kartu QR asli (pustaka MIT di `vendor/qrcode.js`, hasilnya sudah diuji cocok dengan pembaca QR) berisi tautan check-in + kode unik `KD-XXXXXX` per undangan. Panitia memindai QR untuk mencatat kehadiran, dan tamu bisa menekan **Tandai Hadir** agar langsung masuk rekap RSVP. Bisa dinyalakan/dimatikan per undangan di tab **Tema & Visual → QR Check-In Buku Tamu**.
+- **Serah Terima ke Pelanggan 📤**: blok khusus di kartu Link Tamu untuk mengirim link bersih + pesan siap pakai ke pemesan (nama & nomor pelanggan tersimpan di database), bisa lewat WhatsApp atau gateway. Detail formatnya di [`docs/format-link-undangan.md`](docs/format-link-undangan.md).
 - **Koneksi WhatsApp 📲 (di Studio Admin, tab Fitur Ekstra)**: dua cara kirim, pilih sesuai kebutuhan.
   - **Mode Link WhatsApp — gratis & selalu siap, tanpa token.** Studio membuat tautan `wa.me` berisi pesan undangan yang sudah terisi (nama tamu, acara, tanggal, lokasi, link undangan), lalu membuka WhatsApp/Web WhatsApp. Ada tombol **Kirim WA** di tiap baris tamu pada generator tamu massal.
   - **Mode Gateway otomatis — opsional.** Salin `wa-config.example.json` → `wa-config.json`, isi `token` + provider (**Fonnte** (default), **Wablas**, **Whacenter**, atau **custom** dengan `apiUrl` sendiri), lalu set `"enabled": true` dan mulai ulang server. Setelah itu Studio bisa mengirim **langsung tanpa membuka tab WhatsApp** — tombol **Kirim Semua via Gateway** mengirim ke semua tamu yang sudah diisi nomornya (jeda 350 ms tiap pesan), tombol **Uji Koneksi** mengirim pesan uji ke nomor admin, dan **RSVP baru otomatis dikabarkan ke nomor admin** (bisa dimatikan). Kolom pengaturan: nomor admin, saklar notifikasi RSVP, provider/API URL/token, kode negara (default `62`), dan template pesan (kode `{tamu} {acara} {tanggal} {lokasi} {link}`).
@@ -51,6 +52,16 @@ pasang di subfolder **link ikut menyesuaikan sendiri**; tanpa `?id=` halaman mem
 Daftar lengkap parameter (`id`, `to`/`tamu`, `mode`, `fx`, `checkin`), 13 berkas tema + ID bawaannya,
 serta format link WhatsApp (`wa.me`), QR check-in, `.ics`/Google Calendar, dan notifikasi RSVP admin ada di
 [`docs/format-link-undangan.md`](docs/format-link-undangan.md).
+
+## Serah Terima ke Pelanggan 📤 (di Studio Admin)
+
+Setelah undangan jadi, pilih undangan → tab **Fitur Ekstra** → kartu **🔗 Link Tamu & Undangan Personal** →
+blok **📤 Serah Terima ke Pelanggan**: masukkan nama pemesan + nomor WhatsApp-nya (tersimpan di database), lalu
+Studio menyiapkan **link bersih tanpa nama tamu** (`…undangan-<tema>.html?id=<id>`) dan **pesan siap kirim**
+(judul acara, tanggal, lokasi, link, plus tawaran membuatkan link per nama tamu). Tinggal **Salin Link / Salin Pesan**,
+kirim lewat WhatsApp (`wa.me`), atau **Kirim Otomatis** kalau gateway WhatsApp aktif.
+Halaman undangan juga **menyegarkan datanya sendiri** dari server/Supabase/`data/studio-db.json` saat dibuka,
+jadi pelanggan & tamu selalu melihat versi terakhir (termasuk mode navigasi dan efek dekorasi pilihan Studio).
 
 ## Paket Harga
 
